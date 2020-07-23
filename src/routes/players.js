@@ -7,6 +7,8 @@ const express = require('express');
 // const { registerSchema, updateSchema } = require('../validation/auth');
 const playerController = require('../controllers/players');
 const router = express.Router();
+router.use(express.json());
+
 
 // router.get('/', auth, catchAsync(async (req, res) => {
 // 	const user = await userController.findUserById(req.session.userId);
@@ -14,11 +16,19 @@ const router = express.Router();
 // }));
 
 router.get('/', async (req, res) => {
-	const user =  await playerController.getPlayers();
-	console.log(user);
-    
+	const users =  await playerController.getPlayers();    
+	return res.send(users);
+});
+
+router.get('/:id', async (req, res) => {
+	const user = await playerController.getPlayerById(req.params.id);
 	return res.send(user);
 });
-    
+
+router.post('/', async (req, res) => {
+	const result = await playerController.createPlayer(req.body);
+	return res.send(result);
+
+});
 
 module.exports = router;
