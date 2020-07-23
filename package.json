@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.9.25"
+    "mongoose": "^5.9.25",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "eslint": "^7.5.0"
