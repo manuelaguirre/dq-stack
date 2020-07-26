@@ -5,20 +5,32 @@ async function getPlayers() {
 	return playerList;
 }
 
-async function getPlayerById(id) {
+async function getPlayer(id) {
 	const player = await Player.findById(id).exec();
 	return player;
 }
 
-async function getPlayerByEmail(email){
-	const player = await Player.find({email}).exec();
+async function getPlayerAndUpdate(id, update) {
+	const player = await Player.findById(id).exec();
+	Object.assign(player, update);
+	player.save();	
+	return player;
+}
+
+async function getPlayerByEmail(email){	
+	const query = Player.where({email});
+	const player = await query.findOne(); 
 	return player;
 }
 
 async function createPlayer(player){
 
 	const playerToAdd = new Player({
-		...player
+		firstName : player.firstName,
+		lastName : player.lastName,
+		email : player.email,
+		stats : null,
+		playedQuestions : null
 	});
 	const result = await playerToAdd.save();
 	return result;
@@ -26,7 +38,8 @@ async function createPlayer(player){
 
 module.exports = { 
 	getPlayers,
-	getPlayerById,
+	getPlayer,
+	getPlayerAndUpdate,
 	getPlayerByEmail,
 	createPlayer,
 };

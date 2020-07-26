@@ -1,7 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose').set('debug', true);
 
 const playerSchema = new mongoose.Schema({
-	email: String,
+	email: { 
+		type: String,
+		required: true,
+		unique: true
+	},
 	firstName: String,
 	lastName: String,
 	playedQuestions: [ String ],
