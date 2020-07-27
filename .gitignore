@@ -1,7 +1,15 @@
-node_modules/
-.eslintrc.js
+dq-server/node_modules/
+dq-server/.eslintrc.js
 
-.env
-.env.test
+dq-server/.env
+dq-server/.env.test
 
-.vscode
+dq-server/.vscode
+
+
+dq-backoffice/node_modules/
+dq-backoffice/dist
+dq-backoffice/tmp
+dq-backoffice/out-tsc
+dq-backoffice/npm-debug.log
+dq-backoffice/yarn-error.log
