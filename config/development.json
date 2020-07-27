@@ -1,0 +1,10 @@
+{
+    "name": "DQ Server - Development Mode",
+    "db" : {
+        "host" : "mongodb://localhost/test1",
+        "config" : {
+            "useNewUrlParser" : "true"
+        }
+    }
+}
+

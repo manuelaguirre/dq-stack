@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
+const config = require('config');
 const cors = require('cors');
-const {CORS_OPTIONS} = require('./config/cors');
+const {CORS_OPTIONS} = require('./middleware/cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 
@@ -10,9 +11,10 @@ app.use(morgan('dev'));
 
 
 
+console.log(config.get('name'));
 
 
-mongoose.connect('mongodb://localhost/test1', { useNewUrlParser: true })
+mongoose.connect(config.get('db.host'), { ...config.get('db.config') })
 	.then(console.log('connected to mongodb'))
 	.catch(err => console.log(err));
 
