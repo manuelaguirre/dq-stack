@@ -1,5 +1,5 @@
 {
-    "name": "DQ Server - Development Mode",
+    "name": "DQ Server - Mock Mode",
     "db" : {
         "host" : "mongodb://localhost/test1",
         "config" : {

@@ -1,0 +1,5 @@
+{
+    "db" : {
+        "host" : "dq_db_connection_string"
+    }
+}
