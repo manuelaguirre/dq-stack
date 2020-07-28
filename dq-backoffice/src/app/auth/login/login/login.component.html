@@ -1,0 +1,18 @@
+<div class="form-container flex-div column" (keyup.enter)="login()">
+  <h1 class="title">Login to defiquiz</h1>
+  <app-auth-form [authFormGroup]="loginForm">
+    <button mat-flat-button color="primary" class="button" (click)="login()" *ngIf="!loging">
+      Log in
+    </button>
+    <div class="error" *ngIf="emailFormat">
+      *Invalid email
+    </div>
+    <div class="error" *ngIf="passwordInvalid">
+      *Missing password
+    </div>
+    <a class="link" routerLink="/auth/register" tabindex="0" role="link" *ngIf="!loging">Create user</a>
+  </app-auth-form>
+  <div class="spinner-border" *ngIf="loging" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
