@@ -1,4 +1,6 @@
 const { Player } = require('../db');
+const bcrypt = require('bcrypt');
+const _ = require('lodash');
 
 async function getPlayers() {
 	const playerList = await Player.find().exec();
@@ -25,14 +27,17 @@ async function getPlayerByEmail(email){
 
 async function createPlayer(player){
 
+	const salt = await bcrypt.genSalt(10);
+	const hashed = await bcrypt.hash(player.password, salt);
 	const playerToAdd = new Player({
 		firstName : player.firstName,
 		lastName : player.lastName,
 		email : player.email,
+		password : hashed,
 		stats : null,
 		playedQuestions : null
 	});
-	const result = await playerToAdd.save();
+	const result = await playerToAdd.save();	
 	return result;
 }
 

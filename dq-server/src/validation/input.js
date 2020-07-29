@@ -15,7 +15,12 @@ const createPlayerSchema = Joi.object({
 
 	email : Joi.string()
 		.email()
-		.required(),   
+		.required(),
+
+	password : Joi.string()
+		.min(8)
+		.max(20)
+		.required() 
 });
 
 module.exports = { createPlayerSchema };
