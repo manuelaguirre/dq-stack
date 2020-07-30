@@ -23,4 +23,21 @@ const createPlayerSchema = Joi.object({
 		.required() 
 });
 
-module.exports = { createPlayerSchema };
+const createThemeSchema = Joi.object({
+	name: Joi.string()
+		.min(2)
+		.max(20)
+		.required(),
+
+	description: Joi.string()
+		.min(3)
+		.max(300)
+		.required()
+});
+
+const createQuestionSchema = Joi.object({
+});
+
+
+
+module.exports = { createPlayerSchema, createThemeSchema, createQuestionSchema };
