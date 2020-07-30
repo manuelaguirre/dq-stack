@@ -26,6 +26,20 @@ playerSchema.methods.filterForResponse = function () {
 	return response;
 };
 
-const Player = mongoose.model('Player', playerSchema);
+const questionSchema = new mongoose.Schema({
+	body: String,
+	theme: String,
+	answers: [{body: String, correct: Boolean}],
+	video: String,
+	images: [{imageID: String}]
+});
 
-module.exports = {Player};
+const themeSchema = new mongoose.Schema({
+	name: String,
+	description: String
+});
+
+const Player = mongoose.model('Player', playerSchema);
+const Question = mongoose.model('Question', questionSchema);
+const Theme = mongoose.model('Theme', themeSchema);
+module.exports = { Player, Question, Theme };

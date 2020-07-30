@@ -8,11 +8,6 @@ const router = express.Router();
 router.use(express.json());
 
 
-// router.get('/', auth, catchAsync(async (req, res) => {
-// 	const user = await userController.findUserById(req.session.userId);
-// 	return res.send(user);
-// }));
-
 router.get('/', async (req, res) => {
 	const users =  await playerController.getPlayers();
 	if (req.query.email) {
@@ -43,7 +38,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req,res) => {
 	let result = await playerController.getPlayerAndUpdate(req.params.id, req.body);
 	if (!result) {
-		return res.status(400).send();
+		return res.status(404).send();
 	}
 	return res.status(200).send(result);
 
