@@ -29,6 +29,7 @@ async function createPlayer(player){
 
 	const salt = await bcrypt.genSalt(10);
 	const hashed = await bcrypt.hash(player.password, salt);
+	//TODO: refactor to use lodash.pick
 	const playerToAdd = new Player({
 		firstName : player.firstName,
 		lastName : player.lastName,

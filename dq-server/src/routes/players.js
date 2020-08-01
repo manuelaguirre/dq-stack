@@ -18,8 +18,8 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-	const user = await playerController.getPlayer(req.params.id);
-	return res.send(user);
+	const player = await playerController.getPlayer(req.params.id);
+	return res.send(player);
 });
 
 router.post('/', async (req, res) => {
