@@ -24,6 +24,7 @@ async function getThemeByName(name){
 }
 
 async function createTheme(theme){
+	//TODO: refactor to use lodash.pick
 	const themeToAdd = new Theme({
 		name : theme.name,
 		description : theme.description
