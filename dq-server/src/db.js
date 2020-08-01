@@ -27,11 +27,12 @@ playerSchema.methods.filterForResponse = function () {
 };
 
 const questionSchema = new mongoose.Schema({
-	body: String,
+	text: String,
 	theme: String,
 	answers: [{body: String, correct: Boolean}],
 	video: String,
-	images: [{imageID: String}]
+	images: [{imageID: String}],
+	soundclip: String
 });
 
 const themeSchema = new mongoose.Schema({

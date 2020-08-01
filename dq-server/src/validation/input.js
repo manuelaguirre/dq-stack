@@ -36,6 +36,32 @@ const createThemeSchema = Joi.object({
 });
 
 const createQuestionSchema = Joi.object({
+	text: Joi.string()
+		.min(3)
+		.max(300)
+		.required(),
+
+	theme: Joi.string()
+		.min(3)
+		.max(20)
+		.required,
+
+	answers: Joi.array()
+		.length(4)
+		.custom((array) => {
+			let totalCorrectAnswers;
+			for (const item of array){
+				if (item.correct) totalCorrectAnswers++;
+			}
+			if (totalCorrectAnswers != 1){
+				throw new Error ('This question does not have a single answer');
+			} 
+			return array;
+		}),
+
+	video: Joi.string(),
+	image: Joi.string(),
+	soundclip: Joi.string(),
 });
 
 
