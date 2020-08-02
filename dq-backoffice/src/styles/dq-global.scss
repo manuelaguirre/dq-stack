@@ -1,14 +1,35 @@
 // DQ global classes
 
+@mixin dq-button {
+  transform: skew(20deg);
+  padding: 20px 30px;
+  margin-top: 15px;
+  line-height: 0;
+  min-width: 150px;
+  width: 100%;
+  border-radius: 1px !important;
+  border: 2px solid var(--dq-accent-color) !important;
+  a, button {
+    display: block;
+    font-size: 1.5rem;
+    transform: skew(-20deg);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+}
+
 .dq-container {
-  max-height: 90%;
-  height: 90%;
-  padding-top: 5%;
+  max-height: calc(100% - 10px);
+  height: calc(100% - 10px);
+  padding-top: 10px;
   justify-content: center;
   overflow: scroll;
   scrollbar-width: thin;
   .dq-title {
     font-family: YanoneKaffeesatz;
+  }
+  .dq-button {
+    @include dq-button();
   }
   // Scrollbar
   &::-webkit-scrollbar {
@@ -39,34 +60,22 @@
   background: url('/assets/images/dq-logo.png');
   background-size: cover;
   background-repeat: no-repeat;
-  width: 320px;
-  height: 241px;
+  width: 236px;
+  height: 178px;
 }
 
-@mixin dq-button {
-  transform: skew(20deg);
-  padding: 20px 30px;
-  margin-top: 15px;
-  line-height: 0;
-  min-width: 150px;
-  width: 100%;
-  border-radius: 1px;
-  border: 2px solid var(--dq-accent-color);
-  a, button {
-    display: block;
-    font-size: 1.5rem;
-    transform: skew(-20deg);
-    text-align: center;
-    letter-spacing: 1px;
-  }
-}
-
-.dq-button {
+.dq-back {
   @include dq-button();
+  position: absolute;
+  top: 0;
+  left: 2%;
+  width: 80px;
 }
 
 .dq-menu {
   margin-top: 26px;
+  flex: 1;
+  justify-content: center;
   .dq-menu-option {
     @include dq-button();
   }
