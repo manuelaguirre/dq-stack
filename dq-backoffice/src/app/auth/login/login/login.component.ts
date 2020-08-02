@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   error: string;
 
-  loging = false;
+  logging = false;
 
   constructor(
     private router: Router,
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.titleService.setTitle('Back office - Login');
+    this.titleService.setTitle('DefiQuiz back office - Login');
     this.loginForm = this.fb.group({
       user: ['', Validators.required],
       pass: ['', Validators.required],
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    this.loging = true;
+    this.logging = true;
     if (this.loginForm.valid) {
       try {
         this.authService.signIn(this.loginForm.value.user, this.loginForm.value.pass).pipe(
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
                 // TODO: snackbar
                 console.log('Conexion error');
               }
-              this.loging = false;
+              this.logging = false;
               return of(null);
           }),
         ).subscribe((succes) => {
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
       } catch (err) {
         console.log(err);
         this.error = err.message;
-        this.loging = false;
+        this.logging = false;
         // TODO: snackbar
         console.error('Erreur de connexion');
       }

@@ -10,9 +10,9 @@ export const ROUTES: Routes = [
   {
     path: '',
     component: LoginComponent,
-    canActivate: [
-      // ConnectedGuardService,
-    ],
+    // canActivate: [
+    //   ConnectedGuardService,
+    // ],
   },
 ];
 

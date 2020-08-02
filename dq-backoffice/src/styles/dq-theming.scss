@@ -1,0 +1,115 @@
+$dq-palette-accent: (
+  50 : #e1e2e5,
+  100 : #b3b8be,
+  200 : #808893,
+  300 : #4d5867,
+  400 : #273547,
+  500 : #011126,
+  600 : #010f22,
+  700 : #010c1c,
+  800 : #010a17,
+  900 : #00050d,
+  A100 : #517aff,
+  A200 : #1e53ff,
+  A400 : #0037ea,
+  A700 : #0031d0,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+
+$dq-palette-secondary: (
+  50 : #ede7ec,
+  100 : #d1c3ce,
+  200 : #b39cae,
+  300 : #94748e,
+  400 : #7d5675,
+  500 : #66385d,
+  600 : #5e3255,
+  700 : #532b4b,
+  800 : #492441,
+  900 : #381730,
+  A100 : #ff79dd,
+  A200 : #ff46d1,
+  A400 : #ff13c4,
+  A700 : #f800ba,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+
+$dq-palette-primary: (
+  50 : #e4ecf1,
+  100 : #bbd0dd,
+  200 : #8eb0c6,
+  300 : #6090af,
+  400 : #3e799d,
+  500 : #1c618c,
+  600 : #195984,
+  700 : #144f79,
+  800 : #11456f,
+  900 : #09335c,
+  A100 : #90c2ff,
+  A200 : #5da6ff,
+  A400 : #2a8aff,
+  A700 : #107cff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+
+$dq-theme-primary: mat-palette($dq-palette-primary);
+$dq-theme-secondary: mat-palette($dq-palette-secondary);
+$dq-theme-accent: mat-palette($dq-palette-accent);
+
+$dq-theme: mat-light-theme(
+  $dq-theme-primary,
+  $dq-theme-secondary,
+  $dq-theme-accent,
+);
+
+@include angular-material-theme($dq-theme);
+
+$dq-primary-color: #1C618C;
+$dq-secondary-color: #66385D;
+$dq-accent-color: #011126;
+$dq-alternative-color: #BF9341;

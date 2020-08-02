@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  CanActivate,
+  CanActivate, Router,
 } from '@angular/router';
 import {
   Observable, of,
@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 export class AuthGuardService implements CanActivate {
   constructor(
     private auth: AuthService,
+    private router: Router,
   ) {}
 
   canActivate(): Observable<boolean> | boolean {
@@ -20,6 +21,7 @@ export class AuthGuardService implements CanActivate {
         if (value) {
           return of(true);
         }
+        this.router.navigate(['auth/login']);
         return of(false);
       }),
     );
