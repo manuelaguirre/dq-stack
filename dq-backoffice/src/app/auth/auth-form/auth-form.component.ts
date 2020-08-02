@@ -7,7 +7,6 @@ import { ComponentUtilsService } from '../../shared/services/component-utils';
 @Component({
   selector: 'app-auth-form',
   templateUrl: './auth-form.component.html',
-  styleUrls: ['./auth-form.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

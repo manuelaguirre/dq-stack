@@ -1,0 +1,73 @@
+// DQ global classes
+
+.dq-container {
+  max-height: 90%;
+  height: 90%;
+  padding-top: 5%;
+  justify-content: center;
+  overflow: scroll;
+  scrollbar-width: thin;
+  .dq-title {
+    font-family: YanoneKaffeesatz;
+  }
+  // Scrollbar
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(201, 201, 201, 0.7);
+  }
+  &::-webkit-scrollbar-corner {
+    display: none;
+  }
+}
+
+.dq-background {
+  background: url('/assets/images/dq-background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  z-index: -2;
+}
+
+.dq-logo {
+  background: url('/assets/images/dq-logo.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 320px;
+  height: 241px;
+}
+
+@mixin dq-button {
+  transform: skew(20deg);
+  padding: 20px 30px;
+  margin-top: 15px;
+  line-height: 0;
+  min-width: 150px;
+  width: 100%;
+  border-radius: 1px;
+  border: 2px solid var(--dq-accent-color);
+  a, button {
+    display: block;
+    font-size: 1.5rem;
+    transform: skew(-20deg);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+}
+
+.dq-button {
+  @include dq-button();
+}
+
+.dq-menu {
+  margin-top: 26px;
+  .dq-menu-option {
+    @include dq-button();
+  }
+}

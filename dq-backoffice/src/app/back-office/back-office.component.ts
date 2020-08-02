@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'dq-back-office',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class BackOficeComponent implements OnInit {
-  constructor() { }
+  constructor(
+    private titleService: Title,
+  ) {
+    this.titleService.setTitle('DefiQuiz back office');
+  }
 
   ngOnInit() { }
 }

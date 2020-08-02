@@ -1,5 +1,4 @@
-<form class="example-form" [formGroup]="authFormGroup" *ngIf="authFormGroup">
-
+<form class="dq-form flex-div column" [formGroup]="authFormGroup" *ngIf="authFormGroup">
   <mat-form-field *ngIf="authFormGroup.contains('name')" appearance="outline">
     <mat-label>Prénom</mat-label>
     <input matInput placeholder="Votre prenom" formControlName="name">
@@ -33,10 +32,11 @@
     <mat-icon matSuffix>vpn_key</mat-icon>
   </mat-form-field>
 
+  <ng-content select="div.error"></ng-content>
+  <ng-content select="div.error-message"></ng-content>
+  <ng-content select="button"></ng-content>
+  <ng-content select="mat-spinner"></ng-content>
+  <ng-content select="a"></ng-content>
+
 </form>
 
-<ng-content select="div.error"></ng-content>
-<ng-content select="div.error-message"></ng-content>
-<ng-content select="button"></ng-content>
-<ng-content select="mat-spinner"></ng-content>
-<ng-content select="a"></ng-content>

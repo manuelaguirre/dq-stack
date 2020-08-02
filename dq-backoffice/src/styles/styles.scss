@@ -1,0 +1,66 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+@import './dq-global.scss';
+@import './dq-theming.scss';
+
+// Bootstrap
+$theme-colors: (
+  "primary": $dq-primary-color,
+  "secondary": $dq-secondary-color,
+  "accent": $dq-accent-color,
+  "alternative": $dq-alternative-color,
+);
+
+@import '~bootstrap/scss/bootstrap';
+
+// DQ-Variables
+
+html, body { height: 100%; }
+* {
+  margin: 0;
+  font-family: YanoneKaffeesatz;
+}
+
+:root {
+  --dq-primary-color: #1C618C;
+  --dq-secondary-color: #66385D;
+  --dq-accent-color: #011126;
+  --dq-alternative-color: #BF9341;
+}
+
+.flex-div {
+  display: flex;
+  align-items: center;
+  &.column {
+    flex-direction: column;
+  }
+}
+
+.full-height {
+  height: 100%;
+}
+.full-width {
+  width: 100%;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: none;
+  -webkit-box-shadow: none;
+  transition: background-color 5000s ease-in-out 0s;
+}
