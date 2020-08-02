@@ -1,0 +1,42 @@
+<form class="example-form" [formGroup]="authFormGroup" *ngIf="authFormGroup">
+
+  <mat-form-field *ngIf="authFormGroup.contains('name')" appearance="outline">
+    <mat-label>Prénom</mat-label>
+    <input matInput placeholder="Votre prenom" formControlName="name">
+    <mat-icon matSuffix>person</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="authFormGroup.contains('lastName')" appearance="outline">
+    <mat-label>Nom</mat-label>
+    <input matInput placeholder="Votre nom" formControlName="lastName">
+    <mat-icon matSuffix>person</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="authFormGroup.contains('user')" appearance="outline">
+    <mat-label>E-Mail</mat-label>
+    <input matInput placeholder="E-mail" formControlName="user">
+    <mat-icon matSuffix>mail_outline</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="authFormGroup.contains('pass')" appearance="outline">
+    <mat-icon matPrefix *ngIf="contestEnroll"
+    matTooltip="Info about the action">info</mat-icon>
+    <mat-label>Mot de passe</mat-label>
+    <input matInput placeholder="Mot de passe" formControlName="pass" type="password">
+    <mat-icon matSuffix>vpn_key</mat-icon>
+
+  </mat-form-field>
+
+  <mat-form-field *ngIf="authFormGroup.contains('passconf')" appearance="outline">
+    <mat-label>Confirm password</mat-label>
+    <input matInput placeholder="Confirm password" formControlName="passconf" type="password">
+    <mat-icon matSuffix>vpn_key</mat-icon>
+  </mat-form-field>
+
+</form>
+
+<ng-content select="div.error"></ng-content>
+<ng-content select="div.error-message"></ng-content>
+<ng-content select="button"></ng-content>
+<ng-content select="mat-spinner"></ng-content>
+<ng-content select="a"></ng-content>

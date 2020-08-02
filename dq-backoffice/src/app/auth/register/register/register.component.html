@@ -1,0 +1,33 @@
+<div class="form-container flex-div column">
+  <h1 class="title">S'inscrire à la 53</h1>
+  <app-auth-form [authFormGroup]="registerForm" [types]="types">
+    <div class="error" *ngIf="error">
+      *{{error}}
+    </div>
+    <div class="error" *ngIf="emailFormat">
+      *E-mail incorrecte
+    </div>
+    <div class="error" *ngIf="passwordInvalid">
+      *Mot de passe manquant
+    </div>
+    <div class="error" *ngIf="confirmPasswordInvalid">
+      *Mots de passe différents
+    </div>
+    <div class="error" *ngIf="nameInvalid">
+      *Saisir votre nom et prenom
+    </div>
+    <a class="link" tabindex="0" role="link" routerLink="/auth/login">Vous avez déjà un compte?</a>
+    <button mat-flat-button color="primary" class="button" *ngIf="!loading"
+      (click)="register()" [disabled]="disableButton">
+      Inscrivez-vous
+    </button>
+    <div class="spinner-border" *ngIf="loading" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </app-auth-form>
+  <div class="footer-image">
+    <img aria-label="Logo 53" class="logo-53"
+    src="https://firebasestorage.googleapis.com/v0/b/lyon-roller-open.appspot.com/o/logo-la-53-2020.png?alt=media&token=03806a44-28fc-4b7b-a69c-8755765c087d">
+  </div>
+
+</div>
