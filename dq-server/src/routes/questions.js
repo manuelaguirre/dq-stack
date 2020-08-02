@@ -23,7 +23,8 @@ router.post('/', async (req, res) => {
 	}
 	result = await questionController.getQuestionByText(req.body.text);
 	if (result) return res.status(400).send('Question with the same text already exists');
-	result = await questionController.createQuestion(req.body);	
+	result = await questionController.createQuestion(req.body);
+	res.send(result);	
 });
 
 router.put('/:id', async (req,res) => {
