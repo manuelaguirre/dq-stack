@@ -29,7 +29,7 @@ playerSchema.methods.filterForResponse = function () {
 const questionSchema = new mongoose.Schema({
 	text: String,
 	theme: String,
-	answers: [{body: String, correct: Boolean}],
+	answers: [{text: String, correct: Boolean}],
 	video: String,
 	images: [{imageID: String}],
 	soundclip: String

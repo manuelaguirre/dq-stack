@@ -44,20 +44,21 @@ const createQuestionSchema = Joi.object({
 	theme: Joi.string()
 		.min(3)
 		.max(20)
-		.required,
+		.required(),
 
 	answers: Joi.array()
 		.length(4)
 		.custom((array) => {
-			let totalCorrectAnswers;
+			let totalCorrectAnswers = 0;
 			for (const item of array){
-				if (item.correct) totalCorrectAnswers++;
+				if (item.correct === 'true') totalCorrectAnswers++;
 			}
 			if (totalCorrectAnswers != 1){
 				throw new Error ('This question does not have a single answer');
 			} 
 			return array;
-		}),
+		})
+		.required(),
 
 	video: Joi.string(),
 	image: Joi.string(),
