@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { BackOficeComponent } from './back-office.component';
 import { AuthGuardService } from '../auth/auth-form/services/auth-guard.service';
+import { DqBackOfficeResolver } from './resolvers/dq-backoffice-page.resolver';
 
 export const routes: Routes = [
   {
@@ -44,6 +45,8 @@ export const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [],
-  providers: []
+  providers: [
+    DqBackOfficeResolver,
+  ],
 })
 export class BackOfficeModule {}

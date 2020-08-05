@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthServiceModule } from './auth/auth.module';
+import { ApiService } from './shared/services/api.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,9 @@ import { AuthServiceModule } from './auth/auth.module';
     BrowserAnimationsModule,
     AuthServiceModule,
   ],
-  providers: [],
+  providers: [
+    ApiService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
