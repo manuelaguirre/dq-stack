@@ -21,6 +21,13 @@ async function getQuestionByText(text){
 	return question;
 }
 
+async function getQuestionsByTheme(themeID){	
+	const query = Question.where({theme : themeID});
+	const questions = await query.find().exec(); 
+	if (!questions) throw new Error('No matching questions found');
+	return questions;
+}
+
 async function getQuestionAndUpdate(id, update) {
 	const question = await Question.findById(id).exec();
 	if (!question) throw new Error('Cannnot update, question not found');
