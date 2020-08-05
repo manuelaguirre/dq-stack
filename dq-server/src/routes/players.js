@@ -1,7 +1,4 @@
 const express = require('express');
-const Joi = require('joi');
-const jwt = require('jsonwebtoken');
-const config = require('config');
 const playerController = require('../controllers/players');
 const { createPlayerSchema } = require('../validation/input');
 const router = express.Router();

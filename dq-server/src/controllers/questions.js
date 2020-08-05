@@ -2,7 +2,9 @@ const { Question } = require('../db');
 const _ = require('lodash');
 
 async function getQuestions() {
-	const questionList = await Question.find().exec();
+	const questionList = await Question.find()
+		.populate('theme', 'name')
+		.exec();
 	return questionList;
 }
 
@@ -13,7 +15,7 @@ async function getQuestion(id) {
 
 async function getQuestionByText(text){	
 	const query = Question.where({text});
-	const question = await query.findOne(); 
+	const question = await query.findOne().exec(); 
 	return question;
 }
 
@@ -21,7 +23,7 @@ async function getQuestionAndUpdate(id, update) {
 	const question = await Question.findById(id).exec();
 	Object.assign(question, update);
 	question.save();	
-	return question;
+	return question._doc;
 }
 
 async function createQuestion(question){
@@ -29,14 +31,18 @@ async function createQuestion(question){
 		_.pick(question,[
 			'text',
 			'theme',
-			'answers',
+			'answer1',
+			'answer2',
+			'answer3',
+			'answer4',
+			'correct',
 			'video',
 			'image',
 			'soundclip'
 		])
 	);
 	const result = await questionToAdd.save();	
-	return result;
+	return result._doc;
 }
 
 module.exports = { 

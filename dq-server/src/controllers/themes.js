@@ -19,7 +19,8 @@ async function getThemeAndUpdate(id, update) {
 
 async function getThemeByName(name){	
 	const query = Theme.where({name});
-	const theme = await query.findOne(); 
+	const theme = await query.findOne();
+	if (!theme) throw new Error('Theme not found');	 
 	return theme;
 }
 

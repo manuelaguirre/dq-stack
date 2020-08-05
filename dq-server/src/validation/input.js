@@ -1,4 +1,5 @@
 const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi);
 
 const createPlayerSchema = Joi.object({
 	firstName : Joi.string()
@@ -42,27 +43,35 @@ const createQuestionSchema = Joi.object({
 		.required(),
 
 	theme: Joi.string()
-		.min(3)
-		.max(20)
 		.required(),
 
-	answers: Joi.array()
-		.length(4)
-		.custom((array) => {
-			let totalCorrectAnswers = 0;
-			for (const item of array){
-				if (item.correct === 'true') totalCorrectAnswers++;
-			}
-			if (totalCorrectAnswers != 1){
-				throw new Error ('This question does not have a single answer');
-			} 
-			return array;
-		})
+	answer1: Joi.string()
+		.min(1)
+		.max(256)		
 		.required(),
 
-	video: Joi.string(),
-	image: Joi.string(),
-	soundclip: Joi.string(),
+	answer2: Joi.string()
+		.min(1)
+		.max(256)		
+		.required(),
+
+	answer3: Joi.string()
+		.min(1)
+		.max(256)		
+		.required(),
+
+	answer4: Joi.string()
+		.min(1)
+		.max(256)		
+		.required(),
+
+	correct: Joi.number()
+		.min(0)
+		.max(3),
+	
+	video: Joi.objectId(),
+	image: Joi.objectId(),
+	soundclip: Joi.objectId(),
 });
 
 
