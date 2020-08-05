@@ -7,7 +7,7 @@ const createPlayerSchema = Joi.object({
 		.min(2)
 		.max(30)
 		.required(),
-        
+       
 	lastName :Joi.string()
 		.alphanum()
 		.min(2)
@@ -42,7 +42,7 @@ const createQuestionSchema = Joi.object({
 		.max(300)
 		.required(),
 
-	theme: Joi.string()
+	theme: Joi.objectId()
 		.required(),
 
 	answer1: Joi.string()
@@ -74,6 +74,39 @@ const createQuestionSchema = Joi.object({
 	soundclip: Joi.objectId(),
 });
 
+const updateQuestionSchema = Joi.object({
+	text: Joi.string()
+		.min(3)
+		.max(300),
+		
+	theme: Joi.objectId(),
+		
+	answer1: Joi.string()
+		.min(1)
+		.max(256),		
+		
+
+	answer2: Joi.string()
+		.min(1)
+		.max(256),		
+		
+	answer3: Joi.string()
+		.min(1)
+		.max(256),		
+		
+	answer4: Joi.string()
+		.min(1)
+		.max(256),		
+		
+	correct: Joi.number()
+		.min(0)
+		.max(3),
+	
+	video: Joi.objectId(),
+	image: Joi.objectId(),
+	soundclip: Joi.objectId(),
+});
 
 
-module.exports = { createPlayerSchema, createThemeSchema, createQuestionSchema };
+
+module.exports = { createPlayerSchema, createThemeSchema, createQuestionSchema, updateQuestionSchema };

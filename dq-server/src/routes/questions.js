@@ -1,19 +1,28 @@
 const express = require('express');
 const questionController = require('../controllers/questions');
 const themeController = require('../controllers/themes');
-const { createQuestionSchema } = require('../validation/input');
+const { createQuestionSchema, updateQuestionSchema } = require('../validation/input');
 const router = express.Router();
 router.use(express.json());
 
 
 router.get('/', async (req, res) => {
-	const questions =  await questionController.getQuestions();
-	return res.send(questions);
+	try {
+		const questions =  await questionController.getQuestions();
+		return res.status(200).send(questions);		
+	} catch (error) {
+		res.status(404).send(error.message);
+	}
 });
 
 router.get('/:id', async (req, res) => {
-	const question = await questionController.getQuestion(req.params.id);
-	return res.send(question);
+	try {
+		const question = await questionController.getQuestion(req.params.id);
+		return res.send(question);
+		
+	} catch (error) {
+		res.status(404).send(error.message);
+	}
 });
 
 router.post('/', async (req, res) => {
@@ -23,32 +32,35 @@ router.post('/', async (req, res) => {
 		return;
 	}
 	result = await questionController.getQuestionByText(req.body.text);
-	if (result) return res.status(400).send('Question with the same text already exists');
+	if (result) return res.status(409).send('Question with the same text already exists');
 	let theme;
 	try {
 		theme = await themeController.getThemeByName(req.body.theme);
 	} catch (error) {
-		return res.status(404).send(error.message);
+		return res.status(404).send(error.message)
+		
+		;
 	}
 	result = await questionController.createQuestion({...req.body, theme : theme._id});
 	res.send({...result, theme: theme.name});	
 });
 
 router.put('/:id', async (req,res) => {
-
-	let theme;
-	if (req.body.theme){
-		try {
-			theme = await themeController.getThemeByName(req.body.theme);
-		} catch (error) {
-			return res.status(404).send(error.message);
+	let result = updateQuestionSchema.validate(req.body);
+	if (result.error) {
+		res.status(400).send(result.error.details[0].message);
+		return;
+	}
+	try {
+		let theme;
+		if (req.body.theme){
+			theme = await themeController.getTheme(req.body.theme);
 		}
+		result = await questionController.getQuestionAndUpdate(req.params.id, req.body);
+		return res.status(200).send({...result, theme : theme.name});		
+	} catch (error) {
+		return res.status(404).send(error.message);
 	}
-	let result = await questionController.getQuestionAndUpdate(req.params.id, {...req.body, theme: theme.id});
-	if (!result) {
-		return res.status(404).send();
-	}
-	return res.status(200).send({...result, theme: theme.name});
 
 });
 
