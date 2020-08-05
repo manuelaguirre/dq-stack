@@ -3,9 +3,16 @@ import { DqThemesComponent } from '../components/containers/dq-themes/dq-themes.
 import { RouterModule, Routes } from '@angular/router';
 import { DqBackofficeSharedModule } from '../components/shared/dq-backoffice-shared.module';
 import { CommonModule } from '@angular/common';
+import { DqBackOfficeResolver } from '../resolvers/dq-backoffice-page.resolver';
 
 const routes: Routes = [
-  { path: '', component: DqThemesComponent },
+  {
+    path: '',
+    component: DqThemesComponent,
+    resolve: {
+      themes: DqBackOfficeResolver
+    }
+  },
 ];
 
 @NgModule({

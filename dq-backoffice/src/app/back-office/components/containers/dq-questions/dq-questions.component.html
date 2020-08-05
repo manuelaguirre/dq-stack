@@ -6,5 +6,14 @@
   <div class="dq-logo"></div>
   <h1 class="dq-title">Defiquiz Questions</h1>
   <div class="dq-menu flex-div column">
+    <li class="dq-menu-option btn btn-primary" [routerLink]="['/home/themes']">
+      <a>Go to themes</a>
+    </li>
+    <li class="dq-menu-option btn btn-accent" [routerLink]="['/home/questions/new']">
+      <a>Add new Question</a>
+    </li>
   </div>
+  <ng-container *ngIf="questions$ | async as questions">
+    {{ questions | json }}
+  </ng-container>
 </div>
