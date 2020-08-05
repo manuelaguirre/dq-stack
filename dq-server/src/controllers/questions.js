@@ -3,20 +3,25 @@ const _ = require('lodash');
 
 async function getQuestions() {
 	const questions = await Question.find()
+		.populate('theme')
 		.exec();
 	if (!questions) throw new Error('No questions found.');
 	return questions;
 }
 
 async function getQuestion(id) {
-	const question = await Question.findById(id).exec();
+	const question = await Question.findById(id)
+		.populate('theme')
+		.exec();
 	if (!question) throw new Error('Question not found');
 	return question;
 }
 
 async function getQuestionByText(text){	
 	const query = Question.where({text});
-	const question = await query.findOne().exec();
+	const question = await query.findOne()
+		.populate('theme')
+		.exec();
 	if (!question) throw new Error('Question not found'); 
 	return question;
 }
