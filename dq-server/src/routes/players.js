@@ -1,11 +1,7 @@
 const express = require('express');
 const Joi = require('joi');
-//const HttpStatus = require('http-status-codes');
-
-//const { guest, auth } = require('../middleware/auth');
-// const { catchAsync } = require('../middleware/errors');
-// const { validate } = require('../validation/joi');
-// const { registerSchema, updateSchema } = require('../validation/auth');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 const playerController = require('../controllers/players');
 const { createPlayerSchema } = require('../validation/input');
 const router = express.Router();
@@ -37,8 +33,11 @@ router.post('/', async (req, res) => {
 		res.status(400).send(result.error.details[0].message);
 		return;
 	}
-	result = await playerController.createPlayer(req.body);
-	return res.send(result);
+	result = await playerController.getPlayerByEmail(req.body.email);
+	if (result) return res.status(400).send('User already registered');
+	result = await playerController.createPlayer(req.body);	
+	const token = result.generateAuthToken();
+	return res.header('x-auth-token', token).send(result.filterForResponse());
 });
 
 router.put('/:id', async (req,res) => {

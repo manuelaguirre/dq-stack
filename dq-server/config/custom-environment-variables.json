@@ -1,5 +1,6 @@
 {
     "db" : {
         "host" : "dq_db_connection_string"
-    }
+    },
+    "jwtPrivateKey": "dq_jwt_private_key"
 }
