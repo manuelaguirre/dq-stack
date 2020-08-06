@@ -41,8 +41,12 @@ router.put('/:id', async (req,res) => {
 });
 
 router.patch('/:id', async (req,res) => {
-	const player = await playerController.addQuestions(req.params.id, req.body.playedQuestions);
-	res.send(player);
+	try {
+		const player = await playerController.addQuestions(req.params.id, req.body.playedQuestions);
+		res.send(player.filterForResponse());		
+	} catch (error) {
+		res.status(404).send(error.message);
+	}
 });
 
 module.exports = router;
