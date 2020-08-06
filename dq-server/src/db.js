@@ -12,7 +12,10 @@ const playerSchema = new mongoose.Schema({
 	firstName: String,
 	lastName: String,
 	password: String,
-	playedQuestions: [ String ],
+	playedQuestions: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref : 'Question'
+	}],
 	stats: Number,
 });
 
