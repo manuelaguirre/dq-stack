@@ -34,12 +34,18 @@ async function createPlayer(player){
 		firstName : player.firstName,
 		lastName : player.lastName,
 		email : player.email,
-		password : hashed,
-		stats : null,
-		playedQuestions : null
+		password : hashed,				
 	});
 	const result = await playerToAdd.save();	
 	return result;
+}
+
+async function addQuestions(id, questionsToAdd){
+	let player = await Player.findById(id).exec();
+	if (!player) throw new Error('Player not found');
+	player.playedQuestions.push(...questionsToAdd);
+	await player.save();
+	return player;	
 }
 
 module.exports = { 
@@ -48,4 +54,5 @@ module.exports = {
 	getPlayerAndUpdate,
 	getPlayerByEmail,
 	createPlayer,
+	addQuestions
 };

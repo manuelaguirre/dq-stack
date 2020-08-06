@@ -2,7 +2,7 @@ const { Question } = require('../db');
 const _ = require('lodash');
 
 async function getQuestions() {
-	const questions = await Question.find()
+	const questions = await Question.find() 
 		.exec();
 	if (!questions) throw new Error('No questions found.');
 	return questions;

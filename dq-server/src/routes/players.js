@@ -38,7 +38,11 @@ router.put('/:id', async (req,res) => {
 		return res.status(404).send();
 	}
 	return res.status(200).send(result);
+});
 
+router.patch('/:id', async (req,res) => {
+	const player = await playerController.addQuestions(req.params.id, req.body.playedQuestions);
+	res.send(player);
 });
 
 module.exports = router;
