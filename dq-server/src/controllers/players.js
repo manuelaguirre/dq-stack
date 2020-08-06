@@ -42,9 +42,10 @@ async function createPlayer(player){
 
 async function addQuestions(id, questionsToAdd){
 	let player = await Player.findById(id).exec();
-	if (!player) throw new Error('Player not found');
-	player.playedQuestions.push(...questionsToAdd);
-	await player.save();
+	if (!player) throw new Error('Player not found');	
+	await player.update( 
+		{'$addToSet': { 'playedQuestions': questionsToAdd}}
+	);
 	return player;	
 }
 
