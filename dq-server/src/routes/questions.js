@@ -8,6 +8,10 @@ router.use(express.json());
 
 router.get('/', async (req, res) => {
 	try {
+		if (req.query.theme) {
+			const questionByTheme = await questionController.getQuestionsByTheme(req.query.theme);
+			return res.status(200).send(questionByTheme);
+		}   
 		const questions =  await questionController.getQuestions();
 		return res.status(200).send(questions);		
 	} catch (error) {

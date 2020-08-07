@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { DqTheme } from '../../../../shared/models/dq-theme';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'dq-themes',
@@ -6,7 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class DqThemesComponent implements OnInit {
-  constructor() { }
+  themes$: Observable<DqTheme[]> = null;
 
-  ngOnInit() { }
+  constructor(
+    private route: ActivatedRoute,
+  ) { }
+
+  ngOnInit(): void {
+    this.themes$ = this.route.data.pipe(
+      map((data: {themes: DqTheme[];}) => data.themes),
+    );
+  }
 }

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const _ = require('lodash');
 
+
 const playerSchema = new mongoose.Schema({
 	email: { 
 		type: String,
@@ -12,7 +13,10 @@ const playerSchema = new mongoose.Schema({
 	firstName: String,
 	lastName: String,
 	password: String,
-	playedQuestions: [ String ],
+	playedQuestions: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref : 'Question'
+	}],
 	stats: Number,
 });
 
@@ -22,7 +26,7 @@ playerSchema.methods.generateAuthToken = function () {
 };
 
 playerSchema.methods.filterForResponse = function () {
-	const response = _.pick(this, ['_id', 'email', 'firstName', 'lastName']);
+	const response = _.pick(this, ['_id', 'email', 'firstName', 'lastName', 'playedQuestions']);
 	return response;
 };
 

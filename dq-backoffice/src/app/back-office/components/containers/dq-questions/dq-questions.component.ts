@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { DQQuestion } from '../../../../shared/models/dq-questions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'dq-questions',
@@ -6,7 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class DqQuestionsComponent implements OnInit {
-  constructor() { }
+  questions$: Observable<DQQuestion[]> = null;
 
-  ngOnInit() { }
+  constructor(
+    private route: ActivatedRoute,
+  ) { }
+
+  ngOnInit(): void {
+    this.questions$ = this.route.data.pipe(
+      map((data: {questions: DQQuestion[];}) => data.questions),
+    );
+  }
 }
