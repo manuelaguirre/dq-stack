@@ -12,6 +12,11 @@ async function getPlayer(id) {
 	return player;
 }
 
+async function getPlayedQuestions(id){
+	const result = await Player.findById(id,'playedQuestions').exec();
+	if (!result) throw new Error();
+	return result.playedQuestions;
+}
 async function getPlayerAndUpdate(id, update) {
 	const player = await Player.findById(id).exec();
 	Object.assign(player, update);
@@ -43,7 +48,7 @@ async function createPlayer(player){
 async function addQuestions(id, questionsToAdd){
 	let player = await Player.findById(id).exec();
 	if (!player) throw new Error('Player not found');	
-	await player.update( 
+	await player.updateOne( 
 		{'$addToSet': { 'playedQuestions': questionsToAdd}}
 	);
 	return player;	
@@ -52,6 +57,7 @@ async function addQuestions(id, questionsToAdd){
 module.exports = { 
 	getPlayers,
 	getPlayer,
+	getPlayedQuestions,
 	getPlayerAndUpdate,
 	getPlayerByEmail,
 	createPlayer,
