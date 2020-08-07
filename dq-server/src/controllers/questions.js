@@ -1,4 +1,5 @@
 const { Question } = require('../db');
+const playerController = require('./players');
 const _ = require('lodash');
 
 async function getQuestions() {
@@ -15,6 +16,20 @@ async function getQuestion(id) {
 		.exec();
 	if (!question) throw new Error('Question not found');
 	return question;
+}
+
+async function getQuestionsNotPlayedBy(playerIDs, theme, limit){
+	let playedQuestionsAccumulator = [];
+	for (const playerID of playerIDs) {
+		const playedQuestions = await playerController.getPlayedQuestions(playerID);
+		playedQuestionsAccumulator = [...playedQuestionsAccumulator, ...playedQuestions];
+	}
+	const result = await Question.find({
+		_id: {$nin: playedQuestionsAccumulator},
+		theme: theme
+	})
+		.limit(parseInt(limit, 10)).exec();
+	return result;
 }
 
 async function getQuestionByText(text){	
@@ -63,6 +78,7 @@ async function createQuestion(question){
 module.exports = { 
 	getQuestions,
 	getQuestion,
+	getQuestionsNotPlayedBy,
 	getQuestionByText,
 	getQuestionsByTheme,
 	getQuestionAndUpdate,

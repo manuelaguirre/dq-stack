@@ -9,6 +9,14 @@ router.use(express.json());
 router.get('/', async (req, res) => {
 	try {
 		if (req.query.theme) {
+			if (req.query.npb){
+				if (req.query.npb) {
+					//TODO: error prototype field for response code
+					if (!req.query.limit) throw new Error('Must have a limit parameter');
+					const questions = await questionController.getQuestionsNotPlayedBy(req.query.npb, req.query.theme, req.query.limit);
+					return res.send(questions);
+				}
+			}
 			const questionByTheme = await questionController.getQuestionsByTheme(req.query.theme);
 			return res.status(200).send(questionByTheme);
 		}   
