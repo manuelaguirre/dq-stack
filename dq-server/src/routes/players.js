@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const express = require('express');
 const playerController = require('../controllers/players');
 const { createPlayerSchema } = require('../validation/input');
@@ -5,7 +6,7 @@ const router = express.Router();
 router.use(express.json());
 
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
 	const users =  await playerController.getPlayers();
 	if (req.query.email) {
 		const userByEmail = await playerController.getPlayerByEmail(req.query.email.toString());
@@ -14,12 +15,12 @@ router.get('/', async (req, res) => {
 	return res.send(users);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
 	const player = await playerController.getPlayer(req.params.id);
 	return res.send(player);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 	let result = createPlayerSchema.validate(req.body);
 	if (result.error) {
 		res.status(400).send(result.error.details[0].message);
@@ -32,7 +33,7 @@ router.post('/', async (req, res) => {
 	return res.header('x-auth-token', token).send(result.filterForResponse());
 });
 
-router.put('/:id', async (req,res) => {
+router.put('/:id', auth, async (req,res) => {
 	let result = await playerController.getPlayerAndUpdate(req.params.id, req.body);
 	if (!result) {
 		return res.status(404).send();
@@ -40,7 +41,7 @@ router.put('/:id', async (req,res) => {
 	return res.status(200).send(result);
 });
 
-router.patch('/:id', async (req,res) => {
+router.patch('/:id', auth, async (req,res) => {
 	try {
 		const player = await playerController.addQuestions(req.params.id, req.body.playedQuestions);
 		res.send(player.filterForResponse());		

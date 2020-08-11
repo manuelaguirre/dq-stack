@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const express = require('express');
 const themeController = require('../controllers/themes');
 const { createThemeSchema } = require('../validation/input');
@@ -5,7 +6,7 @@ const router = express.Router();
 router.use(express.json());
 
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
 	try {
 		const themes =  await themeController.getThemes();
 		if (req.query.name) {
@@ -18,7 +19,7 @@ router.get('/', async (req, res) => {
 	}
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
 	try {
 		const theme = await themeController.getTheme(req.params.id);
 		return res.send(theme);		
@@ -27,7 +28,7 @@ router.get('/:id', async (req, res) => {
 	}
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 	let result = createThemeSchema.validate(req.body);
 	if (result.error) {
 		res.status(400).send(result.error.details[0].message);
@@ -36,10 +37,10 @@ router.post('/', async (req, res) => {
 	result = await themeController.getThemeByName(req.body.name);
 	if (result) return res.status(409).send('Theme already exists');
 	result = await themeController.createTheme(req.body);
-	res.send(result);	
+	return res.send(result);	
 });
 
-router.put('/:id', async (req,res) => {
+router.put('/:id', auth, async (req,res) => {
 	let result;
 	try {
 		result = await themeController.getThemeAndUpdate(req.params.id, req.body);		

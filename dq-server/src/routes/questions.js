@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const express = require('express');
 const questionController = require('../controllers/questions');
 const themeController = require('../controllers/themes');
@@ -6,7 +7,7 @@ const router = express.Router();
 router.use(express.json());
 
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
 	try {
 		if (req.query.theme) {
 			if (req.query.npb){
@@ -27,7 +28,7 @@ router.get('/', async (req, res) => {
 	}
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
 	try {
 		const question = await questionController.getQuestion(req.params.id);
 		return res.send(question);
@@ -37,7 +38,7 @@ router.get('/:id', async (req, res) => {
 	}
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 	let result = createQuestionSchema.validate(req.body);
 	if (result.error) {
 		res.status(400).send(result.error.details[0].message);
@@ -57,7 +58,7 @@ router.post('/', async (req, res) => {
 	res.send({...result, theme: theme.name});	
 });
 
-router.put('/:id', async (req,res) => {
+router.put('/:id', auth, async (req,res) => {
 	let result = updateQuestionSchema.validate(req.body);
 	if (result.error) {
 		res.status(400).send(result.error.details[0].message);
