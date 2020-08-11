@@ -1,6 +1,20 @@
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
+const createUserSchema = Joi.object({
+  
+	username :Joi.string()
+		.alphanum()
+		.min(2)
+		.max(30)
+		.required(),
+
+	password : Joi.string()
+		.min(8)
+		.max(20)
+		.required() 
+});
+
 const createPlayerSchema = Joi.object({
 	firstName : Joi.string()
 		.alphanum()
@@ -109,4 +123,6 @@ const updateQuestionSchema = Joi.object({
 
 
 
-module.exports = { createPlayerSchema, createThemeSchema, createQuestionSchema, updateQuestionSchema };
+
+
+module.exports = { createUserSchema, createPlayerSchema, createThemeSchema, createQuestionSchema, updateQuestionSchema };

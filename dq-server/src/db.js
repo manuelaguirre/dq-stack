@@ -3,6 +3,15 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const _ = require('lodash');
 
+const userSchema = new mongoose.Schema({
+	username: String,
+	password: String,
+});
+
+userSchema.methods.generateAuthToken = function () {
+	const token = jwt.sign(_.pick(this, ['_id', 'username']), config.get('jwtPrivateKey'));
+	return token;
+};
 
 const playerSchema = new mongoose.Schema({
 	email: { 
@@ -60,7 +69,8 @@ const themeSchema = new mongoose.Schema({
 	description: String
 });
 
+const User = mongoose.model('User', userSchema);
 const Player = mongoose.model('Player', playerSchema);
 const Question = mongoose.model('Question', questionSchema);
 const Theme = mongoose.model('Theme', themeSchema);
-module.exports = { Player, Question, Theme };
+module.exports = { User, Player, Question, Theme };
