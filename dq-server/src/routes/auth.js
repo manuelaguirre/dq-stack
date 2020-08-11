@@ -1,9 +1,8 @@
 const express = require('express');
 const { authSchema } = require('../validation/auth');
-const playerController = require('../controllers/players');
+const userController = require('../controllers/users');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const config = require('config');
 
@@ -15,7 +14,7 @@ router.post('/', async (req, res) => {
 		res.status(400).send(result.error.details[0].message);
 		return;
 	}
-	result = await playerController.getPlayerByEmail(req.body.email);
+	result = await userController.getUserByName(req.body.username);
 	if (!result) return res.status(400).send('Invalid email or password');
     
 	const isValidPassword = await bcrypt.compare(req.body.password, result.password);

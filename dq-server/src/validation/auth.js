@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const authSchema = Joi.object({
 	
-	email : Joi.string()
+	username : Joi.string()
 		.required(),
 
 	password : Joi.string()
