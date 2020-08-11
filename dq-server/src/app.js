@@ -1,3 +1,4 @@
+const error = require('./middleware/error');
 const express = require('express');
 const app = express();
 const config = require('config');
@@ -5,6 +6,7 @@ const cors = require('cors');
 const {CORS_OPTIONS} = require('./middleware/cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+
 const auth = require('./routes/auth');
 const players = require('./routes/players');
 const questions = require('./routes/questions');
@@ -19,6 +21,7 @@ app.use('/api/players', players);
 app.use('/api/questions', questions);
 app.use('/api/themes', themes);
 app.use('/api/users', users);
+app.use(error);
 
 console.log(config.get('name'));
 if(!config.get('jwtPrivateKey')){
