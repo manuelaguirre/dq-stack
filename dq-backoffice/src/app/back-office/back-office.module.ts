@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { BackOficeComponent } from './back-office.component';
 import { AuthGuardService } from '../auth/auth-form/services/auth-guard.service';
 import { DqBackOfficeResolver } from './resolvers/dq-backoffice-page.resolver';
+import { SharedModule } from '../shared/shared.module';
 
 export const routes: Routes = [
   {
@@ -42,6 +43,7 @@ export const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    SharedModule,
     RouterModule.forChild(routes),
   ],
   exports: [],

@@ -1,6 +1,7 @@
 import { DqTheme } from "./dq-theme";
 
 export interface DQQuestion {
+	_id: string;
   text: string;
 	theme: DqTheme;
 	answer1: String;

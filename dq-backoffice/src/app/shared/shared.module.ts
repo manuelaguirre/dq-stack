@@ -2,18 +2,25 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentUtilsService } from './services/component-utils';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { ApiService } from './services/api.service';
+import { SnackBarService } from './services/snack-bar.service';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 const materialModules = [
   MatFormFieldModule,
   MatInputModule,
   ReactiveFormsModule,
   MatIconModule,
+  FormsModule,
 ];
 
 @NgModule({
   imports: [
+    CommonModule,
+    HttpClientModule,
     ...materialModules,
   ],
   exports: [
@@ -22,6 +29,8 @@ const materialModules = [
   declarations: [],
   providers: [
     ComponentUtilsService,
+    ApiService,
+    SnackBarService,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
