@@ -1,0 +1,13 @@
+<form class="dq-form flex-div column" [formGroup]="formGroup" *ngIf="formGroup">
+  <mat-form-field *ngIf="formGroup.contains('name')" appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput placeholder="Name" formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field *ngIf="formGroup.contains('description')" appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput placeholder="description" formControlName="description"></textarea>
+  </mat-form-field>
+</form>
+
+<ng-content select="li.dq-menu-option"></ng-content>

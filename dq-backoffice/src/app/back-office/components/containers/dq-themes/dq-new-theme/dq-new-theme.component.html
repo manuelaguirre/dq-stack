@@ -1,0 +1,15 @@
+<div class="dq-background full-width full-height"></div>
+<div class="dq-container flex-div column">
+  <div class="dq-back btn btn-light" [routerLink]="['/home/themes']">
+    <a>Go back</a>
+  </div>
+  <div class="dq-logo"></div>
+  <h1 class="dq-title">Defiquiz new Theme</h1>
+  <div class="dq-menu flex-div column form-container">
+    <dq-new-form [formGroup]="newThemeForm">
+      <li class="dq-menu-option btn btn-accent" tabindex="0" (click)="addNewTheme()">
+        <a>Add new Theme</a>
+      </li>
+    </dq-new-form>
+  </div>
+</div>
