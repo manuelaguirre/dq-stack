@@ -14,7 +14,6 @@ async function getPlayer(id) {
 
 async function getPlayedQuestions(id){
 	const result = await Player.findById(id,'playedQuestions').exec();
-	if (!result) throw new Error('Player not Found');
 	return result.playedQuestions;
 }
 
