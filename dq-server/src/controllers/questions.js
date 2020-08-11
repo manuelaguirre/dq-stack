@@ -6,7 +6,6 @@ async function getQuestions() {
 	const questions = await Question.find()
 		.populate('theme')
 		.exec();
-	if (!questions) throw new Error('No questions found.');
 	return questions;
 }
 
@@ -14,7 +13,6 @@ async function getQuestion(id) {
 	const question = await Question.findById(id)
 		.populate('theme')
 		.exec();
-	if (!question) throw new Error('Question not found');
 	return question;
 }
 
@@ -37,20 +35,17 @@ async function getQuestionByText(text){
 	const question = await query.findOne()
 		.populate('theme')
 		.exec();
-	if (!question) throw new Error('Question not found'); 
 	return question;
 }
 
 async function getQuestionsByTheme(themeID){	
 	const query = Question.where({theme : themeID});
 	const questions = await query.find().exec(); 
-	if (!questions) throw new Error('No matching questions found');
 	return questions;
 }
 
 async function getQuestionAndUpdate(id, update) {
 	const question = await Question.findById(id).exec();
-	if (!question) throw new Error('Cannnot update, question not found');
 	Object.assign(question, update);
 	question.save();	
 	return question._doc;
