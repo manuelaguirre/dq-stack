@@ -9,6 +9,7 @@ const auth = require('./routes/auth');
 const players = require('./routes/players');
 const questions = require('./routes/questions');
 const themes = require('./routes/themes');
+const users = require('./routes/users');
 
 app.use(cors(CORS_OPTIONS));
 app.use(morgan('dev'));
@@ -17,9 +18,7 @@ app.use('/api/auth', auth);
 app.use('/api/players', players);
 app.use('/api/questions', questions);
 app.use('/api/themes', themes);
-
-
-
+app.use('/api/users', users);
 
 console.log(config.get('name'));
 if(!config.get('jwtPrivateKey')){
