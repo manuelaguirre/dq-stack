@@ -8,6 +8,7 @@ import { ApiService } from './services/api.service';
 import { SnackBarService } from './services/snack-bar.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const materialModules = [
   MatFormFieldModule,
@@ -15,6 +16,7 @@ const materialModules = [
   ReactiveFormsModule,
   MatIconModule,
   FormsModule,
+  MatSnackBarModule,
 ];
 
 @NgModule({

@@ -7,9 +7,10 @@
   <h1 class="dq-title">Defiquiz new Theme</h1>
   <div class="dq-menu flex-div column form-container">
     <dq-new-form [formGroup]="newThemeForm">
-      <li class="dq-menu-option btn btn-accent" tabindex="0" (click)="addNewTheme()">
+      <button class="dq-menu-option btn btn-accent" tabindex="0" (click)="addNewTheme()"
+       [disabled]="newThemeForm.invalid">
         <a>Add new Theme</a>
-      </li>
+      </button>
     </dq-new-form>
   </div>
 </div>

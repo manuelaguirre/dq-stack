@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BackofficeService } from '../../../shared/services/backoffice.service';
 import { catchError, map } from 'rxjs/operators';
 import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
@@ -22,8 +22,8 @@ export class DqNewThemeComponent implements OnInit {
 
   ngOnInit() {
     this.newThemeForm = this.formBuilder.group({
-      name: '',
-      description: '',
+      name: ['', Validators.required],
+      description: ['', Validators.required],
     });
   }
 
@@ -33,7 +33,7 @@ export class DqNewThemeComponent implements OnInit {
         map((theme) => {
           if (theme) {
             this.snackBarService.showMessage('Theme created successfully');
-            this.router.navigate(['themes']);
+            this.router.navigate(['home/themes']);
           } else {
             this.snackBarService.showError('Error: Theme not created');
           }
