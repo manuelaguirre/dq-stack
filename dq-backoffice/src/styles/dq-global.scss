@@ -16,6 +16,9 @@
     text-align: center;
     letter-spacing: 1px;
   }
+  &:disabled {
+    cursor: default;
+  }
 }
 
 .dq-container {
