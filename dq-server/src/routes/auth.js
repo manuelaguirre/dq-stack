@@ -3,8 +3,7 @@ const { authSchema } = require('../validation/auth');
 const userController = require('../controllers/users');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const _ = require('lodash');
-const config = require('config');
+
 
 router.use(express.json());
 

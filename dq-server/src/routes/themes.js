@@ -2,33 +2,26 @@ const auth = require('../middleware/auth');
 const express = require('express');
 const themeController = require('../controllers/themes');
 const { createThemeSchema } = require('../validation/input');
+const asyncCatch = require('../middleware/asyncCatch');
 const router = express.Router();
 router.use(express.json());
 
 
-router.get('/', auth, async (req, res) => {
-	try {
-		const themes =  await themeController.getThemes();
-		if (req.query.name) {
-			const themeByName = await themeController.getThemeByName(req.query.name);
-			return res.send(themeByName);
-		}   
-		return res.send(themes);		
-	} catch (error) {
-		res.status(404).send(error.message);
-	}
-});
+router.get('/', auth, asyncCatch(async (req, res) => {
+	const themes = await themeController.getThemes();
+	if (req.query.name) {
+		const themeByName = await themeController.getThemeByName(req.query.name);
+		return res.send(themeByName);
+	}   
+	return res.send(themes);		
+}));
 
-router.get('/:id', auth, async (req, res) => {
-	try {
-		const theme = await themeController.getTheme(req.params.id);
-		return res.send(theme);		
-	} catch (error) {
-		res.status(404).send(error.message);
-	}
-});
+router.get('/:id', auth, asyncCatch(async (req, res) => {
+	const theme = await themeController.getTheme(req.params.id);
+	return res.send(theme);		
+}));
 
-router.post('/', auth, async (req, res) => {
+router.post('/', auth, asyncCatch(async (req, res) => {
 	let result = createThemeSchema.validate(req.body);
 	if (result.error) {
 		res.status(400).send(result.error.details[0].message);
@@ -38,9 +31,9 @@ router.post('/', auth, async (req, res) => {
 	if (result) return res.status(409).send('Theme already exists');
 	result = await themeController.createTheme(req.body);
 	return res.send(result);	
-});
+}));
 
-router.put('/:id', auth, async (req,res) => {
+router.put('/:id', auth, asyncCatch(async (req,res) => {
 	let result;
 	try {
 		result = await themeController.getThemeAndUpdate(req.params.id, req.body);		
@@ -48,6 +41,6 @@ router.put('/:id', auth, async (req,res) => {
 		res.status(404).send(error.message);
 	}	
 	return res.status(200).send(result);
-});
+}));
 
 module.exports = router;
