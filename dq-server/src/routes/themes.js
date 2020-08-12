@@ -1,7 +1,7 @@
 const auth = require('../middleware/auth');
 const express = require('express');
 const themeController = require('../controllers/themes');
-const { createThemeSchema } = require('../validation/input');
+const { createThemeSchema, updateThemeSchema } = require('../validation/input');
 const asyncCatch = require('../middleware/asyncCatch');
 const router = express.Router();
 router.use(express.json());
@@ -34,7 +34,11 @@ router.post('/', auth, asyncCatch(async (req, res) => {
 }));
 
 router.put('/:id', auth, asyncCatch(async (req,res) => {
-	let result;
+	let result = updateThemeSchema.validate(req.body);
+	if (result.error) {
+		res.status(400).send(result.error.details[0].message);
+		return;
+	}
 	try {
 		result = await themeController.getThemeAndUpdate(req.params.id, req.body);		
 	} catch (error) {

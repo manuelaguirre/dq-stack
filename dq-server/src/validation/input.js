@@ -50,6 +50,18 @@ const createThemeSchema = Joi.object({
 		.required()
 });
 
+const updateThemeSchema = Joi.object({
+	name: Joi.string()
+		.min(2)
+		.max(20)
+		.required(),
+
+	description: Joi.string()
+		.min(3)
+		.max(300)
+		.required()
+});
+
 const createQuestionSchema = Joi.object({
 	text: Joi.string()
 		.min(3)
@@ -125,4 +137,11 @@ const updateQuestionSchema = Joi.object({
 
 
 
-module.exports = { createUserSchema, createPlayerSchema, createThemeSchema, createQuestionSchema, updateQuestionSchema };
+module.exports = { 
+	createUserSchema,
+	createPlayerSchema,
+	createThemeSchema,
+	updateThemeSchema,
+	createQuestionSchema,
+	updateQuestionSchema 
+};
