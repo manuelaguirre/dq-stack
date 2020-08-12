@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
   ],
   exports: [
     NewFormComponent,
+    SharedModule,
   ],
 })
 export class DqBackofficeSharedModule {}
