@@ -7,7 +7,7 @@ const {CORS_OPTIONS} = require('./middleware/cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 
-const auth = require('./routes/auth');
+const login = require('./routes/login');
 const players = require('./routes/players');
 const questions = require('./routes/questions');
 const themes = require('./routes/themes');
@@ -16,7 +16,7 @@ const users = require('./routes/users');
 app.use(cors(CORS_OPTIONS));
 app.use(morgan('dev'));
 
-app.use('/api/auth', auth);
+app.use('/api/login', login);
 app.use('/api/players', players);
 app.use('/api/questions', questions);
 app.use('/api/themes', themes);
