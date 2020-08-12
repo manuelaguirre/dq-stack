@@ -16,7 +16,7 @@ router.get('/', auth, asyncCatch(async (req, res) => {
 	return res.send(users);
 }));
 
-router.get('/:id', auth, (async (req, res) => {
+router.get('/:id', auth, asyncCatch(async (req, res) => {
 	const user = await userController.getUser(req.params.id);
 	return res.send(user);
 }));
