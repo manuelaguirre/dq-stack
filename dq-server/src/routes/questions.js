@@ -39,10 +39,8 @@ router.post('/', auth, asyncCatch(async (req, res) => {
 	}
 	result = await questionController.getQuestionByText(req.body.text);
 	if (result) return res.status(409).send('Question with the same text already exists');
-	let theme;
-	theme = await themeController.getThemeByName(req.body.theme);
 	result = await questionController.createQuestion({...req.body, theme : theme._id});
-	res.send({...result, theme: theme.name});	
+	res.send(result);	
 }));
 
 router.put('/:id', auth, asyncCatch(async (req,res) => {
