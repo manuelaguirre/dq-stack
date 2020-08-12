@@ -13,6 +13,11 @@ userSchema.methods.generateAuthToken = function () {
 	return token;
 };
 
+userSchema.methods.filterForResponse = function () {
+	const response = _.pick(this, ['_id', 'username']);
+	return response;
+};
+
 const playerSchema = new mongoose.Schema({
 	email: { 
 		type: String,
