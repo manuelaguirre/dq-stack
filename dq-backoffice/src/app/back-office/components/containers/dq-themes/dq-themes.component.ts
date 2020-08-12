@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { DqTheme } from '../../../../shared/models/dq-theme';
-import { map } from 'rxjs/operators';
+import { BackofficeService } from '../../shared/services/backoffice.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'dq-themes',
@@ -12,13 +12,16 @@ import { map } from 'rxjs/operators';
 export class DqThemesComponent implements OnInit {
   themes$: Observable<DqTheme[]> = null;
 
+  loading = false;
+
   constructor(
-    private route: ActivatedRoute,
-  ) { }
+    private backOfficeService: BackofficeService,
+  ) {}
 
   ngOnInit(): void {
-    this.themes$ = this.route.data.pipe(
-      map((data: {themes: DqTheme[];}) => data.themes),
+    this.loading = true;
+    this.themes$ = this.backOfficeService.getThemes().pipe(
+      tap(() => this.loading = false),
     );
   }
 }

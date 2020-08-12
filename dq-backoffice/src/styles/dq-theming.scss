@@ -1,4 +1,4 @@
-$dq-palette-accent: (
+$dq-palette-highlight: (
   50 : #e1e2e5,
   100 : #b3b8be,
   200 : #808893,
@@ -99,17 +99,16 @@ $dq-palette-primary: (
 
 $dq-theme-primary: mat-palette($dq-palette-primary);
 $dq-theme-secondary: mat-palette($dq-palette-secondary);
-$dq-theme-accent: mat-palette($dq-palette-accent);
+$dq-theme-highlight: mat-palette($dq-palette-highlight);
 
 $dq-theme: mat-light-theme(
   $dq-theme-primary,
   $dq-theme-secondary,
-  $dq-theme-accent,
 );
 
 @include angular-material-theme($dq-theme);
 
 $dq-primary-color: #1C618C;
 $dq-secondary-color: #66385D;
-$dq-accent-color: #011126;
+$dq-highlight-color: #011126;
 $dq-alternative-color: #BF9341;

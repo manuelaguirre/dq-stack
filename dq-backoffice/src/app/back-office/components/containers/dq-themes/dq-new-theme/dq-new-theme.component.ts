@@ -4,6 +4,7 @@ import { BackofficeService } from '../../../shared/services/backoffice.service';
 import { catchError, map } from 'rxjs/operators';
 import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'dq-new-theme',
@@ -12,6 +13,8 @@ import { Router } from '@angular/router';
 
 export class DqNewThemeComponent implements OnInit {
   newThemeForm: FormGroup = null;
+
+  loadingNew = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +31,7 @@ export class DqNewThemeComponent implements OnInit {
   }
 
   addNewTheme() {
+    this.loadingNew = true;
     this.backOfficeService.createNewTheme(this.newThemeForm.value.name, this.newThemeForm.value.description)
       .pipe(
         map((theme) => {
@@ -40,9 +44,9 @@ export class DqNewThemeComponent implements OnInit {
         }),
         catchError((error) => {
           this.snackBarService.showError('Error: Theme not created');
-          return null;
+          return of(null);
         })
       )
-      .subscribe();
+      .subscribe(() => this.loadingNew = false);
   }
 }

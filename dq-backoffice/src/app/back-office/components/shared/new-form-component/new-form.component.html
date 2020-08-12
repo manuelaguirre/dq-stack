@@ -1,4 +1,5 @@
 <form class="dq-form flex-div column" [formGroup]="formGroup" *ngIf="formGroup">
+  <!-- THEMES -->
   <mat-form-field *ngIf="formGroup.contains('name')" appearance="outline">
     <mat-label>Name</mat-label>
     <input matInput placeholder="Name" formControlName="name">
@@ -8,6 +9,49 @@
       <mat-label>Description</mat-label>
       <textarea matInput placeholder="description" formControlName="description"></textarea>
   </mat-form-field>
+
+  <!-- THEMES -->
+  <mat-form-field appearance="fill" *ngIf="formGroup.contains('theme')">
+    <mat-label>Select theme</mat-label>
+    <mat-select formControlName="theme">
+      <ng-container *ngIf="themes$ | async as themes">
+      <mat-option *ngFor="let theme of themes" [value]="theme._id">
+        {{theme.name}}
+      </mat-option>
+    </ng-container>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="formGroup.contains('text')" appearance="outline">
+    <mat-label>Question text</mat-label>
+    <textarea matInput placeholder="Text" formControlName="text"></textarea>
+  </mat-form-field>
+  
+  <mat-form-field *ngIf="formGroup.contains('answer1')" appearance="outline">
+      <mat-label>Alternative 1</mat-label>
+      <textarea matInput placeholder="Alternative 1" formControlName="answer1"></textarea>
+  </mat-form-field>
+  
+  <mat-form-field *ngIf="formGroup.contains('answer2')" appearance="outline">
+      <mat-label>Alternative 2</mat-label>
+      <textarea matInput placeholder="Alternative 2" formControlName="answer2"></textarea>
+  </mat-form-field>
+  
+  <mat-form-field *ngIf="formGroup.contains('answer3')" appearance="outline">
+      <mat-label>Alternative 3</mat-label>
+      <textarea matInput placeholder="Alternative 3" formControlName="answer3"></textarea>
+  </mat-form-field>
+  
+  <mat-form-field *ngIf="formGroup.contains('answer4')" appearance="outline">
+      <mat-label>Alternative 4</mat-label>
+      <textarea matInput placeholder="Alternative 4" formControlName="answer4"></textarea>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="formGroup.contains('correct')" appearance="outline">
+      <mat-label>Correct alternative</mat-label>
+      <input matInput placeholder="Number (1 - 4)" formControlName="correct" type="number" [max]="4" [min]="1">
+  </mat-form-field>
 </form>
 
 <ng-content select="button.dq-menu-option"></ng-content>
+<ng-content select="div.loadin-container"></ng-content>

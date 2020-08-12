@@ -5,6 +5,7 @@ import { BackOficeComponent } from './back-office.component';
 import { AuthGuardService } from '../auth/auth-form/services/auth-guard.service';
 import { DqBackOfficeResolver } from './resolvers/dq-backoffice-page.resolver';
 import { SharedModule } from '../shared/shared.module';
+import { DqBackofficeSharedModule } from './components/shared/dq-backoffice-shared.module';
 
 export const routes: Routes = [
   {
@@ -44,6 +45,7 @@ export const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    DqBackofficeSharedModule,
     RouterModule.forChild(routes),
   ],
   exports: [],

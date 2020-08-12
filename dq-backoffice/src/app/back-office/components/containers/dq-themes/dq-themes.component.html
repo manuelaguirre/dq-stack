@@ -9,11 +9,16 @@
     <li class="dq-menu-option btn btn-primary" [routerLink]="['/home/questions']">
       <a>Go to questions</a>
     </li>
-    <li class="dq-menu-option btn btn-accent" [routerLink]="['/home/themes/new']">
+    <li class="dq-menu-option btn btn-highlight" [routerLink]="['/home/themes/new']">
       <a>Add new Theme</a>
     </li>
+    <ng-container *ngIf="themes$ | async as themes">
+      {{ themes | json }}
+    </ng-container>
+    <div class="loadin-container" *ngIf="loading">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
   </div>
-  <ng-container *ngIf="themes$ | async as themes">
-    {{ themes | json }}
-  </ng-container>
 </div>

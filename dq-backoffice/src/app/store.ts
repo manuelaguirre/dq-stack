@@ -4,6 +4,8 @@ import { State } from './state';
 
 const state: State = {
   token: undefined,
+  themes: undefined,
+  questions: undefined,
 };
 
 export class Store {

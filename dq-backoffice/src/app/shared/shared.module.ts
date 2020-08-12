@@ -9,6 +9,7 @@ import { SnackBarService } from './services/snack-bar.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
 
 const materialModules = [
   MatFormFieldModule,
@@ -17,6 +18,7 @@ const materialModules = [
   MatIconModule,
   FormsModule,
   MatSnackBarModule,
+  MatSelectModule,
 ];
 
 @NgModule({
