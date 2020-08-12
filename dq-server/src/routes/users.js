@@ -8,17 +8,20 @@ router.use(express.json());
 
 
 router.get('/', auth, asyncCatch(async (req, res) => {
-	const users =  await userController.getUsers();
+	let users =  await userController.getUsers();
 	if (req.query.username) {
 		const userByName = await userController.getUserByName(req.query.username.toString());
 		return res.send(userByName);
-	}   
+	}
+	users = users.map(user => {
+		return user.filterForResponse();
+	});   
 	return res.send(users);
 }));
 
 router.get('/:id', auth, asyncCatch(async (req, res) => {
 	const user = await userController.getUser(req.params.id);
-	return res.send(user);
+	return res.send(user.filterForResponse());
 }));
 
 // router.post('/', asyncCatch(async (req, res) => {
