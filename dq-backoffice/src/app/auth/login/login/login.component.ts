@@ -7,6 +7,8 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../auth-form/services/auth.service';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { Store } from 'src/app/store';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +26,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private titleService: Title,
+    private snackBarService: SnackBarService,
+    private store: Store,
   ) {}
 
   ngOnInit() {
@@ -40,22 +44,22 @@ export class LoginComponent implements OnInit {
       try {
         this.authService.signIn(this.loginForm.value.user, this.loginForm.value.pass).pipe(
           catchError((error) => {
-              console.log(error);
-              if (error.code && error.code === 'auth/wrong-password') {
-                // TODO: snackbar
-                console.log('User/Pass incorrect');
-              } else {
-                // TODO: snackbar
-                console.log('Conexion error');
-              }
-              this.logging = false;
-              return of(null);
+            console.log(error);
+            if (error.code && error.code === 'auth/wrong-password') {
+              this.snackBarService.showError('User/Pass incorrect');
+            } else {
+              this.snackBarService.showError('Conexion error');
+            }
+            this.logging = false;
+            return of(null);
           }),
-        ).subscribe((succes) => {
+        ).subscribe((succes: { token: string }) => {
           if (succes) {
-            setTimeout(() => {
-              this.router.navigate(['home']);
-            }, 500);
+            if (succes.token) {
+              localStorage.setItem('token', succes.token);
+              this.store.set('token', succes.token);
+            }
+            this.router.navigate(['home']);
           }
         });
       } catch (err) {
