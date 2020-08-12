@@ -21,6 +21,7 @@ router.get('/:id', auth, asyncCatch(async (req, res) => {
 	return res.send(user);
 }));
 
+<<<<<<< HEAD
 router.post('/', asyncCatch(async (req, res) => {
 	let result = createUserSchema.validate(req.body);
 	if (result.error) {
@@ -33,5 +34,19 @@ router.post('/', asyncCatch(async (req, res) => {
 	const token = result.generateAuthToken();
 	return res.header('x-auth-token', token).send('User created.');
 }));
+=======
+// router.post('/', async (req, res) => {
+// 	let result = createUserSchema.validate(req.body);
+// 	if (result.error) {
+// 		res.status(400).send(result.error.details[0].message);
+// 		return;
+// 	}
+// 	result = await userController.getUserByName(req.body.username);
+// 	if (result) return res.status(400).send('User already registered');
+// 	result = await userController.createUser(req.body);	
+// 	const token = result.generateAuthToken();
+// 	return res.header('x-auth-token', token).send('User created.');
+// });
+>>>>>>> refactored login
 
 module.exports = router;
