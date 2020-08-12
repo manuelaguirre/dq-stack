@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
 	if (!isValidPassword) return res.status(401).send('Invalid email or password'); 
     
 	const token = result.generateAuthToken();
-	return res.send(token);
+	return res.send({token});
 });
 
 module.exports = router;
