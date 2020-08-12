@@ -26,6 +26,9 @@ export const ROUTES: Routes = [
 export class AuthRoutingModule {}
 
 @NgModule({
+  imports: [
+    SharedModule,
+  ],
   providers: [
     AuthService,
     AuthGuardService,

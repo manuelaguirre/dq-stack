@@ -2,9 +2,14 @@ import { NgModule } from '@angular/core';
 import { DqMediaComponent } from '../components/containers/dq-media/dq-media.component';
 import { RouterModule, Routes } from '@angular/router';
 import { DqBackofficeSharedModule } from '../components/shared/dq-backoffice-shared.module';
+import { AuthGuardService } from '../../auth/auth-form/services/auth-guard.service';
 
 const routes: Routes = [
-  { path: '', component: DqMediaComponent },
+  {
+    path: '',
+    component: DqMediaComponent,
+    canActivate: [ AuthGuardService ],
+  },
 ];
 
 @NgModule({

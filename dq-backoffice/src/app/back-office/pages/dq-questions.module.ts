@@ -4,15 +4,18 @@ import { DqQuestionsComponent } from '../components/containers/dq-questions/dq-q
 import { DqBackofficeSharedModule } from '../components/shared/dq-backoffice-shared.module';
 import { CommonModule } from '@angular/common';
 import { DqNewQuestionComponent } from '../components/containers/dq-questions/dq-new-question/dq-new-question.component';
+import { AuthGuardService } from '../../auth/auth-form/services/auth-guard.service';
 
 const routes: Routes = [
   {
     path: 'new',
     component: DqNewQuestionComponent,
+    canActivate: [ AuthGuardService ],
   },
   {
     path: '',
     component: DqQuestionsComponent,
+    canActivate: [ AuthGuardService ],
     // resolve: {
     //   questions: DqBackOfficeResolver
     // }
