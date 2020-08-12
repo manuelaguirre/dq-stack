@@ -1,14 +1,12 @@
-import { DqTheme } from "./dq-theme";
-
-export interface DQQuestion {
+export interface DqQuestion {
 	_id: string;
   text: string;
-	theme: DqTheme;
-	answer1: String;
-	answer2: String;
-	answer3: String;
-	answer4: String;
-	correct: Number;
+	theme: string;
+	answer1: string;
+	answer2: string;
+	answer3: string;
+	answer4: string;
+	correct: number;
 	video: string;
 	images: string[];
 	soundclip: string;

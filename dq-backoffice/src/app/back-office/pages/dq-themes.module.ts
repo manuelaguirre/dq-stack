@@ -4,7 +4,6 @@ import { DqNewThemeComponent } from '../components/containers/dq-themes/dq-new-t
 import { RouterModule, Routes } from '@angular/router';
 import { DqBackofficeSharedModule } from '../components/shared/dq-backoffice-shared.module';
 import { CommonModule } from '@angular/common';
-import { DqBackOfficeResolver } from '../resolvers/dq-backoffice-page.resolver';
 
 const routes: Routes = [
   {
@@ -14,9 +13,9 @@ const routes: Routes = [
   {
     path: '',
     component: DqThemesComponent,
-    resolve: {
-      themes: DqBackOfficeResolver
-    }
+    // resolve: {
+    //   themes: DqBackOfficeResolver
+    // }
   },
 ];
 

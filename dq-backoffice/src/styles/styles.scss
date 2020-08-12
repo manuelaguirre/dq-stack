@@ -15,7 +15,7 @@
 $theme-colors: (
   "primary": $dq-primary-color,
   "secondary": $dq-secondary-color,
-  "accent": $dq-accent-color,
+  "highlight": $dq-highlight-color,
   "alternative": $dq-alternative-color,
 );
 
@@ -32,7 +32,7 @@ html, body { height: 100%; }
 :root {
   --dq-primary-color: #1C618C;
   --dq-secondary-color: #66385D;
-  --dq-accent-color: #011126;
+  --dq-highlight-color: #011126;
   --dq-alternative-color: #BF9341;
 }
 

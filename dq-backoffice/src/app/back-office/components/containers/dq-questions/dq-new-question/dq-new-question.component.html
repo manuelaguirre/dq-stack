@@ -1,15 +1,15 @@
 <div class="dq-background full-width full-height"></div>
 <div class="dq-container flex-div column">
-  <div class="dq-back btn btn-light" [routerLink]="['/home/themes']">
+  <div class="dq-back btn btn-light" [routerLink]="['/home/questions']">
     <a>Go back</a>
   </div>
   <div class="dq-logo"></div>
-  <h1 class="dq-title">Defiquiz new Theme</h1>
+  <h1 class="dq-title">Defiquiz new Question</h1>
   <div class="dq-menu flex-div column form-container">
-    <dq-new-form [formGroup]="newThemeForm">
-      <button class="dq-menu-option btn btn-highlight" tabindex="0" (click)="addNewTheme()"
-       [disabled]="newThemeForm.invalid" *ngIf="!loadingNew">
-        <a>Add new Theme</a>
+    <dq-new-form [formGroup]="newQuestionForm">
+      <button class="dq-menu-option btn btn-highlight" tabindex="0" (click)="addNewQuestion()"
+       [disabled]="newQuestionForm.invalid" *ngIf="!loadingNew">
+        <a>Add new Question</a>
       </button>
       <div class="loading-container flex-div column" *ngIf="loadingNew">
         <div class="spinner-border" role="status">

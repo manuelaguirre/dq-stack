@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
-import { DQQuestion } from '../../../../shared/models/dq-questions';
+import { DqQuestion } from '../../../../shared/models/dq-questions';
 import { Observable } from 'rxjs';
+import { BackofficeService } from '../../shared/services/backoffice.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'dq-questions',
@@ -10,15 +10,18 @@ import { Observable } from 'rxjs';
 })
 
 export class DqQuestionsComponent implements OnInit {
-  questions$: Observable<DQQuestion[]> = null;
+  questions$: Observable<DqQuestion[]> = null;
+
+  loading = false;
 
   constructor(
-    private route: ActivatedRoute,
+    private backOfficeService: BackofficeService,
   ) { }
 
   ngOnInit(): void {
-    this.questions$ = this.route.data.pipe(
-      map((data: {questions: DQQuestion[];}) => data.questions),
+    this.loading = true;
+    this.questions$ = this.backOfficeService.getQuestions().pipe(
+      tap(() => this.loading = false),
     );
   }
 }

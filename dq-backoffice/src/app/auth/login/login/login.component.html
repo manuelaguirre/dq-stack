@@ -2,7 +2,7 @@
 <div class="dq-container flex-div column" (keyup.enter)="login()">
   <h1 class="dq-title">Login to defiquiz</h1>
   <app-auth-form [authFormGroup]="loginForm" class="dq-menu flex-div column">
-    <button type="button" class="btn btn-accent dq-button" (click)="login()" *ngIf="!logging">
+    <button type="button" class="btn btn-highlight dq-button" (click)="login()" *ngIf="!logging">
       <a>Log in</a>
     </button>
     <div class="error" *ngIf="emailFormat">

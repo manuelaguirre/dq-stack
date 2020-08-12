@@ -7,14 +7,16 @@
   line-height: 0;
   min-width: 150px;
   width: 100%;
+  max-width: 320px;
   border-radius: 1px !important;
-  border: 2px solid var(--dq-accent-color) !important;
+  border: 2px solid var(--dq-highlight-color) !important;
   a, button {
     display: block;
     font-size: 1.5rem;
     transform: skew(-20deg);
     text-align: center;
     letter-spacing: 1px;
+    white-space: nowrap;
   }
   &:disabled {
     cursor: default;
@@ -25,7 +27,6 @@
   max-height: calc(100% - 10px);
   height: calc(100% - 10px);
   padding-top: 10px;
-  justify-content: center;
   overflow: scroll;
   scrollbar-width: thin;
   .dq-title {
@@ -64,7 +65,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   width: 236px;
-  height: 178px;
+  min-height: 178px;
 }
 
 .dq-back {
@@ -79,6 +80,7 @@
   margin-top: 26px;
   flex: 1;
   justify-content: center;
+  margin-bottom: 10vh;
   .dq-menu-option {
     @include dq-button();
   }
