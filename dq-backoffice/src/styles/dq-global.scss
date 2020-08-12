@@ -84,4 +84,8 @@
   .dq-menu-option {
     @include dq-button();
   }
+
+  .dq-table-container {
+    margin-top: 5vh;
+  }
 }

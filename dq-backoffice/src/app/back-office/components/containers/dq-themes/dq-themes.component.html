@@ -12,10 +12,26 @@
     <li class="dq-menu-option btn btn-highlight" [routerLink]="['/home/themes/new']">
       <a>Add new Theme</a>
     </li>
-    <ng-container *ngIf="themes$ | async as themes">
-      {{ themes | json }}
-    </ng-container>
-    <div class="loadin-container" *ngIf="loading">
+    <div class="dq-table-container" *ngIf="themes$ | async as themes">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+      
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+          <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/home/themes/' + row._id]"></tr>
+      </table>
+    </div>
+    <div class="loading-container" *ngIf="loading">
       <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
       </div>

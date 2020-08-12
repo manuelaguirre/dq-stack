@@ -10,6 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 const materialModules = [
   MatFormFieldModule,
@@ -19,6 +21,8 @@ const materialModules = [
   FormsModule,
   MatSnackBarModule,
   MatSelectModule,
+  MatTableModule,
+  MatSortModule,
 ];
 
 @NgModule({

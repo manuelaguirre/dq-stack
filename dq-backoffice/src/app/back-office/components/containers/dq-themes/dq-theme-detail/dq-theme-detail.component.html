@@ -5,11 +5,12 @@
   </div>
   <div class="dq-logo"></div>
   <h1 class="dq-title">Defiquiz new Theme</h1>
-  <div class="dq-menu flex-div column form-container">
+  <div class="dq-menu flex-div column form-container" *ngIf="newThemeForm$ | async as newThemeForm">
     <dq-new-form [formGroup]="newThemeForm">
-      <button class="dq-menu-option btn btn-highlight" tabindex="0" (click)="addNewTheme()"
+      <button class="dq-menu-option btn btn-highlight" tabindex="0"
+      (click)="createNew ? addNewTheme(newThemeForm) : editTheme(newThemeForm)"
        [disabled]="newThemeForm.invalid" *ngIf="!loadingNew">
-        <a>Add new Theme</a>
+        <a>{{createNew ? 'Add new Theme' : 'Edit Theme'}}</a>
       </button>
       <div class="loading-container flex-div column" *ngIf="loadingNew">
         <div class="spinner-border" role="status">

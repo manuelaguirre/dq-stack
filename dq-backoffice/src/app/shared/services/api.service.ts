@@ -29,7 +29,7 @@ export class ApiService {
     return this.http.delete<T>(`${this.URL_API}/${path}`, options);
   }
 
-  public put<T>(path: string, body: T): Observable<T> {
+  public put<T>(path: string, body: Partial<T>): Observable<T> {
     const headers: HttpHeaders = this.getHeaders();
     return this.http.put<T>(`${this.URL_API}/${path}`, body, { headers });
   }
