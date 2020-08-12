@@ -39,7 +39,7 @@ router.post('/', auth, asyncCatch(async (req, res) => {
 	}
 	result = await questionController.getQuestionByText(req.body.text);
 	if (result) return res.status(409).send('Question with the same text already exists');
-	result = await questionController.createQuestion({...req.body, theme : theme._id});
+	result = await questionController.createQuestion(req.body);
 	res.send(result);	
 }));
 
