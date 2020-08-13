@@ -54,7 +54,7 @@ router.put('/:id', auth, asyncCatch(async (req,res) => {
 		theme = await themeController.getTheme(req.body.theme);
 	}
 	result = await questionController.getQuestionAndUpdate(req.params.id, req.body);
-	return res.status(200).send({result});
+	return res.status(200).send(result);
 }));
 
 module.exports = router;
