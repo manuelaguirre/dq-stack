@@ -4,14 +4,12 @@ const _ = require('lodash');
 
 async function getQuestions() {
 	const questions = await Question.find()
-		.populate('theme')
 		.exec();
 	return questions;
 }
 
 async function getQuestion(id) {
 	const question = await Question.findById(id)
-		.populate('theme')
 		.exec();
 	return question;
 }
