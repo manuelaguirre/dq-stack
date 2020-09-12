@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DqQuestion } from '../../../../shared/models/dq-questions';
 import { Observable } from 'rxjs';
 import { BackofficeService } from '../../shared/services/backoffice.service';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'dq-questions',
@@ -14,6 +16,12 @@ export class DqQuestionsComponent implements OnInit {
 
   loading = false;
 
+  displayedColumns: string[] = ['theme', 'text'];
+
+  dataSource: MatTableDataSource<DqQuestion> = null;
+
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(
     private backOfficeService: BackofficeService,
   ) { }
@@ -21,7 +29,18 @@ export class DqQuestionsComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     this.questions$ = this.backOfficeService.getQuestions().pipe(
-      tap(() => this.loading = false),
+      tap((questions) => {
+        this.dataSource = new MatTableDataSource(questions);
+      }),
+      tap(() => {
+        this.loading = false;
+      }),
+    );
+  }
+
+  getThemeName(themeId: string): Observable<string> {
+    return this.backOfficeService.getTheme(themeId).pipe(
+      map((theme) => theme.name),
     );
   }
 }

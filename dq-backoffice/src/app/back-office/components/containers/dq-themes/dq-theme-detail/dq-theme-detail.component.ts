@@ -5,7 +5,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
-import { DqTheme } from 'src/app/shared/models/dq-theme';
+import { DqTheme } from '../../../../../shared/models/dq-theme';
 
 @Component({
   selector: 'dq-theme-detail',

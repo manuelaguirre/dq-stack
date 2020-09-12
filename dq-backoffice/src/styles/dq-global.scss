@@ -87,5 +87,8 @@
 
   .dq-table-container {
     margin-top: 5vh;
+    table {
+      min-width: 50vw;
+    }
   }
 }
