@@ -10,6 +10,7 @@
 
 @import './dq-global.scss';
 @import './dq-theming.scss';
+@import './dq-table.scss';
 
 // Bootstrap
 $theme-colors: (
@@ -63,4 +64,13 @@ select:-webkit-autofill:focus {
   -webkit-text-fill-color: none;
   -webkit-box-shadow: none;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+// A11Y
+*[role="link"]:focus {
+  outline: 2px solid $dq-primary-color;
+}
+
+*[role="button"]:focus {
+  outline: 2px solid $dq-primary-color;
 }

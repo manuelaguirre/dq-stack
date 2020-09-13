@@ -83,6 +83,9 @@
   margin-bottom: 10vh;
   .dq-menu-option {
     @include dq-button();
+    &:disabled {
+      cursor: default;
+    }
   }
 
   .dq-table-container {

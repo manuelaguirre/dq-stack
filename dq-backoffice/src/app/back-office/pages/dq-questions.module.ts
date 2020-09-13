@@ -16,9 +16,6 @@ const routes: Routes = [
     path: '',
     component: DqQuestionsComponent,
     canActivate: [ AuthGuardService ],
-    // resolve: {
-    //   questions: DqBackOfficeResolver
-    // }
   },
 ];
 

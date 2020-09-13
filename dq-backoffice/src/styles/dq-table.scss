@@ -1,0 +1,27 @@
+.dq-table {
+  tbody {
+    color: #000000;
+    tr.mat-row {
+      cursor: pointer;
+      &:nth-child(n + 1) {
+        background-color: transparent;
+      }
+      
+      &:nth-child(n + 1):hover {
+        background-color: #fafafa;
+      }
+      
+      &:nth-child(2n + 1) {
+        background-color: #f1f1f1;
+      }
+      
+      &:nth-child(2n + 1):hover {
+        background-color: #ececec;
+      }
+      
+      &:hover {
+        background-color: #f8f8f8;
+      }
+    }
+  }
+}

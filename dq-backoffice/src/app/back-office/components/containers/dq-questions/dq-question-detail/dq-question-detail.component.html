@@ -1,16 +1,16 @@
 <div class="dq-background full-width full-height"></div>
-<div class="dq-container flex-div column">
-  <div class="dq-back btn btn-light" [routerLink]="['/home/questions']">
+<div class="dq-container flex-div column" *ngIf="theme$ | async as theme">
+  <div class="dq-back btn btn-light" [routerLink]="['/home/themes/' + theme._id + '/questions']">
     <a>Go back</a>
   </div>
   <div class="dq-logo"></div>
-  <h1 class="dq-title">Defiquiz new Question</h1>
+  <h1 class="dq-title">{{ createNew ? 'Defiquizz new Question' : 'Defiquizz Question' }}</h1>
   <div class="dq-menu flex-div column form-container" *ngIf="questionDetailForm$ | async as questionDetailForm">
     <dq-new-form [formGroup]="questionDetailForm">
       <button class="dq-menu-option btn btn-highlight" tabindex="0"
       (click)="createNew ? addNewQuestion(questionDetailForm) : editQuestion(questionDetailForm)"
        [disabled]="questionDetailForm.invalid" *ngIf="!loadingNew">
-       <a>{{createNew ? 'Add new Question' : 'Edit Question'}}</a>
+       <a>{{createNew ? 'Add new Question' : 'Save Question'}}</a>
       </button>
       <div class="loading-container flex-div column" *ngIf="loadingNew">
         <div class="spinner-border" role="status">

@@ -10,7 +10,7 @@
       <button class="dq-menu-option btn btn-highlight" tabindex="0"
       (click)="createNew ? addNewTheme(newThemeForm) : editTheme(newThemeForm)"
        [disabled]="newThemeForm.invalid" *ngIf="!loadingNew">
-        <a>{{createNew ? 'Add new Theme' : 'Edit Theme'}}</a>
+        <a>{{createNew ? 'Add new Theme' : 'Save Theme'}}</a>
       </button>
       <div class="loading-container flex-div column" *ngIf="loadingNew">
         <div class="spinner-border" role="status">

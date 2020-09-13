@@ -22,10 +22,6 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/dq-themes.module').then(m => m.DqThemesModule),
       },
       {
-        path: 'questions',
-        loadChildren: () => import('./pages/dq-questions.module').then(m => m.DqQuestionsModule),
-      },
-      {
         path: 'players',
         loadChildren: () => import('./pages/dq-players.module').then(m => m.DqPlayersModule),
       },

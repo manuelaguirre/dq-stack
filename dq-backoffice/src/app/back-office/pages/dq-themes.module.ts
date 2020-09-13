@@ -5,20 +5,28 @@ import { RouterModule, Routes } from '@angular/router';
 import { DqBackofficeSharedModule } from '../components/shared/dq-backoffice-shared.module';
 import { CommonModule } from '@angular/common';
 import { AuthGuardService } from '../../auth/auth-form/services/auth-guard.service';
+import { DqThemeResolver } from '../resolvers/dq-theme.resolver';
 
 const routes: Routes = [
   {
     path: ':id',
-    component: DqThemeDetailComponent,
     canActivate: [ AuthGuardService ],
+    resolve: [ DqThemeResolver ],
+    children: [
+      {
+        path: 'questions',
+        loadChildren: () => import('./dq-questions.module').then(m => m.DqQuestionsModule),
+      },
+      {
+        path: '',
+        component: DqThemeDetailComponent,
+      }
+    ]
   },
   {
     path: '',
     component: DqThemesComponent,
     canActivate: [ AuthGuardService ],
-    // resolve: {
-    //   themes: DqBackOfficeResolver
-    // }
   },
 ];
 
@@ -33,6 +41,8 @@ const routes: Routes = [
     DqThemesComponent,
     DqThemeDetailComponent,
   ],
-  providers: [],
+  providers: [
+    DqThemeResolver,
+  ],
 })
 export class DqThemesModule { }

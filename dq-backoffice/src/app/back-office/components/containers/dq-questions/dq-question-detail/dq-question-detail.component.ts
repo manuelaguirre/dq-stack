@@ -6,6 +6,7 @@ import { SnackBarService } from '../../../../../shared/services/snack-bar.servic
 import { Router, ActivatedRoute } from '@angular/router';
 import { DqQuestion } from '../../../../../shared/models/dq-questions';
 import { of, Observable } from 'rxjs';
+import { DqTheme } from '../../../../../shared/models/dq-theme';
 
 @Component({
   selector: 'dq-question-detail',
@@ -20,6 +21,8 @@ export class DqQuestionDetailComponent implements OnInit {
   createNew = false;
 
   questionId = '';
+
+  theme$: Observable<DqTheme> = this.backOfficeService.getSelectedTheme();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,7 +40,9 @@ export class DqQuestionDetailComponent implements OnInit {
           return this.backOfficeService.getQuestion(this.questionId);
         }
         this.createNew = true;
-        return of(null);
+        return this.theme$.pipe(map((theme) => {
+          return { theme: theme._id };
+        }));
       }),
       switchMap((question: DqQuestion) => of(this.createForm(question))),
     );
@@ -50,7 +55,7 @@ export class DqQuestionDetailComponent implements OnInit {
         map((question) => {
           if (question) {
             this.snackBarService.showMessage('Question created successfully');
-            this.router.navigate(['home/questions']);
+            this.router.navigate([`home/themes/${question.theme}/questions`]);
           } else {
             this.snackBarService.showError('Error: Question not created');
           }
@@ -77,7 +82,7 @@ export class DqQuestionDetailComponent implements OnInit {
       map((question) => {
         if (question) {
           this.snackBarService.showMessage('Question edited successfully');
-          this.router.navigate(['home/questions']);
+          this.router.navigate(['home/themes']);
         } else {
           this.snackBarService.showError('Error: Question not edited');
         }
