@@ -28,7 +28,7 @@ export class DqQuestionDetailComponent implements OnInit {
     private formBuilder: FormBuilder,
     private backOfficeService: BackofficeService,
     private snackBarService: SnackBarService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,
   ) { }
 

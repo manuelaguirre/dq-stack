@@ -6,6 +6,7 @@ import { tap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { DqTheme } from '../../../../shared/models/dq-theme';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'dq-questions',
@@ -17,7 +18,7 @@ export class DqQuestionsComponent implements OnInit {
 
   loading = false;
 
-  displayedColumns: string[] = ['theme', 'text'];
+  displayedColumns: string[] = ['theme', 'text', 'edit'];
 
   dataSource: MatTableDataSource<DqQuestion> = null;
 
@@ -27,6 +28,7 @@ export class DqQuestionsComponent implements OnInit {
 
   constructor(
     private backOfficeService: BackofficeService,
+    public router: Router,
   ) { }
 
   ngOnInit(): void {
