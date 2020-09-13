@@ -1,0 +1,70 @@
+.dq-background {
+  // background: url('/assets/images/dq-background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  z-index: -2;
+  overflow: hidden;
+
+  .child {
+    position: absolute;
+    &::before, &::after {
+      content: "";
+      display: block;
+      width: 50vw;
+      height: 40px;
+      z-index: -1;
+      border-radius: 20px;
+      background-color: var(--dq-primary-color);
+      opacity: 0.5;
+      position: absolute;
+      right: 0%;
+      margin: -8px -8vw;
+    }
+    &::after {
+      bottom: 0%;
+      left: 0%;
+      margin: -6px -11vw;
+    }
+  }
+  .child2 {
+    position: absolute;
+    &::before, &::after {
+      content: "";
+      display: block;
+      width: 65vw;
+      height: 50px;
+      z-index: -1;
+      border-radius: 20px;
+      background-color: var(--dq-secondary-color);
+      opacity: 0.5;
+      position: absolute;
+      left: 0%;
+      margin: -25px -11vw;
+    }
+    &::after {
+      bottom: 0%;
+      left: 50%;
+      margin: -22px -8vw;
+    }
+  }
+  .child3 {
+    &::before, &::after {
+      content: "";
+      display: block;
+      width: 50vw;
+      height: 35px;
+      z-index: -1;
+      border-radius: 20px;
+      background-color: var(--dq-alternative-color);
+      margin: -20px 0;
+      opacity: 0.5;
+      position: absolute;
+      left: 25%;
+    }
+    &::after {
+      bottom: 0%;
+    }
+    position: absolute;
+  }
+}

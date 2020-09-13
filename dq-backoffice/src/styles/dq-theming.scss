@@ -1,18 +1,18 @@
 $dq-palette-highlight: (
-  50 : #e1e2e5,
-  100 : #b3b8be,
-  200 : #808893,
-  300 : #4d5867,
-  400 : #273547,
-  500 : #011126,
-  600 : #010f22,
-  700 : #010c1c,
-  800 : #010a17,
-  900 : #00050d,
-  A100 : #517aff,
-  A200 : #1e53ff,
-  A400 : #0037ea,
-  A700 : #0031d0,
+  50 : #e0e0e0,
+  100 : #b3b3b3,
+  200 : #808080,
+  300 : #4d4d4d,
+  400 : #262626,
+  500 : #000000,
+  600 : #000000,
+  700 : #000000,
+  800 : #000000,
+  900 : #000000,
+  A100 : #a6a6a6,
+  A200 : #8c8c8c,
+  A400 : #737373,
+  A700 : #666666,
   contrast: (
     50 : #000000,
     100 : #000000,
@@ -24,33 +24,35 @@ $dq-palette-highlight: (
     700 : #ffffff,
     800 : #ffffff,
     900 : #ffffff,
-    A100 : #ffffff,
-    A200 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
     A400 : #ffffff,
     A700 : #ffffff,
   )
 );
 
+
+
 $dq-palette-secondary: (
-  50 : #ede7ec,
-  100 : #d1c3ce,
-  200 : #b39cae,
-  300 : #94748e,
-  400 : #7d5675,
-  500 : #66385d,
-  600 : #5e3255,
-  700 : #532b4b,
-  800 : #492441,
-  900 : #381730,
-  A100 : #ff79dd,
-  A200 : #ff46d1,
-  A400 : #ff13c4,
-  A700 : #f800ba,
+  50 : #f3e0ec,
+  100 : #e2b3ce,
+  200 : #cf80ae,
+  300 : #bb4d8e,
+  400 : #ad2675,
+  500 : #9e005d,
+  600 : #960055,
+  700 : #8c004b,
+  800 : #820041,
+  900 : #700030,
+  A100 : #ff9fc0,
+  A200 : #ff6c9e,
+  A400 : #ff397c,
+  A700 : #ff1f6b,
   contrast: (
     50 : #000000,
     100 : #000000,
     200 : #000000,
-    300 : #000000,
+    300 : #ffffff,
     400 : #ffffff,
     500 : #ffffff,
     600 : #ffffff,
@@ -65,35 +67,35 @@ $dq-palette-secondary: (
 );
 
 $dq-palette-primary: (
-  50 : #e4ecf1,
-  100 : #bbd0dd,
-  200 : #8eb0c6,
-  300 : #6090af,
-  400 : #3e799d,
-  500 : #1c618c,
-  600 : #195984,
-  700 : #144f79,
-  800 : #11456f,
-  900 : #09335c,
-  A100 : #90c2ff,
-  A200 : #5da6ff,
-  A400 : #2a8aff,
-  A700 : #107cff,
+  50 : #e5f5fc,
+  100 : #bfe6f6,
+  200 : #94d5f1,
+  300 : #69c4eb,
+  400 : #49b8e6,
+  500 : #29abe2,
+  600 : #24a4df,
+  700 : #1f9ada,
+  800 : #1991d6,
+  900 : #0f80cf,
+  A100 : #fcfdff,
+  A200 : #c9e7ff,
+  A400 : #96d0ff,
+  A700 : #7cc5ff,
   contrast: (
     50 : #000000,
     100 : #000000,
     200 : #000000,
     300 : #000000,
-    400 : #ffffff,
-    500 : #ffffff,
-    600 : #ffffff,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
     700 : #ffffff,
     800 : #ffffff,
     900 : #ffffff,
     A100 : #000000,
     A200 : #000000,
-    A400 : #ffffff,
-    A700 : #ffffff,
+    A400 : #000000,
+    A700 : #000000,
   )
 );
 
@@ -108,7 +110,13 @@ $dq-theme: mat-light-theme(
 
 @include angular-material-theme($dq-theme);
 
-$dq-primary-color: #1C618C;
-$dq-secondary-color: #66385D;
-$dq-highlight-color: #011126;
-$dq-alternative-color: #BF9341;
+$dq-primary-color: #29ABE2;
+$dq-secondary-color: #9E005D;
+$dq-highlight-color: #000000;
+$dq-alternative-color: #FFFF00;
+
+.btn {
+  &.btn-light {
+    background-color: transparent !important;
+  }
+}

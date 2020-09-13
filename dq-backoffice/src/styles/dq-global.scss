@@ -1,22 +1,28 @@
 // DQ global classes
 
 @mixin dq-button {
-  transform: skew(20deg);
-  padding: 20px 30px;
+  padding: 0;
   margin-top: 15px;
   line-height: 0;
+  height: 40px;
   min-width: 150px;
   width: 100%;
   max-width: 320px;
-  border-radius: 1px !important;
+  border-radius: 20px !important;
   border: 2px solid var(--dq-highlight-color) !important;
-  a, button {
+  align-items: center;
+  display: flex;
+  place-content: center;
+  position: relative;
+  a, button, span {
     display: block;
     font-size: 1.5rem;
-    transform: skew(-20deg);
     text-align: center;
     letter-spacing: 1px;
     white-space: nowrap;
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
   }
   &:disabled {
     cursor: default;
@@ -24,9 +30,9 @@
 }
 
 .dq-container {
-  max-height: calc(100% - 10px);
-  height: calc(100% - 10px);
-  padding-top: 10px;
+  max-height: calc(100% - 20px);
+  height: calc(100% - 20px);
+  padding-top: 20px;
   overflow: scroll;
   scrollbar-width: thin;
   .dq-title {
@@ -52,14 +58,6 @@
   }
 }
 
-.dq-background {
-  background: url('/assets/images/dq-background.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: absolute;
-  z-index: -2;
-}
-
 .dq-logo {
   background: url('/assets/images/dq-logo.png');
   background-size: cover;
@@ -71,9 +69,32 @@
 .dq-back {
   @include dq-button();
   position: absolute;
+  margin-top: 35px;
   top: 0;
   left: 2%;
   width: 80px;
+  min-width: fit-content;
+  padding: 0px 20px !important;
+  text-transform: uppercase;
+  a {
+    font-weight: bolder;
+  }
+  &::before, &::after {
+    content: "";
+    display: block;
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    z-index: -1;
+    border-radius: 20px;
+    background-color: var(--dq-secondary-color);
+    margin: 10px -33px;
+    opacity: 0.5;
+  }
+  &::after {
+    background-color: var(--dq-alternative-color);
+    margin: -31px -12px;
+  }
 }
 
 .dq-menu {
@@ -83,6 +104,7 @@
   margin-bottom: 10vh;
   .dq-menu-option {
     @include dq-button();
+    padding: 20px 30px;
     &:disabled {
       cursor: default;
     }
@@ -92,6 +114,22 @@
     margin-top: 5vh;
     table {
       min-width: 50vw;
+    }
+  }
+
+  .dq-action {
+    &::before {
+      content: "";
+      display: block;
+      width: 80%;
+      height: 40px;
+      position: absolute;
+      z-index: -1;
+      border-radius: 20px;
+      background-color: var(--dq-primary-color);
+      top: 15%;
+      right: -5%;
+      opacity: 0.5;
     }
   }
 }

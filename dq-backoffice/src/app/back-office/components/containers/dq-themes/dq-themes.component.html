@@ -1,8 +1,12 @@
-<div class="dq-background full-width full-height"></div>
-<div class="dq-container flex-div column">
+<div class="dq-background full-width full-height">
+  <div class="child full-width full-height"></div>
+  <div class="child2 full-width full-height"></div>
+  <div class="child3 full-width full-height"></div>
+</div>
+<div class="dq-container flex-div column" *ngIf="themes$ | async as themes">
   <div class="dq-back btn btn-light" [routerLink]="['/home']"
-  (keyup.enter)="router.navigate(['/home'])">
-    <a>Go back</a>
+  (keyup.enter)="router.navigate(['/home'])" tabindex="0" role="button">
+    <a>Return</a>
   </div>
   <div class="dq-logo"></div>
   <h1 class="dq-title">Defiquiz Themes</h1>
@@ -10,11 +14,11 @@
     <!-- <li class="dq-menu-option btn btn-primary" [routerLink]="['/home/questions']">
       <a>Go to questions</a>
     </li> -->
-    <li class="dq-menu-option btn btn-highlight" [routerLink]="['/home/themes/new']"
-    (keyup.enter)="router.navigate(['/home/themes/new'])">
-      <a>Add new Theme</a>
-    </li>
-    <div class="dq-table-container" *ngIf="themes$ | async as themes">
+    <a class="dq-button dq-action btn btn-light" [routerLink]="['/home/themes/new']"
+    (keyup.enter)="router.navigate(['/home/themes/new'])" tabindex="0" role="button">
+      <span tabindex="-1" class="dq-action-cont">Add new Theme</span>
+    </a>
+    <div class="dq-table-container">
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 dq-table">
 
         <!-- Name Column -->
@@ -34,7 +38,7 @@
         <!-- Edit -->
         <ng-container matColumnDef="edit">
           <th mat-header-cell *matHeaderCellDef justify="end"></th>
-          <td mat-cell *matCellDef="let element"> 
+          <td mat-cell *matCellDef="let element" justify="end"> 
             <mat-icon matSuffix [routerLink]="['/home/themes/' + element._id]"
             tabindex="0" role="link" (keyup.enter)="router.navigate(['/home/themes/' + element._id])">edit</mat-icon>
           </td>

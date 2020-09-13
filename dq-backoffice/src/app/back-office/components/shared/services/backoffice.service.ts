@@ -91,6 +91,7 @@ export class BackofficeService {
   getThemeQuestions(): Observable<DqQuestion[]> {
     return this.store.select<string>('selectedTheme').pipe(
       filter((id) => !!id),
+      take(1),
       switchMap((themeId) => {
         if (
           this.store.value.questions && this.store.value.questions[themeId] && this.allQuestionsSearched
