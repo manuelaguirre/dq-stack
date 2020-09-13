@@ -36,6 +36,6 @@ export class DqThemesComponent implements OnInit {
           this.dataSource.sort = this.sort;
         }, 1000);
       }),
-    )
+    );
   }
 }

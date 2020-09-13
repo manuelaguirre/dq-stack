@@ -8,6 +8,9 @@ import { tap, map, switchMap, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class BackofficeService {
+  allQuestionsSearched = false;
+
+  allThemesSearched = false;
   constructor(
     private apiService: ApiService,
     private store: Store,
@@ -22,11 +25,12 @@ export class BackofficeService {
   }
 
   getThemes(): Observable<DqTheme[]> {
-    if (this.store.value.themes && this.store.value.themes.length > 1) {
+    if (this.store.value.themes && this.allThemesSearched) {
       return this.store.select<DqTheme[]>('themes');
     }
     return this.apiService.get<DqTheme[]>('themes').pipe(
       tap((themes) => this.store.set('themes', themes)),
+      tap(() => this.allThemesSearched = true),
     );
   }
 
@@ -67,13 +71,50 @@ export class BackofficeService {
   }
 
   getQuestions(): Observable<DqQuestion[]> {
-    if (this.store.value.questions) {
+    if (this.store.value.questions && this.allQuestionsSearched) {
       return this.store.select<DqQuestion[]>('questions').pipe(
         tap((questions) => console.log(questions)),
       );
     }
     return this.apiService.get<DqQuestion[]>('questions').pipe(
       tap((questions) => this.store.set('questions', questions)),
+      tap(() => this.allQuestionsSearched = true),
+    );
+  }
+
+  getQuestion(id: string): Observable<DqQuestion> {
+    if (this.store.value.questions) {
+      return this.store.select<DqQuestion[]>('questions').pipe(
+        switchMap((questions) => {
+          const question = questions.filter((t) => t._id === id)[0];
+          return question ? of(question) : this.searchQuestion(id);
+        }),
+      );
+    }
+    return this.searchQuestion(id);
+  }
+
+  editQuestion(id: string, question: Partial<DqQuestion>): Observable<DqQuestion> {
+    return this.apiService.put<DqQuestion>(`questions/${id}`, question).pipe(
+      tap((question) => {
+        if (question) {
+          const questions = this.store.value.questions;
+          questions[questions.findIndex((q) => q._id === id)] = question;
+          this.store.set(
+            'questions',
+            questions,
+          );
+        }
+      }),
+      catchError((error) => throwError(error)),
+    );
+  }
+
+  private searchQuestion(id: string): Observable<DqQuestion> {
+    return this.apiService.get<DqQuestion>(`questions/${id}`).pipe(
+      tap((question) => this.store.set(
+        'questions', this.store.value.questions ? [question].concat(this.store.value.questions) : [question],
+      )),
     );
   }
   

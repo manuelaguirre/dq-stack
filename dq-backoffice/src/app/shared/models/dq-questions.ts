@@ -1,6 +1,6 @@
 export interface DqQuestion {
 	_id: string;
-  text: string;
+	text: string;
 	theme: string;
 	answer1: string;
 	answer2: string;
@@ -10,4 +10,4 @@ export interface DqQuestion {
 	video: string;
 	images: string[];
 	soundclip: string;
-}
+};

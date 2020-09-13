@@ -5,11 +5,12 @@
   </div>
   <div class="dq-logo"></div>
   <h1 class="dq-title">Defiquiz new Question</h1>
-  <div class="dq-menu flex-div column form-container">
-    <dq-new-form [formGroup]="newQuestionForm">
-      <button class="dq-menu-option btn btn-highlight" tabindex="0" (click)="addNewQuestion()"
-       [disabled]="newQuestionForm.invalid" *ngIf="!loadingNew">
-        <a>Add new Question</a>
+  <div class="dq-menu flex-div column form-container" *ngIf="questionDetailForm$ | async as questionDetailForm">
+    <dq-new-form [formGroup]="questionDetailForm">
+      <button class="dq-menu-option btn btn-highlight" tabindex="0"
+      (click)="createNew ? addNewQuestion(questionDetailForm) : editQuestion(questionDetailForm)"
+       [disabled]="questionDetailForm.invalid" *ngIf="!loadingNew">
+       <a>{{createNew ? 'Add new Question' : 'Edit Question'}}</a>
       </button>
       <div class="loading-container flex-div column" *ngIf="loadingNew">
         <div class="spinner-border" role="status">
