@@ -5,6 +5,7 @@ import { BackofficeService } from '../../shared/services/backoffice.service';
 import { tap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'dq-themes',
@@ -24,6 +25,7 @@ export class DqThemesComponent implements OnInit {
 
   constructor(
     private backOfficeService: BackofficeService,
+    public router: Router,
   ) {}
 
   ngOnInit(): void {

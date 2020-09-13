@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'dq-back-office',
@@ -9,6 +10,7 @@ import { Title } from '@angular/platform-browser';
 export class BackOficeComponent implements OnInit {
   constructor(
     private titleService: Title,
+    public router: Router,
   ) {
     this.titleService.setTitle('DefiQuiz back office');
   }

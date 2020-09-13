@@ -1,6 +1,7 @@
 <div class="dq-background full-width full-height"></div>
 <div class="dq-container flex-div column">
-  <div class="dq-back btn btn-light" [routerLink]="['/home/themes']">
+  <div class="dq-back btn btn-light" [routerLink]="['/home/themes']"
+  (keyup.enter)="router.navigate(['/home/themes'])">
     <a>Go back</a>
   </div>
   <div class="dq-logo"></div>
@@ -10,7 +11,8 @@
       <!-- <li class="dq-menu-option btn btn-primary" [routerLink]="['/home/themes']">
         <a>Go to themes</a>
       </li> -->
-      <li class="dq-menu-option btn btn-highlight" [routerLink]="['/home/themes/' + theme._id + '/questions/new']">
+      <li class="dq-menu-option btn btn-highlight" [routerLink]="['/home/themes/' + theme._id + '/questions/new']"
+      (keyup.enter)="router.navigate(['/home/themes/' + theme._id + '/questions/new'])">
         <a>Add new Question</a>
       </li>
       <div class="dq-table-container" *ngIf="questions$ | async as themes">
@@ -27,10 +29,22 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Question </th>
             <td mat-cell *matCellDef="let element"> {{element.text}} </td>
           </ng-container>
+
+          <!-- Edit -->
+          <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef justify="end"></th>
+            <td mat-cell *matCellDef="let element"> 
+              <mat-icon matSuffix [routerLink]="['/home/themes/' + theme._id + '/questions/' + element._id]"
+              tabindex="0" role="link"
+              (keyup.enter)="router.navigate(['/home/themes/' + theme._id + '/questions/' + element._id])">edit</mat-icon>
+            </td>
+          </ng-container>
         
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-            [routerLink]="['/home/themes/' + theme._id + '/questions/' + row._id]"></tr>
+            [routerLink]="['/home/themes/' + theme._id + '/questions/' + row._id]"
+            (keyup.enter)="router.navigate(['/home/themes/' + theme._id + '/questions/' + row._id])"
+            tabindex="0" role="link"></tr>
         </table>
       </div>
       <div class="loading-container flex-div column" *ngIf="loading">

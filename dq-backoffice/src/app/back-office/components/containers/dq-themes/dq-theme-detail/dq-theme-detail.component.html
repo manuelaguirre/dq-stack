@@ -1,6 +1,7 @@
 <div class="dq-background full-width full-height"></div>
 <div class="dq-container flex-div column">
-  <div class="dq-back btn btn-light" [routerLink]="['/home/themes']">
+  <div class="dq-back btn btn-light" [routerLink]="['/home/themes']"
+  (keyup.enter)="router.navigate(['/home/themes'])">
     <a>Go back</a>
   </div>
   <div class="dq-logo"></div>
@@ -8,6 +9,7 @@
   <div class="dq-menu flex-div column form-container" *ngIf="newThemeForm$ | async as newThemeForm">
     <dq-new-form [formGroup]="newThemeForm">
       <button class="dq-menu-option btn btn-highlight" tabindex="0"
+      (keyup.enter)="createNew ? addNewTheme(newThemeForm) : editTheme(newThemeForm)"
       (click)="createNew ? addNewTheme(newThemeForm) : editTheme(newThemeForm)"
        [disabled]="newThemeForm.invalid" *ngIf="!loadingNew">
         <a>{{createNew ? 'Add new Theme' : 'Save Theme'}}</a>
