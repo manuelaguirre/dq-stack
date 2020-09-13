@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../../../../shared/services/api.service';
 import { DqTheme } from '../../../../shared/models/dq-theme';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, throwError, combineLatest } from 'rxjs';
 import { DqQuestion } from '../../../../shared/models/dq-questions';
 import { Store } from '../../../../store';
-import { tap, map, switchMap, catchError } from 'rxjs/operators';
+import { tap, switchMap, catchError, filter, map, take } from 'rxjs/operators';
 
 @Injectable()
 export class BackofficeService {
@@ -21,7 +21,19 @@ export class BackofficeService {
   }
 
   createNewQuestion(question: Partial<DqQuestion>): Observable<DqQuestion> {
-    return this.apiService.post<DqQuestion>('questions', { ...question });
+    return this.apiService.post<DqQuestion>('questions', { ...question }).pipe(
+      tap((question) => {
+        const questions = this.store.value.questions;
+        if (questions[question.theme]) {
+          questions[question.theme].push(question);
+        } else {
+          questions[question.theme] = [question];
+        }
+        this.store.set(
+          'questions', questions,
+        );
+      })
+    );
   }
 
   getThemes(): Observable<DqTheme[]> {
@@ -44,6 +56,12 @@ export class BackofficeService {
       );
     }
     return this.searchTheme(id);
+  }
+
+  getSelectedTheme(): Observable<DqTheme> {
+    return this.store.select<string>('selectedTheme').pipe(
+      switchMap((themeID) => this.getTheme(themeID)),
+    );
   }
 
   editTheme(id: string, theme: Partial<DqTheme>): Observable<DqTheme> {
@@ -70,24 +88,47 @@ export class BackofficeService {
     );
   }
 
-  getQuestions(): Observable<DqQuestion[]> {
-    if (this.store.value.questions && this.allQuestionsSearched) {
-      return this.store.select<DqQuestion[]>('questions').pipe(
-        tap((questions) => console.log(questions)),
-      );
-    }
-    return this.apiService.get<DqQuestion[]>('questions').pipe(
-      tap((questions) => this.store.set('questions', questions)),
-      tap(() => this.allQuestionsSearched = true),
-    );
+  getThemeQuestions(): Observable<DqQuestion[]> {
+    return this.store.select<string>('selectedTheme').pipe(
+      filter((id) => !!id),
+      switchMap((themeId) => {
+        if (
+          this.store.value.questions && this.store.value.questions[themeId] && this.allQuestionsSearched
+        ) {
+          return this.store.select<{
+              [themeId: string]: DqQuestion[];
+          }>('questions').pipe(
+            map((questions) => questions[themeId]),
+          );
+        }
+        return this.apiService.get<DqQuestion[]>(`questions?theme=${themeId}`).pipe(
+          tap((questions) => {
+            const questions_ = this.store.value.questions;
+            questions_[themeId] = questions;
+            this.store.set('questions', questions_);
+            this.allQuestionsSearched = true;
+          }),
+        );
+      })
+    )
   }
 
-  getQuestion(id: string): Observable<DqQuestion> {
+  getQuestion(id: string): Observable<Partial<DqQuestion>> {
     if (this.store.value.questions) {
-      return this.store.select<DqQuestion[]>('questions').pipe(
-        switchMap((questions) => {
-          const question = questions.filter((t) => t._id === id)[0];
-          return question ? of(question) : this.searchQuestion(id);
+      return combineLatest(
+        this.store.select<{
+          [themeId: string] : Partial<DqQuestion>[];
+        }>('questions'),
+        this.store.select<string>('selectedTheme'),
+      ).pipe(
+        filter((data) => !!data[0] && !!data[1]),
+        take(1),
+        switchMap((data) => {
+          if (data[0] && data[0][data[1]]) {
+            const question = data[0][data[1]].filter((t) => t._id === id)[0];
+            return question ? of(question) : this.searchQuestion(id);
+          }
+          return this.searchQuestion(id);
         }),
       );
     }
@@ -95,26 +136,45 @@ export class BackofficeService {
   }
 
   editQuestion(id: string, question: Partial<DqQuestion>): Observable<DqQuestion> {
-    return this.apiService.put<DqQuestion>(`questions/${id}`, question).pipe(
-      tap((question) => {
-        if (question) {
-          const questions = this.store.value.questions;
-          questions[questions.findIndex((q) => q._id === id)] = question;
-          this.store.set(
-            'questions',
-            questions,
-          );
-        }
+    return combineLatest(
+      this.store.select<string>('selectedTheme'),
+      this.apiService.put<DqQuestion>(`questions/${id}`, question),
+    ).pipe(
+      filter((data) => !!data[0] && !!data[1]),
+      take(1),
+      tap((data) => {
+        const questions = this.store.value.questions;
+        const questionsCat = questions[data[0]];
+        questionsCat[questionsCat.findIndex((q) => q._id === id)] = question;
+        this.store.set(
+          'questions',
+          questions,
+        );
       }),
+      map((data) => data[1]),
       catchError((error) => throwError(error)),
     );
   }
 
   private searchQuestion(id: string): Observable<DqQuestion> {
-    return this.apiService.get<DqQuestion>(`questions/${id}`).pipe(
-      tap((question) => this.store.set(
-        'questions', this.store.value.questions ? [question].concat(this.store.value.questions) : [question],
-      )),
+    return combineLatest(
+      this.store.select<string>('selectedTheme'),
+      this.apiService.get<DqQuestion>(`questions/${id}`),
+    ).pipe(
+      filter((data) => !!data[0] && !!data[1]),
+      take(1),
+      tap((data) => {
+        const questions = this.store.value.questions;
+        if (questions[data[0]]) {
+          questions[data[0]].push(data[1]);
+        } else {
+          questions[data[0]] = [data[1]];
+        }
+        this.store.set(
+          'questions', questions,
+        );
+      }),
+      map((data) => data[1]),
     );
   }
   

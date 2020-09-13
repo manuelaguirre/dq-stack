@@ -18,7 +18,7 @@ export class DqBackOfficeResolver implements Resolve<Partial<DqQuestion>[] | Par
       return this.backOfficeService.getThemes();
     }
     if (state.url.includes('questions')) {
-      return this.backOfficeService.getQuestions();
+      return this.backOfficeService.getThemeQuestions();
     }
     return of(null);
   }

@@ -4,5 +4,8 @@ import { DqQuestion } from './shared/models/dq-questions';
 export interface State {
   token: string;
   themes: DqTheme[];
-  questions: DqQuestion[];
+  questions: {
+    [themeId: string] : Partial<DqQuestion>[];
+  };
+  selectedTheme: string;
 }

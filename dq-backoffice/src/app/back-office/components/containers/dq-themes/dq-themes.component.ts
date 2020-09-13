@@ -16,7 +16,7 @@ export class DqThemesComponent implements OnInit {
 
   loading = false;
 
-  displayedColumns: string[] = ['name', 'description'];
+  displayedColumns: string[] = ['name', 'description', 'edit'];
 
   dataSource: MatTableDataSource<DqTheme> = null;
 
