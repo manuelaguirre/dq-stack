@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { Store } from '../../store';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
@@ -24,7 +24,7 @@ export class ApiService {
         if (error.status === 401) {
           this.loginError();
         }
-        return of(null);
+        return throwError(error);
       })
     );
   }
@@ -36,7 +36,19 @@ export class ApiService {
         if (error.status === 401) {
           this.loginError();
         }
-        return of(null);
+        return throwError(error);
+      })
+    );
+  }
+
+  public postFile(path: string, body: Blob): Observable<any> {
+    const headers: HttpHeaders = this.getHeaders();
+    return this.http.post(`${this.URL_API}/${path}`, body, { headers }).pipe(
+      catchError((error) => {
+        if (error.status === 401) {
+          this.loginError();
+        }
+        return throwError(error);
       })
     );
   }
@@ -49,7 +61,7 @@ export class ApiService {
         if (error.status === 401) {
           this.loginError();
         }
-        return of(null);
+        return throwError(error);
       })
     );
   }
@@ -61,7 +73,7 @@ export class ApiService {
         if (error.status === 401) {
           this.loginError();
         }
-        return of(null);
+        return throwError(error);
       })
     );
   }

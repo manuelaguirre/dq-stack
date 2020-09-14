@@ -1,7 +1,11 @@
 .dq-form {
-  width: 50vw;
+  width: 75vw;
+  max-width: 500px;
   .mat-form-field {
     width: 100%;
+  }
+  @media (min-width: $dq-mobile) {
+    width: 50vw;
   }
 }
 
