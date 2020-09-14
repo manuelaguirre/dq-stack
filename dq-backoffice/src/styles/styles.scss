@@ -8,12 +8,20 @@
 
 @include mat-core();
 
+.flex-div {
+  display: flex;
+  align-items: center;
+  &.column {
+    flex-direction: column;
+  }
+}
+
 @import './dq-background.scss';
-@import './dq-global.scss';
 @import './dq-theming.scss';
 @import './dq-table.scss';
 @import './dq-material.scss';
 @import './dq-forms.scss';
+@import './dq-global.scss';
 
 // Bootstrap
 $theme-colors: (
@@ -38,14 +46,6 @@ html, body { height: 100%; }
   --dq-secondary-color: #9E005D;
   --dq-highlight-color: #000000;
   --dq-alternative-color: #FFFF00;
-}
-
-.flex-div {
-  display: flex;
-  align-items: center;
-  &.column {
-    flex-direction: column;
-  }
 }
 
 .full-height {

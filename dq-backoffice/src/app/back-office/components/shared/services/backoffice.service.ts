@@ -36,58 +36,6 @@ export class BackofficeService {
     );
   }
 
-  getThemes(): Observable<DqTheme[]> {
-    if (this.store.value.themes && this.allThemesSearched) {
-      return this.store.select<DqTheme[]>('themes');
-    }
-    return this.apiService.get<DqTheme[]>('themes').pipe(
-      tap((themes) => this.store.set('themes', themes)),
-      tap(() => this.allThemesSearched = true),
-    );
-  }
-
-  getTheme(id: string): Observable<DqTheme> {
-    if (this.store.value.themes) {
-      return this.store.select<DqTheme[]>('themes').pipe(
-        switchMap((themes) => {
-          const theme = themes.filter((t) => t._id === id)[0];
-          return theme ? of(theme) : this.searchTheme(id);
-        }),
-      );
-    }
-    return this.searchTheme(id);
-  }
-
-  getSelectedTheme(): Observable<DqTheme> {
-    return this.store.select<string>('selectedTheme').pipe(
-      switchMap((themeID) => this.getTheme(themeID)),
-    );
-  }
-
-  editTheme(id: string, theme: Partial<DqTheme>): Observable<DqTheme> {
-    return this.apiService.put<DqTheme>(`themes/${id}`, theme).pipe(
-      tap((theme) => {
-        if (theme) {
-          const themes = this.store.value.themes;
-          themes[themes.findIndex((t) => t._id === id)] = theme;
-          this.store.set(
-            'themes',
-            themes,
-          );
-        }
-      }),
-      catchError((error) => throwError(error)),
-    );
-  }
-
-  private searchTheme(id: string): Observable<DqTheme> {
-    return this.apiService.get<DqTheme>(`themes/${id}`).pipe(
-      tap((theme) => this.store.set(
-        'themes', this.store.value.themes ? [theme].concat(this.store.value.themes) : [theme],
-      )),
-    );
-  }
-
   getThemeQuestions(): Observable<DqQuestion[]> {
     return this.store.select<string>('selectedTheme').pipe(
       filter((id) => !!id),
@@ -178,5 +126,67 @@ export class BackofficeService {
       map((data) => data[1]),
     );
   }
+
+  deleteQuestion(id: string): Observable<any> {
+    return this.apiService.delete<DqQuestion>(`questions/${id}`);
+  }
+
+  getThemes(): Observable<DqTheme[]> {
+    if (this.store.value.themes && this.allThemesSearched) {
+      return this.store.select<DqTheme[]>('themes');
+    }
+    return this.apiService.get<DqTheme[]>('themes').pipe(
+      tap((themes) => this.store.set('themes', themes)),
+      tap(() => this.allThemesSearched = true),
+    );
+  }
+
+  getTheme(id: string): Observable<DqTheme> {
+    if (this.store.value.themes) {
+      return this.store.select<DqTheme[]>('themes').pipe(
+        switchMap((themes) => {
+          const theme = themes.filter((t) => t._id === id)[0];
+          return theme ? of(theme) : this.searchTheme(id);
+        }),
+      );
+    }
+    return this.searchTheme(id);
+  }
+
+  getSelectedTheme(): Observable<DqTheme> {
+    return this.store.select<string>('selectedTheme').pipe(
+      switchMap((themeID) => this.getTheme(themeID)),
+    );
+  }
+
+  editTheme(id: string, theme: Partial<DqTheme>): Observable<DqTheme> {
+    return this.apiService.put<DqTheme>(`themes/${id}`, theme).pipe(
+      tap((theme) => {
+        if (theme) {
+          const themes = this.store.value.themes;
+          themes[themes.findIndex((t) => t._id === id)] = theme;
+          this.store.set(
+            'themes',
+            themes,
+          );
+        }
+      }),
+      catchError((error) => throwError(error)),
+    );
+  }
+
+  private searchTheme(id: string): Observable<DqTheme> {
+    return this.apiService.get<DqTheme>(`themes/${id}`).pipe(
+      tap((theme) => this.store.set(
+        'themes', this.store.value.themes ? [theme].concat(this.store.value.themes) : [theme],
+      )),
+    );
+  }
   
+  massiveImport(file: Blob): Observable<DqQuestion[]> {
+    return this.apiService.postFile('massiveImport', file).pipe(
+      map((questions) => questions as DqQuestion[]),
+      catchError((e) => throwError(e)),
+    );
+  }
 }

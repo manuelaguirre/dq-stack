@@ -11,13 +11,18 @@
   <div class="dq-logo"></div>
   <h1 class="dq-title">Defiquiz Themes</h1>
   <div class="dq-menu flex-div column">
-    <!-- <li class="dq-menu-option btn btn-primary" [routerLink]="['/home/questions']">
-      <a>Go to questions</a>
-    </li> -->
-    <a class="dq-button dq-action btn btn-light" [routerLink]="['/home/themes/new']"
-    (keyup.enter)="router.navigate(['/home/themes/new'])" tabindex="0" role="button">
-      <span tabindex="-1" class="dq-action-cont">Add new Theme</span>
-    </a>
+    <div class="dq-action-container flex-div column">
+      <a class="dq-button dq-action btn btn-light" [routerLink]="['/home/themes/new']"
+      (keyup.enter)="router.navigate(['/home/themes/new'])" tabindex="0" role="button">
+        <span tabindex="-1" class="dq-action-cont">Add new Theme</span>
+      </a>
+      <a class="dq-button dq-action btn btn-light" tabindex="0" role="button"
+        (keyup.enter)="fileInput.click()" (click)="fileInput.click()"
+        [class.disabled]="loadingExcel" [class.loading]="loadingExcel">
+        <span tabindex="-1" class="dq-action-cont">Massive import</span>
+        <input type="file" #fileInput type="file" (change)="onFileInput($event)">
+      </a>
+    </div>
     <div class="dq-table-container">
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 dq-table">
 
