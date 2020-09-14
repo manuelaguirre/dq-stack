@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 
 export class DqPlayersComponent implements OnInit {
   constructor(
-    public router: Router,
+    public router: Router,    
   ) { }
 
   ngOnInit() { }

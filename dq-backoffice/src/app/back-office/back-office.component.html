@@ -1,19 +1,23 @@
-<div class="dq-background full-width full-height"></div>
+<div class="dq-background full-width full-height">
+  <div class="child full-width full-height"></div>
+  <div class="child2 full-width full-height"></div>
+  <div class="child3 full-width full-height"></div>
+</div>
 <div class="dq-container flex-div column">
   <div class="dq-logo"></div>
   <div class="dq-menu flex-div column">
     <li class="dq-menu-option btn btn-highlight" [routerLink]="['/home/themes']"
-    (keyup.enter)="router.navigate(['/home/themes'])">
+    (keyup.enter)="router.navigate(['/home/themes'])" role="link" tabindex="0">
       <a>Manage themes & questions</a>
     </li>
     <li class="dq-menu-option btn btn-highlight" [routerLink]="['/home/players']"
-    (keyup.enter)="router.navigate(['/home/players'])">
+    (keyup.enter)="router.navigate(['/home/players'])" role="link" tabindex="0">
       <a>Manage players</a>
     </li>
     <!-- <li class="dq-menu-option btn btn-highlight" [routerLink]="['/home/media']"> -->
-    <li class="dq-menu-option btn btn-highlight disabled" disabled>
+    <!-- <li class="dq-menu-option btn btn-highlight disabled" disabled>
       <a>Manage media content</a>
-    </li>
+    </li> -->
     <li class="dq-menu-option btn btn-light disabled" disabled>
       <a>Start a new game</a>
     </li>

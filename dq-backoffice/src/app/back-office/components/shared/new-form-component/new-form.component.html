@@ -7,10 +7,11 @@
 
   <mat-form-field *ngIf="formGroup.contains('description')" appearance="outline">
       <mat-label>Description</mat-label>
-      <textarea matInput placeholder="description" formControlName="description"></textarea>
+      <textarea matInput placeholder="description" formControlName="description"
+      rows="10"></textarea>
   </mat-form-field>
 
-  <!-- THEMES -->
+  <!-- QUESTIONS -->
   <mat-form-field appearance="fill" *ngIf="formGroup.contains('theme')">
     <mat-label>Select theme</mat-label>
     <mat-select formControlName="theme">
@@ -53,5 +54,5 @@
   </mat-form-field>
 </form>
 
-<ng-content select="button.dq-menu-option"></ng-content>
+<ng-content select="button.dq-button"></ng-content>
 <ng-content select="div.loadin-container"></ng-content>

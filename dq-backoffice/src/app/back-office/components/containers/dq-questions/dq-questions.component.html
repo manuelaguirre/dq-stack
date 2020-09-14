@@ -1,21 +1,26 @@
-<div class="dq-background full-width full-height"></div>
+<div class="dq-background full-width full-height">
+  <div class="child full-width full-height"></div>
+  <div class="child2 full-width full-height"></div>
+  <div class="child3 full-width full-height"></div>
+</div>
 <div class="dq-container flex-div column">
   <div class="dq-back btn btn-light" [routerLink]="['/home/themes']"
-  (keyup.enter)="router.navigate(['/home/themes'])">
-    <a>Go back</a>
+  (keyup.enter)="router.navigate(['/home/themes'])" tabindex="0" role="button">
+    <a>Return</a>
   </div>
   <div class="dq-logo"></div>
   <ng-container *ngIf="theme$ | async as theme">
     <h1 class="dq-title">Defiquiz Questions</h1>
-    <div class="dq-menu flex-div column">
+    <div class="dq-menu flex-div column" *ngIf="questions$ | async as questions">
       <!-- <li class="dq-menu-option btn btn-primary" [routerLink]="['/home/themes']">
         <a>Go to themes</a>
       </li> -->
-      <li class="dq-menu-option btn btn-highlight" [routerLink]="['/home/themes/' + theme._id + '/questions/new']"
-      (keyup.enter)="router.navigate(['/home/themes/' + theme._id + '/questions/new'])">
-        <a>Add new Question</a>
-      </li>
-      <div class="dq-table-container" *ngIf="questions$ | async as themes">
+      <a class="dq-button dq-action btn btn-light" [routerLink]="['/home/themes/' + theme._id + '/questions/new']"
+      (keyup.enter)="router.navigate(['/home/themes/' + theme._id + '/questions/new'])"
+      tabindex="0" role="button">
+        <span tabindex="-1" class="dq-action-cont">Add new Question</span>
+      </a>
+      <div class="dq-table-container">
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 dq-table">
         
           <!-- Theme Column -->

@@ -1,0 +1,22 @@
+.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label:not(.mat-empty):not(.mat-form-field-empty) {
+  font-size: 2rem;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: black;
+  opacity: 0.6 !important;
+  .mat-form-field-outline-gap {
+    width: 50px !important;
+  }
+}
+
+mat-form-field.mat-form-field.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  transform: translateY(-1.6em) scale(1.3);
+  width: 133.33333%;
+  font-weight: bolder !important;
+  mat-label {
+    font-weight: bolder !important;
+    background-color: white;
+    padding-right: 5px;
+  }
+}

@@ -8,9 +8,12 @@
 
 @include mat-core();
 
+@import './dq-background.scss';
 @import './dq-global.scss';
 @import './dq-theming.scss';
 @import './dq-table.scss';
+@import './dq-material.scss';
+@import './dq-forms.scss';
 
 // Bootstrap
 $theme-colors: (
@@ -31,10 +34,10 @@ html, body { height: 100%; }
 }
 
 :root {
-  --dq-primary-color: #1C618C;
-  --dq-secondary-color: #66385D;
-  --dq-highlight-color: #011126;
-  --dq-alternative-color: #BF9341;
+  --dq-primary-color: #29ABE2;
+  --dq-secondary-color: #9E005D;
+  --dq-highlight-color: #000000;
+  --dq-alternative-color: #FFFF00;
 }
 
 .flex-div {
@@ -68,9 +71,20 @@ select:-webkit-autofill:focus {
 
 // A11Y
 *[role="link"]:focus {
-  outline: 2px solid $dq-primary-color;
+  outline: 2px solid var(--dq-primary-color);
 }
 
 *[role="button"]:focus {
-  outline: 2px solid $dq-primary-color;
+  outline: 2px solid var(--dq-primary-color);
+}
+
+.dq-action:focus {
+  > .dq-action-cont {
+    outline: 2px solid var(--dq-primary-color);
+  }
+}
+
+.dq-action:focus,
+.dq-action-cont:focus {
+  outline: none;
 }
