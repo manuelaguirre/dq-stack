@@ -47,19 +47,45 @@ const createThemeSchema = Joi.object({
 	description: Joi.string()
 		.min(3)
 		.max(300)
-		.required()
+		.required(),
+		
+	isPublic: Joi.boolean()
+		.default(true),
+
+	company: Joi.when('isPublic', {is: false, then: Joi.object({
+		name: Joi.string()
+			.min(2)
+			.max(30)
+			.required(),
+	
+		subname: Joi.string()
+			.min(2)
+			.max(30)
+	}), otherwise: Joi.valid(null)}),
 });
 
 const updateThemeSchema = Joi.object({
 	name: Joi.string()
 		.min(2)
-		.max(20)
-		.required(),
+		.max(20),
 
 	description: Joi.string()
 		.min(3)
-		.max(300)
-		.required()
+		.max(300),
+		
+	isPublic: Joi.boolean()
+		.default(true),
+
+	company: Joi.when('isPublic', {is: false, then: Joi.object({
+		name: Joi.string()
+			.min(2)
+			.max(30)
+			.required(),
+
+		subname: Joi.string()
+			.min(2)
+			.max(30)
+	}), otherwise: Joi.valid(null)}),
 });
 
 const createQuestionSchema = Joi.object({

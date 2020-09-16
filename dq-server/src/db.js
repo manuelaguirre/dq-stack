@@ -2,6 +2,7 @@ const mongoose = require('mongoose').set('debug', true);
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const _ = require('lodash');
+const { bool } = require('joi');
 
 const userSchema = new mongoose.Schema({
 	username: String,
@@ -69,10 +70,18 @@ const questionSchema = new mongoose.Schema({
 	}
 });
 
+const CompanySchema = new mongoose.Schema({
+	name: String,
+	subname: String
+});
+
 const themeSchema = new mongoose.Schema({
 	name: String,
-	description: String
+	description: String,
+	isPublic: Boolean,
+	company: CompanySchema,
 });
+
 
 const User = mongoose.model('User', userSchema);
 const Player = mongoose.model('Player', playerSchema);
