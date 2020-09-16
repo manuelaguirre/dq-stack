@@ -12,6 +12,7 @@ async function getTheme(id) {
 
 async function getThemeAndUpdate(id, update) {
 	const theme = await Theme.findById(id).exec();
+	if (update.company === '') update.company = undefined;
 	Object.assign(theme, update);
 	theme.save();	
 	return theme;
@@ -27,7 +28,8 @@ async function createTheme(theme){
 	//TODO: refactor to use lodash.pick
 	const themeToAdd = new Theme({
 		name : theme.name,
-		description : theme.description
+		description : theme.description,
+		company : theme.company
 	});
 	const result = await themeToAdd.save();	
 	return result;
