@@ -12,6 +12,7 @@ const players = require('./routes/players');
 const questions = require('./routes/questions');
 const themes = require('./routes/themes');
 const users = require('./routes/users');
+const fileImporter = require('./routes/fileImporter');
 
 app.use(cors(CORS_OPTIONS));
 app.use(morgan('dev'));
@@ -21,6 +22,7 @@ app.use('/api/players', players);
 app.use('/api/questions', questions);
 app.use('/api/themes', themes);
 app.use('/api/users', users);
+app.use('/api/import', fileImporter);
 app.use(error);
 
 console.log(config.get('name'));
