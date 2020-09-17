@@ -1,7 +1,7 @@
 const { Theme } = require('../db');
 
-async function getThemes() {
-	const themeList = await Theme.find().exec();
+async function getThemes(options = {lean: false}) {
+	const themeList = options.lean ? await Theme.find().lean().exec() : await Theme.find().exec();
 	return themeList;
 }
 

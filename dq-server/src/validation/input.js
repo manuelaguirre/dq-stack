@@ -124,7 +124,8 @@ const createQuestionSchema = Joi.object({
 	video: Joi.objectId(),
 	image: Joi.objectId(),
 	soundclip: Joi.objectId(),
-});
+})
+	.unknown();
 
 const updateQuestionSchema = Joi.object({
 	text: Joi.string()
