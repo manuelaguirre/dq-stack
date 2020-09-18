@@ -20,7 +20,7 @@ export class AuthService {
     if (this.store.value.token) {
       return of(true);
     }
-    if (localStorage.getItem('token').length) {
+    if (localStorage.getItem('token') && localStorage.getItem('token').length) {
       this.store.set('token', localStorage.getItem('token'));
       return of(true);
     }
