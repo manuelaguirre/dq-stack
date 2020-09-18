@@ -6,35 +6,48 @@ const { getThemes } = require('./themes');
 const { createQuestion, getQuestionByText } = require('./questions');
 const { createQuestionSchema } = require('../validation/input');
 
+async function importQuestions(stream) {
+	const streamData = await readCSVStream(stream, verifyCSVLine, () => {});
+	streamData.errors = filterNullElements(streamData.errors);
+	if (!_.isEmpty(streamData.errors)) return streamData;
+	let result = [];
+	for await (const question of streamData.questionsToAdd) {
+		const questionAdded = await createQuestion(question);
+		result.push(questionAdded);
+	}
+	return streamData;
+}
+
 
 async function readCSVStream(stream, callback, callbackOnEnd){
 	const themeSet = await createThemeSet();
-	console.log('themeSet', themeSet);
-	let lineIndex = 0;
 	let errors = [];
-	let questionsAdded = [];
-	let streamFileToDB = new Promise((resolve, reject) => {
+	let questionsToAdd = [];
+	const streamFromFile = new Promise((resolve) =>{
 		stream.pipe(csv())
 			.on('data', (data) => {
-				console.log('data', data);
 				data.theme = themeSet[data.theme];
-				let result = callback(errors, data, lineIndex);
-				if (result){
-					questionsAdded.push(result);
-				} 
-				lineIndex++;
+				const question = new Promise((resolve) =>{
+					resolve(data);
+				});
+				const error = new Promise((resolve) =>{
+					const error = callback(data);
+					resolve(error);
+				});
+				questionsToAdd.push(question);
+				errors.push(error);				
 			})
 			.on('end', () => {
 				callbackOnEnd(errors);
 				resolve();
 			});
-			
 	});
-	await streamFileToDB;	
-	console.log(questionsAdded, errors, 'return de la func');
+	await streamFromFile;
+	const allErrors = Promise.all(errors);
+	const allQuestions = Promise.all(questionsToAdd);
 	return {
-		questionsAdded,
-		errors
+		questionsToAdd: await allQuestions,
+		errors : await allErrors
 	};
 }
 
@@ -49,24 +62,32 @@ async function createThemeSet(){
 	return themeSet;
 }
 
-async function processCSVLine(errors, data, lineIndex) {
-	console.log(data);
+async function verifyCSVLine(data) {
 	const validation = createQuestionSchema.validate(data);
+	if (!data.theme){
+		const error = `\nCould not import line ${data.Id}: Invalid theme`;
+		return error; 
+	}
 	if (validation.error){
-		console.log(validation.error,' validation');
-		const message = `\nCould not import line ${lineIndex}: ${validation.error.details[0].message}`;
-		errors.push(message);
-		return;
+		const error = `\nCould not import line ${data.Id}: ${validation.error.details[0].message}`;
+		return error;
 	}
 	const result = await getQuestionByText(data.text);
-	if (result){
-		const message = `\nCould not import line ${lineIndex}: Question with the same text already exists`;
-		errors.push(message);
-		return;
-	}
-	let questionToAdd = await createQuestion(data);
-	return questionToAdd;
+	const error = new Promise((resolve) => {
+		if (!_.isEmpty(result)){
+			resolve(`\nCould not import line ${data.Id}: Question with the same text already exists`);
+		} else {
+			resolve(null);
+		}
+	});
+	return error;
 }
+
+function filterNullElements(array) {
+	const result = array.filter(element => element !== null);
+	return result;
+}
+
 
 
 
@@ -76,5 +97,6 @@ async function processCSVLine(errors, data, lineIndex) {
 
 module.exports = { 
 	readCSVStream,
-	processCSVLine,
+	verifyCSVLine,
+	importQuestions
 };
