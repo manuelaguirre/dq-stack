@@ -2,18 +2,19 @@ const auth = require('../middleware/auth');
 const express = require('express');
 const questionController = require('../controllers/questions');
 const themeController = require('../controllers/themes');
-const { readCSVStream, processCSVLine} = require('../controllers/fileImporter');
+const { importQuestions } = require('../controllers/fileImporter');
 const asyncCatch = require('../middleware/asyncCatch');
+const _ = require('lodash');
 const router = express.Router();
 router.use(express.json());
 
 router.post('/', auth, asyncCatch(async (req, res) => {
-	const result = await readCSVStream(req, processCSVLine, consolelog);
-	return res.send(result);
+	const result = await importQuestions(req);
+	if (!_.isEmpty(result.errors)){
+		return res.status(403).send(result.errors);
+	} else {
+		return res.send(result.questionsToAdd);
+	}
 }));
-
-function consolelog(a){
-	console.log(a);
-}
 
 module.exports = router;
