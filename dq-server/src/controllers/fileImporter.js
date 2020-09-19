@@ -1,7 +1,5 @@
-const { Question } = require('../db');
 const _ = require('lodash');
 const csv = require('csv-parser');
-const fs = require('fs');
 const { getThemes } = require('./themes');
 const { createQuestion, getQuestionByText } = require('./questions');
 const { createQuestionSchema } = require('../validation/input');
@@ -10,14 +8,11 @@ async function importQuestions(stream) {
 	const streamData = await readCSVStream(stream, verifyCSVLine, () => {});
 	streamData.errors = filterNullElements(streamData.errors);
 	if (!_.isEmpty(streamData.errors)) return streamData;
-	let result = [];
 	for await (const question of streamData.questionsToAdd) {
-		const questionAdded = await createQuestion(question);
-		result.push(questionAdded);
+		await createQuestion(question);
 	}
 	return streamData;
 }
-
 
 async function readCSVStream(stream, callback, callbackOnEnd){
 	const themeSet = await createThemeSet();
@@ -84,16 +79,9 @@ async function verifyCSVLine(data) {
 }
 
 function filterNullElements(array) {
-	const result = array.filter(element => element !== null);
-	return result;
+	return array.filter(element => element !== null);
+
 }
-
-
-
-
-
-
-
 
 module.exports = { 
 	readCSVStream,
