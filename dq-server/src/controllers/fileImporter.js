@@ -80,7 +80,6 @@ async function verifyCSVLine(data) {
 
 function filterNullElements(array) {
 	return array.filter(element => element !== null);
-
 }
 
 module.exports = { 
