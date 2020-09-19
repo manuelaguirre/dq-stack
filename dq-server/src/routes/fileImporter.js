@@ -11,7 +11,7 @@ router.use(express.json());
 router.post('/', auth, asyncCatch(async (req, res) => {
 	const result = await importQuestions(req);
 	if (!_.isEmpty(result.errors)){
-		return res.status(403).send(result.errors);
+		return res.status(400).send(result.errors);
 	} else {
 		return res.send(result.questionsToAdd);
 	}
