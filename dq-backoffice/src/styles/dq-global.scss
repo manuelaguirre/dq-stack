@@ -126,12 +126,16 @@
     place-content: center;
     justify-content: space-between;
     @media (min-width: $dq-mobile) {
-      flex-direction: row;
+      // flex-direction: row;
     }
     .dq-action {
       max-width: 250px;
       margin: 10px;
     }
+  }
+
+  .tabs-container {
+    margin-top: 5vh;
   }
 
   .dq-action {

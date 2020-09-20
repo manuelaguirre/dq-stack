@@ -12,6 +12,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatRadioModule } from '@angular/material/radio';
 
 const materialModules = [
   MatFormFieldModule,
@@ -23,6 +24,7 @@ const materialModules = [
   MatSelectModule,
   MatTableModule,
   MatSortModule,
+  MatRadioModule,
 ];
 
 @NgModule({

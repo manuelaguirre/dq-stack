@@ -45,7 +45,9 @@ export class DqThemeDetailComponent implements OnInit {
 
   addNewTheme(themeForm: FormGroup): void {
     this.loadingNew = true;
-    this.backOfficeService.createNewTheme(themeForm.value.name, themeForm.value.description)
+    this.backOfficeService.createNewTheme(
+      themeForm.value.name, themeForm.value.description, themeForm.value.isPublic
+    )
       .pipe(
         map((theme) => {
           if (theme) {
@@ -68,6 +70,7 @@ export class DqThemeDetailComponent implements OnInit {
     this.backOfficeService.editTheme(this.themeId, {
       name: themeForm.value.name,
       description: themeForm.value.description,
+      isPublic: themeForm.value.isPublic,
     }).pipe(
       map((theme) => {
         if (theme) {
@@ -91,6 +94,7 @@ export class DqThemeDetailComponent implements OnInit {
     }
     return this.formBuilder.group({
       name: [theme ? theme.name : '', Validators.required],
+      isPublic: [theme ? theme.isPublic : true, Validators.required],
       description: [theme ? theme.description :'', Validators.required],
     });
   }
