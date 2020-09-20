@@ -35,10 +35,16 @@ async function createTheme(theme){
 	return result;
 }
 
+async function deleteTheme(themeID) {
+	const result = await Theme.deleteOne({_id : themeID}); 
+	return result;
+}
+
 module.exports = { 
 	getThemes,
 	getTheme,
 	getThemeAndUpdate,
 	getThemeByName,
 	createTheme,
+	deleteTheme
 };
