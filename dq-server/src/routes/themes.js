@@ -23,13 +23,14 @@ router.get('/:id', auth, asyncCatch(async (req, res) => {
 
 router.post('/', auth, asyncCatch(async (req, res) => {
 	let result = createThemeSchema.validate(req.body);
+	console.log(result);
 	if (result.error) {
 		res.status(400).send(result.error.details[0].message);
 		return;
 	}
-	result = await themeController.getThemeByName(req.body.name);
-	if (result) return res.status(409).send('Theme already exists');
-	result = await themeController.createTheme(req.body);
+	const theme = await themeController.getThemeByName(req.body.name);
+	if (theme) return res.status(409).send('Theme already exists');
+	result = await themeController.createTheme(result.value);
 	return res.send(result);	
 }));
 

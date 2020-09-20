@@ -61,7 +61,8 @@ const createThemeSchema = Joi.object({
 		subname: Joi.string()
 			.min(2)
 			.max(30)
-	}), otherwise: Joi.valid(null)}),
+	}).required(), 
+	otherwise: Joi.valid(null)}),
 });
 
 const updateThemeSchema = Joi.object({
