@@ -23,7 +23,6 @@ router.get('/:id', auth, asyncCatch(async (req, res) => {
 
 router.post('/', auth, asyncCatch(async (req, res) => {
 	let result = createThemeSchema.validate(req.body);
-	console.log(result);
 	if (result.error) {
 		res.status(400).send(result.error.details[0].message);
 		return;
