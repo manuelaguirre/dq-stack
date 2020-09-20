@@ -16,8 +16,8 @@ export class BackofficeService {
     private store: Store,
   ) { }
 
-  createNewTheme(name: string, description: string): Observable<DqTheme> {
-    return this.apiService.post<DqTheme>('themes', { name, description });
+  createNewTheme(name: string, description: string, isPublic: boolean): Observable<DqTheme> {
+    return this.apiService.post<DqTheme>('themes', { name, description, isPublic });
   }
 
   createNewQuestion(question: Partial<DqQuestion>): Observable<DqQuestion> {

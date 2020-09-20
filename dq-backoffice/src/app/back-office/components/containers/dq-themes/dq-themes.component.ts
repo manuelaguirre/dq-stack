@@ -18,11 +18,13 @@ export class DqThemesComponent implements OnInit, OnDestroy {
 
   loading = false;
 
-  displayedColumns: string[] = ['name', 'description', 'edit'];
+  displayedColumns: string[] = ['name', 'description', 'edit', 'delete'];
+  displayedColumnsPrivate: string[] = ['name', 'description', 'companyName','companySubName', 'edit', 'delete'];
+
   loadingExcel = false;
 
-
   dataSource: MatTableDataSource<DqTheme> = null;
+  dataSourcePrivate: MatTableDataSource<DqTheme> = null;
 
   subscriptions: Subscription[] = [];
 
@@ -39,7 +41,10 @@ export class DqThemesComponent implements OnInit, OnDestroy {
     this.themes$ = this.backOfficeService.getThemes().pipe(
       tap(() => this.loading = false),
       tap((themes) => {
-        this.dataSource = new MatTableDataSource(themes);
+        const privateThemes = themes.filter((t) => !t.isPublic);
+        const publicThemes = themes.filter((t) => t.isPublic);
+        this.dataSource = new MatTableDataSource(publicThemes);
+        this.dataSourcePrivate = new MatTableDataSource(privateThemes);
         setTimeout(() => {
           this.dataSource.sort = this.sort;
         }, 1000);

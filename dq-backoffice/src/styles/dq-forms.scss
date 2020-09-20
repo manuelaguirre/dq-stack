@@ -4,6 +4,9 @@
   .mat-form-field {
     width: 100%;
   }
+  mat-radio-group {
+    justify-content: space-evenly;
+  }
   @media (min-width: $dq-mobile) {
     width: 50vw;
   }

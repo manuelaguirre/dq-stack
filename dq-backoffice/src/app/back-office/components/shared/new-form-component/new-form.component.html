@@ -5,6 +5,12 @@
     <input matInput placeholder="Name" formControlName="name">
   </mat-form-field>
 
+  <mat-radio-group *ngIf="formGroup.contains('isPublic')" aria-label="Select an option"
+    class="full-width flex-div" formControlName="isPublic">
+    <mat-radio-button [value]="true">Public</mat-radio-button>
+    <mat-radio-button [value]="false">Private</mat-radio-button>
+  </mat-radio-group>
+
   <mat-form-field *ngIf="formGroup.contains('description')" appearance="outline">
       <mat-label>Description</mat-label>
       <textarea matInput placeholder="description" formControlName="description"

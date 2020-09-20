@@ -23,37 +23,95 @@
         <input type="file" #fileInput type="file" (change)="onFileInput($event)">
       </a>
     </div>
-    <div class="dq-table-container">
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 dq-table">
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-          <td mat-cell *matCellDef="let element"> <strong>{{element.name}}</strong> </td>
-        </ng-container>
+    <div class="tabs-container flex-div column">
+      <div class="nav nav-tabs justify-content-center full-width" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-public-tab" data-toggle="tab" href="#nav-public" role="tab" aria-controls="nav-public" aria-selected="true">Public</a>
+        <a class="nav-item nav-link" id="nav-private-tab" data-toggle="tab" href="#nav-private" role="tab" aria-controls="nav-private" aria-selected="false">Private</a>
+      </div>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-public" role="tabpanel" aria-labelledby="nav-public-tab">
+          <div class="dq-table-container">
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 dq-table">
       
-        <!-- Description Column -->
-        <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-          <td mat-cell *matCellDef="let element"> 
-            {{element.description}}
-          </td>
-        </ng-container>
-
-        <!-- Edit -->
-        <ng-container matColumnDef="edit">
-          <th mat-header-cell *matHeaderCellDef justify="end"></th>
-          <td mat-cell *matCellDef="let element" justify="end"> 
-            <mat-icon matSuffix [routerLink]="['/home/themes/' + element._id]"
-            tabindex="0" role="link" (keyup.enter)="router.navigate(['/home/themes/' + element._id])">edit</mat-icon>
-          </td>
-        </ng-container>
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> <strong>{{element.name}}</strong> </td>
+              </ng-container>
+            
+              <!-- Description Column -->
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                <td mat-cell *matCellDef="let element"> 
+                  {{element.description}}
+                </td>
+              </ng-container>
       
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/home/themes/' + row._id + '/questions']"
-        (keyup.enter)="router.navigate(['/home/themes/' + row._id + '/questions'])"
-          tabindex="0" role="link"></tr>
-      </table>
+              <!-- Edit -->
+              <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef justify="end"></th>
+                <td mat-cell *matCellDef="let element" justify="end"> 
+                  <mat-icon matSuffix [routerLink]="['/home/themes/' + element._id]"
+                  tabindex="0" role="link" (keyup.enter)="router.navigate(['/home/themes/' + element._id])">edit</mat-icon>
+                </td>
+              </ng-container>
+
+            
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/home/themes/' + row._id + '/questions']"
+              (keyup.enter)="router.navigate(['/home/themes/' + row._id + '/questions'])"
+                tabindex="0" role="link"></tr>
+            </table>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="nav-private" role="tabpanel" aria-labelledby="nav-private-tab">
+          <div class="dq-table-container">
+            <table mat-table [dataSource]="dataSourcePrivate" matSort class="mat-elevation-z8 dq-table">
+      
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> <strong>{{element.name}}</strong> </td>
+              </ng-container>
+            
+              <!-- Description Column -->
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                <td mat-cell *matCellDef="let element"> 
+                  {{element.description}}
+                </td>
+              </ng-container>
+
+              <!-- Company name Column -->
+              <ng-container matColumnDef="companyName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Company name </th>
+                <td mat-cell *matCellDef="let element"> <strong>{{element.company ? element.company.name : '-'}}</strong> </td>
+              </ng-container>
+
+              <!-- Company subname Column -->
+              <ng-container matColumnDef="companySubName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Company subname </th>
+                <td mat-cell *matCellDef="let element"> <strong>{{element.company ? element.company.subname : '-'}}</strong> </td>
+              </ng-container>
+      
+              <!-- Edit -->
+              <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef justify="end"></th>
+                <td mat-cell *matCellDef="let element" justify="end"> 
+                  <mat-icon matSuffix [routerLink]="['/home/themes/' + element._id]"
+                  tabindex="0" role="link" (keyup.enter)="router.navigate(['/home/themes/' + element._id])">edit</mat-icon>
+                </td>
+              </ng-container>
+
+            
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsPrivate"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsPrivate;" [routerLink]="['/home/themes/' + row._id + '/questions']"
+              (keyup.enter)="router.navigate(['/home/themes/' + row._id + '/questions'])"
+                tabindex="0" role="link"></tr>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="loading-container" *ngIf="loading">
       <div class="spinner-border" role="status">
