@@ -17,6 +17,16 @@
       rows="10"></textarea>
   </mat-form-field>
 
+  <mat-form-field *ngIf="formGroup.contains('companyName') && formGroup.get('isPublic').value === false" appearance="outline">
+    <mat-label>Company name</mat-label>
+    <input matInput placeholder="Company name" formControlName="companyName">
+  </mat-form-field>
+
+  <mat-form-field *ngIf="formGroup.contains('companySubName') && formGroup.get('isPublic').value === false" appearance="outline">
+    <mat-label>Company subname</mat-label>
+    <input matInput placeholder="Company subname" formControlName="companySubName">
+  </mat-form-field>
+
   <!-- QUESTIONS -->
   <mat-form-field appearance="fill" *ngIf="formGroup.contains('theme')">
     <mat-label>Select theme</mat-label>

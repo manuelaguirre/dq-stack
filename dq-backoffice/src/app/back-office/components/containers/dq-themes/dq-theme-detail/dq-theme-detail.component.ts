@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { BackofficeService } from '../../../shared/services/backoffice.service';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
@@ -67,11 +67,18 @@ export class DqThemeDetailComponent implements OnInit {
 
   editTheme(themeForm: FormGroup): void {
     this.loadingNew = true;
-    this.backOfficeService.editTheme(this.themeId, {
+    const theme: Partial<DqTheme> = {
       name: themeForm.value.name,
       description: themeForm.value.description,
       isPublic: themeForm.value.isPublic,
-    }).pipe(
+    };
+    if (!themeForm.value.isPublic) {
+      theme.company = {
+        name: themeForm.value.companyName,
+        subname: themeForm.value.companySubName,
+      };
+    }
+    this.backOfficeService.editTheme(this.themeId, theme).pipe(
       map((theme) => {
         if (theme) {
           this.snackBarService.showMessage('Theme edited successfully');
@@ -96,6 +103,19 @@ export class DqThemeDetailComponent implements OnInit {
       name: [theme ? theme.name : '', Validators.required],
       isPublic: [theme ? theme.isPublic : true, Validators.required],
       description: [theme ? theme.description :'', Validators.required],
-    });
+      companyName: [theme && theme.company ? theme.company.name :''],
+      companySubName: [theme && theme.company ? theme.company.subname :''],
+    }, { validators: this.validPrivateTheme });
   }
+
+  validPrivateTheme: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+    const isPublic = control.get('isPublic');
+    if (isPublic.value) {
+      return null;
+    }
+    const companyName = control.get('companyName');
+    const companySubName = control.get('companySubName');
+  
+    return companyName.value === '' || companySubName.value === '' ? { invalidPrivate: true } : null;
+  };
 }
