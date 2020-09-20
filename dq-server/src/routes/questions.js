@@ -57,4 +57,10 @@ router.put('/:id', auth, asyncCatch(async (req,res) => {
 	return res.status(200).send(result);
 }));
 
+router.delete('/:id', auth, asyncCatch(async (req,res) => {
+	const result = await questionController.deleteQuestion(req.params.id);
+	return res.send(result);
+}));
+
+
 module.exports = router;
