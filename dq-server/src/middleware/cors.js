@@ -4,7 +4,7 @@ const {
 
 const CORS_OPTIONS = {
 	origin: '*', //change for prod
-	methods:['GET','POST','PUT', 'PATCH'],
+	methods:['GET','POST','PUT', 'PATCH', 'DELETE'],
 	credentials: true,
 };
 
