@@ -42,7 +42,7 @@ export class ApiService {
   }
 
   public postFile(path: string, body: Blob): Observable<any> {
-    const headers: HttpHeaders = this.getHeaders();
+    const headers: HttpHeaders = this.getHeaders(true);
     return this.http.post(`${this.URL_API}/${path}`, body, { headers }).pipe(
       catchError((error) => {
         if (error.status === 401) {
@@ -78,10 +78,10 @@ export class ApiService {
     );
   }
 
-  private getHeaders(): HttpHeaders {
+  private getHeaders(file = false): HttpHeaders {
     if (this.store.value.token) {
       return new HttpHeaders()
-        .set('Content-Type', 'application/json')
+        .set('Content-Type', file ? 'text/csv' : 'application/json')
         .append('x-auth-token', this.store.value.token);
     }
     return new HttpHeaders().set('Content-Type', 'application/json');

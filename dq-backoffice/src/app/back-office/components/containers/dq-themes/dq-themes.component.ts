@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Observable, Subscription, throwError } from 'rxjs';
 import { DqTheme } from '../../../../shared/models/dq-theme';
 import { BackofficeService } from '../../shared/services/backoffice.service';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, switchMap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'dq-themes',
@@ -78,6 +78,25 @@ export class DqThemesComponent implements OnInit, OnDestroy {
       this.snackbarService.showError('Not CSV file')
       .afterOpened()
       .subscribe(() => this.loadingExcel = false),
+    );
+  }
+
+  deleteTheme(themeId: string, event: Event) {
+    event.stopPropagation();
+    this.subscriptions.push(
+      this.snackbarService.showMessage('Are you sure to want to delete this theme?', 'Yes').onAction()
+      .pipe(
+        switchMap(() => this.backOfficeService.deleteTheme(themeId)),
+        tap((theme) => {
+          this.snackbarService.showMessage('Theme deleted successfully');
+        }),
+        catchError((e) => {
+          this.snackbarService.showError(
+            'Error: ' + (e && e.message ? e.message : 'unknown')
+          );
+          return throwError(e);
+        }),
+      ).subscribe()
     );
   }
 

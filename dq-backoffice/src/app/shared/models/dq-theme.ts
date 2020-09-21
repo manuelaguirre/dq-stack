@@ -7,7 +7,7 @@ export interface DqTheme {
 }
 
 export interface DqCompany {
-  _id: string;
+  _id?: string;
   name: string;
   subname: string;
 }

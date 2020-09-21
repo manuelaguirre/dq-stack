@@ -56,6 +56,15 @@
                 </td>
               </ng-container>
 
+              <!-- Delete -->
+              <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef justify="end"></th>
+                <td mat-cell *matCellDef="let element"> 
+                  <mat-icon matSuffix (click)="deleteTheme(element._id, $event)"
+                  (keyup.enter)="deleteTheme(element.id, $event)"
+                  tabindex="0" role="link">delete</mat-icon>
+                </td>
+              </ng-container>
             
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/home/themes/' + row._id + '/questions']"
@@ -103,6 +112,15 @@
                 </td>
               </ng-container>
 
+              <!-- Delete -->
+              <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef justify="end"></th>
+                <td mat-cell *matCellDef="let element"> 
+                  <mat-icon matSuffix (click)="deleteTheme(element._id, $event)"
+                  (keyup.enter)="deleteTheme(element.id, $event)"
+                  tabindex="0" role="link">delete</mat-icon>
+                </td>
+              </ng-container>
             
               <tr mat-header-row *matHeaderRowDef="displayedColumnsPrivate"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumnsPrivate;" [routerLink]="['/home/themes/' + row._id + '/questions']"
