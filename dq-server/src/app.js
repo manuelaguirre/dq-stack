@@ -13,6 +13,7 @@ const questions = require('./routes/questions');
 const themes = require('./routes/themes');
 const users = require('./routes/users');
 const fileImporter = require('./routes/fileImporter');
+const images = require('./routes/images');
 
 app.use(cors(CORS_OPTIONS));
 app.use(morgan('dev'));
@@ -23,6 +24,7 @@ app.use('/api/questions', questions);
 app.use('/api/themes', themes);
 app.use('/api/users', users);
 app.use('/api/import', fileImporter);
+app.use('/api/images', images);
 app.use(error);
 
 console.log(config.get('name'));
@@ -32,7 +34,7 @@ if(!config.get('jwtPrivateKey')){
 }
 
 
-mongoose.connect(config.get('db.host'), { ...config.get('db.config') })
+const db = mongoose.connect(config.get('db.host'), { ...config.get('db.config') })
 	.then(console.log('connected to mongodb'))
 	.catch(err => console.log(err));
 
