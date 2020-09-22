@@ -2,7 +2,6 @@ const mongoose = require('mongoose').set('debug', true);
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const _ = require('lodash');
-const { bool } = require('joi');
 
 const userSchema = new mongoose.Schema({
 	username: String,
@@ -60,10 +59,10 @@ const questionSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Video'
 	},
-	images: [{
+	image: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Image'
-	}],
+	},
 	soundclip: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Soundclip'
@@ -82,9 +81,23 @@ const themeSchema = new mongoose.Schema({
 	company: CompanySchema,
 });
 
+const imageSchema = new mongoose.Schema({ 
+	name: String,
+	question: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Question'
+	}, 
+	description: String, 
+	img: 
+	{
+		data: Buffer, 
+		contentType: String 
+	} 
+}); 
 
 const User = mongoose.model('User', userSchema);
 const Player = mongoose.model('Player', playerSchema);
 const Question = mongoose.model('Question', questionSchema);
 const Theme = mongoose.model('Theme', themeSchema);
-module.exports = { User, Player, Question, Theme };
+const Image = mongoose.model('Image', imageSchema);
+module.exports = { User, Player, Question, Theme, Image };

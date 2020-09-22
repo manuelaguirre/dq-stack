@@ -1,7 +1,5 @@
 const auth = require('../middleware/auth');
 const express = require('express');
-const questionController = require('../controllers/questions');
-const themeController = require('../controllers/themes');
 const { importQuestions } = require('../controllers/fileImporter');
 const asyncCatch = require('../middleware/asyncCatch');
 const _ = require('lodash');
