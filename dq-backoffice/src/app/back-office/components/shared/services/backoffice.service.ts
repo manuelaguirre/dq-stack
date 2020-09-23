@@ -57,6 +57,12 @@ export class BackofficeService {
             this.store.set('questions', questions_);
             this.allQuestionsSearched = true;
           }),
+          switchMap(() => {
+            return this.store.select<{
+                [themeId: string]: DqQuestion[];
+            }>('questions');
+          }),
+          map((questions) => questions[themeId]),
         );
       })
     )
@@ -127,8 +133,16 @@ export class BackofficeService {
     );
   }
 
-  deleteQuestion(id: string): Observable<any> {
-    return this.apiService.delete<DqQuestion>(`questions/${id}`);
+  deleteQuestion(question: DqQuestion): Observable<any> {
+    return this.apiService.delete<DqQuestion>(`questions/${question._id}`).pipe(
+      tap(() => {
+        const categoryQuestions = this.store.value.questions[question.theme]
+          .filter((q) => q._id !== question._id);
+        const questions = { ...this.store.value.questions };
+        questions[question.theme] = categoryQuestions;
+        this.store.set('questions', questions);
+      })
+    );
   }
 
   getThemes(): Observable<DqTheme[]> {
@@ -175,6 +189,18 @@ export class BackofficeService {
     );
   }
 
+  deleteTheme(id: string): Observable<any> {
+    return this.apiService.delete<DqTheme>(`themes/${id}`).pipe(
+      tap(() => {
+        const questions = this.store.value.questions;
+        delete questions[id];
+        this.store.set('questions', questions);
+        const themes = this.store.value.themes;
+        this.store.set('themes', themes.filter((t) => t._id !== id));
+      })
+    );
+  }
+
   private searchTheme(id: string): Observable<DqTheme> {
     return this.apiService.get<DqTheme>(`themes/${id}`).pipe(
       tap((theme) => this.store.set(
@@ -184,7 +210,7 @@ export class BackofficeService {
   }
   
   massiveImport(file: Blob): Observable<DqQuestion[]> {
-    return this.apiService.postFile('massiveImport', file).pipe(
+    return this.apiService.postFile('import', file).pipe(
       map((questions) => questions as DqQuestion[]),
       catchError((e) => throwError(e)),
     );
