@@ -1,85 +1,89 @@
 const fs = require('fs'); 
 const path = require('path');
-const config = require('config');
-const { Image } = require('../db');
 const { getQuestionAndUpdate } = require('./questions');
 const mongoose = require('mongoose');
 const mongodb = require('mongodb');
-const MongoClient = require('mongodb').MongoClient;
-const { Readable } = require('stream');
 
 
 async function uploadImage(req) {
-	// const imageToAdd = new Image({
-	// 	name: req.body.name, 
-	// 	question: req.body.question, 
-	// 	desc: req.body.desc, 
-	// 	img: { 
-	// 		data: fs.readFileSync(path.join('src/uploads/' + req.file.filename)), 
-	// 		contentType: 'image/png'
-	// 	} 
-	// });
-	// let result = await imageToAdd.save();
-	// const updatedQuestion = await getQuestionAndUpdate(imageToAdd.question, {image : result._doc._id}); 
-	console.log(req.file.filename);
-	const readablePhotoStream = fs.createReadStream(path.join('src/uploads/' + req.file.filename));
-	console.log(readablePhotoStream);
+	
+	let questionID = req.body.questionID;
+	let readablePhotoStream;
+	try {
+		readablePhotoStream = fs.createReadStream(path.join('src/uploads/' + req.file.filename));		
+	} catch (error) {
+		throw new Error('Error reading file. Be sure to include a field called image with a file attachment and set header to multipart/form-data');
+	}
 
 	const db = mongoose.connection.db;
 	let bucket = new mongodb.GridFSBucket(db, {
-		bucketName: 'imagebucket'
+		bucketName: 'images'
 	});
 	
-	let uploadStream = bucket.openUploadStream(req.body.name);
+	let uploadStream = bucket.openUploadStream(req.file.originalname, { metadata: {questionID}});
 	let id = uploadStream.id;
 	readablePhotoStream.pipe(uploadStream);
-
-	uploadStream.on('data', (data)=>{
-		console.log(data);
-	});
 	
 	uploadStream.on('error', () => {
 		throw new Error('Error uploading files');
 	});
 	
 	uploadStream.on('finish', () => {
-		console.log('finished file upload');
 		return; //updatedQuestion;
 	});
+	return getQuestionAndUpdate(questionID, {image : id}); 
 }
 
-async function downloadImage(req,res) {
+async function downloadImage(req, callbackOnError, callbackOnData, callbackOnEnd) {
 	
+	let imageID;
 	try {
-		var trackID = new ObjectID(req.params.trackID);
+		imageID = new mongodb.ObjectID(req.params.id);
 	} catch(err) {
-		return res.status(400).json({ message: 'Invalid trackID in URL parameter. Must be a single String of 12 bytes or a string of 24 hex characters' }); 
+		throw new Error('Invalid image ID in URL parameter. Must be a single String of 12 bytes or a string of 24 hex characters'); 
 	}
-	res.set('content-type', 'audio/mp3');
-	res.set('accept-ranges', 'bytes');
- 
 	const db = mongoose.connection.db;
 	let bucket = new mongodb.GridFSBucket(db, {
-		bucketName: 'imagebucket'
+		bucketName: 'images'
 	});
   
-	let downloadStream = bucket.openDownloadStream(trackID);
+	let downloadStream = bucket.openDownloadStream(imageID);
  
 	downloadStream.on('data', (chunk) => {
-		res.write(chunk);
+		callbackOnData(chunk);
 	});
  
-	downloadStream.on('error', () => {
-		res.sendStatus(404);
+	downloadStream.on('error', (err) => {
+		callbackOnError(err);
 	});
 
 	downloadStream.on('end', () => {
-		res.end();
+		callbackOnEnd();
+	});	
+}
+
+async function deleteImage(req){
+	let imageID;
+	try {
+		imageID = new mongodb.ObjectID(req.params.id);
+	} catch(err) {
+		throw new Error('Invalid image ID in URL parameter. Must be a single String of 12 bytes or a string of 24 hex characters'); 
+	}
+	const db = mongoose.connection.db;
+	let bucket = new mongodb.GridFSBucket(db, {
+		bucketName: 'images'
 	});
-	
+
+	bucket.delete(imageID, (error)=>{
+		if (error){
+			throw new Error(error);
+		}
+	});
 }
 
 module.exports = {
-	uploadImage
+	uploadImage,
+	downloadImage,
+	deleteImage
 };
 

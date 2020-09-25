@@ -161,7 +161,10 @@ const updateQuestionSchema = Joi.object({
 	soundclip: Joi.objectId(),
 });
 
-
+const uploadImageSchema = Joi.object({
+	questionID : Joi.objectId()
+		.required()
+});
 
 
 
@@ -171,5 +174,6 @@ module.exports = {
 	createThemeSchema,
 	updateThemeSchema,
 	createQuestionSchema,
-	updateQuestionSchema 
+	updateQuestionSchema,
+	uploadImageSchema 
 };
