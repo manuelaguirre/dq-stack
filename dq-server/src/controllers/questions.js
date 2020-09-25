@@ -68,9 +68,14 @@ async function createQuestion(question){
 	return result._doc;
 }
 
-async function deleteQuestion(themeID) {
-	const result = await Question.deleteOne({_id : themeID}); 
+async function deleteQuestion(questionID) {
+	const result = await Question.deleteOne({_id : questionID}); 
 	return result;
+}
+
+async function questionHasImage(questionID) {
+	const result = getQuestion(questionID);
+	return !!result._doc.image;
 }
 
 module.exports = { 
@@ -81,5 +86,6 @@ module.exports = {
 	getQuestionsByTheme,
 	getQuestionAndUpdate,
 	createQuestion,
-	deleteQuestion
+	deleteQuestion,
+	questionHasImage,
 };
