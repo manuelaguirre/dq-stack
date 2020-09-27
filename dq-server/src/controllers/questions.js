@@ -74,7 +74,7 @@ async function deleteQuestion(questionID) {
 }
 
 async function questionHasImage(questionID) {
-	const result = getQuestion(questionID);
+	const result = await getQuestion(questionID);
 	return !!result._doc.image;
 }
 
