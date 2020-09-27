@@ -34,7 +34,7 @@ if(!config.get('jwtPrivateKey')){
 }
 
 
-const db = mongoose.connect(config.get('db.host'), { ...config.get('db.config') })
+mongoose.connect(config.get('db.host'), { ...config.get('db.config') })
 	.then(console.log('connected to mongodb'))
 	.catch(err => console.log(err));
 
