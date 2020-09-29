@@ -1,0 +1,1 @@
+# This file only exists so uploads folder can be succesfully tracked by Git
