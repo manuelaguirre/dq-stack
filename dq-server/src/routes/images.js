@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.get('/:id', auth, asyncCatch(async (req, res) => {
+router.get('/:id', asyncCatch(async (req, res) => {
 	let imageID = castToObjectID(req.params.id);
 	await downloadImage(imageID, () => {
 		res.send('Image not found').status(404);
@@ -61,7 +61,6 @@ function castToObjectID(id) {
 	} catch(err) {
 		throw new Error('Invalid image ID in URL parameter. Must be a single String of 12 bytes or a string of 24 hex characters'); 
 	}
-
 }
 
 module.exports = router;
