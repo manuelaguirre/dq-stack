@@ -210,9 +210,18 @@ export class BackofficeService {
   }
   
   massiveImport(file: Blob): Observable<DqQuestion[]> {
-    return this.apiService.postFile('import', file).pipe(
+    return this.apiService.postCSV('import', file).pipe(
       map((questions) => questions as DqQuestion[]),
       catchError((e) => throwError(e)),
     );
+  }
+
+  uploadImage(image: Blob, question: DqQuestion): Observable<DqQuestion> {
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('questionID', question._id);
+    return question.image ?
+      this.apiService.putImage(`images/${question._id}`, formData) :
+      this.apiService.postImage('images', formData);
   }
 }

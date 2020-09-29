@@ -68,6 +68,7 @@
       <mat-label>Correct alternative</mat-label>
       <input matInput placeholder="Number (1 - 4)" formControlName="correct" type="number" [max]="4" [min]="1">
   </mat-form-field>
+  <ng-content select="dq-image-handler"></ng-content>
 </form>
 
 <ng-content select="button.dq-button"></ng-content>

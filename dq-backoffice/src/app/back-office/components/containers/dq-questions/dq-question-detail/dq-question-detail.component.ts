@@ -16,6 +16,8 @@ import { DqTheme } from '../../../../../shared/models/dq-theme';
 export class DqQuestionDetailComponent implements OnInit {
   questionDetailForm$: Observable<FormGroup> = null;
 
+  question$: Observable<Partial<DqQuestion>> = null;
+
   loadingNew = false;
 
   createNew = false;
@@ -33,7 +35,7 @@ export class DqQuestionDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.questionDetailForm$ = this.route.params.pipe(
+    this.question$ = this.route.params.pipe(
       switchMap((params) => {
         if (params.id && params.id !== 'new') {
           this.questionId = params.id;
@@ -44,8 +46,10 @@ export class DqQuestionDetailComponent implements OnInit {
           return { theme: theme._id };
         }));
       }),
-      switchMap((question: DqQuestion) => of(this.createForm(question))),
     );
+    this.questionDetailForm$ = this.question$.pipe(
+      switchMap((question: DqQuestion) => of(this.createForm(question))),
+    )
   }
 
   addNewQuestion(questionForm: FormGroup) {
@@ -78,6 +82,7 @@ export class DqQuestionDetailComponent implements OnInit {
       answer3: newQuestionForm.value.answer3,
       answer4: newQuestionForm.value.answer4,
       correct: newQuestionForm.value.correct - 1,
+      image: newQuestionForm.value.image,
     }).pipe(
       map((question) => {
         if (question) {
@@ -102,8 +107,9 @@ export class DqQuestionDetailComponent implements OnInit {
       answer1: newQuestionForm.value.answer1,
       answer2: newQuestionForm.value.answer2,
       answer3: newQuestionForm.value.answer3,
-      answer4: newQuestionForm.value.answer4,
+      answer4: newQuestionForm.value.answe4,
       correct: newQuestionForm.value.correct - 1,
+      image: newQuestionForm.value.image,
     }
   }
 
@@ -119,6 +125,7 @@ export class DqQuestionDetailComponent implements OnInit {
       answer3: [question ? question.answer3 : '', Validators.required],
       answer4: [question ? question.answer4 : '', Validators.required],
       correct: [question ? question.correct + 1 : 0, [Validators.required, Validators.max(4), Validators.min(1)]],
+      image: [question ? question.image : ''],
     });
   }
 }

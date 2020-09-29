@@ -20,7 +20,7 @@
         (keyup.enter)="fileInput.click()" (click)="fileInput.click()"
         [class.disabled]="loadingExcel" [class.loading]="loadingExcel">
         <span tabindex="-1" class="dq-action-cont">Massive import</span>
-        <input type="file" #fileInput type="file" (change)="onFileInput($event)">
+        <input #fileInput type="file" (change)="onFileInput($event)">
       </a>
     </div>
     <div class="tabs-container flex-div column">

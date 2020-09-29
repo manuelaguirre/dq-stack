@@ -10,6 +10,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class ApiService {
   public URL_API = 'https://dq-server.herokuapp.com/api';
+
   constructor(
     private http: HttpClient,
     private store: Store,
@@ -41,9 +42,33 @@ export class ApiService {
     );
   }
 
-  public postFile(path: string, body: Blob): Observable<any> {
-    const headers: HttpHeaders = this.getHeaders(true);
+  public postCSV(path: string, body: Blob): Observable<any> {
+    const headers: HttpHeaders = this.getHeaders('text/csv');
     return this.http.post(`${this.URL_API}/${path}`, body, { headers }).pipe(
+      catchError((error) => {
+        if (error.status === 401) {
+          this.loginError();
+        }
+        return throwError(error);
+      })
+    );
+  }
+
+  public postImage(path: string, formData: FormData): Observable<any> {
+    const headers = new HttpHeaders().append('x-auth-token', this.store.value.token)
+    return this.http.post(`${this.URL_API}/${path}`, formData, { headers }).pipe(
+      catchError((error) => {
+        if (error.status === 401) {
+          this.loginError();
+        }
+        return throwError(error);
+      })
+    );
+  }
+
+  public putImage(path: string, formData: FormData): Observable<any> {
+    const headers = new HttpHeaders().append('x-auth-token', this.store.value.token)
+    return this.http.put(`${this.URL_API}/${path}`, formData, { headers }).pipe(
       catchError((error) => {
         if (error.status === 401) {
           this.loginError();
@@ -78,10 +103,10 @@ export class ApiService {
     );
   }
 
-  private getHeaders(file = false): HttpHeaders {
+  private getHeaders(extension?: string): HttpHeaders {
     if (this.store.value.token) {
       return new HttpHeaders()
-        .set('Content-Type', file ? 'text/csv' : 'application/json')
+        .set('Content-Type', extension ? extension : 'application/json')
         .append('x-auth-token', this.store.value.token);
     }
     return new HttpHeaders().set('Content-Type', 'application/json');
