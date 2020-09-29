@@ -8,6 +8,6 @@ export interface DqQuestion {
 	answer4: string;
 	correct: number;
 	video: string;
-	images: string[];
+	image: string;
 	soundclip: string;
 };

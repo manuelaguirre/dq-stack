@@ -10,19 +10,22 @@
   </div>
   <div class="dq-logo"></div>
   <h1 class="dq-title">{{ createNew ? 'Create new Question' : 'Edit Question' }}</h1>
-  <div class="dq-menu flex-div column form-container" *ngIf="questionDetailForm$ | async as questionDetailForm">
-    <dq-new-form [formGroup]="questionDetailForm">
-      <button class="dq-button dq-action btn btn-light" tabindex="0" role="button"
-      (click)="createNew ? addNewQuestion(questionDetailForm) : editQuestion(questionDetailForm)"
-      (keyup.enter)="createNew ? addNewQuestion(questionDetailForm) : editQuestion(questionDetailForm)"
-      [disabled]="questionDetailForm.invalid" *ngIf="!loadingNew">
-       <a tabindex="-1" class="dq-action-cont">{{createNew ? 'Add new Question' : 'Save Question'}}</a>
-      </button>
-      <div class="loading-container flex-div column" *ngIf="loadingNew">
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
+  <ng-container *ngIf="question$ | async as question">
+    <div class="dq-menu flex-div column form-container" *ngIf="questionDetailForm$ | async as questionDetailForm">
+      <dq-new-form [formGroup]="questionDetailForm">
+        <dq-image-handler class="full-width" [question]="question"></dq-image-handler>
+        <button class="dq-button dq-action btn btn-light" tabindex="0" role="button"
+        (click)="createNew ? addNewQuestion(questionDetailForm) : editQuestion(questionDetailForm)"
+        (keyup.enter)="createNew ? addNewQuestion(questionDetailForm) : editQuestion(questionDetailForm)"
+        [disabled]="questionDetailForm.invalid" *ngIf="!loadingNew">
+          <a tabindex="-1" class="dq-action-cont">{{createNew ? 'Add new Question' : 'Save Question'}}</a>
+        </button>
+        <div class="loading-container flex-div column" *ngIf="loadingNew">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
         </div>
-      </div>
-    </dq-new-form>
-  </div>
+      </dq-new-form>
+    </div>
+  </ng-container>
 </div>
