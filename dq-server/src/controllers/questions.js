@@ -68,14 +68,24 @@ async function createQuestion(question){
 	return result._doc;
 }
 
-async function deleteQuestion(questionID) {
+async function deleteQuestion(questionID){
 	const result = await Question.deleteOne({_id : questionID}); 
 	return result;
 }
 
-async function questionHasImage(questionID) {
+async function questionHasImage(questionID){
 	const result = await getQuestion(questionID);
-	return !!result._doc.image;
+	return !!(result && result._doc.image);
+}
+
+async function getImageID(questionID){
+	const question = await Question.findById(questionID)
+		.select('image')
+		.exec();
+	if (!question){
+		throw new Error('Question does not exist');
+	}
+	return question._doc.image;
 }
 
 module.exports = { 
@@ -88,4 +98,5 @@ module.exports = {
 	createQuestion,
 	deleteQuestion,
 	questionHasImage,
+	getImageID
 };

@@ -25,12 +25,12 @@ async function readCSVStream(stream, callback, callbackOnEnd){
 				const question = new Promise((resolve) =>{
 					resolve(data);
 				});
-				const error = new Promise((resolve) =>{
-					const error = callback(data);
-					resolve(error);
+				const lineError = new Promise((resolve) =>{
+					const lineError = callback(data);
+					resolve(lineError);
 				});
 				questionsToAdd.push(question);
-				errors.push(error);				
+				errors.push(lineError);				
 			})
 			.on('end', () => {
 				callbackOnEnd(errors);

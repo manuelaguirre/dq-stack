@@ -13,7 +13,6 @@ const questions = require('./routes/questions');
 const themes = require('./routes/themes');
 const users = require('./routes/users');
 const fileImporter = require('./routes/fileImporter');
-const images = require('./routes/images');
 
 app.use(cors(CORS_OPTIONS));
 app.use(morgan('dev'));
@@ -24,7 +23,6 @@ app.use('/api/questions', questions);
 app.use('/api/themes', themes);
 app.use('/api/users', users);
 app.use('/api/import', fileImporter);
-app.use('/api/images', images);
 app.use(error);
 
 console.log(config.get('name'));
