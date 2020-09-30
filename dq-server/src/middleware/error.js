@@ -1,4 +1,7 @@
 module.exports = function(err, req, res, next) {
-	res.status(500).send(err.message);
+	if(!res.statusCode){
+		res.status(500);
+	}
+	res.send(err.message);
 	console.log(err);
 };

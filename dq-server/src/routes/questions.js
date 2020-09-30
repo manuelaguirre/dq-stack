@@ -4,13 +4,14 @@ const questionController = require('../controllers/questions');
 const themeController = require('../controllers/themes');
 const { createQuestionSchema, updateQuestionSchema } = require('../validation/input');
 const asyncCatch = require('../middleware/asyncCatch');
+const imageRouter = require('./image');
 const router = express.Router();
 router.use(express.json());
-
+router.use('/:questionID/image', imageRouter);
 
 router.get('/', auth, asyncCatch(async (req, res) => {
 	if (req.query.theme) {
-		if (req.query.npb){
+		if (req.query.npb) {
 			if (req.query.npb) {
 				//TODO: error prototype field for response code
 				if (!req.query.limit) throw new Error('Must have a limit parameter');
