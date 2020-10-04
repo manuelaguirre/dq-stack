@@ -1,5 +1,5 @@
 <ng-container *ngIf="question.image">
-  <img [src]="apiService.URL_API + '/images/' + question.image">
+  <img [src]="apiService.URL_API + '/questions/' + question._id + '/image'">
 </ng-container>
 <a class="dq-button dq-action btn btn-light" tabindex="0" role="button"
   (keyup.enter)="fileInput.click()" (click)="fileInput.click()"
