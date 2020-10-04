@@ -1,0 +1,42 @@
+Purpose: Start a quick demo as starting point for QUIZ player definition. 
+         It embeds GPIO (buzzers emulation) that refer to Raspberry PI4, Mouse            for Touch screen emulation, sound player...
+	 
+Content: There are 2 main files:
+	 + main.py : Start server part which manages web and client interfaces
+	 + client_gui4.py : Start game on player host. It consumes questions.py                              file where all questions (2 for the moment) are  
+	                    defined. The idea is that the admin, through back 
+			    office platform, generates this file automatically  
+			    before each game. Check the python file for details 
+			    about the mapping of each field (question, answers, 
+			    good match, image if exists...).
+	 + icones (folder): for buttons definition and others...
+	 + images (folder): for images to load during the game
+	 + sounds (folder): for sounds to play if any
+	 + fonts  (folder): In case specific fonts are provided
+	 + templates (folder): index.html file template
+			    
+			
+Process:
+	 + Open 2 consoles (normally your RaspPI4 will be configured properly) 
+	   From prompt1: python3.7 main.py from
+	   From prompt2: python client_gui4.py
+	   Note: do note consider the different version in use. Must be 
+	   consistent (3.7 is the reference)
+	 + Open your favorite internet browser and type http://192.168.0.xx:8080            (DHCP dependant). It displays interactively the response, status 
+	   (lost/win) and score.
+	 + Once the 2 python's files sourced a pop-up window appears with first 
+	   question. 
+	   You can manage buttons or mouse to select the good answer 
+	   accordingly. If the answer is correct a sound (applause :-D) is 
+	   played.
+	   You can observe on right corner a timer (45mn) 
+	   Between each question there is a tempo.
+	   At the end a dark screen is displayed with time stamp performed and 
+	   score.
+	   
+Hope it will help
+Do not hesitate to contact me for any questions...
+
+	   
+	  
+	 
