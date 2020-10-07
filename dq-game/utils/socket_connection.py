@@ -1,13 +1,10 @@
 import sys
 import os
 import importlib.util
-try:
-  importlib.util.find_spec('RPi.GPIO')
-  import RPi.GPIO as GPIO
-except ImportError:
-  import FakeRPi.GPIO as GPIO
 import socket
 import time
+import pickle
+from game_types.question import Question
 
 class SocketConnection:
   def __init__(self, port):
@@ -31,6 +28,10 @@ class ClientSocketConnection(SocketConnection):
         self.client_id = self.tcpsock.recv(1024).decode('utf-8')
         print('My client id is:', self.client_id)
         self.tcpsock.send(('Thanks for receiving me, sincerely: client number ' + self.client_id).encode('utf-8'))
+        msg = self.tcpsock.recv(1024)
+
+        question = pickle.loads(msg)
+        print(question)
         break
       except:
         print('Erreur serveur')
@@ -57,7 +58,10 @@ class ServerSocketConnection(SocketConnection):
         clientsocket.send(('' + str(self.clients)).encode('utf-8'))
         msg = clientsocket.recv(1024)
         print(msg.decode('utf-8'))
+        question = Question("Quién es Dios", ["Maradona", "Allah", "Yahve", "Christus"], 0, )
+        msg = pickle.dumps(question)
+        clientsocket.send(msg)
 
-
-
-
+  def send_question(self, question):
+    pass
+          
