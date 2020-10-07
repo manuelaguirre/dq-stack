@@ -13,3 +13,5 @@ dq-backoffice/tmp
 dq-backoffice/out-tsc
 dq-backoffice/npm-debug.log
 dq-backoffice/yarn-error.log
+
+**/__pycache__/
