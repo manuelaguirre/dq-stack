@@ -10,6 +10,5 @@ class Question:
         self.answers = answers
         self.correct_answer= correct_answer
         self.attachment = attachment
-    
-        
+  
     
