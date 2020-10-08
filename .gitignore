@@ -16,3 +16,5 @@ dq-backoffice/yarn-error.log
 
 **/__pycache__/
 dq-game/info.py
+
+venv
