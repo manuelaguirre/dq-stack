@@ -15,8 +15,6 @@ class SocketConnection(EventHandler):
     self.tcpsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     self.HEADER_LENGTH = 10
 
-    self.outbox = deque()
-
   def attach_header(self, msg):
     """
     Attaches a fixed length header for a TCP Websocket Transmission
@@ -39,21 +37,11 @@ class ClientSocketConnection(SocketConnection):
       inbound_msg = self.tcpsock.recv(inbound_msg_length).decode('utf-8')
       print(inbound_msg)
 
-  def outbound_task(self, outbox):
-    """
-    Sends messages in the outbox double-ended queue.
-    """
-    while True:
-      if outbox:
-        outbound_message = outbox.popleft()
-        self.tcpsock.send(self.attach_header(outbound_message).encode('utf-8'))
-        
-
   def send_to_server(self, msg):
     """
-    Adds a message to the outbox to be sent to server
+    Sends a message to the server
     """
-    self.outbox.append(msg)
+    self.tcpsock.send(self.attach_header(msg).encode('utf-8'))
 
   def connect(self):
     while True:
@@ -70,8 +58,6 @@ class ClientSocketConnection(SocketConnection):
     inbound_thread = threading.Thread(target=self.inbound_task)
     inbound_thread.start()
 
-    outbound_thread = threading.Thread(target=self.outbound_task, args=(self.outbox,))
-    outbound_thread.start()
 class ServerSocketConnection(SocketConnection):
 
   def __init__(self, port):
@@ -88,6 +74,7 @@ class ServerSocketConnection(SocketConnection):
       self.handle_requests()       
   
     print('now we are ready to start the game')
+    print(self.clients)
     self.trigger('game_ready_to_start')
 
   def handle_requests(self):
