@@ -1,15 +1,14 @@
 import sys
 import os
+from events.event_handler import EventHandler
 import importlib.util
 import socket
 import time
 import pickle
 import threading
-from collections import deque
 # from game_types.question import DQQuestion
 
-class SocketConnection:
-  callbacks = {}
+class SocketConnection(EventHandler):
   def __init__(self, port):
     print('pijita')
     self.port = port
@@ -74,7 +73,6 @@ class ClientSocketConnection(SocketConnection):
     outbound_thread = threading.Thread(target=self.outbound_task, args=(self.outbox,))
     outbound_thread.start()
 class ServerSocketConnection(SocketConnection):
-  callbacks = {}
 
   def __init__(self, port):
     super().__init__(port)
@@ -108,17 +106,3 @@ class ServerSocketConnection(SocketConnection):
 
   def send_question(self, question):
     pass
-  
-  def on(self, event_name, callback):
-    # Add callback to the list of event_name callback list
-    print('Add: ', event_name)
-    if event_name not in self.callbacks:
-      self.callbacks[event_name] = [callback]
-    else:
-      self.callbacks[event_name].append(callback)
-
-  def trigger(self, event_name):
-    if event_name in self.callbacks:
-      for callback in self.callbacks[event_name]:
-        callback()
-          
