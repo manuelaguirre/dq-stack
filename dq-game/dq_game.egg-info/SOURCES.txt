@@ -4,7 +4,6 @@ dq_game.egg-info/SOURCES.txt
 dq_game.egg-info/dependency_links.txt
 dq_game.egg-info/top_level.txt
 game_types/__init__.py
-game_types/game.py
 game_types/question.py
 utils/__init__.py
 utils/api_handler.py
