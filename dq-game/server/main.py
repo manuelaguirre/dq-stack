@@ -17,4 +17,4 @@ def start_game():
 
 
 socket.on('game_ready_to_start', start_game)
-socket.listen()
+socket.listen(2)
