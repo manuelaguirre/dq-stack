@@ -40,11 +40,25 @@ export class DqQuestionsComponent implements OnInit, OnDestroy {
     this.questions$ = this.backOfficeService.getThemeQuestions().pipe(
       tap((questions) => {
         this.dataSource = new MatTableDataSource(questions);
+        setTimeout(() => {
+          this.listenSort();
+        }, 1000);
       }),
       tap(() => {
         this.loading = false;
       }),
     );
+  }
+
+  listenSort(): void {
+    this.sort.disableClear = true;
+    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string => {
+      if (typeof data[sortHeaderId] === 'string') {
+        return data[sortHeaderId].toLocaleLowerCase();
+      }
+      return data[sortHeaderId];
+    };
   }
 
   deleteQuestion(question: DqQuestion, event: Event) {

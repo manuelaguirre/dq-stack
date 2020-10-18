@@ -6,7 +6,7 @@
 <div class="dq-container flex-div column" *ngIf="theme$ | async as theme">
   <div class="dq-back btn btn-light" [routerLink]="['/home/themes/' + theme._id + '/questions']"
   (keyup.enter)="router.navigate(['/home/themes/' + theme._id + '/questions'])">
-    <a>Go back</a>
+    <a>Return</a>
   </div>
   <div class="dq-logo"></div>
   <h1 class="dq-title">{{ createNew ? 'Create new Question' : 'Edit Question' }}</h1>
