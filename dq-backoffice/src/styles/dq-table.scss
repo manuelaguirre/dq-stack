@@ -1,8 +1,17 @@
 .dq-table {
+  &:not(.questions) {
+    tbody {
+      tr.mat-row {
+        cursor: pointer;
+      }
+    }
+  }
   tbody {
     color: #000000;
     tr.mat-row {
-      cursor: pointer;
+      mat-icon {
+        cursor: pointer;
+      }
       &:nth-child(n + 1) {
         background-color: transparent;
       }

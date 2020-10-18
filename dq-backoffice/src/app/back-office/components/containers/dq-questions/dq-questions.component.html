@@ -21,7 +21,7 @@
         <span tabindex="-1" class="dq-action-cont">Add new Question</span>
       </a>
       <div class="dq-table-container">
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 dq-table">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 dq-table questions">
         
           <!-- Theme Column -->
           <ng-container matColumnDef="theme">
@@ -56,10 +56,7 @@
           </ng-container>
         
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-            [routerLink]="['/home/themes/' + theme._id + '/questions/' + row._id]"
-            (keyup.enter)="router.navigate(['/home/themes/' + theme._id + '/questions/' + row._id])"
-            tabindex="0" role="link"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </div>
       <div class="loading-container flex-div column" *ngIf="loading">

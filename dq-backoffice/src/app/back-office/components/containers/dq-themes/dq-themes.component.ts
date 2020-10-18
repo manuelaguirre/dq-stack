@@ -46,10 +46,21 @@ export class DqThemesComponent implements OnInit, OnDestroy {
         this.dataSource = new MatTableDataSource(publicThemes);
         this.dataSourcePrivate = new MatTableDataSource(privateThemes);
         setTimeout(() => {
-          this.dataSource.sort = this.sort;
+          this.listenSort();
         }, 1000);
       }),
     );
+  }
+
+  listenSort(): void {
+    this.sort.disableClear = true;
+    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string => {
+      if (typeof data[sortHeaderId] === 'string') {
+        return data[sortHeaderId].toLocaleLowerCase();
+      }
+      return data[sortHeaderId];
+    };
   }
 
   onFileInput(event: any) {
