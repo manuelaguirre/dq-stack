@@ -87,7 +87,7 @@ export class DqQuestionDetailComponent implements OnInit {
       map((question) => {
         if (question) {
           this.snackBarService.showMessage('Question edited successfully');
-          this.router.navigate(['home/themes']);
+          this.router.navigate([`home/themes/${question.theme}/questions`]);
         } else {
           this.snackBarService.showError('Error: Question not edited');
         }

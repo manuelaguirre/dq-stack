@@ -3,6 +3,10 @@
   <mat-form-field *ngIf="formGroup.contains('name')" appearance="outline">
     <mat-label>Name</mat-label>
     <input matInput placeholder="Name" formControlName="name">
+    <mat-icon mat-button *ngIf="formGroup.get('name').value"
+    matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('name').patchValue('')">
+      close
+    </mat-icon>
   </mat-form-field>
 
   <mat-radio-group *ngIf="formGroup.contains('isPublic')" aria-label="Select an option"
@@ -15,16 +19,28 @@
       <mat-label>Description</mat-label>
       <textarea matInput placeholder="description" formControlName="description"
       rows="10"></textarea>
+      <mat-icon mat-button *ngIf="formGroup.get('description').value"
+      matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('description').patchValue('')">
+        close
+      </mat-icon>
   </mat-form-field>
 
   <mat-form-field *ngIf="formGroup.contains('companyName') && formGroup.get('isPublic').value === false" appearance="outline">
     <mat-label>Company name</mat-label>
     <input matInput placeholder="Company name" formControlName="companyName">
+    <mat-icon mat-button *ngIf="formGroup.get('companyName').value"
+    matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('companyName').patchValue('')">
+      close
+    </mat-icon>
   </mat-form-field>
 
   <mat-form-field *ngIf="formGroup.contains('companySubName') && formGroup.get('isPublic').value === false" appearance="outline">
     <mat-label>Company subname</mat-label>
     <input matInput placeholder="Company subname" formControlName="companySubName">
+    <mat-icon mat-button *ngIf="formGroup.get('companySubName').value"
+    matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('companySubName').patchValue('')">
+      close
+    </mat-icon>
   </mat-form-field>
 
   <!-- QUESTIONS -->
@@ -42,26 +58,46 @@
   <mat-form-field *ngIf="formGroup.contains('text')" appearance="outline">
     <mat-label>Question text</mat-label>
     <textarea matInput placeholder="Text" formControlName="text"></textarea>
+    <mat-icon mat-button *ngIf="formGroup.get('text').value"
+    matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('text').patchValue('')">
+      close
+    </mat-icon>
   </mat-form-field>
   
   <mat-form-field *ngIf="formGroup.contains('answer1')" appearance="outline">
       <mat-label>Alternative 1</mat-label>
       <textarea matInput placeholder="Alternative 1" formControlName="answer1"></textarea>
+      <mat-icon mat-button *ngIf="formGroup.get('answer1').value"
+      matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('answer1').patchValue('')">
+        close
+      </mat-icon>
   </mat-form-field>
   
   <mat-form-field *ngIf="formGroup.contains('answer2')" appearance="outline">
       <mat-label>Alternative 2</mat-label>
       <textarea matInput placeholder="Alternative 2" formControlName="answer2"></textarea>
+    <mat-icon mat-button *ngIf="formGroup.get('answer2').value"
+    matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('answer2').patchValue('')">
+      close
+    </mat-icon>
   </mat-form-field>
   
   <mat-form-field *ngIf="formGroup.contains('answer3')" appearance="outline">
       <mat-label>Alternative 3</mat-label>
       <textarea matInput placeholder="Alternative 3" formControlName="answer3"></textarea>
+    <mat-icon mat-button *ngIf="formGroup.get('answer3').value"
+    matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('answer3').patchValue('')">
+      close
+    </mat-icon>
   </mat-form-field>
   
   <mat-form-field *ngIf="formGroup.contains('answer4')" appearance="outline">
       <mat-label>Alternative 4</mat-label>
       <textarea matInput placeholder="Alternative 4" formControlName="answer4"></textarea>
+    <mat-icon mat-button *ngIf="formGroup.get('answer4').value"
+    matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('answer4').patchValue('')">
+      close
+    </mat-icon>
   </mat-form-field>
 
   <mat-form-field *ngIf="formGroup.contains('correct')" appearance="outline">
