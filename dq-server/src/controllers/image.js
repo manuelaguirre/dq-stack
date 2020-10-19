@@ -64,6 +64,7 @@ function getMongoBucket(bucketName) {
 async function getFilename(_id, collectionName){
 	const collection = mongoose.connection.db.collection(collectionName);
 	const result = await collection.findOne({'_id' : _id});
+	if (!result) return null;
 	return result.filename;	
 }
 
