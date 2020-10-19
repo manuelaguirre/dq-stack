@@ -1,8 +1,11 @@
 .dq-form {
   width: 75vw;
   max-width: 500px;
-  .mat-form-field {
+  .mat-form-field, mat-form-field {
     width: 100%;
+    mat-icon {
+      cursor: pointer;
+    }
   }
   mat-radio-group {
     justify-content: space-evenly;
