@@ -27,15 +27,19 @@ router.get('/', asyncCatch(async (req, res) => {
 		res.status(404);
 		throw new Error('Image not found');
 	}
+	const filename = await getFilename(imageID, 'images.files');
+	if (!filename){
+		res.status(404);
+		throw new Error('Image not found');
+	}
+	const extension = path.extname(filename).slice(1);
 	await downloadImage(imageID, () => {
-		res.send('Image not found').status(404);
+		throw new Error('Error downloading image');
 	}, (chunk) => {	
 		res.write(chunk);
 	}, () => {
 		res.end();
 	});
-	const filename = await getFilename(imageID, 'images.files');
-	const extension = path.extname(filename).slice(1);
 	res.set('content-type', `image/${extension}`);
 }));
 
