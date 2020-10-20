@@ -1,0 +1,2 @@
+BACK_OFFICE_URL = "https://dq-server.herokuapp.com/api/"
+X_AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjMyYTQ0MGRjYzQxMTFhNDVkMzJlNzciLCJ1c2VybmFtZSI6ImRxYWRtaW4iLCJpYXQiOjE2MDAxNTc5MDJ9.Zes1TyP2_xg-ap-dmVBsynRr9fMlJzqOROvBc2mq2k4"

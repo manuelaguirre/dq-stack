@@ -1,5 +1,4 @@
-import sys
-import os
+import threading
 from utils.socket_connection import ServerSocketConnection
 from utils.api_handler import APIHandler
 from renderer import ServerRenderer
@@ -10,11 +9,10 @@ socket = ServerSocketConnection(8000)
 
 def start_game():
   dq_game = DQGame()
-  renderer = ServerRenderer()
-
-  dq_game.on('show_instructions', renderer.showInstructions)
-  dq_game.start()
+  renderer = ServerRenderer(dq_game.start)
+  dq_game.on('show_instructions', renderer.show_instructions)
+  renderer.initialize()
 
 
 socket.on('game_ready_to_start', start_game)
-socket.listen(2)
+socket.listen(2)  
