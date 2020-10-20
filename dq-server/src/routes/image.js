@@ -56,6 +56,19 @@ router.put('/', upload.single('image'), auth, asyncCatch(async (req, res) => {
 	return res.send(result);   
 }));
 
+router.delete('/', upload.none('image'), auth, asyncCatch(async (req, res) => {
+	const questionID = castToObjectID(req.params.questionID);
+	let result;
+	if (await questionHasImage(questionID)) {
+		result = await deleteImage(req);
+		res.status(200);
+	} else {
+		res.status(404);
+		throw new Error('Image to delete not found');
+	}
+	return res.send(result);   
+}));
+
 function castToObjectID(id) {
 	try {
 		return new ObjectID(id);	

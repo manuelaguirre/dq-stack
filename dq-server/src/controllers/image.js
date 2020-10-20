@@ -43,15 +43,17 @@ async function downloadImage(imageID, callbackOnError, callbackOnData, callbackO
 	});	
 }
 
-async function deleteImage(imageID){
+async function deleteImage(req){
+	let questionID = req.params.questionID;
+	const imageID = await getImageID(questionID);
 	let bucket = getMongoBucket('images');
-	return bucket.delete(imageID);
+	bucket.delete(imageID);
+	return getQuestionAndUpdate(questionID, { image: undefined}); 
 }
 
 async function updateImage(req){
-	const oldImageID = await getImageID(req.params.questionID);
+	await deleteImage(req);
 	const result = await uploadImage(req);
-	await deleteImage(oldImageID);
 	return result;
 }
 
