@@ -1,4 +1,5 @@
 README
+setup.py
 dq_game.egg-info/PKG-INFO
 dq_game.egg-info/SOURCES.txt
 dq_game.egg-info/dependency_links.txt
