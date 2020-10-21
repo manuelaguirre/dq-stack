@@ -4,7 +4,7 @@ dq-server/.eslintrc.js
 dq-server/.env
 dq-server/.env.test
 
-dq-server/.vscode
+.vscode/
 
 
 dq-backoffice/node_modules/
@@ -14,7 +14,8 @@ dq-backoffice/out-tsc
 dq-backoffice/npm-debug.log
 dq-backoffice/yarn-error.log
 
-**/__pycache__/
-dq-game/info.py
+__pycache__/
+dq_game/src/info.py
+dq_game.egg-info/
 
 venv
