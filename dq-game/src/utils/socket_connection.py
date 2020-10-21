@@ -6,6 +6,8 @@ import socket
 import time
 import pickle
 import threading
+import select
+from utils.message import Message
 # from game_types.question import DQQuestion
 
 class SocketConnection(EventHandler):
@@ -15,33 +17,54 @@ class SocketConnection(EventHandler):
     self.tcpsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     self.HEADER_LENGTH = 10
 
-  def attach_header(self, msg):
+  def attach_header(self, msg, content_type):
     """
     Attaches a fixed length header for a TCP Websocket Transmission
     """
-    return (f"{len(msg):<{self.HEADER_LENGTH}}"+msg)
-    
+    return (f"{len(msg):<{self.HEADER_LENGTH}}" + f"{content_type:<{self.HEADER_LENGTH}}" + msg)
+
+  def send(self, socket, msg, content_type):
+    """
+    Sends a message to the socket.
+    """
+    socket.sendall(self.attach_header(msg, content_type).encode('utf-8'))
+
+  def receive(self, socket):
+    """
+    Receives bytes from socket and returns a tuple with the content type and the message 
+    """
+    inbound_msg_length = int(socket.recv(self.HEADER_LENGTH).strip().decode('utf-8'))
+    inbound_msg_content_type = socket.recv(self.HEADER_LENGTH).strip().decode('utf-8')
+    inbound_msg = socket.recv(inbound_msg_length).decode('utf-8')
+    return Message(socket, inbound_msg_content_type, inbound_msg)
+
 
 class ClientSocketConnection(SocketConnection):
   def __init__(self, port):
     super().__init__(port)
     self.tcpsock.setblocking(1)
     self.client_id = 0
+
+  def send(self, msg, content_type):
+    super().send(self.tcpsock, msg, content_type)
   
+  def handle_incoming_message(self, inbound_msg):
+    """
+    Handles incoming messages
+    """
+    if inbound_msg.content_type == "data":
+      pass
+    if inbound_msg.content_type == "event":
+      pass
+
   def inbound_task(self):
     """
     Listen to inbound messages. 
     """
     while True:
-      inbound_msg_length = int(self.tcpsock.recv(self.HEADER_LENGTH).strip())
-      inbound_msg = self.tcpsock.recv(inbound_msg_length).decode('utf-8')
-      print(inbound_msg)
-
-  def send_to_server(self, msg):
-    """
-    Sends a message to the server
-    """
-    self.tcpsock.send(self.attach_header(msg).encode('utf-8'))
+      inbound_msg = self.receive(self.tcpsock)
+      print(inbound_msg.data)
+      self.handle_incoming_message(inbound_msg)
 
   def connect(self):
     while True:
@@ -64,7 +87,9 @@ class ServerSocketConnection(SocketConnection):
     super().__init__(port)
     self.tcpsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     self.tcpsock.bind((socket.gethostname(), self.port))
-    self.clients = []
+
+    self.clients = {}
+    self.inbuffer = []
   
   def listen(self, expected_connections):
     self.tcpsock.listen(5)
@@ -76,6 +101,9 @@ class ServerSocketConnection(SocketConnection):
     print('now we are ready to start the game')
     print(self.clients)
     self.trigger('game_ready_to_start')
+    inbound_thread = threading.Thread(target=self.inbound_task, args=(self.clients,))
+    inbound_thread.start()
+
 
   def handle_requests(self):
     clientsocket, address = self.tcpsock.accept()
@@ -84,12 +112,44 @@ class ServerSocketConnection(SocketConnection):
     new_client = {}
     new_client["clientsocket"] = clientsocket
     new_client["address"] = address
-    buffer_size = int(clientsocket.recv(self.HEADER_LENGTH).strip())
-    username = clientsocket.recv(buffer_size).decode('utf-8') 
-    new_client["username"] = username
-    self.clients.append(new_client)
+    client_name = self.receive(clientsocket)
+    new_client["client_name"] = client_name
+    self.clients[clientsocket] = new_client
+    self.send(clientsocket,str(len(self.clients)),"handshake")
 
-    clientsocket.send(('' + str(len(self.clients))).encode('utf-8'))
+  def handle_message(self, message):
+    """
+    Message Handler
+    """
+    self.inbuffer.append(message)
 
-  def send_question(self, question):
-    pass
+  def inbound_task(self, clients):
+    """
+    Inbound task for the server, accepting established connections as parameters
+    """
+    sockets_list = []
+    for client in self.clients.keys():
+      sockets_list.append(client)
+
+    while True:
+      read_sockets, _, exception_sockets = select.select(sockets_list, [], sockets_list)
+      for notified_socket in read_sockets:
+        message = self.receive(notified_socket)
+        self.handle_message(message)
+        if message is False:
+
+          print('Closed connection from: {}'.format(clients[notified_socket]['data'].decode('utf-8')))
+
+          sockets_list.remove(notified_socket)
+
+          del clients[notified_socket]
+
+          continue
+
+          # Get user by notified socket, so we will know who sent the message
+        user = clients[notified_socket]
+
+        print(f'Received message from {user["data"].decode("utf-8")}: {message.data.decode("utf-8")}')
+      
+      
+    

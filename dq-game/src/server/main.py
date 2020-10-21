@@ -1,18 +1,30 @@
-import threading
-from utils.socket_connection import ServerSocketConnection
+import os
+import sys
+
 from utils.api_handler import APIHandler
-from renderer import ServerRenderer
+from utils.socket_connection import ServerSocketConnection
+from controller import Controller
+
 from game import DQGame
+from renderer import ServerRenderer
 
 api_handler = APIHandler()
-socket = ServerSocketConnection(8000)
+
+controller = Controller()
+
 
 def start_game():
-  dq_game = DQGame()
-  renderer = ServerRenderer(dq_game.start)
-  dq_game.on('show_instructions', renderer.show_instructions)
-  renderer.initialize()
+  players = socket.clients.keys()
+  dq_game = DQGame(players)
+  renderer = ServerRenderer()
+
+  dq_game.on('start-game', renderer.showInstructions)
+  dq_game.start()
 
 
-socket.on('game_ready_to_start', start_game)
-socket.listen(2)  
+socket.on('start-game', start_game)
+
+socket.listen(2)
+
+dq_game.on("please choose themes", controller.get_theme_choices())
+
