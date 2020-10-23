@@ -16,11 +16,9 @@ controller = Controller()
 def start_game():
   players = socket.clients.keys()
   dq_game = DQGame(players)
-  renderer = ServerRenderer()
-
-  dq_game.on('start-game', renderer.showInstructions)
-  dq_game.start()
-
+  renderer = ServerRenderer(dq_game.start)
+  dq_game.on('show_instructions', renderer.show_instructions)
+  renderer.initialize()
 
 socket.on('start-game', start_game)
 
