@@ -8,5 +8,4 @@ class DQGame(EventHandler):
     print('Creating a new game')
  
   def start(self):
-    print('Send show instruction')
     self.trigger('show_instructions')

@@ -2,23 +2,27 @@ from __future__ import print_function
 import os
 import pygame
 from events.event_handler import EventHandler
-from threading import Thread
+from utils.renderer_utils import renderTextCenteredAt
+import threading
 from mock_data import mock_instructions
 import time
 
 class ServerRenderer(EventHandler):
   """
   Renderer for the server main app (Central app)
+  TODO: Define super class Renderer to share it in the client
   """
-  def __init__(self, startCallback):
+  def __init__(self):
     self.screen = None
     self.font = None
     self.base_path = os.path.dirname(__file__)
     self.SCREEN_WIDTH = 1000
     self.SCREEN_HEIGHT = 600
-    self.on('start_game', startCallback)
 
   def initialize(self):
+    """
+    Initialize the renderer. Create pygame instance and call of the start game
+    """
     pygame.init()
     self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
     self.font = pygame.font.Font(os.path.join(self.base_path, 'fonts/YanoneKaffeesatz-Regular.ttf'), 32)
@@ -34,12 +38,18 @@ class ServerRenderer(EventHandler):
           running = False
     
   def show_background(self):
+    """
+    Clear the screen. Only display the background
+    """
     background = pygame.image.load(os.path.join(self.base_path, 'images/background.jpg'))
     background = pygame.transform.scale(background, (1000, 600))
     self.screen.blit(background, (0, 0))
     pygame.display.update()
 
   def show_logo(self):
+    """
+    Clear the screen and display logo
+    """
     self.show_background()
     logo = pygame.image.load(os.path.join(self.base_path, 'images/icons/dqlogo.png'))
     logo_rect = logo.get_rect(center=(self.SCREEN_WIDTH/2, self.SCREEN_HEIGHT/2))
@@ -48,9 +58,14 @@ class ServerRenderer(EventHandler):
 
   def show_instructions(self):
     """
+    Public method to renderer the instructions async
+    """
+    threading.Thread(target=self._show_instructions).start()
+
+  def _show_instructions(self):
+    """
     Renderer the instructions
     """
-    print('I will show the instructions')
     time.sleep(2)
     self.show_background()
     height_ins = 4*self.SCREEN_HEIGHT/6
@@ -58,7 +73,7 @@ class ServerRenderer(EventHandler):
     count = 1
     n = len(mock_instructions) + 1
     for instruction in mock_instructions:
-      self.renderTextCenteredAt(instruction, count*height_ins/n + height_ins_i)
+      renderTextCenteredAt(self, instruction, count*height_ins/n + height_ins_i)
       count += 1
     pygame.display.update()
     time.sleep(4)
@@ -74,38 +89,3 @@ class ServerRenderer(EventHandler):
 
   def show_timer(self):
     pass
-
-  def renderTextCenteredAt(self, text, y):
-    # first, split the text into words
-    words = text.split()
-    # now, construct lines out of these words
-    lines = []
-    while len(words) > 0:
-        # get as many words as will fit within allowed_width
-        line_words = []
-        while len(words) > 0:
-            line_words.append(words.pop(0))
-            fw, fh = self.font.size(' '.join(line_words + words[:1]))
-            if fw > 9*self.SCREEN_WIDTH/10:
-                break
-
-        # add a line consisting of those words
-        line = ' '.join(line_words)
-        lines.append(line)
-
-    # now we've split our text into lines that fit into the width, actually
-    # render them
-
-    # we'll render each line below the last, so we need to keep track of
-    # the culmative height of the lines we've rendered so far
-    y_offset = 0
-    for line in lines:
-        fw, fh = self.font.size(line)
-
-        # (tx, ty) is the top-left of the font surface
-        tx = self.SCREEN_WIDTH/2 - fw / 2
-        ty = y + y_offset
-
-        font_surface = self.font.render(line, True, (0, 0, 0))
-        self.screen.blit(font_surface, (tx, ty))
-        y_offset += fh
