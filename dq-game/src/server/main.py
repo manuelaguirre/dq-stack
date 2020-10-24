@@ -13,8 +13,7 @@ controller = Controller()
 
 def start_game():
   # Create main classes
-  players = socket.clients.keys()
-  dq_game = DQGame(players)
+  dq_game = DQGame()
   renderer = ServerRenderer()
   # Bind events
   renderer.on('start_game', dq_game.start)
