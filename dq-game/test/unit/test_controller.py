@@ -10,6 +10,12 @@ from utils.socket_connection import ServerSocketConnection
     
 NO_OF_PLAYERS = 5
 
+#Patch Configs for external dependencies
+pickle_config = {
+    "spec" : ["dumps"],
+    "dumps.return_value" : "Pickled Object"
+}
+
 class MockSocket:
     
     def __init__(self):
@@ -85,22 +91,39 @@ class TestGetThemeChoices:
 
 class TestRequestThemeChoices:
 
-    def test_should_call_connection_send_method(self):
+    @patch('server.controller.pickle', **pickle_config)
+    def test_should_pickle_and_send_theme_list(self, mock_pickle):
+
+        socket = MockSocket()
+        theme_list = ["Historia", "Sport", "Matemática", "Geografía"]
+        controller = Controller(socket, NO_OF_PLAYERS)
+
+        controller.request_theme_choices(theme_list)
+
+        mock_pickle.dumps.assert_called_with(theme_list)
+        socket.send_to_all.assert_called_with("Pickled Object", "data")
+
+    @patch('server.controller.pickle', **pickle_config)
+    def test_should_call_connection_send_method(self, mock_pickle):
         socket = MockSocket()
         socket.send_to_all = MagicMock()
+        theme_list = MagicMock()
 
         controller = Controller(socket, NO_OF_PLAYERS)
-        controller.request_theme_choices()
-        socket.send_to_all.assert_called_once_with("CHOOSE THEME", "event")
+        controller.request_theme_choices(theme_list)
 
-    def test_should_trigger_wait_for_themes(self):
+        socket.send_to_all.assert_any_call("CHOOSE THEME", "event")
+
+    @patch('server.controller.pickle', **pickle_config)
+    def test_should_trigger_wait_for_themes(self, mock_pickle):
         socket = MockSocket()
         controller = Controller(socket, NO_OF_PLAYERS)
         controller.trigger = MagicMock()
+        theme_list = MagicMock()
 
-        controller.request_theme_choices()
+        controller.request_theme_choices(theme_list)
 
-        assert "wait-for-themes" in controller.callbacks
+        controller.trigger.assert_called_once_with("THEMES REQUESTED")
 
         
         
