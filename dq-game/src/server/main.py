@@ -9,20 +9,18 @@ from game import DQGame
 from renderer import ServerRenderer
 
 api_handler = APIHandler()
-controller = Controller()
+controller = Controller(1)
 
 def start_game():
   # Create main classes
   dq_game = DQGame()
   renderer = ServerRenderer()
   # Bind events
-  renderer.on('start_game', dq_game.start)
+  renderer.on('renderer_start_game', dq_game.start)
   dq_game.on('show_instructions', renderer.show_instructions)
+  dq_game.on('choose_themes', controller.get_theme_choices())
   # Start
   renderer.initialize()
 
-socket.on('start-game', start_game)
-
-socket.listen(2)
-
-dq_game.on("please choose themes", controller.get_theme_choices())
+controller.on('controller_start_game', start_game)
+controller.listen()

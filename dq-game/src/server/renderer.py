@@ -27,10 +27,11 @@ class ServerRenderer(EventHandler):
     self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
     self.font = pygame.font.Font(os.path.join(self.base_path, 'fonts/YanoneKaffeesatz-Regular.ttf'), 32)
     pygame.display.set_caption("DefiQuizz")
-    icon = pygame.image.load(os.path.join(self.base_path, 'images/icons/favicon.png'))
+    print(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'images/icons/favicon.png')))
+    icon = pygame.image.load(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'images/icons/favicon.png')))
     pygame.display.set_icon(icon)
     self.show_logo()
-    self.trigger('start_game')
+    self.trigger('renderer_start_game')
     running = True
     while running: # main game loop
       for event in pygame.event.get():
@@ -41,7 +42,7 @@ class ServerRenderer(EventHandler):
     """
     Clear the screen. Only display the background
     """
-    background = pygame.image.load(os.path.join(self.base_path, 'images/background.jpg'))
+    background = pygame.image.load(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'images/background.jpg')))
     background = pygame.transform.scale(background, (1000, 600))
     self.screen.blit(background, (0, 0))
     pygame.display.update()
@@ -51,7 +52,7 @@ class ServerRenderer(EventHandler):
     Clear the screen and display logo
     """
     self.show_background()
-    logo = pygame.image.load(os.path.join(self.base_path, 'images/icons/dqlogo.png'))
+    logo = pygame.image.load(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'images/icons/dqlogo.png')))
     logo_rect = logo.get_rect(center=(self.SCREEN_WIDTH/2, self.SCREEN_HEIGHT/2))
     self.screen.blit(logo, logo_rect)
     pygame.display.update()
