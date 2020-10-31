@@ -6,7 +6,7 @@ from utils.socket_connection import ServerSocketConnection
 from controller import Controller
 
 from game import DQGame
-from renderer import ServerRenderer
+from server_renderer import ServerRenderer
 
 api_handler = APIHandler()
 controller = Controller(1)
@@ -18,7 +18,7 @@ def start_game():
   # Bind events
   renderer.on('renderer_start_game', dq_game.start)
   dq_game.on('show_instructions', renderer.show_instructions)
-  dq_game.on('choose_themes', controller.get_theme_choices())
+  dq_game.on('choose_themes', controller.get_theme_choices)
   # Start
   renderer.initialize()
 
