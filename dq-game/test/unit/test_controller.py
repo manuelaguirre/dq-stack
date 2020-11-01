@@ -101,7 +101,7 @@ class TestRequestThemeChoices:
         controller.request_theme_choices(theme_list)
 
         mock_pickle.dumps.assert_called_with(theme_list)
-        socket.send_to_all.assert_called_with("Pickled Object", "data")
+        socket.send_to_all.assert_called_with("Pickled Object", "data-pickle")
 
     @patch('server.controller.pickle', **pickle_config)
     def test_should_call_connection_send_method(self, mock_pickle):
