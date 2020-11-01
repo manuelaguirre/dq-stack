@@ -20,7 +20,7 @@ def accept_wrapper(sock):
 #     print("usage:", sys.argv[0], "<host> <port>")
 #     sys.exit(1)
 
-#host, port = sys.argv[1], int(sys.argv[2])
+# host, port = sys.argv[1], int(sys.argv[2])
 host, port = socket.gethostname(), 8000
 
 lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
