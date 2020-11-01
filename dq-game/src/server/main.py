@@ -15,6 +15,7 @@ api_handler = APIHandler()
 controller = Controller(socket, NO_OF_PLAYERS)
 
 
+
 def start_game():
     # Create main classes
     dq_game = DQGame()
