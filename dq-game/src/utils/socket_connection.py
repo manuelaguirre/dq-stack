@@ -13,11 +13,13 @@ from utils.message import Message
 
 
 class SocketConnection(EventHandler):
-    def __init__(self, port):
+    # TODO: compose event handler
+    def __init__(self, port, socket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)):
         print("pijita")
         self.port = port
-        self.tcpsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.tcpsock = socket
         self.HEADER_LENGTH = 10
+        self.inbuffer = []
 
     def attach_header(self, msg, content_type):
         """
@@ -35,22 +37,25 @@ class SocketConnection(EventHandler):
         """
         socket.sendall(self.attach_header(msg, content_type).encode("utf-8"))
 
-    def receive(self, socket):
+    def receive(self, socket):  # TODO: Crashes when putting chars like é
         """
         Receives bytes from socket and returns a tuple with the content type and the message
         """
-        inbound_msg_length = int(
-            socket.recv(self.HEADER_LENGTH).strip().decode("utf-8")
-        )
-        inbound_msg_content_type = (
-            socket.recv(self.HEADER_LENGTH).strip().decode("utf-8")
-        )
-        inbound_msg = socket.recv(inbound_msg_length).decode("utf-8")
-        return Message(socket, inbound_msg_content_type, inbound_msg)
+        try:
+            inbound_msg_length = int(
+                socket.recv(self.HEADER_LENGTH).strip().decode("utf-8")
+            )
+            inbound_msg_content_type = (
+                socket.recv(self.HEADER_LENGTH).strip().decode("utf-8")
+            )
+            inbound_msg = socket.recv(inbound_msg_length).decode("utf-8")
+            return Message(socket, inbound_msg_content_type, inbound_msg)
+        except ValueError:
+            return False
 
 
 class ClientSocketConnection(SocketConnection):
-    def __init__(self, port):
+    def __init__(self, port):  # TODO: socket_service, socket
         super().__init__(port)
         self.tcpsock.setblocking(1)
         self.client_id = 0
@@ -63,9 +68,10 @@ class ClientSocketConnection(SocketConnection):
         Handles incoming messages
         """
         if inbound_msg.content_type == "data":
-            pass
+            self.inbuffer.append(inbound_msg)
+            print(self.inbuffer)
         if inbound_msg.content_type == "event":
-            pass
+            self.trigger(inbound_msg.data)
 
     def inbound_task(self):
         """
@@ -99,7 +105,6 @@ class ServerSocketConnection(SocketConnection):
         self.tcpsock.bind((socket.gethostname(), self.port))
 
         self.clients = {}
-        self.inbuffer = []
 
     def listen(self, expected_connections):
         self.tcpsock.listen(5)
@@ -123,8 +128,8 @@ class ServerSocketConnection(SocketConnection):
         new_client = {}
         new_client["clientsocket"] = clientsocket
         new_client["address"] = address
-        client_name = self.receive(clientsocket)
-        new_client["client_name"] = client_name
+        msg = self.receive(clientsocket)
+        new_client["client_name"] = msg.data
         self.clients[clientsocket] = new_client
         self.send(clientsocket, str(len(self.clients)), "handshake")
 
@@ -133,6 +138,10 @@ class ServerSocketConnection(SocketConnection):
         Message Handler
         """
         self.inbuffer.append(message)
+
+    def send_to_all(self, msg, content_type):
+        for client in self.clients:
+            self.send(client, msg, content_type)
 
     def inbound_task(self, clients):
         """
