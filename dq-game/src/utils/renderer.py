@@ -1,6 +1,7 @@
 import os
 import pygame
 from events.event_handler import EventHandler
+from utils.renderer_round_rect import round_rect
 
 
 class Renderer(EventHandler):
@@ -79,3 +80,14 @@ class Renderer(EventHandler):
 
     def update_screen(self):
         pygame.display.update()
+
+    def display_button(self, text, x, y):
+        self.draw_button_border(x-80, y-30, 160, 60)
+        text_ = self.font.render(text , True , (255,0,0))
+        text_rect = text_.get_rect(center=(x, y))
+        self.screen.blit(text_ , text_rect) 
+        # pygame.draw.rect(self.screen, (128, 128, 128), [x-80, y-20, 160, 40], 5)
+        pygame.display.update()
+
+    def draw_button_border(self, x, y, width, height):
+        round_rect(self.screen, (x, y, width, height), (0,0,0), 10, 0, (255,255,255, 255))
