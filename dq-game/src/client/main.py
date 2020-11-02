@@ -8,7 +8,7 @@ from client_screen_handler import ClientScreenHandler
 
 
 def start_game():
-    # username = input("username > ")
+    username = input("username > ")
 
     # Create main classes
     client_renderer = ClientRenderer()
@@ -24,7 +24,7 @@ def start_game():
 
     # Start
     client_socket.connect()
-    # client_socket.send(username, "username")
+    client_socket.send(username, "username")
     client_renderer.initialize()
 
 start_game()
