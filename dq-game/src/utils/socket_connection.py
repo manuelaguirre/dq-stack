@@ -17,7 +17,6 @@ from utils.message import Message
 class SocketConnection(EventHandler):
     # TODO: compose event handler
     def __init__(self, port, socket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)):
-        print("pijita")
         self.port = port
         self.tcpsock = socket
         self.HEADER_LENGTH = 10
