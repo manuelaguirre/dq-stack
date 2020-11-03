@@ -30,12 +30,12 @@ class SocketConnection(EventHandler):
         msg = pickle.dumps(msg)
         return bytes(f"{len(msg):<{self.HEADER_LENGTH}}", "utf-8") + msg
 
-    def send(self, socket, data, content_type):
+    def send(self, destination_socket, data, content_type):
         """
         Sends a message to the socket.
         """
         msg = Message(self.tcpsock.getsockname(), data, content_type)
-        socket.sendall(self.encode(msg))
+        destination_socket.sendall(self.encode(msg))
 
     def decode(self, inbound_msg):
         return pickle.loads(inbound_msg)
@@ -117,7 +117,7 @@ class ServerSocketConnection(SocketConnection):
             target=self.inbound_task, args=(self.clients,)
         )
         inbound_thread.start()
-        self.trigger("game_ready_to_start")
+        self.trigger("GAME_READY_TO_START")
 
     def handle_requests(self):
         clientsocket, address = self.tcpsock.accept()

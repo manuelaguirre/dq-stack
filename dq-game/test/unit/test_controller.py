@@ -120,8 +120,8 @@ class TestRequestThemeChoices:
         controller = Controller(socket, NO_OF_PLAYERS)
         controller.request_theme_choices(theme_list)
 
-        socket.send_to_all.assert_any_call("CHOOSE THEME", "event")
         socket.send_to_all.assert_any_call(theme_list, "data-theme-list")
+        socket.send_to_all.assert_called_with("CHOOSE_THEME", "event")
 
     def test_should_trigger_wait_for_themes(self):
         socket = MockSocket()
@@ -131,4 +131,4 @@ class TestRequestThemeChoices:
 
         controller.request_theme_choices(theme_list)
 
-        controller.trigger.assert_called_once_with("THEMES REQUESTED")
+        controller.trigger.assert_called_once_with("THEMES_REQUESTED")

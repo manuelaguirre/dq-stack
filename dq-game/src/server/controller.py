@@ -12,23 +12,23 @@ class Controller(EventHandler):
         Creates a controller
         """
         self.socket = socket
-        self.socket.on("game_ready_to_start", self.start)
+        self.socket.on("GAME_READY_TO_START", self.start)
         self.no_of_players = no_of_players
         self.players = []
 
     def start(self):
-        self.trigger("start_game")
+        self.trigger("START_GAME")
 
     def request_theme_choices(self, theme_list):
 
         self.socket.send_to_all(theme_list, "data-theme-list")
-        self.socket.send_to_all("CHOOSE THEME", "event")
-        self.trigger("THEMES REQUESTED")
+        self.socket.send_to_all("CHOOSE_THEME", "event")
+        self.trigger("THEMES_REQUESTED")
 
     def get_theme_choices(self):
         result = []
         for message in self.socket.inbuffer:
-            if message.content_type == "THEME CHOICE":
+            if message.content_type == "THEME_CHOICE":
                 result.append(message.data)
         print(result)
         return result
