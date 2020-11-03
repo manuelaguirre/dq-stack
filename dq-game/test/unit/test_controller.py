@@ -66,30 +66,6 @@ class MockSocket:
         }
 
 
-# class TestGetThemeChoices:
-#     socket = MockSocket()
-
-#     def test_get_theme_choices_returns_set_from_inbuffer_msgs(self):
-#         """
-#         Should return a set eliminating repeated elements
-#         """
-
-#         socket = MockSocket()
-
-#         socket.inbuffer = [
-#             Message(socket.socket_key1, "THEME CHOICE", "Matemática"),
-#             Message(socket.socket_key3, "THEME CHOICE", "Historia"),
-#             Message(socket.socket_key2, "THEME CHOICE", "Historia"),
-#             Message(socket.socket_key4, "THEME CHOICE", "Sport"),
-#             Message(socket.socket_key5, "THEME CHOICE", "Culture Génerale"),
-#         ]
-
-#         controller = Controller(socket, NO_OF_PLAYERS)
-#         result = controller.get_theme_choices()
-
-#         assert set(result) == {"Historia", "Matemática", "Sport", "Culture Génerale"}
-
-
 class TestDecideThemeChoices:
     def test_should_give_the_best_rated_themes(self):
         """

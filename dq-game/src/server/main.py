@@ -33,7 +33,6 @@ def start_game():
     renderer = ServerRenderer()
     # Bind events
     renderer.on("START_GAME", dq_game.start)
-    # renderer.on("start_game", controller.request_theme_choices(["Matematica"]))
     dq_game.on("SHOW_INSTRUCTIONS", renderer.show_instructions)
     controller.request_theme_choices(theme_list)
     time.sleep(3)
