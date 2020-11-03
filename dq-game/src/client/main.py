@@ -26,4 +26,5 @@ def start_game():
     client_socket.send(username, "username")
     client_renderer.initialize()
 
+
 start_game()
