@@ -1,12 +1,14 @@
-import sys
-import os
-from events.event_handler import EventHandler
 import importlib.util
-import socket
-import time
+import os
 import pickle
-import threading
 import select
+import socket
+import sys
+import threading
+import time
+
+from events.event_handler import EventHandler
+
 from utils.message import Message
 
 # from game_types.question import DQQuestion
@@ -21,35 +23,30 @@ class SocketConnection(EventHandler):
         self.HEADER_LENGTH = 10
         self.inbuffer = []
 
-    def attach_header(self, msg, content_type):
+    def encode(self, msg):
         """
-        Attaches a fixed length header for a TCP Websocket Transmission
+        Encodes a message for application layer transmission
         """
-        return (
-            f"{len(msg):<{self.HEADER_LENGTH}}"
-            + f"{content_type:<{self.HEADER_LENGTH}}"
-            + msg
-        )
+        msg = pickle.dumps(msg)
+        return bytes(f"{len(msg):<{self.HEADER_LENGTH}}", "utf-8") + msg
 
-    def send(self, socket, msg, content_type):
+    def send(self, socket, data, content_type):
         """
         Sends a message to the socket.
         """
-        socket.sendall(self.attach_header(msg, content_type).encode("utf-8"))
+        msg = Message(self.tcpsock.getsockname(), data, content_type)
+        socket.sendall(self.encode(msg))
+
+    def decode(self, inbound_msg):
+        return pickle.loads(inbound_msg)
 
     def receive(self, socket):  # TODO: Crashes when putting chars like é
         """
         Receives bytes from socket and returns a tuple with the content type and the message
         """
         try:
-            inbound_msg_length = int(
-                socket.recv(self.HEADER_LENGTH).strip().decode("utf-8")
-            )
-            inbound_msg_content_type = (
-                socket.recv(self.HEADER_LENGTH).strip().decode("utf-8")
-            )
-            inbound_msg = socket.recv(inbound_msg_length).decode("utf-8")
-            return Message(socket, inbound_msg_content_type, inbound_msg)
+            inbound_msg_length = int(socket.recv(self.HEADER_LENGTH).decode("utf-8"))
+            return self.decode(socket.recv(inbound_msg_length))
         except ValueError:
             return False
 
@@ -67,11 +64,12 @@ class ClientSocketConnection(SocketConnection):
         """
         Handles incoming messages
         """
-        if inbound_msg.content_type == "data":
-            self.inbuffer.append(inbound_msg)
-            print(self.inbuffer)
+        print(inbound_msg.data, inbound_msg.content_type)
         if inbound_msg.content_type == "event":
             self.trigger(inbound_msg.data)
+        else:
+            self.inbuffer.append(inbound_msg)
+            print(self.inbuffer)
 
     def inbound_task(self):
         """
@@ -115,11 +113,11 @@ class ServerSocketConnection(SocketConnection):
 
         print("now we are ready to start the game")
         print(self.clients)
-        self.trigger("game_ready_to_start")
         inbound_thread = threading.Thread(
             target=self.inbound_task, args=(self.clients,)
         )
         inbound_thread.start()
+        self.trigger("game_ready_to_start")
 
     def handle_requests(self):
         clientsocket, address = self.tcpsock.accept()
@@ -173,8 +171,8 @@ class ServerSocketConnection(SocketConnection):
                     continue
 
                     # Get user by notified socket, so we will know who sent the message
-                user = clients[notified_socket]
+                notified_client = clients[notified_socket]
 
                 print(
-                    f'Received message from {user["data"].decode("utf-8")}: {message.data.decode("utf-8")}'
+                    f'Received message from {notified_client["client_name"]}: {message.data}'
                 )
