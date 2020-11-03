@@ -18,8 +18,8 @@ def start_game():
     controller = ClientController(client_socket, client_renderer, client_screen_handler)
 
     # Bind events
-    client_renderer.on("renderer_start_game", dq_client_game.start)
-    client_socket.on("CHOOSE THEME", controller.get_client_theme_choices)
+    client_renderer.on("RENDERER_START_GAME", dq_client_game.start)
+    client_socket.on("CHOOSE_THEME", controller.get_client_theme_choices)
 
     # Start
     client_socket.connect()

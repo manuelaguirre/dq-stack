@@ -10,4 +10,4 @@ class DQClientGame(EventHandler):
         print("Creating a new client game")
 
     def start(self):
-        self.trigger("choose_themes")
+        self.trigger("CHOOSE_THEMES")

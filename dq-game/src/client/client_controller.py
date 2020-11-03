@@ -16,7 +16,7 @@ class ClientController(EventHandler):
         self.screen_handler = screen_handler
 
     def start_game(self):
-        self.trigger("controller_start_game")
+        self.trigger("CONTROLLER_START_GAME")
 
     def get_theme_list(self):
         """
@@ -32,18 +32,9 @@ class ClientController(EventHandler):
         print("client controller get client theme choices")
         theme_list = self.get_theme_list()
 
-        def choose_random_theme(theme_list):
-            """
-            Takes 3 themes at random
-            """
-            choices = []
-            while len(choices) < 3:
-                choice = random.choice(theme_list)
-                if choice not in choices:
-                    choices.append(choice)
-            return choices
+        self.renderer.select_themes(theme_list)
 
-        choices = choose_random_theme(theme_list)
-        self.socket.send(choices, "THEME CHOICE")
+        choices = []
+        self.socket.send(choices, "THEME_CHOICE")
 
         return False
