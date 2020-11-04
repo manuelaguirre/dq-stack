@@ -4,16 +4,19 @@ import sys
 
 from events.event_handler import EventHandler
 from utils.socket_connection import ServerSocketConnection
+from client_screen_handler import ClientScreenHandler
+from mock_data import mock_themes
 
 
 class ClientController(EventHandler):
-    def __init__(self, socket, renderer, screen_handler):
+    def __init__(self, socket, renderer):
         """
         Creates a controller
         """
         self.socket = socket
         self.renderer = renderer
-        self.screen_handler = screen_handler
+        self.screen_handler = ClientScreenHandler()
+        self.renderer.screen_handler = self.screen_handler
 
     def start_game(self):
         self.trigger("CONTROLLER_START_GAME")
@@ -29,12 +32,11 @@ class ClientController(EventHandler):
 
     def get_client_theme_choices(self):
         # Send instruction to choose themes to clients
-        print("client controller get client theme choices")
         theme_list = self.get_theme_list()
-
         self.renderer.select_themes(theme_list)
-
-        choices = []
-        self.socket.send(choices, "THEME_CHOICE")
+        self.renderer.on("THEMES_CHOICE_DONE", self.send_client_theme_choices)
 
         return False
+
+    def send_client_theme_choices(self):
+        self.socket.send(self.renderer.selected_themes, "THEME_CHOICE")
