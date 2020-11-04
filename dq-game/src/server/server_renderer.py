@@ -14,7 +14,7 @@ class ServerRenderer(Renderer):
     """
 
     def __init__(self):
-        super().__init__(1000, 600)
+        super().__init__(1000, 600, "server")
 
     def show_instructions(self):
         """
