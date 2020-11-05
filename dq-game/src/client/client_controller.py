@@ -34,7 +34,6 @@ class ClientController(EventHandler):
         # Send instruction to choose themes to clients
         theme_list = self.get_theme_list()
         self.renderer.select_themes(theme_list)
-        self.renderer.on("THEMES_CHOICE_DONE", self.send_client_theme_choices)
 
         return False
 

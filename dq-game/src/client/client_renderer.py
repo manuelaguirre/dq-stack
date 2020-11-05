@@ -20,7 +20,7 @@ class ClientRenderer(Renderer):
         self.buttons_list = []
         self.selected_themes_num = 0
         self.selected_themes = []
-        self.button_validate = None
+        self.validation_button = None
 
     def select_themes(self, themes):
         self.themes = themes
@@ -64,8 +64,8 @@ class ClientRenderer(Renderer):
         # Create validate button
         pos_x_validate = self.SCREEN_WIDTH / 2
         pos_y_validate = 8 / 9 * self.SCREEN_HEIGHT
-        self.button_validate = ScreenButton(pos_x_validate, pos_y_validate, "Select")
-        self.buttons_list.append(self.button_validate)
+        self.validation_button = ScreenButton(pos_x_validate, pos_y_validate, "Select")
+        self.buttons_list.append(self.validation_button)
         self.screen_handler.add_object(
             {
                 "init": (
@@ -76,7 +76,7 @@ class ClientRenderer(Renderer):
                     pos_x_validate + self.BUTTON_WIDTH / 2,
                     pos_y_validate + self.BUTTON_HEIGHT / 2,
                 ),
-                "value": self.button_validate.value,
+                "value": self.validation_button.value,
             }
         )
         # Attach callback method for touch event
@@ -106,9 +106,9 @@ class ClientRenderer(Renderer):
         """
         Function called when a button is called
         """
-        if value == self.button_validate.value:
+        if value == self.validation_button.value:
             # Validate button
-            if self.button_validate.selected:
+            if self.validation_button.selected:
                 self.themes_selected_done()
         else:
             # Themes buttons
@@ -126,11 +126,11 @@ class ClientRenderer(Renderer):
                             filter(lambda x: x != value, self.selected_themes)
                         )
                     if self.selected_themes_num == 3:
-                        self.button_validate.selected = True
-                        self.display_from_button(self.button_validate)
+                        self.validation_button.selected = True
+                        self.display_from_button(self.validation_button)
                     else:
-                        self.button_validate.selected = False
-                        self.display_from_button(self.button_validate)
+                        self.validation_button.selected = False
+                        self.display_from_button(self.validation_button)
                     self.update_screen()
                     break
 
