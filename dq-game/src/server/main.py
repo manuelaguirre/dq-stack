@@ -9,7 +9,7 @@ from controller import Controller
 from game import DQGame
 from server_renderer import ServerRenderer
 
-NO_OF_PLAYERS = 1
+NO_OF_PLAYERS = 2
 
 socket = ServerSocketConnection(8000)
 api_handler = APIHandler()

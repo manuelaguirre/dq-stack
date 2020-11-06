@@ -17,7 +17,7 @@ def start_game():
 
     # Bind events
     client_renderer.on("RENDERER_START_GAME", dq_client_game.start)
-    dq_client_game.on("CHOOSE_THEME_ROUND", controller.get_client_theme_choices)
+    client_socket.on("CHOOSE_THEME", controller.get_client_theme_choices)
     client_socket.on("GAME_READY_TO_START", controller.start_game)
     controller.on("SELECT_THEMES", client_renderer.select_themes)
     client_renderer.on("THEMES_CHOICE_DONE", controller.send_client_theme_choices)
