@@ -33,9 +33,8 @@ class ClientController(EventHandler):
     def get_client_theme_choices(self):
         # Send instruction to choose themes to clients
         theme_list = self.get_theme_list()
-        self.renderer.select_themes(theme_list)
-
+        self.trigger("SELECT_THEMES", theme_list)
         return False
 
-    def send_client_theme_choices(self):
-        self.socket.send(self.renderer.selected_themes, "THEME_CHOICE")
+    def send_client_theme_choices(self, selected_themes):
+        self.socket.send(selected_themes, "THEME_CHOICE")

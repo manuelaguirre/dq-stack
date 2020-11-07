@@ -5,13 +5,16 @@ class EventHandler(object):
 
     callbacks = {}
 
-    def trigger(self, event_name):
+    def trigger(self, event_name, args=None):
         """
         Trigger an event.
         """
         if event_name in self.callbacks:
             for callback in self.callbacks[event_name]:
-                callback()
+                if (args):
+                    callback(args)
+                else:
+                    callback()
 
     def on(self, event_name, callback):
         """
