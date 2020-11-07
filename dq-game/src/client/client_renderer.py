@@ -137,4 +137,5 @@ class ClientRenderer(Renderer):
     def themes_selected_done(self):
         print(self.selected_themes)
         self.screen_handler.clear_data()
-        self.trigger("THEMES_CHOICE_DONE")
+        self.trigger("THEMES_CHOICE_DONE", self.selected_themes)
+        self.show_logo()
