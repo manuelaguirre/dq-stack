@@ -18,9 +18,6 @@ class ClientController(EventHandler):
         self.screen_handler = ClientScreenHandler()
         self.renderer.screen_handler = self.screen_handler
 
-    def start_game(self):
-        self.trigger("CONTROLLER_START_GAME")
-
     def get_theme_list(self):
         """
         Gets the theme list from the inbuffer and returns False if not found

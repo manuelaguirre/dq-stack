@@ -29,12 +29,13 @@ theme_list = [
 
 def start_game():
     # Create main classes
-    dq_game = DQGame()
+    dq_game = DQGame(theme_list)
     renderer = ServerRenderer()
     # Bind events
-    renderer.on("START_GAME", dq_game.start)
+    renderer.on("RENDERER_START_GAME", dq_game.show_instructions)
     dq_game.on("SHOW_INSTRUCTIONS", renderer.show_instructions)
-    controller.request_theme_choices(theme_list)
+    renderer.on("SHOW_INSTRUCTIONS_DONE", dq_game.start)
+    dq_game.on("REQUEST_CHOOSE_THEMES", controller.request_theme_choices)
     time.sleep(3)
     controller.get_theme_choices()
     # Start
