@@ -33,7 +33,8 @@ class ClientRenderer(Renderer):
         Calculate rows and columns. Create buttons and display them with the screen handler
         """
         print(self.themes)
-        time.sleep(1)
+        time.sleep(1)  
+        # Create columns and rows
         columns = [4 * self.SCREEN_WIDTH / 11, 7 * self.SCREEN_WIDTH / 11]
         num_rows = math.ceil(len(self.themes) / 2)
         rows = []
@@ -85,8 +86,12 @@ class ClientRenderer(Renderer):
         self.display_themes_buttons()
 
     def display_themes_buttons(self):
-        # Display all buttons
         self.show_background()
+        # Show title
+        text_ = self.font.render("Select 3 themes", True, (0, 0, 0))
+        text_rect = text_.get_rect(center=(self.SCREEN_WIDTH / 2, 1 / 9 * self.SCREEN_HEIGHT))
+        self.screen.blit(text_, text_rect)
+        # Display all buttons
         for button in self.buttons_list:
             self.display_from_button(button)
         self.update_screen()

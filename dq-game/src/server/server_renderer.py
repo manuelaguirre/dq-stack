@@ -39,8 +39,9 @@ class ServerRenderer(Renderer):
             )
             count += 1
         self.update_screen()
-        time.sleep(1)
+        time.sleep(8)
         self.show_logo()
+        self.trigger("SHOW_INSTRUCTIONS_DONE")
         print("finish render instrucions")
 
     def show_question(self):
