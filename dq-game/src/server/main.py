@@ -11,7 +11,7 @@ from coordinator import Coordinator
 from game import DQGame
 from server_renderer import ServerRenderer
 
-NO_OF_PLAYERS = 4
+NO_OF_PLAYERS = 2
 
 socket = ServerSocketConnection(8000)
 api_handler = APIHandler()

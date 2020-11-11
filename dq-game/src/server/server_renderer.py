@@ -18,13 +18,7 @@ class ServerRenderer(Renderer):
 
     def show_instructions(self):
         """
-        Public method to renderer the instructions async
-        """
-        threading.Thread(target=self._show_instructions).start()
-
-    def _show_instructions(self):
-        """
-        Renderer the instructions
+        Render the instructions
         """
         print("render instrucions")
         time.sleep(1)

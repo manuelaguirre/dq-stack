@@ -13,12 +13,8 @@ class Controller(EventHandler):
         Creates a controller
         """
         self.socket = socket
-        self.socket.on("GAME_READY_TO_START", self.start)
         self.no_of_players = no_of_players
         self.players = []
-
-    def start(self):
-        self.trigger("START_GAME")
 
     def request_theme_choices(self, theme_list):
 
@@ -37,6 +33,7 @@ class Controller(EventHandler):
             time.sleep(0.5)
         result = self.decide_themes(result, 3)
         print("Themes will be ", result)
+        return result
 
     def decide_themes(self, theme_choices, result_size):
         count_dict = {}
