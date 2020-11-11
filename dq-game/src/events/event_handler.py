@@ -11,7 +11,7 @@ class EventHandler(object):
         """
         if event_name in self.callbacks:
             for callback in self.callbacks[event_name]:
-                if (args):
+                if args:
                     callback(args)
                 else:
                     callback()

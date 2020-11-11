@@ -1,6 +1,7 @@
 import os
 import pickle
 import sys
+import time
 
 from events.event_handler import EventHandler
 from utils.socket_connection import ServerSocketConnection
@@ -23,15 +24,19 @@ class Controller(EventHandler):
 
         self.socket.send_to_all(theme_list, "data-theme-list")
         self.socket.send_to_all("CHOOSE_THEME", "event")
-        self.trigger("THEMES_REQUESTED")
 
-    def get_theme_choices(self):
+    def get_theme_choices(self, theme_list):
+        self.request_theme_choices(theme_list)
         result = []
-        for message in self.socket.inbuffer:
-            if message.content_type == "THEME_CHOICE":
-                result.append(message.data)
-        print(result)
-        return result
+
+        while len(result) < self.no_of_players:
+            for message in self.socket.inbuffer:
+                if message.content_type == "data-theme-choice":
+                    result.append(message.data)
+                    message.content_type = "used-data-theme-choice"
+            time.sleep(0.5)
+        result = self.decide_themes(result, 3)
+        print("Themes will be ", result)
 
     def decide_themes(self, theme_choices, result_size):
         count_dict = {}
@@ -53,3 +58,12 @@ class Controller(EventHandler):
     def await_connections(self):
         self.socket.listen(self.no_of_players)
         self.players = self.socket.clients.keys()
+
+    def request_confirmations(self):
+        players_ready = []
+        while len(players_ready) < self.no_of_players:
+            for message in self.socket.inbuffer:
+                if message.content_type == "data-player-ready":
+                    players_ready.append(message.origin)
+                    self.socket.inbuffer.remove(message)
+        return players_ready

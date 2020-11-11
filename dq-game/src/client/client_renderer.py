@@ -5,6 +5,7 @@ import threading
 import math
 import time
 from screen_button import ScreenButton
+from client_screen_handler import ClientScreenHandler
 
 
 class ClientRenderer(Renderer):
@@ -14,7 +15,7 @@ class ClientRenderer(Renderer):
 
     def __init__(self):
         super().__init__(1000, 600, "client")
-        self.screen_handler = None
+        self.screen_handler = ClientScreenHandler()
         self.BUTTON_WIDTH = 230
         self.BUTTON_HEIGHT = 40
         self.buttons_list = []
@@ -33,7 +34,7 @@ class ClientRenderer(Renderer):
         Calculate rows and columns. Create buttons and display them with the screen handler
         """
         print(self.themes)
-        time.sleep(1)  
+        time.sleep(1)
         # Create columns and rows
         columns = [4 * self.SCREEN_WIDTH / 11, 7 * self.SCREEN_WIDTH / 11]
         num_rows = math.ceil(len(self.themes) / 2)
@@ -89,7 +90,9 @@ class ClientRenderer(Renderer):
         self.show_background()
         # Show title
         text_ = self.font.render("Select 3 themes", True, (0, 0, 0))
-        text_rect = text_.get_rect(center=(self.SCREEN_WIDTH / 2, 1 / 9 * self.SCREEN_HEIGHT))
+        text_rect = text_.get_rect(
+            center=(self.SCREEN_WIDTH / 2, 1 / 9 * self.SCREEN_HEIGHT)
+        )
         self.screen.blit(text_, text_rect)
         # Display all buttons
         for button in self.buttons_list:

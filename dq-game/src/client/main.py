@@ -1,5 +1,6 @@
 import sys
 import os
+import time
 from utils.socket_connection import ClientSocketConnection
 from client_game import DQClientGame
 from client_renderer import ClientRenderer
@@ -13,7 +14,7 @@ def start_game():
     client_renderer = ClientRenderer()
     dq_client_game = DQClientGame()
     client_socket = ClientSocketConnection(8000)
-    controller = ClientController(client_socket, client_renderer)
+    controller = ClientController(client_socket)
 
     # Bind events
     client_renderer.on("RENDERER_START_GAME", dq_client_game.start)
@@ -24,6 +25,8 @@ def start_game():
     # Start
     client_socket.connect()
     client_socket.send(username, "username")
+    # TODO: Change these to make user click on ready button
+    controller.ready_up()
     client_renderer.initialize()
 
 
