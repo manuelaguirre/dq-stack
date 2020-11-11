@@ -9,14 +9,11 @@ from mock_data import mock_themes
 
 
 class ClientController(EventHandler):
-    def __init__(self, socket, renderer):
+    def __init__(self, socket):
         """
         Creates a controller
         """
         self.socket = socket
-        self.renderer = renderer
-        self.screen_handler = ClientScreenHandler()
-        self.renderer.screen_handler = self.screen_handler
 
     def get_theme_list(self):
         """
@@ -34,4 +31,7 @@ class ClientController(EventHandler):
         return False
 
     def send_client_theme_choices(self, selected_themes):
-        self.socket.send(selected_themes, "THEME_CHOICE")
+        self.socket.send(selected_themes, "data-theme-choice")
+
+    def ready_up(self):
+        self.socket.send(True, "data-player-ready")
