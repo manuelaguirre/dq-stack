@@ -1,10 +1,11 @@
-import sys
 import os
-import time
+import sys
+
 from utils.socket_connection import ClientSocketConnection
+
+from client_controller import ClientController
 from client_game import DQClientGame
 from client_renderer import ClientRenderer
-from client_controller import ClientController
 
 
 def start_game():

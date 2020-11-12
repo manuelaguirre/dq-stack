@@ -29,7 +29,7 @@ class Controller(EventHandler):
             for message in self.socket.inbuffer:
                 if message.content_type == "data-theme-choice":
                     result.append(message.data)
-                    message.content_type = "used-data-theme-choice"
+                    self.socket.inbuffer.remove(message)
             time.sleep(0.5)
         result = self.decide_themes(result, 3)
         print("Themes will be ", result)
