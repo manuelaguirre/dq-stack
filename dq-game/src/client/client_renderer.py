@@ -23,7 +23,10 @@ class ClientRenderer(Renderer):
         self.selected_themes = []
         self.validation_button = None
 
-    def select_themes(self, themes):
+    def show_ready_button(self, callback): #TODO: Hacete la función que acepte el callback
+        callback()
+
+    def select_themes(self, themes):  # TODO: agregar callback como parametro
         self.themes = themes
         # Link
         self.append_touch_method(self.screen_handler.handle_touch)
