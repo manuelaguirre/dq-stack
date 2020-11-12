@@ -74,6 +74,7 @@ class ClientSocketConnection(SocketConnection):
         """
         Listen to inbound messages.
         """
+        self.trigger("CONNECTED")
         while True:
             inbound_msg = self.receive(self.tcpsock)
             print(inbound_msg.data)
