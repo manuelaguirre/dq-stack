@@ -25,8 +25,9 @@ class ClientRenderer(Renderer):
         self.theme_validation_button = None
         self.validate_themes_callback = None
 
-
-    def show_ready_button(self, callback): #TODO 4043: Ready callback while showing instructions
+    def show_ready_button(
+        self, callback
+    ):  # TODO 4043: Ready callback while showing instructions
         callback()
 
     def select_themes(self, themes, callback):
@@ -72,7 +73,9 @@ class ClientRenderer(Renderer):
         # Create validate button
         pos_x_validate = self.SCREEN_WIDTH / 2
         pos_y_validate = 8 / 9 * self.SCREEN_HEIGHT
-        self.theme_validation_button = ScreenButton(pos_x_validate, pos_y_validate, "Select")
+        self.theme_validation_button = ScreenButton(
+            pos_x_validate, pos_y_validate, "Select"
+        )
         self.buttons_list.append(self.theme_validation_button)
         self.screen_handler.add_object(
             {
