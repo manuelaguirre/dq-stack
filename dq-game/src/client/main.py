@@ -20,9 +20,8 @@ def start_game():
 
     # Bind events
     client_socket.on("CONNECTED", coordinator.on_connected)
-    # client_socket.on("CHOOSE_THEME", coordinator.on_choose_theme) TODO: tenés que usar esta línea y quitar la siguiente, toda la lógica hacerla en coordinator.on_choose_theme
+    client_socket.on("CHOOSE_THEME", coordinator.on_choose_theme)
     client_socket.on("CHOOSE_THEME", controller.get_client_theme_choices)
-    controller.on("SELECT_THEMES", client_renderer.select_themes)
     client_renderer.on("THEMES_CHOICE_DONE", controller.send_client_theme_choices)
 
     # Start

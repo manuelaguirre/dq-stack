@@ -17,7 +17,6 @@ class Controller(EventHandler):
         self.players = []
 
     def request_theme_choices(self, theme_list):
-
         self.socket.send_to_all(theme_list, "data-theme-list")
         self.socket.send_to_all("CHOOSE_THEME", "event")
 

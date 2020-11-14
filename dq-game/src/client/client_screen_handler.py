@@ -14,7 +14,6 @@ class ClientScreenHandler(EventHandler):
 
     def handle_touch(self, click_x, click_y):
         # type: (int, int, function) -> function
-        print(click_x, click_y)
         if self.touch_callback:
             for obj in self.objects:
                 if obj["init"][0] < click_x & click_x < obj["end"][0]:
