@@ -11,7 +11,7 @@ def renderTextCenteredAt(renderer, text, y):
         line_words = []
         while len(words) > 0:
             line_words.append(words.pop(0))
-            fw, fh = renderer.font.size(" ".join(line_words + words[:1]))
+            fw, fh = renderer.fonts["small"].size(" ".join(line_words + words[:1]))
             if fw > 9 * renderer.SCREEN_WIDTH / 10:
                 break
 
@@ -26,12 +26,12 @@ def renderTextCenteredAt(renderer, text, y):
     # the culmative height of the lines we've rendered so far
     y_offset = 0
     for line in lines:
-        fw, fh = renderer.font.size(line)
+        fw, fh = renderer.fonts["small"].size(line)
 
         # (tx, ty) is the top-left of the font surface
         tx = renderer.SCREEN_WIDTH / 2 - fw / 2
         ty = y + y_offset
 
-        font_surface = renderer.font.render(line, True, (0, 0, 0))
+        font_surface = renderer.fonts["small"].render(line, True, (0, 0, 0))
         renderer.screen.blit(font_surface, (tx, ty))
         y_offset += fh

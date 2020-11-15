@@ -51,9 +51,9 @@ class ClientRenderer(Renderer):
 
     def ready_button_callback(self, value):
         if value:
+            self.show_logo()
             self.screen_handler.clear_data()
             self.ready_callback()
-            self.show_background()
 
     def select_themes(self, themes, callback):
         self.themes = themes
@@ -108,11 +108,7 @@ class ClientRenderer(Renderer):
     def display_themes_buttons(self):
         self.show_background()
         # Show title
-        text_ = self.font.render("Select 3 themes", True, (0, 0, 0))
-        text_rect = text_.get_rect(
-            center=(self.SCREEN_WIDTH / 2, 1 / 9 * self.SCREEN_HEIGHT)
-        )
-        self.screen.blit(text_, text_rect)
+        self.show_title("Select 3 Themes")
         # Display all buttons
         for button in self.buttons_list:
             self.display_from_button(button)
@@ -163,6 +159,6 @@ class ClientRenderer(Renderer):
 
     def themes_selected_done(self):
         print(self.selected_themes)
+        self.show_logo()
         self.screen_handler.clear_data()
         self.validate_themes_callback(self.selected_themes)
-        self.show_logo()
