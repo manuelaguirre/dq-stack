@@ -16,6 +16,24 @@ class Controller(EventHandler):
         self.no_of_players = no_of_players
         self.players = []
 
+    def await_connections(self):
+        self.socket.listen(self.no_of_players)
+        self.players = self.socket.clients.keys()
+
+    def send_instructions(self, instructions):
+        self.socket.send_to_all(instructions, "data-instructions")
+        self.socket.send_to_all("SHOW_INSTRUCTIONS", "event")
+
+    def request_confirmations(self):
+        players_ready = []
+        while len(players_ready) < self.no_of_players:
+            for message in self.socket.inbuffer:
+                if message.content_type == "data-player-ready":
+                    print("player ", message.origin, " is ready")
+                    players_ready.append(message.origin)
+                    self.socket.inbuffer.remove(message)
+        return players_ready
+
     def request_theme_choices(self, theme_list):
         self.socket.send_to_all(theme_list, "data-theme-list")
         self.socket.send_to_all("CHOOSE_THEME", "event")
@@ -50,16 +68,3 @@ class Controller(EventHandler):
             result.append(most_repeated_value)
             del count_dict[most_repeated_value]
         return result
-
-    def await_connections(self):
-        self.socket.listen(self.no_of_players)
-        self.players = self.socket.clients.keys()
-
-    def request_confirmations(self):
-        players_ready = []
-        while len(players_ready) < self.no_of_players:
-            for message in self.socket.inbuffer:
-                if message.content_type == "data-player-ready":
-                    players_ready.append(message.origin)
-                    self.socket.inbuffer.remove(message)
-        return players_ready

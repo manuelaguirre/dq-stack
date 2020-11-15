@@ -16,9 +16,10 @@ NO_OF_PLAYERS = 2
 socket = ServerSocketConnection(8000)
 api_handler = APIHandler()
 controller = Controller(socket, NO_OF_PLAYERS)
+dq_game = DQGame(NO_OF_PLAYERS)
 
 renderer = ServerRenderer()
-coordinator = Coordinator(controller, renderer)
+coordinator = Coordinator(controller, renderer, dq_game)
 
 
 def start_game():

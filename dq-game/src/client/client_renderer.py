@@ -25,9 +25,10 @@ class ClientRenderer(Renderer):
         self.theme_validation_button = None
         self.validate_themes_callback = None
 
-    def show_ready_button(
-        self, callback
+    def on_show_instructions_and_confirmation_button(
+        self, instructions, callback
     ):  # TODO 4043: Ready callback while showing instructions
+        self.instructions = instructions
         callback()
 
     def select_themes(self, themes, callback):

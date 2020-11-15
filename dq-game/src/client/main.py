@@ -19,16 +19,12 @@ def start_game():
     coordinator = EventCoordinator(controller, client_renderer)
 
     # Bind events
-    client_socket.on("CONNECTED", coordinator.on_connected)
+    client_socket.on("SHOW_INSTRUCTIONS", coordinator.on_show_instructions)
     client_socket.on("CHOOSE_THEME", coordinator.on_choose_theme)
-    client_socket.on("CHOOSE_THEME", controller.get_client_theme_choices)
-    client_renderer.on("THEMES_CHOICE_DONE", controller.send_client_theme_choices)
 
     # Start
     client_socket.connect()
     client_socket.send(username, "username")
-    # TODO: Change these to make user click on ready button
-    controller.ready_up()
     client_renderer.initialize()
 
 

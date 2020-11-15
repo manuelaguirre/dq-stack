@@ -3,7 +3,6 @@ from events.event_handler import EventHandler
 from utils.renderer_utils import renderTextCenteredAt
 from utils.renderer import Renderer
 import threading
-from mock_data import mock_instructions
 import time
 
 
@@ -16,7 +15,7 @@ class ServerRenderer(Renderer):
     def __init__(self):
         super().__init__(1000, 600, "server")
 
-    def show_instructions(self):
+    def show_instructions(self, instrucions):
         """
         Render the instructions
         """
@@ -26,8 +25,8 @@ class ServerRenderer(Renderer):
         height_ins = 4 * self.SCREEN_HEIGHT / 6
         height_ins_i = 0.5 * self.SCREEN_HEIGHT / 6
         count = 1
-        n = len(mock_instructions) + 1
-        for instruction in mock_instructions:
+        n = len(instrucions) + 1
+        for instruction in instrucions:
             renderTextCenteredAt(
                 self, instruction, count * height_ins / n + height_ins_i
             )

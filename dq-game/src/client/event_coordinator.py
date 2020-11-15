@@ -7,8 +7,15 @@ class EventCoordinator:
         self.controller = controller
         self.renderer = renderer
 
-    def on_connected(self):
-        self.renderer.show_ready_button(self.controller.ready_up)
+    def on_show_instructions(self):
+        """
+        Gets instructions from server.
+        Sends them to the renderer with a ready callback function.
+        """
+        instructions = self.controller.get_instructions()
+        self.renderer.on_show_instructions_and_confirmation_button(
+            instructions, self.controller.ready_up
+        )
 
     def on_choose_theme(self):
         themes = self.controller.get_theme_list()

@@ -13,9 +13,8 @@ from utils.message import Message
 
 # from game_types.question import DQQuestion
 
-
+# TODO: Separate client and server socket connections in dif files
 class SocketConnection(EventHandler):
-    # TODO: compose event handler
     def __init__(self, port, socket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)):
         self.port = port
         self.tcpsock = socket
@@ -39,7 +38,7 @@ class SocketConnection(EventHandler):
     def decode(self, inbound_msg):
         return pickle.loads(inbound_msg)
 
-    def receive(self, socket):  # TODO: Crashes when putting chars like é
+    def receive(self, socket):
         """
         Receives bytes from socket and returns a tuple with the content type and the message
         """
@@ -51,7 +50,7 @@ class SocketConnection(EventHandler):
 
 
 class ClientSocketConnection(SocketConnection):
-    def __init__(self, port):  # TODO: socket_service, socket
+    def __init__(self, port):
         super().__init__(port)
         self.tcpsock.setblocking(1)
         self.client_id = 0
@@ -68,16 +67,13 @@ class ClientSocketConnection(SocketConnection):
             self.trigger(inbound_msg.data)
         else:
             self.inbuffer.append(inbound_msg)
-            print(self.inbuffer)
 
     def inbound_task(self):
         """
         Listen to inbound messages.
         """
-        self.trigger("CONNECTED")
         while True:
             inbound_msg = self.receive(self.tcpsock)
-            print(inbound_msg.data)
             self.handle_incoming_message(inbound_msg)
 
     def connect(self):
