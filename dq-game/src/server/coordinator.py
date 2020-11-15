@@ -21,7 +21,6 @@ class Coordinator:
     def start(self):
         self.controller.await_connections()
         self.renderer.show_instructions(self.dq_game.instructions)
-        self.controller.send_instructions(self.dq_game.instructions)
-        self.controller.request_confirmations()
+        self.controller.send_instructions_and_await_confirmations(self.dq_game.instructions)
         time.sleep(1)
         self.controller.get_theme_choices(self.mock_themes)

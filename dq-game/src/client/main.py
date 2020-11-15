@@ -19,7 +19,7 @@ def start_game():
     coordinator = EventCoordinator(controller, client_renderer)
 
     # Bind events
-    client_socket.on("SHOW_INSTRUCTIONS", coordinator.on_show_instructions)
+    client_socket.on("SHOW_INSTRUCTIONS_AND_READY_UP", coordinator.on_show_instructions)
     client_socket.on("CHOOSE_THEME", coordinator.on_choose_theme)
 
     # Start

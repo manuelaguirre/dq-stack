@@ -20,18 +20,19 @@ class Controller(EventHandler):
         self.socket.listen(self.no_of_players)
         self.players = self.socket.clients.keys()
 
-    def send_instructions(self, instructions):
+    def send_instructions_and_await_confirmations(self, instructions):
         self.socket.send_to_all(instructions, "data-instructions")
-        self.socket.send_to_all("SHOW_INSTRUCTIONS", "event")
+        self.socket.send_to_all("SHOW_INSTRUCTIONS_AND_READY_UP", "event")
+        self.await_confirmations()
 
-    def request_confirmations(self):
+    def await_confirmations(self):
         players_ready = []
         while len(players_ready) < self.no_of_players:
             for message in self.socket.inbuffer:
                 if message.content_type == "data-player-ready":
-                    print("player ", message.origin, " is ready")
                     players_ready.append(message.origin)
                     self.socket.inbuffer.remove(message)
+            time.sleep(0.2)
         return players_ready
 
     def request_theme_choices(self, theme_list):
