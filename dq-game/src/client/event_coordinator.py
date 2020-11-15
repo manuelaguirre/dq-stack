@@ -12,4 +12,4 @@ class EventCoordinator:
 
     def on_choose_theme(self):
         themes = self.controller.get_theme_list()
-        # self.renderer.select_themes(themes, controller.send_client_theme_choices) TODO: esta línea tiene que ser algo así
+        self.renderer.select_themes(themes, self.controller.send_client_theme_choices)
