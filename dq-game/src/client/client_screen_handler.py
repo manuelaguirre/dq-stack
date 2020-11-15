@@ -2,6 +2,8 @@ import sys
 import os
 from events.event_handler import EventHandler
 
+from screen_button import ScreenButton
+
 
 class ClientScreenHandler(EventHandler):
     """
@@ -23,7 +25,14 @@ class ClientScreenHandler(EventHandler):
             self.touch_callback(None)
 
     def add_object(self, obj):
-        if (obj["init"][0] > 0) & (obj["init"][1] > 0):
+        if isinstance(obj, ScreenButton):
+            button_obj = {
+                "init": (obj.pos[0] - obj.width / 2, obj.pos[1] - obj.height / 2),
+                "end": (obj.pos[0] + obj.width / 2, obj.pos[1] + obj.height / 2),
+                "value": obj.value,
+            }
+            self.objects.append(button_obj)
+        elif (obj["init"][0] > 0) & (obj["init"][1] > 0):
             if (obj["end"][0] > 0) & (obj["end"][1] > 0):
                 self.objects.append(obj)
 

@@ -1,11 +1,14 @@
-import sys
-import os
-from utils.renderer import Renderer
-import threading
 import math
+import os
+import sys
+import threading
 import time
-from screen_button import ScreenButton
+
+from utils.renderer import Renderer
+from utils.renderer_utils import renderTextCenteredAt
+
 from client_screen_handler import ClientScreenHandler
+from screen_button import ScreenButton
 
 
 class ClientRenderer(Renderer):
@@ -24,17 +27,37 @@ class ClientRenderer(Renderer):
         self.selected_themes = []
         self.theme_validation_button = None
         self.validate_themes_callback = None
+        self.ready_callback = None
+        self.append_touch_method(self.screen_handler.handle_touch)
 
-    def on_show_instructions_and_confirmation_button(
-        self, instructions, callback
-    ):  # TODO 4043: Ready callback while showing instructions
-        self.instructions = instructions
-        callback()
+    def show_instructions_and_confirmation_button(self, instructions, callback):
+        self.ready_callback = callback
+        self.show_background()
+        for i in range(len(instructions)):
+            renderTextCenteredAt(
+                self, instructions[i], (i + 1) * self.SCREEN_HEIGHT / 5
+            )
+        ready_button = ScreenButton(
+            self.SCREEN_WIDTH / 2,
+            4 * self.SCREEN_HEIGHT / 5,
+            self.THEME_BUTTON_WIDTH,
+            self.THEME_BUTTON_HEIGHT,
+            "PRÊT",
+        )
+        self.screen_handler.add_object(ready_button)
+        self.display_from_button(ready_button)
+        self.update_screen()
+        self.screen_handler.add_touch_callback(self.ready_button_callback)
+
+    def ready_button_callback(self, value):
+        if value:
+            self.screen_handler.clear_data()
+            self.ready_callback()
+            self.show_background()
 
     def select_themes(self, themes, callback):
         self.themes = themes
         self.validate_themes_callback = callback
-        self.append_touch_method(self.screen_handler.handle_touch)
         threading.Thread(target=self._select_themes).start()
 
     def _select_themes(self):
@@ -56,41 +79,27 @@ class ClientRenderer(Renderer):
         for index in range(len(self.themes)):
             pos_x = columns[index % 2]
             pos_y = rows[math.floor(index / 2)]
-            button = ScreenButton(pos_x, pos_y, self.themes[index])
-            self.buttons_list.append(button)
-            self.screen_handler.add_object(
-                {
-                    "init": (
-                        pos_x - self.THEME_BUTTON_WIDTH / 2,
-                        pos_y - self.THEME_BUTTON_HEIGHT / 2,
-                    ),
-                    "end": (
-                        pos_x + self.THEME_BUTTON_WIDTH / 2,
-                        pos_y + self.THEME_BUTTON_HEIGHT / 2,
-                    ),
-                    "value": self.themes[index],
-                }
+            button = ScreenButton(
+                pos_x,
+                pos_y,
+                self.THEME_BUTTON_WIDTH,
+                self.THEME_BUTTON_HEIGHT,
+                self.themes[index],
             )
+            self.buttons_list.append(button)
+            self.screen_handler.add_object(button)
         # Create validate button
         pos_x_validate = self.SCREEN_WIDTH / 2
         pos_y_validate = 8 / 9 * self.SCREEN_HEIGHT
         self.theme_validation_button = ScreenButton(
-            pos_x_validate, pos_y_validate, "Select"
+            pos_x_validate,
+            pos_y_validate,
+            self.THEME_BUTTON_WIDTH,
+            self.THEME_BUTTON_HEIGHT,
+            "Select",
         )
         self.buttons_list.append(self.theme_validation_button)
-        self.screen_handler.add_object(
-            {
-                "init": (
-                    pos_x_validate - self.THEME_BUTTON_WIDTH / 2,
-                    pos_y_validate - self.THEME_BUTTON_HEIGHT / 2,
-                ),
-                "end": (
-                    pos_x_validate + self.THEME_BUTTON_WIDTH / 2,
-                    pos_y_validate + self.THEME_BUTTON_HEIGHT / 2,
-                ),
-                "value": self.theme_validation_button.value,
-            }
-        )
+        self.screen_handler.add_object(self.theme_validation_button)
         # Attach callback method for touch event
         self.screen_handler.add_touch_callback(self.select_theme_event)
         # Display
@@ -113,8 +122,8 @@ class ClientRenderer(Renderer):
         # Display/re-display one button
         self.display_button(
             button.value,
-            button.pos_x,
-            button.pos_y,
+            button.pos[0],
+            button.pos[1],
             self.THEME_BUTTON_WIDTH,
             self.THEME_BUTTON_HEIGHT,
             button.selected,

@@ -13,7 +13,7 @@ class EventCoordinator:
         Sends them to the renderer with a ready callback function.
         """
         instructions = self.controller.get_instructions()
-        self.renderer.on_show_instructions_and_confirmation_button(
+        self.renderer.show_instructions_and_confirmation_button(
             instructions, self.controller.ready_up
         )
 
