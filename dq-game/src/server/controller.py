@@ -48,7 +48,7 @@ class Controller(EventHandler):
                 if message.content_type == "data-theme-choice":
                     result.append(message.data)
                     self.socket.inbuffer.remove(message)
-            time.sleep(0.5)
+            time.sleep(0.2)
         result = self.decide_themes(result, 3)
         print("Themes will be ", result)
         return result
