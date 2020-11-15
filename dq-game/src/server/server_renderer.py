@@ -32,10 +32,17 @@ class ServerRenderer(Renderer):
             )
             count += 1
         self.update_screen()
-        time.sleep(8)
-        self.show_logo()
-        self.trigger("SHOW_INSTRUCTIONS_DONE")
-        print("finish render instrucions")
+
+    def show_chosen_themes(self, chosen_themes):
+        self.show_background()
+        separator = " "
+        self.show_title("Les themes seront:")
+        # TODO:justify between
+        renderTextCenteredAt(
+            self, separator.join(chosen_themes), 2 * self.SCREEN_HEIGHT / 3
+        )
+        self.update_screen()
+        time.sleep(5)
 
     def show_question(self):
         pass
