@@ -1,6 +1,7 @@
 import os
 from events.event_handler import EventHandler
 from utils.renderer_utils import renderTextCenteredAt
+from utils.renderer_utils import showTextAt
 from utils.renderer import Renderer
 import threading
 import time
@@ -33,14 +34,42 @@ class ServerRenderer(Renderer):
             count += 1
         self.update_screen()
 
+    def show_available_themes(self, themes):
+        """
+        Render available themes
+        """
+        self.show_background()
+        self.show_title("Choisissez 3 thèmes")
+        rows = []
+        # From 1/3 screen until 5/6
+        num_rows = len(themes) // 2 + 1
+        # ( 5/6 - 1/3 ) / num_rows
+        for i in range(num_rows):
+            rows.append(
+                self.SCREEN_HEIGHT / 3
+                + (5 / 6 - 1 / 3) * self.SCREEN_HEIGHT * i / num_rows
+            )
+        for i in range(len(themes)):
+            showTextAt(
+                self,
+                "medium",
+                self.SCREEN_WIDTH * (i % 2 + 1) / 3,
+                rows[i // 2],
+                themes[i],
+            )
+        self.update_screen()
+
     def show_chosen_themes(self, chosen_themes):
         self.show_background()
-        separator = " "
         self.show_title("Les themes seront:")
-        # TODO:justify between
-        renderTextCenteredAt(
-            self, separator.join(chosen_themes), 2 * self.SCREEN_HEIGHT / 3
-        )
+        for i in range(len(chosen_themes)):
+            showTextAt(
+                self,
+                "medium",
+                (1 + i) * self.SCREEN_WIDTH / 4,
+                self.SCREEN_HEIGHT / 2,
+                chosen_themes[i],
+            )
         self.update_screen()
         time.sleep(5)
 

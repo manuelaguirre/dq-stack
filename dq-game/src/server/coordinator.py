@@ -24,5 +24,6 @@ class Coordinator:
         self.controller.send_instructions_and_await_confirmations(
             self.dq_game.instructions
         )
+        self.renderer.show_available_themes(self.mock_themes)
         chosen_themes = self.controller.get_theme_choices(self.mock_themes)
         self.renderer.show_chosen_themes(chosen_themes)

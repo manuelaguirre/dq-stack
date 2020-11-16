@@ -1,5 +1,7 @@
 import os
 import pygame
+import time
+from utils.renderer_utils import showTextAt
 from events.event_handler import EventHandler
 
 
@@ -16,6 +18,7 @@ class Renderer(EventHandler):
         self.fonts = {}
         self.logo = self._get_logo()
         self.background = self._get_background()
+        self.timer_background = self._get_timer_background()
         self.touch_function = None
         self.RENDERER_TYPE = RENDERER_TYPE
         self.base_path = os.path.dirname(__file__)
@@ -29,7 +32,7 @@ class Renderer(EventHandler):
             os.path.join(self.base_path, "fonts/YanoneKaffeesatz-Regular.ttf"), 32
         )
         self.fonts["medium"] = pygame.font.Font(
-            os.path.join(self.base_path, "fonts/YanoneKaffeesatz-Regular.ttf"), 72
+            os.path.join(self.base_path, "fonts/YanoneKaffeesatz-Regular.ttf"), 48
         )
         self.fonts["large"] = pygame.font.Font(
             os.path.join(self.base_path, "fonts/YanoneKaffeesatz-Regular.ttf"), 96
@@ -59,6 +62,7 @@ class Renderer(EventHandler):
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if self.touch_function:
                         self.touch_function(event.pos[0], event.pos[1])
+            time.sleep(0.1)
 
     def _get_logo(self):
         return pygame.image.load(
@@ -75,6 +79,18 @@ class Renderer(EventHandler):
         )
         return pygame.transform.scale(
             background, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        )
+
+    def _get_timer_background(self):
+        background = pygame.image.load(
+            os.path.abspath(
+                os.path.join(
+                    os.path.dirname(__file__), "..", "images/timer_background.png"
+                )
+            )
+        )
+        return pygame.transform.scale(
+            background, (self.SCREEN_WIDTH / 10, self.SCREEN_HEIGHT / 10)
         )
 
     def append_touch_method(self, callback):
@@ -98,6 +114,15 @@ class Renderer(EventHandler):
             center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2)
         )
         self.screen.blit(self.logo, logo_rect)
+        self.update_screen()
+
+    def show_timer(self, minutes, seconds):
+        # Show timer background
+        self.screen.blit(
+            self.timer_background,
+            (self.SCREEN_WIDTH * 8 / 10, self.SCREEN_HEIGHT * 1 / 10),
+        )
+        # TODO renderTextAt(....)
         self.update_screen()
 
     def show_title(self, text):
