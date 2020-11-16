@@ -60,6 +60,7 @@ class ServerRenderer(Renderer):
         self.update_screen()
 
     def show_chosen_themes(self, chosen_themes):
+        self.timer.stop()
         self.show_background()
         self.show_title("Les themes seront:")
         for i in range(len(chosen_themes)):
@@ -77,7 +78,4 @@ class ServerRenderer(Renderer):
         pass
 
     def show_points(self):
-        pass
-
-    def show_timer(self):
         pass

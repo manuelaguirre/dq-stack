@@ -1,8 +1,11 @@
 import os
-import pygame
 import time
-from utils.renderer_utils import showTextAt
+
+import pygame
 from events.event_handler import EventHandler
+
+from utils.renderer_utils import showTextAt
+from utils.timer import Timer
 
 
 class Renderer(EventHandler):
@@ -18,6 +21,7 @@ class Renderer(EventHandler):
         self.fonts = {}
         self.logo = self._get_logo()
         self.background = self._get_background()
+        self.timer = Timer(0)
         self.timer_background = self._get_timer_background()
         self.touch_function = None
         self.RENDERER_TYPE = RENDERER_TYPE
@@ -90,7 +94,7 @@ class Renderer(EventHandler):
             )
         )
         return pygame.transform.scale(
-            background, (self.SCREEN_WIDTH / 10, self.SCREEN_HEIGHT / 10)
+            background, (self.SCREEN_WIDTH // 8, self.SCREEN_HEIGHT // 6)
         )
 
     def append_touch_method(self, callback):
@@ -116,14 +120,26 @@ class Renderer(EventHandler):
         self.screen.blit(self.logo, logo_rect)
         self.update_screen()
 
-    def show_timer(self, minutes, seconds):
+    def show_timer(self, seconds, timeout_callback):
         # Show timer background
-        self.screen.blit(
-            self.timer_background,
-            (self.SCREEN_WIDTH * 8 / 10, self.SCREEN_HEIGHT * 1 / 10),
-        )
-        # TODO renderTextAt(....)
-        self.update_screen()
+        timer_position = (self.SCREEN_WIDTH * 8 / 10, self.SCREEN_HEIGHT * 1 / 10)
+
+        def render_timer(seconds):
+            self.screen.blit(
+                self.timer_background,
+                timer_position,
+            )
+            showTextAt(
+                self,
+                "medium",
+                timer_position[0] + self.SCREEN_WIDTH // 16,
+                timer_position[1] + self.SCREEN_HEIGHT // 12,
+                f"00:{seconds}",
+                (230, 230, 230),
+            )
+            self.update_screen()
+
+        self.timer.reset(seconds, render_timer, timeout_callback)
 
     def show_title(self, text):
         text_ = self.fonts["large"].render(text, True, (0, 0, 0))
