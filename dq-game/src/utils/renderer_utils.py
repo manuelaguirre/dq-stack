@@ -37,7 +37,7 @@ def renderTextCenteredAt(renderer, text, y):
         y_offset += fh
 
 
-def showTextAt(renderer, font, pos_x, pos_y, text):
-    text_ = renderer.fonts[font].render(text, True, (0, 0, 0))
+def showTextAt(renderer, font, pos_x, pos_y, text, color=(0, 0, 0)):
+    text_ = renderer.fonts[font].render(text, True, color)
     text_rect = text_.get_rect(center=(pos_x, pos_y))
     renderer.screen.blit(text_, text_rect)

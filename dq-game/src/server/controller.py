@@ -1,5 +1,6 @@
 import os
 import pickle
+import random
 import sys
 import time
 
@@ -15,6 +16,11 @@ class Controller(EventHandler):
         self.socket = socket
         self.no_of_players = no_of_players
         self.players = []
+        self.is_timeout = False
+
+    def timeout(self):
+        self.is_timeout = True
+        self.socket.send_to_all("TIMEOUT", "event")  # TODO: Handle event client-side
 
     def await_connections(self):
         self.socket.listen(self.no_of_players)
@@ -43,15 +49,17 @@ class Controller(EventHandler):
         self.request_theme_choices(theme_list)
         result = []
 
-        while len(result) < self.no_of_players:
+        self.is_timeout = False
+        while (len(result) < self.no_of_players) and not self.is_timeout:
             for message in self.socket.inbuffer:
                 if message.content_type == "data-theme-choice":
                     result.append(message.data)
                     self.socket.inbuffer.remove(message)
             time.sleep(0.2)
-        result = self.decide_themes(result, 3)
-        print("Themes will be ", result)
-        return result
+        if not result:
+            return random.sample(theme_list, 3)
+        else:
+            return self.decide_themes(result, 3)
 
     def decide_themes(self, theme_choices, result_size):
         count_dict = {}
