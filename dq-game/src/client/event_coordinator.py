@@ -7,6 +7,10 @@ class EventCoordinator:
         self.controller = controller
         self.renderer = renderer
 
+    def on_timeout(self):
+        self.renderer.screen_handler.clear_data()
+        self.renderer.show_logo()  # TODO: show timeout image or text
+
     def on_show_instructions(self):
         """
         Gets instructions from server.
