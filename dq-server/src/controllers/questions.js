@@ -20,6 +20,7 @@ async function getQuestionsNotPlayedBy(playerIDs, theme, limit){
 		const playedQuestions = await playerController.getPlayedQuestions(playerID);
 		playedQuestionsAccumulator = [...playedQuestionsAccumulator, ...playedQuestions];
 	}
+
 	const result = await Question.find({
 		_id: {$nin: playedQuestionsAccumulator},
 		theme: theme
@@ -28,6 +29,13 @@ async function getQuestionsNotPlayedBy(playerIDs, theme, limit){
 	return result;
 }
 
+async function getQuestionsForGame(playerIDs, themes){
+	const result = [];
+	for (const [index, theme] of themes.entries()) {
+		result.push(await getQuestionsNotPlayedBy(playerIDs, theme, 2)); //8 then 10 then 12 is the game specification
+	}
+	return result;
+}
 async function getQuestionByText(text){	
 	const query = Question.where({text});
 	const question = await query.findOne()
@@ -92,6 +100,7 @@ module.exports = {
 	getQuestions,
 	getQuestion,
 	getQuestionsNotPlayedBy,
+	getQuestionsForGame,
 	getQuestionByText,
 	getQuestionsByTheme,
 	getQuestionAndUpdate,

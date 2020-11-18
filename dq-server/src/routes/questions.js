@@ -50,9 +50,8 @@ router.put('/:id', auth, asyncCatch(async (req,res) => {
 		res.status(400).send(result.error.details[0].message);
 		return;
 	}
-	let theme;
 	if (req.body.theme){
-		theme = await themeController.getTheme(req.body.theme);
+		req.body.theme = await themeController.getTheme(req.body.theme);
 	}
 	result = await questionController.getQuestionAndUpdate(req.params.id, req.body);
 	return res.status(200).send(result);
