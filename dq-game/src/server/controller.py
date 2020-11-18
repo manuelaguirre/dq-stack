@@ -20,7 +20,7 @@ class Controller(EventHandler):
 
     def timeout(self):
         self.is_timeout = True
-        self.socket.send_to_all("TIMEOUT", "event")  # TODO: Handle event client-side
+        self.socket.send_to_all("TIMEOUT", "event")
 
     def await_connections(self):
         self.socket.listen(self.no_of_players)
