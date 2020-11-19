@@ -53,7 +53,7 @@ export class DqQuestionDetailComponent implements OnInit {
   }
 
   addNewQuestion(questionForm: FormGroup) {
-    this.loadingNew = true
+    this.loadingNew = true;
     this.backOfficeService.createNewQuestion(this.getQuestion(questionForm))
       .pipe(
         map((question) => {
@@ -82,7 +82,6 @@ export class DqQuestionDetailComponent implements OnInit {
       answer3: newQuestionForm.value.answer3,
       answer4: newQuestionForm.value.answer4,
       correct: newQuestionForm.value.correct - 1,
-      image: newQuestionForm.value.image,
     }).pipe(
       map((question) => {
         if (question) {
@@ -101,16 +100,20 @@ export class DqQuestionDetailComponent implements OnInit {
   }
 
   getQuestion(newQuestionForm: FormGroup): Partial<DqQuestion> {
-    return {
+    const question = {
       theme: newQuestionForm.value.theme,
       text: newQuestionForm.value.text,
       answer1: newQuestionForm.value.answer1,
       answer2: newQuestionForm.value.answer2,
       answer3: newQuestionForm.value.answer3,
-      answer4: newQuestionForm.value.answe4,
+      answer4: newQuestionForm.value.answer4,
       correct: newQuestionForm.value.correct - 1,
-      image: newQuestionForm.value.image,
     }
+    if (newQuestionForm.value.image) {
+      // Avoid sending image:null to the backend
+      question['image'] = newQuestionForm.value.image;
+    }
+    return question;
   }
 
   createForm(question?: DqQuestion): FormGroup {
