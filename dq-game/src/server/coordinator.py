@@ -4,10 +4,12 @@ import time
 
 
 class Coordinator:
-    def __init__(self, controller, renderer, dq_game):
+    def __init__(self, controller, renderer, dq_game, api_handler, players_id):
         self.controller = controller
         self.renderer = renderer
         self.dq_game = dq_game
+        self.api_handler = api_handler
+        self.players_id = players_id
         self.mock_themes = [
             "Historia",
             "Sport",
@@ -37,3 +39,5 @@ class Coordinator:
         self.renderer.show_timer(10, self.controller.timeout)
         chosen_themes = self.controller.get_theme_choices(self.mock_themes)
         self.renderer.show_chosen_themes(chosen_themes)
+        questions = self.api_handler.get_questions(chosen_themes, self.players_id)
+        self.dq_game.receive_game_questions(questions)
