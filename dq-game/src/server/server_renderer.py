@@ -1,10 +1,11 @@
 import os
-from events.event_handler import EventHandler
-from utils.renderer_utils import renderTextCenteredAt
-from utils.renderer_utils import showTextAt
-from utils.renderer import Renderer
 import threading
 import time
+
+import pygame
+from events.event_handler import EventHandler
+from utils.renderer import Renderer
+from utils.renderer_utils import renderTextCenteredAt, showTextAt
 
 
 class ServerRenderer(Renderer):
@@ -77,9 +78,37 @@ class ServerRenderer(Renderer):
     def show_round(self, round):
         self.show_background()
         self.show_title(round.theme.name)
-        showTextAt(self, "medium", self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2, round.theme.description)
+        showTextAt(
+            self,
+            "medium",
+            self.SCREEN_WIDTH / 2,
+            self.SCREEN_HEIGHT / 2,
+            round.theme.description,
+        )
         self.update_screen()
-        pass
 
-    def show_points(self):
-        pass
+    def show_question(self, question, theme, index):
+        self.show_background()
+        self.show_title(theme.name, "medium")
+        showTextAt(
+            self,
+            "small",
+            self.SCREEN_WIDTH / 2,
+            self.SCREEN_HEIGHT / 4,
+            f"QUESTION {index + 1}",
+        )
+        if question.image_filename:
+            image = pygame.image.load(
+                os.path.abspath(
+                    os.path.join(
+                        os.path.dirname(__file__),
+                        "..",
+                        "server/tmp",
+                        question.image_filename,
+                    )
+                )
+            )
+            self.screen.blit(image, (0, self.SCREEN_HEIGHT / 2))
+
+        renderTextCenteredAt(self, question.text, self.SCREEN_HEIGHT * 5 / 8, "medium")
+        self.update_screen()

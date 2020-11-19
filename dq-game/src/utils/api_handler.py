@@ -8,12 +8,13 @@ from game_types.question import Question
 from game_types.theme import Theme
 
 mock_themes_id = [
-    "5f3197727391ee752d33b6a4",
     "5f358bafef6f4700178c7b46",
+    "5f3197727391ee752d33b6a4",
     "5f33024f6be11a00177f1c92",
 ]
 
 PATH_TO_TMP_FILES = "src/server/tmp"
+
 
 class APIHandler:
     # def __init__(self):
@@ -24,14 +25,14 @@ class APIHandler:
         headers = {"x-auth-token": info.X_AUTH_TOKEN}
         theme_objects = []
         themes = requests.get(
-            info.BACK_OFFICE_URL + "themes", headers=headers,
+            info.BACK_OFFICE_URL + "themes",
+            headers=headers,
         ).json()
         for theme in themes:
             theme_objects.append(
                 Theme(theme["_id"], theme["name"], theme["description"])
             )
         return theme_objects
-
 
     def get_questions(self, themes, players):
         headers = {"x-auth-token": info.X_AUTH_TOKEN}
@@ -56,7 +57,9 @@ class APIHandler:
                     question["correct"],
                 )
                 if "image" in question:
-                    question_object.set_image(self.get_question_image(question["_id"]))
+                    question_object.set_image_filename(
+                        self.get_question_image(question["_id"])
+                    )
                 question_objects_list.append(question_object)
             question_objects_lists.append(question_objects_list)
         return question_objects_lists
