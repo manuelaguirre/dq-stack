@@ -1,5 +1,5 @@
 import os
-import requests
+import shutil
 import sys
 import re
 import info
