@@ -12,3 +12,6 @@ class Question:
         self.answers = answers
         self.correct_answer = correct_answer
         self.attachment = attachment
+
+    def set_image(self, image):
+        self.attachment = image
