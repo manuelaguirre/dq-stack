@@ -24,7 +24,7 @@ class DQGame(EventHandler):
         print("Themes received")
 
     def get_available_theme_names(self):
-        return map(lambda theme: theme.name, self.available_themes)
+        return list(map(lambda theme: theme.name, self.available_themes))
 
     def set_chosen_themes(self, themes):
         self.chosen_themes = themes

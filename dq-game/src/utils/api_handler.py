@@ -26,7 +26,6 @@ class APIHandler:
         themes = requests.get(
             info.BACK_OFFICE_URL + "themes", headers=headers,
         ).json()
-        print(themes)
         for theme in themes:
             theme_objects.append(
                 Theme(theme["_id"], theme["name"], theme["description"])
