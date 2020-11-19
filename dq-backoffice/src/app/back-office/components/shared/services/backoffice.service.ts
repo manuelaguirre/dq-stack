@@ -91,16 +91,16 @@ export class BackofficeService {
   }
 
   editQuestion(id: string, question: Partial<DqQuestion>): Observable<DqQuestion> {
-    return combineLatest(
+    return combineLatest([
       this.store.select<string>('selectedTheme'),
       this.apiService.put<DqQuestion>(`questions/${id}`, question),
-    ).pipe(
+    ]).pipe(
       filter((data) => !!data[0] && !!data[1]),
       take(1),
       tap((data) => {
         const questions = this.store.value.questions;
         const questionsCat = questions[data[0]];
-        questionsCat[questionsCat.findIndex((q) => q._id === id)] = question;
+        questionsCat[questionsCat.findIndex((q) => q._id === id)] = data[1];
         this.store.set(
           'questions',
           questions,

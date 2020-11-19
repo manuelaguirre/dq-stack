@@ -5,6 +5,7 @@ import re
 import info
 import requests
 from game_types.question import Question
+from game_types.theme import Theme
 
 mock_themes_id = [
     "5f3197727391ee752d33b6a4",
@@ -19,6 +20,19 @@ class APIHandler:
     # self.url = url
     # self.credentials = credentials
 
+    def get_available_themes(self):
+        headers = {"x-auth-token": info.X_AUTH_TOKEN}
+        theme_objects = []
+        themes = requests.get(
+            info.BACK_OFFICE_URL + "themes", headers=headers,
+        ).json()
+        for theme in themes:
+            theme_objects.append(
+                Theme(theme["_id"], theme["name"], theme["description"])
+            )
+        return theme_objects
+
+
     def get_questions(self, themes, players):
         headers = {"x-auth-token": info.X_AUTH_TOKEN}
         req_params = {"theme": mock_themes_id, "npb": players}
@@ -26,9 +40,11 @@ class APIHandler:
             info.BACK_OFFICE_URL + "gamequestions", headers=headers, params=req_params
         ).json()
         print(question_lists)
+        question_objects = []
         for question_list in question_lists:
             for question in question_list:
                 question_object = Question(
+                    question["_id"],
                     question["text"],
                     [
                         question["answer1"],
@@ -40,7 +56,8 @@ class APIHandler:
                 )
                 if "image" in question:
                     question_object.set_image(self.get_question_image(question["_id"]))
-        return question_lists
+                question_objects.append(question_object)
+        return question_objects
 
     def get_question_image(self, question_id):
         headers = {"x-auth-token": info.X_AUTH_TOKEN}

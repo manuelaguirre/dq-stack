@@ -1,4 +1,4 @@
-<ng-container *ngIf="question.image">
+<ng-container *ngIf="question.image && !loadingFile">
   <img [src]="apiService.URL_API + '/questions/' + question._id + '/image'">
 </ng-container>
 <a class="dq-button dq-action btn btn-light" tabindex="0" role="button"
