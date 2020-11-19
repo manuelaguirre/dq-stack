@@ -74,8 +74,9 @@ class ServerRenderer(Renderer):
         self.update_screen()
         time.sleep(5)
 
-    def show_question(self):
+    def show_round(self):
         pass
+        #TODO: title and description
 
     def show_points(self):
         pass

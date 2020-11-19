@@ -30,7 +30,11 @@ class Coordinator:
         self.renderer.show_available_themes(self.dq_game.get_available_theme_names())
         self.renderer.show_timer(10, self.controller.timeout)
         chosen_themes = self.controller.get_theme_choices(self.dq_game.get_available_theme_names())
-        self.dq_game.set_chosen_themes(chosen_themes)
+        self.dq_game.set_round_themes(chosen_themes)
         self.renderer.show_chosen_themes(chosen_themes)
         questions = self.api_handler.get_questions(chosen_themes, self.players_id)
         self.dq_game.set_game_questions(questions)
+
+    def first_round(self):
+        self.controller.start_first_round(self.dq_game.rounds[0])
+        self.renderer.show_round(self.dq_game.rounds[0])
