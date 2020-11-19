@@ -13,7 +13,7 @@ class DQGame(EventHandler):
         self.instructions = mock_instructions  # TODO: Get instructions from API ?
         self.available_themes = []
         self.rounds = []
-            
+
         print("Creating a new game")
 
     def set_available_themes(self, themes):
@@ -25,7 +25,7 @@ class DQGame(EventHandler):
 
     def set_round_themes(self, themes):
         for theme in themes:
-            self.rounds.append(Round(self.get_theme_by_name(theme)))  
+            self.rounds.append(Round(self.get_theme_by_name(theme)))
         print("Chosen themes received")
 
     def get_theme_by_name(self, name):

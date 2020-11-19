@@ -141,10 +141,10 @@ class Renderer(EventHandler):
 
         self.timer.reset(seconds, render_timer, timeout_callback)
 
-    def show_title(self, text):
-        text_ = self.fonts["large"].render(text, True, (0, 0, 0))
+    def show_title(self, text, font_size="large"):
+        text_ = self.fonts[font_size].render(text, True, (0, 0, 0))
         text_rect = text_.get_rect(
-            center=(self.SCREEN_WIDTH / 2, 1 / 8 * self.SCREEN_HEIGHT)
+            center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 8)
         )
         self.screen.blit(text_, text_rect)
 

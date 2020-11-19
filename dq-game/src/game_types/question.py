@@ -7,12 +7,12 @@ class Question:
     Question class for instantiating game Questions
     """
 
-    def __init__(self, _id, text, answers, correct_answer, attachment=None):
+    def __init__(self, _id, text, answers, correct_answer):
         self._id = _id
         self.text = text
         self.answers = answers
         self.correct_answer = correct_answer
-        self.attachment = attachment
+        self.image_filename = None
 
-    def set_image(self, image):
-        self.attachment = image
+    def set_image_filename(self, image_filename):
+        self.image_filename = image_filename

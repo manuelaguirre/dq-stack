@@ -81,3 +81,18 @@ class Controller(EventHandler):
     def start_first_round(self, first_round):
         self.socket.send_to_all(first_round, "data-first-round")
         self.socket.send_to_all("START_FIRST_ROUND", "event")
+
+    def ask_question(self, question):
+        self.socket.send_to_all(question, "data-question")
+        self.socket.send_to_all("ANSWER_QUESTION", "event")
+
+        self.is_timeout = False
+
+        answers = []
+
+        while (len(answers) < self.no_of_players) and not self.is_timeout:
+            for message in self.socket.inbuffer:
+                if message.content_type == "data-answer":
+                    answers.append(message.data)
+                    self.socket.inbuffer.remove(message)
+            time.sleep(0.2)
