@@ -15,6 +15,7 @@ class Coordinator:
         self.game_setup()
         self.game_preparation()
         self.theme_selection_round()
+        self.first_round()
 
     def game_setup(self):
         self.dq_game.set_available_themes(self.api_handler.get_available_themes())

@@ -40,8 +40,9 @@ class APIHandler:
             info.BACK_OFFICE_URL + "gamequestions", headers=headers, params=req_params
         ).json()
         print(question_lists)
-        question_objects = []
+        question_objects_lists = []
         for question_list in question_lists:
+            question_objects_list = []
             for question in question_list:
                 question_object = Question(
                     question["_id"],
@@ -56,8 +57,9 @@ class APIHandler:
                 )
                 if "image" in question:
                     question_object.set_image(self.get_question_image(question["_id"]))
-                question_objects.append(question_object)
-        return question_objects
+                question_objects_list.append(question_object)
+            question_objects_lists.append(question_objects_list)
+        return question_objects_lists
 
     def get_question_image(self, question_id):
         headers = {"x-auth-token": info.X_AUTH_TOKEN}
