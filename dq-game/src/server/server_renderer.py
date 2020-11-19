@@ -74,9 +74,12 @@ class ServerRenderer(Renderer):
         self.update_screen()
         time.sleep(5)
 
-    def show_round(self):
+    def show_round(self, round):
+        self.show_background()
+        self.show_title(round.theme.name)
+        showTextAt(self, "medium", self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2, round.theme.description)
+        self.update_screen()
         pass
-        #TODO: title and description
 
     def show_points(self):
         pass
