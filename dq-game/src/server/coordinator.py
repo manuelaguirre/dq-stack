@@ -41,7 +41,7 @@ class Coordinator:
         self.dq_game.set_game_questions(questions)
 
     def first_round(self):
-        self.controller.start_first_round(self.dq_game.rounds[0])
+        self.controller.start_first_round(self.dq_game.rounds[0].theme)
         self.renderer.show_round(self.dq_game.rounds[0])
         time.sleep(3)
         for index, question in enumerate(self.dq_game.rounds[0].questions):

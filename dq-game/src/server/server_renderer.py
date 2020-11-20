@@ -15,7 +15,7 @@ class ServerRenderer(Renderer):
     """
 
     def __init__(self):
-        super().__init__(1000, 600, "server")
+        super().__init__(1500, 900, "server")
 
     def show_instructions(self, instrucions):
         """
@@ -98,7 +98,7 @@ class ServerRenderer(Renderer):
             f"QUESTION {index + 1}",
         )
         if question.image_filename:
-            image = pygame.image.load(
+            question_image = pygame.image.load(
                 os.path.abspath(
                     os.path.join(
                         os.path.dirname(__file__),
@@ -108,7 +108,29 @@ class ServerRenderer(Renderer):
                     )
                 )
             )
-            self.screen.blit(image, (0, self.SCREEN_HEIGHT / 2))
 
-        renderTextCenteredAt(self, question.text, self.SCREEN_HEIGHT * 5 / 8, "medium")
+            proportion = (self.SCREEN_HEIGHT / 3) / question_image.get_rect().height
+            question_image = pygame.transform.scale(
+                question_image,
+                (
+                    int(proportion * question_image.get_rect().width),
+                    self.SCREEN_HEIGHT // 3,
+                ),
+            )
+            question_image_width = question_image.get_rect().width
+            question_image_height = question_image.get_rect().height
+            self.screen.blit(
+                question_image,
+                (
+                    self.SCREEN_WIDTH // 2 - question_image_width // 2,
+                    self.SCREEN_HEIGHT // 2 - question_image_height // 2,
+                ),
+            )
+            renderTextCenteredAt(
+                self, question.text, self.SCREEN_HEIGHT * 6 / 8, "medium"
+            )
+        else:
+            renderTextCenteredAt(
+                self, question.text, self.SCREEN_HEIGHT * 4 / 8, "medium"
+            )
         self.update_screen()

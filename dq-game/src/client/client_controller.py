@@ -15,14 +15,21 @@ class ClientController(EventHandler):
         """
         self.socket = socket
 
+    def get_data_from_inbuffer(self, content_type):
+        """
+        Gets data from inbuffer given some content type
+        """
+        for msg in self.socket.inbuffer:
+            if msg.content_type == content_type:
+                self.socket.inbuffer.remove(msg)
+                return msg.data
+        return False
+
     def get_instructions(self):
         """
         Gets instructions from the inbuffer and returns False if not found
         """
-        for msg in self.socket.inbuffer:
-            if msg.content_type == "data-instructions":
-                return msg.data
-        return False
+        return self.get_data_from_inbuffer("data-instructions")
 
     def ready_up(self):
         print("player send ready confirmation")
@@ -32,10 +39,7 @@ class ClientController(EventHandler):
         """
         Gets the theme list from the inbuffer and returns False if not found
         """
-        for msg in self.socket.inbuffer:
-            if msg.content_type == "data-theme-list":
-                return msg.data
-        return False
+        return self.get_data_from_inbuffer("data-theme-list")
 
     def get_client_theme_choices(self):
         # Send instruction to choose themes to clients
@@ -45,3 +49,15 @@ class ClientController(EventHandler):
 
     def send_client_theme_choices(self, selected_themes):
         self.socket.send(selected_themes, "data-theme-choice")
+
+    def get_round_theme(self):
+        """
+        Gets actual theme
+        """
+        return self.get_data_from_inbuffer("data-first-round")
+
+    def get_current_question(self):
+        """
+        Gets actual theme
+        """
+        return self.get_data_from_inbuffer("data-question")
