@@ -32,4 +32,9 @@ class EventCoordinator:
 
     def on_answer_question(self):
         current_question = self.controller.get_current_question()
-        self.renderer.answer_question(current_question, self.current_theme)
+        self.renderer.answer_question(
+            current_question, self.current_theme, self.controller.send_answer
+        )
+
+    def on_resolve_question(self):
+        pass

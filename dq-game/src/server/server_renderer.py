@@ -134,3 +134,26 @@ class ServerRenderer(Renderer):
                 self, question.text, self.SCREEN_HEIGHT * 4 / 8, "medium"
             )
         self.update_screen()
+
+    def show_correct_answer(self, question, theme, index):
+        self.show_background()
+        self.show_title(theme.name, "medium")
+        showTextAt(
+            self,
+            "small",
+            self.SCREEN_WIDTH / 2,
+            self.SCREEN_HEIGHT / 4,
+            f"QUESTION {index + 1}",
+        )
+
+        button_background_rect = self.button_background.get_rect(
+            center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2)
+        )
+
+        self.screen.blit(self.button_background, button_background_rect)
+
+        renderTextCenteredAt(
+            self, question.answers[question.correct], self.SCREEN_HEIGHT / 2, "medium"
+        )
+
+        self.update_screen()

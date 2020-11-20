@@ -27,6 +27,7 @@ class ClientRenderer(Renderer):
         self.selected_themes = []
         self.theme_validation_button = None
         self.validate_themes_callback = None
+        self.answer_question_callback = None
         self.ready_callback = None
         self.append_touch_method(self.screen_handler.handle_touch)
 
@@ -165,9 +166,10 @@ class ClientRenderer(Renderer):
         )
         self.update_screen()
 
-    def answer_question(self, current_question, current_theme):
+    def answer_question(self, current_question, current_theme, callback):
         self.show_background()
         self.show_title(current_theme.name, "medium")
+        self.answer_question_callback = callback
         showTextAt(
             self,
             "medium",
@@ -189,3 +191,4 @@ class ClientRenderer(Renderer):
             if button.value == value:
                 button.toggle()
                 self.update_screen()
+        self.answer_question_callback(value)

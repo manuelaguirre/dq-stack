@@ -61,3 +61,9 @@ class ClientController(EventHandler):
         Gets actual theme
         """
         return self.get_data_from_inbuffer("data-question")
+
+    def send_answer(self, answer):
+        """
+        Sends Client answer
+        """
+        self.socket.send(answer, "data-answer")

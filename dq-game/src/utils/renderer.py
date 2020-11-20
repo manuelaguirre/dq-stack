@@ -11,7 +11,6 @@ from utils.timer import Timer
 class Renderer(EventHandler):
     """
     Renderer for the server main app (Central app)
-    TODO: Define super class Renderer to share it in the client
     """
 
     def __init__(self, SCREEN_WIDTH, SCREEN_HEIGHT, RENDERER_TYPE):
@@ -23,6 +22,7 @@ class Renderer(EventHandler):
         self.background = self._get_background()
         self.timer = Timer(0)
         self.timer_background = self._get_timer_background()
+        self.button_background = self._get_button_background()
         self.touch_function = None
         self.RENDERER_TYPE = RENDERER_TYPE
         self.base_path = os.path.dirname(__file__)
@@ -89,6 +89,18 @@ class Renderer(EventHandler):
         )
 
     def _get_timer_background(self):
+        background = pygame.image.load(
+            os.path.abspath(
+                os.path.join(
+                    os.path.dirname(__file__), "..", "images/timer_background.png"
+                )
+            )
+        )
+        return pygame.transform.scale(
+            background, (self.SCREEN_WIDTH // 8, self.SCREEN_HEIGHT // 6)
+        )
+
+    def _get_button_background(self):
         background = pygame.image.load(
             os.path.abspath(
                 os.path.join(

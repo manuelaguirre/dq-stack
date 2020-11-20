@@ -46,8 +46,14 @@ class Coordinator:
         time.sleep(3)
         for index, question in enumerate(self.dq_game.rounds[0].questions):
             self.ask_question(question, self.dq_game.rounds[0].theme, index)
+            self.resolve_question(question, self.dq_game.rounds[0].theme, index)
 
     def ask_question(self, question, theme, index):
         self.renderer.show_question(question, theme, index)
         self.renderer.show_timer(15, self.controller.timeout)
         self.controller.ask_question(question)
+
+    def resolve_question(self, question, theme, index):
+        self.renderer.show_correct_answer(question, theme, index)
+        self.controller.resolve_question()
+        time.sleep(5)

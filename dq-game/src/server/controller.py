@@ -96,3 +96,6 @@ class Controller(EventHandler):
                     answers.append(message.data)
                     self.socket.inbuffer.remove(message)
             time.sleep(0.2)
+
+    def resolve_question():
+        self.socket.send_to_all("RESOLVE_QUESTION", "event")
