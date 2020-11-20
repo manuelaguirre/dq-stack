@@ -33,13 +33,16 @@ class Renderer(EventHandler):
         """
         pygame.init()
         self.fonts["small"] = pygame.font.Font(
-            os.path.join(self.base_path, "fonts/YanoneKaffeesatz-Regular.ttf"), 32
+            os.path.join(self.base_path, "fonts/YanoneKaffeesatz-Regular.ttf"),
+            int(32 * self.SCREEN_HEIGHT / 600),
         )
         self.fonts["medium"] = pygame.font.Font(
-            os.path.join(self.base_path, "fonts/YanoneKaffeesatz-Regular.ttf"), 48
+            os.path.join(self.base_path, "fonts/YanoneKaffeesatz-Regular.ttf"),
+            int(48 * self.SCREEN_HEIGHT / 600),
         )
         self.fonts["large"] = pygame.font.Font(
-            os.path.join(self.base_path, "fonts/YanoneKaffeesatz-Regular.ttf"), 96
+            os.path.join(self.base_path, "fonts/YanoneKaffeesatz-Regular.ttf"),
+            int(96 * self.SCREEN_HEIGHT / 600),
         )
         if self.RENDERER_TYPE == "client":
             pygame.display.set_caption("DefiQuizz - Client")
@@ -134,7 +137,7 @@ class Renderer(EventHandler):
                 "medium",
                 timer_position[0] + self.SCREEN_WIDTH // 16,
                 timer_position[1] + self.SCREEN_HEIGHT // 12,
-                f"00:{seconds}",
+                "00:" + f"{seconds:0>2}",
                 (230, 230, 230),
             )
             self.update_screen()
@@ -150,37 +153,3 @@ class Renderer(EventHandler):
 
     def update_screen(self):
         pygame.display.update()
-
-    def display_button(self, text, x, y, width, height, selected):
-        if selected:
-            self.draw_button_full(x - width / 2, y - height / 2, width, height)
-            text_ = self.fonts["small"].render(text, True, (255, 255, 255))
-        else:
-            self.draw_button_empty(x - width / 2, y - height / 2, width, height)
-            text_ = self.fonts["small"].render(text, True, (0, 0, 0))
-        text_rect = text_.get_rect(center=(x, y))
-        self.screen.blit(text_, text_rect)
-
-    def draw_button_empty(self, x, y, width, height):
-        button_border = pygame.image.load(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__), "..", "images/icons/border_button.png"
-                )
-            )
-        )
-        button_border = pygame.transform.scale(button_border, (width, height))
-        self.screen.blit(button_border, (x, y))
-
-    def draw_button_full(self, x, y, width, height):
-        button_border = pygame.image.load(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "..",
-                    "images/icons/border_button_full.png",
-                )
-            )
-        )
-        button_border = pygame.transform.scale(button_border, (width, height))
-        self.screen.blit(button_border, (x, y))

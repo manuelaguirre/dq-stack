@@ -78,8 +78,8 @@ class Controller(EventHandler):
             del count_dict[most_repeated_value]
         return result
 
-    def start_first_round(self, first_round):
-        self.socket.send_to_all(first_round, "data-first-round")
+    def start_first_round(self, first_round_theme):
+        self.socket.send_to_all(first_round_theme, "data-first-round")
         self.socket.send_to_all("START_FIRST_ROUND", "event")
 
     def ask_question(self, question):
