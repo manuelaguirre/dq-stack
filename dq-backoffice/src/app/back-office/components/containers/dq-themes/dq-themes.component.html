@@ -20,8 +20,12 @@
         (keyup.enter)="fileInput.click()" (click)="fileInput.click()"
         [class.disabled]="loadingExcel" [class.loading]="loadingExcel">
         <span tabindex="-1" class="dq-action-cont">Massive import</span>
-        <input #fileInput type="file" (change)="onFileInput($event)">
+        <input #fileInput type="file" (change)="onFileInput($event); fileInput.value = null">
       </a>
+    </div>
+    <div class="errors-container flex-div column" *ngIf="errors.length">
+      <span class="title">Errors:</span>
+      <span *ngFor="let error of errors">{{error}}</span>
     </div>
     <div class="tabs-container flex-div column">
       <div class="nav nav-tabs justify-content-center full-width" id="nav-tab" role="tablist">

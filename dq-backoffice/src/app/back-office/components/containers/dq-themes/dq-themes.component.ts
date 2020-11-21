@@ -28,6 +28,8 @@ export class DqThemesComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
+  errors: string[] = [];
+
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
@@ -66,6 +68,7 @@ export class DqThemesComponent implements OnInit, OnDestroy {
   onFileInput(event: any) {
     this.loadingExcel = true;
     const file = event.target.files[0];
+    this.errors = [];
     if ((file as File).type.includes('csv') || (file as File).type.includes('sheet')) {
       this.subscriptions.push(
         this.backOfficeService.massiveImport(file).pipe(
@@ -75,6 +78,7 @@ export class DqThemesComponent implements OnInit, OnDestroy {
             location.reload();
           }),
           catchError((e) => {
+            (e.error as string[]).forEach((error) => this.errors.push(error))
             this.snackbarService.showError(
               'Error: ' + (e && e.message ? e.message : 'unknown')
             );
@@ -86,7 +90,7 @@ export class DqThemesComponent implements OnInit, OnDestroy {
       return;
     }
     this.subscriptions.push(
-      this.snackbarService.showError('Not CSV file')
+      this.snackbarService.showError('The file must have a .CSV extension')
       .afterOpened()
       .subscribe(() => this.loadingExcel = false),
     );

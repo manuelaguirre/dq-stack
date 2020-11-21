@@ -60,17 +60,17 @@ async function createThemeSet(){
 async function verifyCSVLine(data) {
 	const validation = createQuestionSchema.validate(data);
 	if (!data.theme){
-		const error = `\nCould not import line ${data.Id}: Invalid theme`;
+		const error = `\n Line ${data.Id}: ${data.theme} does not exist. Create the theme beforehand.'`;
 		return error; 
 	}
 	if (validation.error){
-		const error = `\nCould not import line ${data.Id}: ${validation.error.details[0].message}`;
+		const error = `\n Line ${data.Id}: ${validation.error.details[0].message}.`;
 		return error;
 	}
 	const result = await getQuestionByText(data.text);
 	const error = new Promise((resolve) => {
 		if (!_.isEmpty(result)){
-			resolve(`\nCould not import line ${data.Id}: Question with the same text already exists`);
+			resolve(`\n Line ${data.Id}: Question with the same text already exists.`);
 		} else {
 			resolve(null);
 		}
