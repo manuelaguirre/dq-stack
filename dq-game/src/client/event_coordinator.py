@@ -7,10 +7,11 @@ class EventCoordinator:
         self.controller = controller
         self.renderer = renderer
         self.current_theme = None
+        self.current_question = None
 
     def on_timeout(self):
         self.renderer.screen_handler.clear_data()
-        self.renderer.show_logo()  # TODO: show timeout image or text
+        self.renderer.show_logo()
 
     def on_show_instructions(self):
         """
@@ -31,10 +32,10 @@ class EventCoordinator:
         self.renderer.display_round_theme(self.current_theme)
 
     def on_answer_question(self):
-        current_question = self.controller.get_current_question()
+        self.current_question = self.controller.get_current_question()
         self.renderer.answer_question(
-            current_question, self.current_theme, self.controller.send_answer
+            self.current_question, self.current_theme, self.controller.send_answer
         )
 
     def on_resolve_question(self):
-        pass
+        self.renderer.show_results(self.current_question)

@@ -6,6 +6,7 @@ import pygame
 from events.event_handler import EventHandler
 from utils.renderer import Renderer
 from utils.renderer_utils import renderTextCenteredAt, showTextAt
+from utils.screen_button import AnswerScreenButton
 
 
 class ServerRenderer(Renderer):
@@ -146,14 +147,13 @@ class ServerRenderer(Renderer):
             f"QUESTION {index + 1}",
         )
 
-        button_background_rect = self.button_background.get_rect(
-            center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2)
+        correct_answer_button = AnswerScreenButton(
+            self.SCREEN_WIDTH / 2,
+            self.SCREEN_HEIGHT / 2,
+            5 * self.SCREEN_WIDTH / 6,
+            self.SCREEN_HEIGHT / 8,
+            question.answers[question.correct_answer],
+            self,
         )
-
-        self.screen.blit(self.button_background, button_background_rect)
-
-        renderTextCenteredAt(
-            self, question.answers[question.correct], self.SCREEN_HEIGHT / 2, "medium"
-        )
-
+        correct_answer_button.set_state("correct")
         self.update_screen()

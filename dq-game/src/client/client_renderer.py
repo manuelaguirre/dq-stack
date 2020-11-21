@@ -6,9 +6,9 @@ import time
 
 from utils.renderer import Renderer
 from utils.renderer_utils import renderTextCenteredAt, showTextAt
+from utils.screen_button import ThemeScreenButton, AnswerScreenButton
 
 from client_screen_handler import ClientScreenHandler
-from screen_button import ScreenButton
 
 
 class ClientRenderer(Renderer):
@@ -31,7 +31,7 @@ class ClientRenderer(Renderer):
         self.ready_callback = None
         self.append_touch_method(self.screen_handler.handle_touch)
 
-    def create_buttons(self, value_list):
+    def create_buttons(self, value_list, button_type):
         # Create columns and rows
         columns = [4 * self.SCREEN_WIDTH / 11, 7 * self.SCREEN_WIDTH / 11]
         num_rows = math.ceil(len(value_list) / 2)
@@ -45,14 +45,24 @@ class ClientRenderer(Renderer):
         for index in range(len(value_list)):
             pos_x = columns[index % 2]
             pos_y = rows[math.floor(index / 2)]
-            button = ScreenButton(
-                pos_x,
-                pos_y,
-                self.THEME_BUTTON_WIDTH,
-                self.THEME_BUTTON_HEIGHT,
-                value_list[index],
-                self,
-            )
+            if button_type == "Themes":
+                button = ThemeScreenButton(
+                    pos_x,
+                    pos_y,
+                    self.THEME_BUTTON_WIDTH,
+                    self.THEME_BUTTON_HEIGHT,
+                    value_list[index],
+                    self,
+                )
+            else:
+                button = AnswerScreenButton(
+                    pos_x,
+                    pos_y,
+                    self.THEME_BUTTON_WIDTH,
+                    self.THEME_BUTTON_HEIGHT,
+                    value_list[index],
+                    self,
+                )
             self.buttons_list.append(button)
             self.screen_handler.add_object(button)
 
@@ -69,7 +79,7 @@ class ClientRenderer(Renderer):
             renderTextCenteredAt(
                 self, instructions[i], (i + 1) * self.SCREEN_HEIGHT / 5
             )
-        ready_button = ScreenButton(
+        ready_button = ThemeScreenButton(
             self.SCREEN_WIDTH / 2,
             4 * self.SCREEN_HEIGHT / 5,
             self.THEME_BUTTON_WIDTH,
@@ -96,11 +106,11 @@ class ClientRenderer(Renderer):
         self.validate_themes_callback = callback
         print(self.themes)
         time.sleep(1)
-        self.create_buttons(self.themes)
+        self.create_buttons(self.themes, "Themes")
         # Create validate button
         pos_x_validate = self.SCREEN_WIDTH / 2
         pos_y_validate = 8 / 9 * self.SCREEN_HEIGHT
-        self.theme_validation_button = ScreenButton(
+        self.theme_validation_button = ThemeScreenButton(
             pos_x_validate,
             pos_y_validate,
             self.THEME_BUTTON_WIDTH,
@@ -178,7 +188,7 @@ class ClientRenderer(Renderer):
             current_question.text,
         )
         self.buttons_list = []
-        self.create_buttons(current_question.answers)
+        self.create_buttons(current_question.answers, "Answers")
         # Attach callback method for touch event
         self.screen_handler.add_touch_callback(self.select_answer_event)
         # Display title and buttons
@@ -189,6 +199,16 @@ class ClientRenderer(Renderer):
         print(value)
         for button in self.buttons_list:
             if button.value == value:
-                button.toggle()
+                button.set_state("selected")
                 self.update_screen()
-        self.answer_question_callback(value)
+                self.screen_handler.clear_data()
+                self.answer_question_callback(value)
+
+    def show_results(self, question):
+        for button in self.buttons_list:
+            if button.value == question.answers[question.correct_answer]:
+                button.set_state("correct")
+                self.update_screen()
+            elif button.state == "selected":
+                button.set_state("wrong")
+                self.update_screen()

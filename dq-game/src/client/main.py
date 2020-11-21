@@ -24,7 +24,7 @@ def start_game():
     client_socket.on("CHOOSE_THEME", coordinator.on_choose_theme)
     client_socket.on("START_FIRST_ROUND", coordinator.on_start_first_round)
     client_socket.on("ANSWER_QUESTION", coordinator.on_answer_question)
-    client_socket.on("RESOLVE_QUESTION", coordinator.on_answer_question)
+    client_socket.on("RESOLVE_QUESTION", coordinator.on_resolve_question)
 
     # Start
     client_socket.connect()

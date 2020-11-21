@@ -22,7 +22,10 @@ class Renderer(EventHandler):
         self.background = self._get_background()
         self.timer = Timer(0)
         self.timer_background = self._get_timer_background()
-        self.button_background = self._get_button_background()
+        self.button_background_normal = self._get_button_background("normal")
+        self.button_background_correct = self._get_button_background("correct")
+        self.button_background_wrong = self._get_button_background("wrong")
+        self.button_background_selected = self._get_button_background("selected")
         self.touch_function = None
         self.RENDERER_TYPE = RENDERER_TYPE
         self.base_path = os.path.dirname(__file__)
@@ -100,11 +103,13 @@ class Renderer(EventHandler):
             background, (self.SCREEN_WIDTH // 8, self.SCREEN_HEIGHT // 6)
         )
 
-    def _get_button_background(self):
+    def _get_button_background(self, state):
         background = pygame.image.load(
             os.path.abspath(
                 os.path.join(
-                    os.path.dirname(__file__), "..", "images/timer_background.png"
+                    os.path.dirname(__file__),
+                    "..",
+                    "images/icons/button_" + state + ".png",
                 )
             )
         )

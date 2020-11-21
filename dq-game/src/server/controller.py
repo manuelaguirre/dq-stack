@@ -90,12 +90,13 @@ class Controller(EventHandler):
 
         answers = []
 
-        while (len(answers) < self.no_of_players) and not self.is_timeout:
+        while not self.is_timeout:
             for message in self.socket.inbuffer:
                 if message.content_type == "data-answer":
                     answers.append(message.data)
                     self.socket.inbuffer.remove(message)
             time.sleep(0.2)
 
-    def resolve_question():
+    def resolve_question(self):
+        self.is_timeout = True
         self.socket.send_to_all("RESOLVE_QUESTION", "event")

@@ -2,7 +2,7 @@ import sys
 import os
 from events.event_handler import EventHandler
 
-from screen_button import ScreenButton
+from utils.screen_button import ScreenButton
 
 
 class ClientScreenHandler(EventHandler):
