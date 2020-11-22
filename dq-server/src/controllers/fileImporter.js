@@ -5,23 +5,59 @@ const { createQuestion, getQuestionByText } = require('./questions');
 const { createQuestionSchema } = require('../validation/input');
 
 async function importQuestions(stream){
-
+	const errors = [];
+	const alreadyExistsWarnings = [];
+	const questions = [];
+	const added = {
+		questions : 0,
+		themes : 0
+	};
+	
 	const themeSet = await createThemeSet();
-	stream.pipe(csv())
-		.on('data', (chunk) => processLine(chunk, themeSet));
+
+	return new Promise((resolve) => {
+
+		stream.pipe(csv())
+			.on('data', async (chunk) => {
+				questions.push(chunk);
+			})
+			.on('end', async() => {
+				for (const question of questions) {
+					await processLine(question, themeSet, added, errors, alreadyExistsWarnings);
+				}
+				resolve({
+					errors, 
+					warnings : alreadyExistsWarnings,
+					message : `Created ${added.themes} new themes. Imported ${added.questions} questions`
+				});
+			});
+	});
+	
 }
 
-async function processLine(chunk, themeSet){
+async function processLine(chunk, themeSet, added, errors, alreadyExistsWarnings){
 	try {
-		let question = await getQuestionByText(chunk.text);
-		if (question) throw new Error(`Line ${chunk.Id}:Question with the same text already exists`);
 		if (!themeSet[chunk.theme]){
-			themeSet[chunk.theme] = getNewThemeID(chunk.theme, chunk.name, chunk.subname);
+			themeSet[chunk.theme] = await getNewThemeID(chunk.theme, chunk.name, chunk.subname);
+			added.themes++;
 		}
-		chunk.theme = await themeSet[chunk.theme];
+		chunk.theme = themeSet[chunk.theme].toString();
+		
+		let result = createQuestionSchema.validate(chunk);
+		if (result.error) {
+			throw new Error(result.error.details[0].message);
+		}
+		let question = await getQuestionByText(chunk.text);
+		if (question) throw new AlreadyExistsException(chunk.Id);
+		
 		question = await createQuestion(chunk);
-	} catch (error) {
-		console.log(error);
+		added.questions++;
+	} catch (ex) {
+		if (ex.id){
+			alreadyExistsWarnings.push(`Warning. Line ${ex.id} text already exists in the database. It was not overwritten`);
+		} else {
+			errors.push(`Error in line ${chunk.Id}: ${ex.message}`);
+		}
 	}
 }
 
@@ -41,69 +77,10 @@ async function getNewThemeID(name, companyName, companySubname){
 	return result._id;
 }
 
+function AlreadyExistsException(id) {
+	this.id = id;
+}
 
-
-// async function importQuestions(stream) {
-// 	const streamData = await readCSVStream(stream, verifyCSVLine, () => {});
-
-// 	streamData.errors = filterNullElements(streamData.errors);
-// 	if (!_.isEmpty(streamData.errors)) return streamData;
-
-// 	for await (const theme of streamData.questionsToAdd) {
-// 		await createTheme({
-// 			name: theme
-// 		});
-// 	}
-// 	for await (const question of streamData.questionsToAdd) {
-// 		await createQuestion(question);
-// 	}
-// 	return streamData;
-// }
-
-// async function readCSVStream(stream, callback, callbackOnEnd) {
-// 	const themeSet = await createThemeSet();
-// 	let errors = [];
-// 	let questionsToAdd = [];
-// 	let themesToAdd = [];
-// 	const streamFromFile = new Promise((resolve) => {
-// 		stream.pipe(csv())
-// 			.on('data', (data) => {
-
-// 				if (!themeSet[data.theme]) {
-// 					let newTheme;
-// 					themesToAdd.push({
-// 						name : data.theme,
-// 						isPublic : !data.name						
-// 					});
-// 				}
-
-// 				const question = new Promise((resolve) => {
-// 					resolve(data);
-// 				});
-// 				const lineError = new Promise((resolve) => {
-// 					const lineError = callback(data);
-// 					resolve(lineError);
-// 				});
-// 				questionsToAdd.push(question);
-// 				errors.push(lineError);
-// 			})
-// 			.on('end', () => {
-// 				callbackOnEnd(errors);
-// 				resolve();
-// 			});
-// 	});
-// 	await streamFromFile;
-// 	const allErrors = Promise.all(errors);
-// 	const allQuestions = Promise.all(questionsToAdd);
-// 	const allThemes = Promise.all(themesToAdd);
-// 	return {
-// 		questionsToAdd: await allQuestions,
-// 		errors: await allErrors,
-// 		themesToAdd : await allThemes
-// 	};
-// }
-
-//TODO: maybe move this to Theme Schema
 async function createThemeSet() {
 	const themeList = await getThemes({ lean: true });
 	const themeSet = {};
@@ -113,35 +90,6 @@ async function createThemeSet() {
 	});
 	return themeSet;
 }
-
-// async function verifyCSVLine(data) {
-// 	const validation = createQuestionSchema.validate(data);
-// 	if (!data.theme) {
-// 		const error = `\n Line ${data.Id}: ${
-// 			data.theme
-// 		} does not exist. Create the theme beforehand.'`;
-// 		return error;
-// 	}
-// 	if (validation.error) {
-// 		const error = `\n Line ${data.Id}: ${validation.error.details[0].message}.`;
-// 		return error;
-// 	}
-// 	const result = await getQuestionByText(data.text);
-// 	const error = new Promise((resolve) => {
-// 		if (!_.isEmpty(result)) {
-// 			resolve(
-// 				`\n Line ${data.Id}: Question with the same text already exists.`
-// 			);
-// 		} else {
-// 			resolve(null);
-// 		}
-// 	});
-// 	return error;
-// }
-
-// function filterNullElements(array) {
-// 	return array.filter((element) => element !== null);
-// }
 
 module.exports = {
 	importQuestions,
