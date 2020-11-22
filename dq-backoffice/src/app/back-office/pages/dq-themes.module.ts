@@ -46,6 +46,7 @@ const routes: Routes = [
   ],
   providers: [
     DqThemeResolver,
+    CanDeactivateQuestion,
   ],
 })
 export class DqThemesModule { }
