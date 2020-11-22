@@ -58,6 +58,7 @@ export class DqQuestionDetailComponent implements OnInit {
       .pipe(
         map((question) => {
           if (question) {
+            this.detailForm.markAsPristine();
             this.snackBarService.showMessage('Question created successfully');
             this.router.navigate([`home/themes/${question.theme}/questions`]);
           } else {
@@ -87,6 +88,7 @@ export class DqQuestionDetailComponent implements OnInit {
     }).pipe(
       map((question) => {
         if (question) {
+          this.detailForm.markAsPristine();
           this.snackBarService.showMessage('Question edited successfully');
           this.router.navigate([`home/themes/${question.theme}/questions`]);
         } else {
