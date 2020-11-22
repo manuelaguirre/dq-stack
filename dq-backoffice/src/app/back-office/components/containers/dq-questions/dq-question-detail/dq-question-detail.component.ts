@@ -16,6 +16,8 @@ import { DqTheme } from '../../../../../shared/models/dq-theme';
 export class DqQuestionDetailComponent implements OnInit {
   questionDetailForm$: Observable<FormGroup> = null;
 
+  detailForm: FormGroup = null;
+
   question$: Observable<Partial<DqQuestion>> = null;
 
   loadingNew = false;
@@ -125,7 +127,7 @@ export class DqQuestionDetailComponent implements OnInit {
     if (!question) {
       this.createNew = true;
     }
-    return this.formBuilder.group({
+    this.detailForm = this.formBuilder.group({
       theme: [question ? question.theme : '', Validators.required],
       text: [question ? question.text : '', Validators.required],
       answer1: [question ? question.answer1 : '', Validators.required],
@@ -135,5 +137,6 @@ export class DqQuestionDetailComponent implements OnInit {
       correct: [question ? question.correct + 1 : 0, [Validators.required, Validators.max(4), Validators.min(1)]],
       image: [question ? question.image : ''],
     });
+    return this.detailForm;
   }
 }

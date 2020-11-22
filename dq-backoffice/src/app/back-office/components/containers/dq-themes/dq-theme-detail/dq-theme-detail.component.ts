@@ -17,6 +17,8 @@ import { DqTheme } from '../../../../../shared/models/dq-theme';
 export class DqThemeDetailComponent implements OnInit {
   newThemeForm$: Observable<FormGroup> = null;
 
+  detailForm: FormGroup = null;
+
   loadingNew = false;
 
   createNew = false;
@@ -104,13 +106,14 @@ export class DqThemeDetailComponent implements OnInit {
     if (!theme) {
       this.createNew = true;
     }
-    return this.formBuilder.group({
+    this.detailForm = this.formBuilder.group({
       name: [theme ? theme.name : '', Validators.required],
       isPublic: [theme ? theme.isPublic : true, Validators.required],
       description: [theme ? theme.description : '', Validators.required],
       companyName: [theme && theme.company ? theme.company.name : ''],
       companySubName: [theme && theme.company ? theme.company.subname : ''],
     }, { validators: this.validPrivateTheme });
+    return this.detailForm;
   }
 
   validPrivateTheme: ValidatorFn = (control: FormGroup): ValidationErrors | null => {

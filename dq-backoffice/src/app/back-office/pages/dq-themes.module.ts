@@ -6,12 +6,14 @@ import { DqThemeDetailComponent } from '../components/containers/dq-themes/dq-th
 import { DqBackofficeSharedModule } from '../components/shared/dq-backoffice-shared.module';
 import { AuthGuardService } from '../../auth/auth-form/services/auth-guard.service';
 import { DqThemeResolver } from '../resolvers/dq-theme.resolver';
+import { CanDeactivateQuestion } from '../components/shared/services/can-deactivate-question.service';
 
 const routes: Routes = [
   {
     path: ':id',
     canActivate: [AuthGuardService],
     resolve: [DqThemeResolver],
+    canDeactivate: [CanDeactivateQuestion],
     children: [
       {
         path: 'questions',
@@ -20,6 +22,7 @@ const routes: Routes = [
       {
         path: '',
         component: DqThemeDetailComponent,
+        canDeactivate: [CanDeactivateQuestion],
       },
     ],
   },

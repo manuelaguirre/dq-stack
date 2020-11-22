@@ -7,6 +7,7 @@ import {
   DqQuestionDetailComponent,
 } from '../components/containers/dq-questions/dq-question-detail/dq-question-detail.component';
 import { AuthGuardService } from '../../auth/auth-form/services/auth-guard.service';
+import { CanDeactivateQuestion } from '../components/shared/services/can-deactivate-question.service';
 import { DqImageHandlerModule } from '../components/shared/dq-image-handler/dq-image-handler.module';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
     path: ':id',
     component: DqQuestionDetailComponent,
     canActivate: [AuthGuardService],
+    canDeactivate: [CanDeactivateQuestion],
   },
   {
     path: '',
@@ -34,6 +36,8 @@ const routes: Routes = [
     DqQuestionsComponent,
     DqQuestionDetailComponent,
   ],
-  providers: [],
+  providers: [
+    CanDeactivateQuestion,
+  ],
 })
 export class DqQuestionsModule { }

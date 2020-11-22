@@ -34,7 +34,11 @@
       </div>
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-public" role="tabpanel" aria-labelledby="nav-public-tab">
-          <div class="dq-table-container">
+          <div class="dq-table-container flex-div column">
+            <mat-form-field appearance="outline">
+              <mat-label>Filter</mat-label>
+              <input matInput (keyup)="applyFilter($event, false)" placeholder="Text in a question" #input>
+            </mat-form-field>
             <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 dq-table">
       
               <!-- Name Column -->
@@ -78,7 +82,11 @@
           </div>
         </div>
         <div class="tab-pane fade" id="nav-private" role="tabpanel" aria-labelledby="nav-private-tab">
-          <div class="dq-table-container">
+          <div class="dq-table-container flex-div column">
+            <mat-form-field appearance="outline">
+              <mat-label>Filter</mat-label>
+              <input matInput (keyup)="applyFilter($event, true)" placeholder="Text in a question" #inputPrivate>
+            </mat-form-field>
             <table mat-table [dataSource]="dataSourcePrivate" matSort class="mat-elevation-z8 dq-table">
       
               <!-- Name Column -->

@@ -83,6 +83,11 @@ export class DqQuestionsComponent implements OnInit, OnDestroy {
     );
   }
 
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }

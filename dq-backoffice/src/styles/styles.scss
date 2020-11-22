@@ -89,3 +89,16 @@ select:-webkit-autofill:focus {
 .dq-action-cont:focus {
   outline: none;
 }
+
+.message-snackbar {
+  simple-snack-bar {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    .mat-simple-snackbar-action {
+      button {
+        font-size: 1.5rem;
+        color: var(--dq-primary-color);
+      }
+    }
+  }
+}
