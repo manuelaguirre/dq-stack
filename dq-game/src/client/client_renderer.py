@@ -21,8 +21,6 @@ class ClientRenderer(Renderer):
         self.screen_handler = ClientScreenHandler()
         self.buttons_list = []
         # Select themes
-        self.THEME_BUTTON_WIDTH = 230
-        self.THEME_BUTTON_HEIGHT = 40
         self.selected_themes_num = 0
         self.selected_themes = []
         self.theme_validation_button = None
@@ -33,15 +31,32 @@ class ClientRenderer(Renderer):
 
     def create_buttons(self, value_list, button_type):
         # Create columns and rows
-        columns = [4 * self.SCREEN_WIDTH / 11, 7 * self.SCREEN_WIDTH / 11]
+
+        # Display columns at 3/11 and 8/11 REF: renderer.py
+        columns = []
         num_rows = math.ceil(len(value_list) / 2)
         rows = []
+
+        space_for_rows_margin = 0
+        space_for_rows_total = 0
+
+        if button_type == "Themes":
+            # Display rows from 1/3 of the screen until 5/6 #REF: renderer.py
+            columns = [3 * self.SCREEN_WIDTH / 11, 8 * self.SCREEN_WIDTH / 11]
+            space_for_rows_margin = 1 / 3 * self.SCREEN_HEIGHT
+            space_for_rows_total = (5 / 6 - 1 / 3) * self.SCREEN_HEIGHT
+        else:
+            # Display rows from 1/2 of the screen until 5/6 #REF: renderer.py
+            columns = [3 * self.SCREEN_WIDTH / 11, 8 * self.SCREEN_WIDTH / 11]
+            space_for_rows_margin = 1 / 2 * self.SCREEN_HEIGHT
+            space_for_rows_total = (5 / 6 - 1 / 2) * self.SCREEN_HEIGHT
+
+        space_for_row = space_for_rows_total / num_rows
+
         for index in range(num_rows):
-            rows.append(
-                3 / 9 * self.SCREEN_HEIGHT
-                + 5 / 9 * self.SCREEN_HEIGHT / (2 * num_rows + 1) * (2 * index + 1)
-            )
-        # Create one button per theme
+            rows.append(space_for_rows_margin + space_for_row * index)
+
+        # Create one button per theme or answer
         for index in range(len(value_list)):
             pos_x = columns[index % 2]
             pos_y = rows[math.floor(index / 2)]
@@ -52,16 +67,20 @@ class ClientRenderer(Renderer):
                     self.THEME_BUTTON_WIDTH,
                     self.THEME_BUTTON_HEIGHT,
                     value_list[index],
-                    self,
+                    self.button_backgrounds,
+                    self.screen,
+                    self.fonts["small"],
                 )
             else:
                 button = AnswerScreenButton(
                     pos_x,
                     pos_y,
-                    self.THEME_BUTTON_WIDTH,
-                    self.THEME_BUTTON_HEIGHT,
+                    self.ANSWER_BUTTON_WIDTH,
+                    self.ANSWER_BUTTON_HEIGHT,
                     value_list[index],
-                    self,
+                    self.button_backgrounds,
+                    self.screen,
+                    self.fonts["small"],
                 )
             self.buttons_list.append(button)
             self.screen_handler.add_object(button)
@@ -85,7 +104,9 @@ class ClientRenderer(Renderer):
             self.THEME_BUTTON_WIDTH,
             self.THEME_BUTTON_HEIGHT,
             "PRÊT",
-            self,
+            self.button_backgrounds,
+            self.screen,
+            self.fonts["small"],
         )
         self.screen_handler.add_object(ready_button)
         ready_button.display()
@@ -116,7 +137,9 @@ class ClientRenderer(Renderer):
             self.THEME_BUTTON_WIDTH,
             self.THEME_BUTTON_HEIGHT,
             "Select",
-            self,
+            self.button_backgrounds,
+            self.screen,
+            self.fonts["small"],
         )
         self.buttons_list.append(self.theme_validation_button)
         self.screen_handler.add_object(self.theme_validation_button)
