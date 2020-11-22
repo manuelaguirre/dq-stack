@@ -55,6 +55,7 @@ export class DqThemeDetailComponent implements OnInit {
       .pipe(
         map((theme) => {
           if (theme) {
+            this.detailForm.markAsPristine();
             this.snackBarService.showMessage('Theme created successfully');
             this.router.navigate(['home/themes']);
           } else {
