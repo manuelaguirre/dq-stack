@@ -14,7 +14,7 @@ export class Store {
 
   private store = this.subject.asObservable().pipe(distinctUntilChanged());
 
-  get value() {
+  get value(): State {
     return this.subject.value;
   }
 
@@ -22,9 +22,9 @@ export class Store {
     return this.store.pipe(pluck(name));
   }
 
-  set(name: string, newState: any) {
+  set<T>(name: string, newState: T): void {
     this.subject.next({
-        ...this.value, [name]: newState,
+      ...this.value, [name]: newState,
     });
   }
 }

@@ -15,24 +15,24 @@ export const routes: Routes = [
       {
         path: 'portal',
         component: BackOficeComponent,
-        canActivate: [ AuthGuardService ],
+        canActivate: [AuthGuardService],
       },
       {
         path: 'themes',
-        loadChildren: () => import('./pages/dq-themes.module').then(m => m.DqThemesModule),
+        loadChildren: () => import('./pages/dq-themes.module').then((m) => m.DqThemesModule),
       },
       {
         path: 'players',
-        loadChildren: () => import('./pages/dq-players.module').then(m => m.DqPlayersModule),
+        loadChildren: () => import('./pages/dq-players.module').then((m) => m.DqPlayersModule),
       },
       {
         path: 'media',
-        loadChildren: () => import('./pages/dq-media.module').then(m => m.DqMediaModule),
+        loadChildren: () => import('./pages/dq-media.module').then((m) => m.DqMediaModule),
       },
       { path: '**', redirectTo: 'portal' },
-    ]
-  }
-]
+    ],
+  },
+];
 
 @NgModule({
   declarations: [

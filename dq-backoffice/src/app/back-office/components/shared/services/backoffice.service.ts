@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
+import {
+  Observable, of, throwError, combineLatest,
+} from 'rxjs';
+import {
+  tap, switchMap, catchError, filter, map, take,
+} from 'rxjs/operators';
 import { ApiService } from '../../../../shared/services/api.service';
 import { DqTheme } from '../../../../shared/models/dq-theme';
-import { Observable, of, throwError, combineLatest } from 'rxjs';
 import { DqQuestion } from '../../../../shared/models/dq-questions';
 import { Store } from '../../../../store';
-import { tap, switchMap, catchError, filter, map, take } from 'rxjs/operators';
 
 @Injectable()
 export class BackofficeService {
   allQuestionsSearched = false;
 
   allThemesSearched = false;
+
   constructor(
     private apiService: ApiService,
     private store: Store,
@@ -22,17 +27,17 @@ export class BackofficeService {
 
   createNewQuestion(question: Partial<DqQuestion>): Observable<DqQuestion> {
     return this.apiService.post<DqQuestion>('questions', { ...question }).pipe(
-      tap((question) => {
-        const questions = this.store.value.questions;
-        if (questions[question.theme]) {
-          questions[question.theme].push(question);
+      tap((question_) => {
+        const { questions } = this.store.value;
+        if (questions[question_.theme]) {
+          questions[question_.theme].push(question_);
         } else {
-          questions[question.theme] = [question];
+          questions[question_.theme] = [question_];
         }
         this.store.set(
-          'questions', questions,
+          'questions', question_,
         );
-      })
+      }),
     );
   }
 
@@ -45,7 +50,7 @@ export class BackofficeService {
           this.store.value.questions && this.store.value.questions[themeId] && this.allQuestionsSearched
         ) {
           return this.store.select<{
-              [themeId: string]: DqQuestion[];
+            [themeId: string]: DqQuestion[];
           }>('questions').pipe(
             map((questions) => questions[themeId]),
           );
@@ -57,15 +62,13 @@ export class BackofficeService {
             this.store.set('questions', questions_);
             this.allQuestionsSearched = true;
           }),
-          switchMap(() => {
-            return this.store.select<{
-                [themeId: string]: DqQuestion[];
-            }>('questions');
-          }),
+          switchMap(() => this.store.select<{
+            [themeId: string]: DqQuestion[];
+          }>('questions')),
           map((questions) => questions[themeId]),
         );
-      })
-    )
+      }),
+    );
   }
 
   getQuestion(id: string): Observable<Partial<DqQuestion>> {
@@ -98,9 +101,16 @@ export class BackofficeService {
       filter((data) => !!data[0] && !!data[1]),
       take(1),
       tap((data) => {
-        const questions = this.store.value.questions;
-        const questionsCat = questions[data[0]];
-        questionsCat[questionsCat.findIndex((q) => q._id === id)] = data[1];
+        let { questions } = this.store.value;
+        const questionTheme = data[0];
+        const questionIndex = questions[questionTheme].findIndex((q) => q._id === id);
+        questions = {
+          ...questions,
+          [questionTheme]: {
+            ...questions[questionTheme],
+            [questionIndex]: data[1],
+          },
+        };
         this.store.set(
           'questions',
           questions,
@@ -119,7 +129,7 @@ export class BackofficeService {
       filter((data) => !!data[0] && !!data[1]),
       take(1),
       tap((data) => {
-        const questions = this.store.value.questions;
+        const { questions } = this.store.value;
         if (questions[data[0]]) {
           questions[data[0]].push(data[1]);
         } else {
@@ -141,7 +151,7 @@ export class BackofficeService {
         const questions = { ...this.store.value.questions };
         questions[question.theme] = categoryQuestions;
         this.store.set('questions', questions);
-      })
+      }),
     );
   }
 
@@ -151,7 +161,9 @@ export class BackofficeService {
     }
     return this.apiService.get<DqTheme[]>('themes').pipe(
       tap((themes) => this.store.set('themes', themes)),
-      tap(() => this.allThemesSearched = true),
+      tap(() => {
+        this.allThemesSearched = true;
+      }),
     );
   }
 
@@ -175,10 +187,10 @@ export class BackofficeService {
 
   editTheme(id: string, theme: Partial<DqTheme>): Observable<DqTheme> {
     return this.apiService.put<DqTheme>(`themes/${id}`, theme).pipe(
-      tap((theme) => {
-        if (theme) {
-          const themes = this.store.value.themes;
-          themes[themes.findIndex((t) => t._id === id)] = theme;
+      tap((theme_) => {
+        if (theme_) {
+          const { themes } = this.store.value;
+          themes[themes.findIndex((t) => t._id === id)] = theme_;
           this.store.set(
             'themes',
             themes,
@@ -192,12 +204,12 @@ export class BackofficeService {
   deleteTheme(id: string): Observable<any> {
     return this.apiService.delete<DqTheme>(`themes/${id}`).pipe(
       tap(() => {
-        const questions = this.store.value.questions;
+        const { questions } = this.store.value;
         delete questions[id];
         this.store.set('questions', questions);
-        const themes = this.store.value.themes;
+        const { themes } = this.store.value;
         this.store.set('themes', themes.filter((t) => t._id !== id));
-      })
+      }),
     );
   }
 
@@ -208,7 +220,7 @@ export class BackofficeService {
       )),
     );
   }
-  
+
   massiveImport(file: Blob): Observable<DqQuestion[]> {
     return this.apiService.postCSV('import', file).pipe(
       map((questions) => questions as DqQuestion[]),

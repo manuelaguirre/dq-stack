@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'dq-players',
-  templateUrl: 'dq-players.component.html'
+  templateUrl: 'dq-players.component.html',
 })
 
-export class DqPlayersComponent implements OnInit {
+export class DqPlayersComponent {
   constructor(
-    public router: Router,    
+    public router: Router,
   ) { }
-
-  ngOnInit() { }
 }

@@ -29,13 +29,13 @@ export class AuthService {
 
   signIn(username: string, password: string): Observable<any> {
     return this.apiService.post('login', { username, password }).pipe(
-        tap((res) => {
-          if (res.token) {
-            this.store.set('token', res.token);
-            localStorage.setItem('token', res.token);
-            this.router.navigate(['home']);
-          }
-        }),
+      tap((res) => {
+        if (res.token) {
+          this.store.set('token', res.token);
+          localStorage.setItem('token', res.token);
+          this.router.navigate(['home']);
+        }
+      }),
     );
   }
 }

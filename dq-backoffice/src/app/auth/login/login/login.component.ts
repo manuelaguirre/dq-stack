@@ -6,9 +6,9 @@ import {
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-import { AuthService } from '../../auth-form/services/auth.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { Store } from 'src/app/store';
+import { AuthService } from '../../auth-form/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
             this.logging = false;
             return of(null);
           }),
-        ).subscribe((succes: { token: string }) => {
+        ).subscribe((succes: { token: string; }) => {
           if (succes) {
             if (succes.token) {
               localStorage.setItem('token', succes.token);

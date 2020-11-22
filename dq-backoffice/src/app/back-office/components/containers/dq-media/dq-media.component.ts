@@ -1,12 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'dq-media',
-  templateUrl: 'dq-media.component.html'
+  templateUrl: 'dq-media.component.html',
 })
 
-export class DqMediaComponent implements OnInit {
-  constructor() { }
-
-  ngOnInit() { }
-}
+export class DqMediaComponent {}

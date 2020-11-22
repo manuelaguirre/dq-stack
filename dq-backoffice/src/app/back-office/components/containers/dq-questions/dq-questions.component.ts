@@ -1,17 +1,19 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { DqQuestion } from '../../../../shared/models/dq-questions';
+import {
+  Component, OnInit, ViewChild, OnDestroy,
+} from '@angular/core';
 import { Observable, throwError, Subscription } from 'rxjs';
-import { BackofficeService } from '../../shared/services/backoffice.service';
 import { tap, switchMap, catchError } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { DqTheme } from '../../../../shared/models/dq-theme';
 import { Router } from '@angular/router';
+import { DqTheme } from '../../../../shared/models/dq-theme';
+import { BackofficeService } from '../../shared/services/backoffice.service';
+import { DqQuestion } from '../../../../shared/models/dq-questions';
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'dq-questions',
-  templateUrl: 'dq-questions.component.html'
+  templateUrl: 'dq-questions.component.html',
 })
 
 export class DqQuestionsComponent implements OnInit, OnDestroy {
@@ -61,27 +63,27 @@ export class DqQuestionsComponent implements OnInit, OnDestroy {
     };
   }
 
-  deleteQuestion(question: DqQuestion, event: Event) {
+  deleteQuestion(question: DqQuestion, event: Event): void {
     event.stopPropagation();
     this.subscriptions.push(
       this.snackBarService.showMessage('Are you sure to want to delete this question?', 'Yes').onAction()
-      .pipe(
-        switchMap(() => this.backOfficeService.deleteQuestion(question)),
-        tap((question) => {
-          this.snackBarService.showMessage('Question deleted successfully');
+        .pipe(
+          switchMap(() => this.backOfficeService.deleteQuestion(question)),
+          tap(() => {
+            this.snackBarService.showMessage('Question deleted successfully');
           // this.dataSource.data = this.dataSource.data.filter((q) => q._id !== q._id);
-        }),
-        catchError((e) => {
-          this.snackBarService.showError(
-            'Error: ' + (e && e.message ? e.message : 'unknown')
-          );
-          return throwError(e);
-        }),
-      ).subscribe()
+          }),
+          catchError((e) => {
+            this.snackBarService.showError(
+              `Error: ${e && e.message ? e.message : 'unknown'}`,
+            );
+            return throwError(e);
+          }),
+        ).subscribe(),
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
 }

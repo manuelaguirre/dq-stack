@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
-import { DqImageHandlerComponent } from './dq-image-handler.component';
 import { CommonModule } from '@angular/common';
+import { DqImageHandlerComponent } from './dq-image-handler.component';
 import { BackofficeService } from '../services/backoffice.service';
 
 @NgModule({

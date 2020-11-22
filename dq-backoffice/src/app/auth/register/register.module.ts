@@ -5,7 +5,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { RegisterComponent } from './register/register.component';
 import { AuthFormModule } from '../auth-form/auth-form.module';
 
-
 export const ROUTES: Routes = [
   { path: '', component: RegisterComponent },
 ];
