@@ -20,6 +20,8 @@ export class DqQuestionDetailComponent implements OnInit {
 
   question$: Observable<Partial<DqQuestion>> = null;
 
+  loading = false;
+
   loadingNew = false;
 
   createNew = false;
@@ -37,6 +39,7 @@ export class DqQuestionDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.question$ = this.route.params.pipe(
       switchMap((params) => {
         if (params.id && params.id !== 'new') {
@@ -139,6 +142,7 @@ export class DqQuestionDetailComponent implements OnInit {
       correct: [question ? question.correct + 1 : 0, [Validators.required, Validators.max(4), Validators.min(1)]],
       image: [question ? question.image : ''],
     });
+    this.loading = false;
     return this.detailForm;
   }
 }
