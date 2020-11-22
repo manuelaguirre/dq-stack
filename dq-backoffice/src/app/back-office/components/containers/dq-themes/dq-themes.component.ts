@@ -1,16 +1,18 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import {
+  Component, OnInit, ViewChild, OnDestroy,
+} from '@angular/core';
 import { Observable, Subscription, throwError } from 'rxjs';
-import { DqTheme } from '../../../../shared/models/dq-theme';
-import { BackofficeService } from '../../shared/services/backoffice.service';
 import { tap, catchError, switchMap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
+import { BackofficeService } from '../../shared/services/backoffice.service';
+import { DqTheme } from '../../../../shared/models/dq-theme';
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'dq-themes',
-  templateUrl: 'dq-themes.component.html'
+  templateUrl: 'dq-themes.component.html',
 })
 
 export class DqThemesComponent implements OnInit, OnDestroy {
@@ -19,11 +21,13 @@ export class DqThemesComponent implements OnInit, OnDestroy {
   loading = false;
 
   displayedColumns: string[] = ['name', 'description', 'edit', 'delete'];
-  displayedColumnsPrivate: string[] = ['name', 'description', 'companyName','companySubName', 'edit', 'delete'];
+
+  displayedColumnsPrivate: string[] = ['name', 'description', 'companyName', 'companySubName', 'edit', 'delete'];
 
   loadingExcel = false;
 
   dataSource: MatTableDataSource<DqTheme> = null;
+
   dataSourcePrivate: MatTableDataSource<DqTheme> = null;
 
   subscriptions: Subscription[] = [];
@@ -41,7 +45,9 @@ export class DqThemesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loading = true;
     this.themes$ = this.backOfficeService.getThemes().pipe(
-      tap(() => this.loading = false),
+      tap(() => {
+        this.loading = false;
+      }),
       tap((themes) => {
         const privateThemes = themes.filter((t) => !t.isPublic);
         const publicThemes = themes.filter((t) => t.isPublic);
@@ -65,7 +71,8 @@ export class DqThemesComponent implements OnInit, OnDestroy {
     };
   }
 
-  onFileInput(event: any) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  onFileInput(event: any): void {
     this.loadingExcel = true;
     const file = event.target.files[0];
     this.errors = [];
@@ -75,12 +82,13 @@ export class DqThemesComponent implements OnInit, OnDestroy {
           tap((questions) => {
             console.log(questions);
             this.loadingExcel = false;
+            // eslint-disable-next-line no-restricted-globals
             location.reload();
           }),
           catchError((e) => {
-            (e.error as string[]).forEach((error) => this.errors.push(error))
+            (e.error as string[]).forEach((error) => this.errors.push(error));
             this.snackbarService.showError(
-              'Error: ' + (e && e.message ? e.message : 'unknown')
+              `Error: ${e && e.message ? e.message : 'unknown'}`,
             );
             this.loadingExcel = false;
             return throwError(e);
@@ -91,31 +99,34 @@ export class DqThemesComponent implements OnInit, OnDestroy {
     }
     this.subscriptions.push(
       this.snackbarService.showError('The file must have a .CSV extension')
-      .afterOpened()
-      .subscribe(() => this.loadingExcel = false),
+        .afterOpened()
+        .subscribe(() => {
+          this.loadingExcel = false;
+        }),
     );
   }
 
-  deleteTheme(themeId: string, event: Event) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  deleteTheme(themeId: string, event: any): void {
     event.stopPropagation();
     this.subscriptions.push(
       this.snackbarService.showMessage('Are you sure to want to delete this theme?', 'Yes').onAction()
-      .pipe(
-        switchMap(() => this.backOfficeService.deleteTheme(themeId)),
-        tap((theme) => {
-          this.snackbarService.showMessage('Theme deleted successfully');
-        }),
-        catchError((e) => {
-          this.snackbarService.showError(
-            'Error: ' + (e && e.message ? e.message : 'unknown')
-          );
-          return throwError(e);
-        }),
-      ).subscribe()
+        .pipe(
+          switchMap(() => this.backOfficeService.deleteTheme(themeId)),
+          tap(() => {
+            this.snackbarService.showMessage('Theme deleted successfully');
+          }),
+          catchError((e) => {
+            this.snackbarService.showError(
+              `Error: ${e && e.message ? e.message : 'unknown'}`,
+            );
+            return throwError(e);
+          }),
+        ).subscribe(),
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
 }

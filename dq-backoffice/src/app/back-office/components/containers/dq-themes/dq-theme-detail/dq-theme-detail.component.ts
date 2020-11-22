@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
-import { BackofficeService } from '../../../shared/services/backoffice.service';
+import {
+  FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors,
+} from '@angular/forms';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
+import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
+import { BackofficeService } from '../../../shared/services/backoffice.service';
 import { DqTheme } from '../../../../../shared/models/dq-theme';
 
 @Component({
   selector: 'dq-theme-detail',
-  templateUrl: './dq-theme-detail.component.html'
+  templateUrl: './dq-theme-detail.component.html',
 })
 
 export class DqThemeDetailComponent implements OnInit {
@@ -29,7 +31,7 @@ export class DqThemeDetailComponent implements OnInit {
     private route: ActivatedRoute,
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.newThemeForm$ = this.route.params.pipe(
       switchMap((params) => {
         if (params.id && params.id !== 'new') {
@@ -46,7 +48,7 @@ export class DqThemeDetailComponent implements OnInit {
   addNewTheme(themeForm: FormGroup): void {
     this.loadingNew = true;
     this.backOfficeService.createNewTheme(
-      themeForm.value.name, themeForm.value.description, themeForm.value.isPublic
+      themeForm.value.name, themeForm.value.description, themeForm.value.isPublic,
     )
       .pipe(
         map((theme) => {
@@ -57,12 +59,14 @@ export class DqThemeDetailComponent implements OnInit {
             this.snackBarService.showError('Error: Theme not created');
           }
         }),
-        catchError((error) => {
+        catchError(() => {
           this.snackBarService.showError('Error: Theme not created');
           return of(null);
-        })
+        }),
       )
-      .subscribe(() => this.loadingNew = false);
+      .subscribe(() => {
+        this.loadingNew = false;
+      });
   }
 
   editTheme(themeForm: FormGroup): void {
@@ -79,20 +83,21 @@ export class DqThemeDetailComponent implements OnInit {
       };
     }
     this.backOfficeService.editTheme(this.themeId, theme).pipe(
-      map((theme) => {
-        if (theme) {
+      map((theme_) => {
+        if (theme_) {
           this.snackBarService.showMessage('Theme edited successfully');
           this.router.navigate(['home/themes']);
         } else {
           this.snackBarService.showError('Error: Theme not edited');
         }
       }),
-      catchError((error) => {
+      catchError(() => {
         this.snackBarService.showError('Error: Theme not edited');
         return of(null);
-      })
-    )
-    .subscribe(() => this.loadingNew = false);
+      }),
+    ).subscribe(() => {
+      this.loadingNew = false;
+    });
   }
 
   createForm(theme?: DqTheme): FormGroup {
@@ -102,9 +107,9 @@ export class DqThemeDetailComponent implements OnInit {
     return this.formBuilder.group({
       name: [theme ? theme.name : '', Validators.required],
       isPublic: [theme ? theme.isPublic : true, Validators.required],
-      description: [theme ? theme.description :'', Validators.required],
-      companyName: [theme && theme.company ? theme.company.name :''],
-      companySubName: [theme && theme.company ? theme.company.subname :''],
+      description: [theme ? theme.description : '', Validators.required],
+      companyName: [theme && theme.company ? theme.company.name : ''],
+      companySubName: [theme && theme.company ? theme.company.subname : ''],
     }, { validators: this.validPrivateTheme });
   }
 
@@ -115,7 +120,7 @@ export class DqThemeDetailComponent implements OnInit {
     }
     const companyName = control.get('companyName');
     const companySubName = control.get('companySubName');
-  
+
     return companyName.value === '' || companySubName.value === '' ? { invalidPrivate: true } : null;
   };
 }

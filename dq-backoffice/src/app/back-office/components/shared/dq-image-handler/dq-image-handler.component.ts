@@ -1,10 +1,12 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { DqQuestion } from '../../../../shared/models/dq-questions';
+import {
+  Component, OnInit, Input, OnDestroy,
+} from '@angular/core';
 import { Subscription, throwError } from 'rxjs';
-import { BackofficeService } from '../services/backoffice.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { tap, catchError } from 'rxjs/operators';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { BackofficeService } from '../services/backoffice.service';
+import { DqQuestion } from '../../../../shared/models/dq-questions';
 
 @Component({
   selector: 'dq-image-handler',
@@ -31,11 +33,11 @@ export class DqImageHandlerComponent implements OnInit, OnDestroy {
     const file = event.target.files[0];
     console.log((file as File).type);
     if (
-      (file as File).type.includes('png') ||
-      (file as File).type.includes('jpg') ||
-      (file as File).type.includes('JPG') ||
-      (file as File).type.includes('PNG') ||
-      (file as File).type.includes('jpeg')
+      (file as File).type.includes('png')
+      || (file as File).type.includes('jpg')
+      || (file as File).type.includes('JPG')
+      || (file as File).type.includes('PNG')
+      || (file as File).type.includes('jpeg')
     ) {
       this.subscriptions.push(
         this.backOfficeService.uploadImage(file, this.question).pipe(
@@ -46,7 +48,7 @@ export class DqImageHandlerComponent implements OnInit, OnDestroy {
           }),
           catchError((e) => {
             this.snackBarService.showError(
-              'Error: ' + (e && e.message ? e.message : 'unknown')
+              `Error: ${e && e.message ? e.message : 'unknown'}`,
             );
             this.loadingFile = false;
             return throwError(e);
@@ -57,8 +59,8 @@ export class DqImageHandlerComponent implements OnInit, OnDestroy {
     }
     this.subscriptions.push(
       this.snackBarService.showError('Not image file')
-      .afterOpened()
-      .subscribe(() => this.loadingFile = false),
+        .afterOpened()
+        .subscribe(() => this.loadingFile = false),
     );
   }
 

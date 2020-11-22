@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: '',
     component: DqPlayersComponent,
-    canActivate: [ AuthGuardService ],
+    canActivate: [AuthGuardService],
   },
 ];
 

@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BackofficeService } from '../../../shared/services/backoffice.service';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DqQuestion } from '../../../../../shared/models/dq-questions';
 import { of, Observable } from 'rxjs';
+import { BackofficeService } from '../../../shared/services/backoffice.service';
+import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
+import { DqQuestion } from '../../../../../shared/models/dq-questions';
 import { DqTheme } from '../../../../../shared/models/dq-theme';
 
 @Component({
   selector: 'dq-question-detail',
-  templateUrl: './dq-question-detail.component.html'
+  templateUrl: './dq-question-detail.component.html',
 })
 
 export class DqQuestionDetailComponent implements OnInit {
@@ -34,7 +34,7 @@ export class DqQuestionDetailComponent implements OnInit {
     private route: ActivatedRoute,
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.question$ = this.route.params.pipe(
       switchMap((params) => {
         if (params.id && params.id !== 'new') {
@@ -42,17 +42,15 @@ export class DqQuestionDetailComponent implements OnInit {
           return this.backOfficeService.getQuestion(this.questionId);
         }
         this.createNew = true;
-        return this.theme$.pipe(map((theme) => {
-          return { theme: theme._id };
-        }));
+        return this.theme$.pipe(map((theme) => ({ theme: theme._id })));
       }),
     );
     this.questionDetailForm$ = this.question$.pipe(
       switchMap((question: DqQuestion) => of(this.createForm(question))),
-    )
+    );
   }
 
-  addNewQuestion(questionForm: FormGroup) {
+  addNewQuestion(questionForm: FormGroup): void {
     this.loadingNew = true;
     this.backOfficeService.createNewQuestion(this.getQuestion(questionForm))
       .pipe(
@@ -64,12 +62,14 @@ export class DqQuestionDetailComponent implements OnInit {
             this.snackBarService.showError('Error: Question not created');
           }
         }),
-        catchError((error) => {
+        catchError(() => {
           this.snackBarService.showError('Error: Question not created');
           return of(null);
-        })
+        }),
       )
-      .subscribe(() => this.loadingNew = false);
+      .subscribe(() => {
+        this.loadingNew = false;
+      });
   }
 
   editQuestion(newQuestionForm: FormGroup): void {
@@ -91,16 +91,18 @@ export class DqQuestionDetailComponent implements OnInit {
           this.snackBarService.showError('Error: Question not edited');
         }
       }),
-      catchError((error) => {
+      catchError(() => {
         this.snackBarService.showError('Error: Question not edited');
         return of(null);
-      })
+      }),
     )
-    .subscribe(() => this.loadingNew = false);
+      .subscribe(() => {
+        this.loadingNew = false;
+      });
   }
 
   getQuestion(newQuestionForm: FormGroup): Partial<DqQuestion> {
-    const question = {
+    let question: Partial<DqQuestion> = {
       theme: newQuestionForm.value.theme,
       text: newQuestionForm.value.text,
       answer1: newQuestionForm.value.answer1,
@@ -108,10 +110,13 @@ export class DqQuestionDetailComponent implements OnInit {
       answer3: newQuestionForm.value.answer3,
       answer4: newQuestionForm.value.answer4,
       correct: newQuestionForm.value.correct - 1,
-    }
+    };
     if (newQuestionForm.value.image) {
       // Avoid sending image:null to the backend
-      question['image'] = newQuestionForm.value.image;
+      question = {
+        ...question,
+        image: newQuestionForm.value.image,
+      };
     }
     return question;
   }

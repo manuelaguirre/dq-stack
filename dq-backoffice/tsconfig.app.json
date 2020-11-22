@@ -3,13 +3,19 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": [ "jest", "node" ],
+    "typeRoots": [ "../node_modules/@types" ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
   },
   "files": [
     "src/main.ts",
     "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "src/**/*.ts",
   ]
 }

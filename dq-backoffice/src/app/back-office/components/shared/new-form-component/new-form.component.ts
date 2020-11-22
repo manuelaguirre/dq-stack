@@ -6,7 +6,7 @@ import { BackofficeService } from '../services/backoffice.service';
 
 @Component({
   selector: 'dq-new-form',
-  templateUrl: './new-form.component.html'
+  templateUrl: './new-form.component.html',
 })
 
 export class NewFormComponent {

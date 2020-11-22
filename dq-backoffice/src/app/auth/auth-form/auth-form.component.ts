@@ -1,5 +1,5 @@
 import {
-    Component, AfterContentInit, Injector, forwardRef, Input,
+  Component, AfterContentInit, Injector, forwardRef, Input,
 } from '@angular/core';
 import { FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ComponentUtilsService } from '../../shared/services/component-utils';
@@ -35,7 +35,7 @@ export class AuthFormComponent implements ControlValueAccessor, AfterContentInit
     if (!this.authFormGroup) {
       this.authFormGroup = (
         this.componentUtils
-            .getFormGroup(this.injector).controls.projectMainInfo as FormGroup
+          .getFormGroup(this.injector).controls.projectMainInfo as FormGroup
       );
     }
   }
@@ -43,7 +43,7 @@ export class AuthFormComponent implements ControlValueAccessor, AfterContentInit
   propagateChange = (_: any) => {};
 
   registerOnChange(fn) {
-      this.propagateChange = fn;
+    this.propagateChange = fn;
   }
 
   registerOnTouched() {}
