@@ -102,3 +102,17 @@ select:-webkit-autofill:focus {
     }
   }
 }
+
+.loading-container {
+  position: absolute;
+  top: 50%;
+  .spinner-border {
+    color: var(--dq-primary-color);
+    &.big {
+      border: 0.5em solid currentColor;
+      border-right-color: transparent;
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+}
