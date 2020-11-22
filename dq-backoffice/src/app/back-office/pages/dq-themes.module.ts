@@ -13,7 +13,6 @@ const routes: Routes = [
     path: ':id',
     canActivate: [AuthGuardService],
     resolve: [DqThemeResolver],
-    canDeactivate: [CanDeactivateQuestion],
     children: [
       {
         path: 'questions',
