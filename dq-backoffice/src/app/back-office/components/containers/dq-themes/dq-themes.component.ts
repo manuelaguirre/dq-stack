@@ -126,6 +126,15 @@ export class DqThemesComponent implements OnInit, OnDestroy {
     );
   }
 
+  applyFilter(event: Event, isPrivate: boolean): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    if (isPrivate) {
+      this.dataSourcePrivate.filter = filterValue.trim().toLowerCase();
+    } else {
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }

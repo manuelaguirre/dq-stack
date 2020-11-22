@@ -20,7 +20,11 @@
       tabindex="0" role="button">
         <span tabindex="-1" class="dq-action-cont">Add new Question</span>
       </a>
-      <div class="dq-table-container">
+      <div class="dq-table-container flex-div column">
+        <mat-form-field appearance="outline">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Text in a question" #inputPrivate>
+        </mat-form-field>
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 dq-table questions">
         
           <!-- Theme Column -->
