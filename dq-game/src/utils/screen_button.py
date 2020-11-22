@@ -8,32 +8,43 @@ class ScreenButton:
     Screen button for themes and answers
     """
 
-    def __init__(self, pos_x, pos_y, width, height, value, renderer):
+    def __init__(
+        self, pos_x, pos_y, width, height, value, button_backgrounds, screen, font
+    ):
         # Convert inputs to integer
         self.pos = (int(pos_x), int(pos_y))
         self.width = int(width)
         self.height = int(height)
         self.value = value
-        self.renderer = renderer
+        self.button_backgrounds = button_backgrounds
+        self.screen = screen
+        self.font = font
         self.state = "normal"
         self.selected = False
+        print(self.button_backgrounds)
 
     def display(self):
-        self.draw_button(
-            self.pos[0] - self.width // 2,
-            self.pos[1] - self.height // 2,
-            self.width,
-            self.height,
-        )
+        self.draw_button()
         font_color = self.get_font_color()
-        text_ = self.renderer.fonts["small"].render(self.value, True, font_color)
-        text_rect = text_.get_rect(center=(self.pos[0], self.pos[1]))
-        self.renderer.screen.blit(text_, text_rect)
+        self.display_text(font_color)
 
-    def draw_button(self, x, y, width, height):
+    def draw_button(self):
+        button_image = self.get_button_image()
+        proportion = self.width / button_image.get_rect().width
+        scaled_height = int(proportion * button_image.get_rect().height)
+        button_image_scaled = pygame.transform.scale(
+            button_image, (self.width, scaled_height)
+        )
+        button_image_rect = button_image_scaled.get_rect(center=self.pos)
+        self.screen.blit(button_image_scaled, button_image_rect)
+
+    def get_button_image(self):
         raise NotImplementedError
 
     def get_font_color(self):
+        raise NotImplementedError
+
+    def display_text(self, font_color):
         raise NotImplementedError
 
 
@@ -42,24 +53,18 @@ class ThemeScreenButton(ScreenButton):
         self.selected = not self.selected
         self.display()
 
-    def draw_button(self, x, y, width, height):
-        # TODO: Get image from state dictionary
-        button_border = pygame.image.load(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "..",
-                    "images/icons/theme_button_"
-                    + ("selected" if self.selected else "normal")
-                    + ".png",
-                )
-            )
-        )
-        button_border = pygame.transform.scale(button_border, (width, height))
-        self.renderer.screen.blit(button_border, (x, y))
+    def get_button_image(self):
+        if self.selected:
+            return self.button_backgrounds["theme_selected"]
+        return self.button_backgrounds["theme_normal"]
 
     def get_font_color(self):
         return (255, 255, 255) if self.selected else (0, 0, 0)
+
+    def display_text(self, font_color):
+        text = self.font.render(self.value, True, font_color)
+        text_rect = text.get_rect(center=(self.pos[0], self.pos[1]))
+        self.screen.blit(text, text_rect)
 
 
 class AnswerScreenButton(ScreenButton):
@@ -67,18 +72,14 @@ class AnswerScreenButton(ScreenButton):
         self.state = state
         self.display()
 
-    def draw_button(self, x, y, width, height):
-        button_border = pygame.image.load(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "..",
-                    "images/icons/button_" + self.state + ".png",
-                )
-            )
-        )
-        button_border = pygame.transform.scale(button_border, (width, height))
-        self.renderer.screen.blit(button_border, (x, y))
+    def get_button_image(self):
+        return self.button_backgrounds["answer_" + self.state]
 
     def get_font_color(self):
-        return (0, 0, 0) if self.state == "selected" else (255, 255, 255)
+        return (0, 0, 0) if self.state == "normal" else (255, 255, 255)
+
+    def display_text(self, font_color):
+        text = self.font.render(self.value, True, font_color)
+        pos_y = self.pos[1] + self.height / 8
+        text_rect = text.get_rect(center=(self.pos[0], pos_y))
+        self.screen.blit(text, text_rect)

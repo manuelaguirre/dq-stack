@@ -42,22 +42,22 @@ class ServerRenderer(Renderer):
         """
         self.show_background()
         self.show_title("Choisissez 3 thèmes")
+
         rows = []
-        # From 1/3 screen until 5/6
         num_rows = len(themes) // 2 + 1
-        # ( 5/6 - 1/3 ) / num_rows
-        for i in range(num_rows):
-            rows.append(
-                self.SCREEN_HEIGHT / 3
-                + (5 / 6 - 1 / 3) * self.SCREEN_HEIGHT * i / num_rows
-            )
-        for i in range(len(themes)):
+        # Display rows from 1/3 of the screen until 5/6
+        space_for_rows_init = self.SCREEN_HEIGHT / 3
+        space_for_rows_total = (5 / 6 - 1 / 3) * self.SCREEN_HEIGHT
+        space_for_row = space_for_rows_total / num_rows
+        for index in range(num_rows):
+            rows.append(space_for_rows_init + space_for_row * index)
+        for index in range(len(themes)):
             showTextAt(
                 self,
                 "medium",
-                self.SCREEN_WIDTH * (i % 2 + 1) / 3,
-                rows[i // 2],
-                themes[i],
+                self.SCREEN_WIDTH * (index % 2 + 1) / 3,
+                rows[index // 2],
+                themes[index],
             )
         self.update_screen()
 
@@ -153,7 +153,9 @@ class ServerRenderer(Renderer):
             5 * self.SCREEN_WIDTH / 6,
             self.SCREEN_HEIGHT / 8,
             question.answers[question.correct_answer],
-            self,
+            self.button_backgrounds,
+            self.screen,
+            self.fonts["large"],
         )
         correct_answer_button.set_state("correct")
         self.update_screen()

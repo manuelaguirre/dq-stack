@@ -7,6 +7,24 @@ from events.event_handler import EventHandler
 from utils.renderer_utils import showTextAt
 from utils.timer import Timer
 
+"""
+0   1   2   3   4   5   6   7   8   9   10  11
+|   |   |   |   |   |   |   |   |   |   |   |
+
+      |   THEME   |       |   THEME   |
+
+      |   THEME   |       |   THEME   |
+
+
+0   1   2   3   4   5   6   7   8   9   10  11
+|   |   |   |   |   |   |   |   |   |   |   |
+
+    |     ANSWER    |   |     ANSWER    | 
+
+    |     ANSWER    |   |     ANSWER    | 
+
+"""
+
 
 class Renderer(EventHandler):
     """
@@ -16,16 +34,17 @@ class Renderer(EventHandler):
     def __init__(self, SCREEN_WIDTH, SCREEN_HEIGHT, RENDERER_TYPE):
         self.SCREEN_WIDTH = SCREEN_WIDTH
         self.SCREEN_HEIGHT = SCREEN_HEIGHT
+        self.THEME_BUTTON_WIDTH = 3 * self.SCREEN_WIDTH // 11
+        self.THEME_BUTTON_HEIGHT = self.SCREEN_HEIGHT // 10
+        self.ANSWER_BUTTON_WIDTH = 4 * self.SCREEN_WIDTH // 11
+        self.ANSWER_BUTTON_HEIGHT = self.SCREEN_HEIGHT // 8
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         self.fonts = {}
         self.logo = self._get_logo()
         self.background = self._get_background()
         self.timer = Timer(0)
         self.timer_background = self._get_timer_background()
-        self.button_background_normal = self._get_button_background("normal")
-        self.button_background_correct = self._get_button_background("correct")
-        self.button_background_wrong = self._get_button_background("wrong")
-        self.button_background_selected = self._get_button_background("selected")
+        self.button_backgrounds = self._get_button_backgrounds()
         self.touch_function = None
         self.RENDERER_TYPE = RENDERER_TYPE
         self.base_path = os.path.dirname(__file__)
@@ -103,8 +122,18 @@ class Renderer(EventHandler):
             background, (self.SCREEN_WIDTH // 8, self.SCREEN_HEIGHT // 6)
         )
 
-    def _get_button_background(self, state):
-        background = pygame.image.load(
+    def _get_button_backgrounds(self):
+        return {
+            "theme_normal": self._get_theme_button_background("normal"),
+            "theme_selected": self._get_theme_button_background("selected"),
+            "answer_normal": self._get_answer_button_background("normal"),
+            "answer_selected": self._get_answer_button_background("selected"),
+            "answer_correct": self._get_answer_button_background("correct"),
+            "answer_wrong": self._get_answer_button_background("wrong"),
+        }
+
+    def _get_answer_button_background(self, state):
+        return pygame.image.load(
             os.path.abspath(
                 os.path.join(
                     os.path.dirname(__file__),
@@ -113,8 +142,16 @@ class Renderer(EventHandler):
                 )
             )
         )
-        return pygame.transform.scale(
-            background, (self.SCREEN_WIDTH // 8, self.SCREEN_HEIGHT // 6)
+
+    def _get_theme_button_background(self, state):
+        return pygame.image.load(
+            os.path.abspath(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "..",
+                    "images/icons/theme_button_" + state + ".png",
+                )
+            )
         )
 
     def append_touch_method(self, callback):
