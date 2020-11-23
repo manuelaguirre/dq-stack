@@ -10,6 +10,12 @@ import { DqTheme } from '../../../../shared/models/dq-theme';
 import { DqQuestion } from '../../../../shared/models/dq-questions';
 import { Store } from '../../../../store';
 
+export interface DQMassiveImportResponse {
+  errors: string[];
+  warnings: string[];
+  message: string;
+}
+
 @Injectable()
 export class BackofficeService {
   allQuestionsSearched = false;
@@ -106,10 +112,7 @@ export class BackofficeService {
         const questionIndex = questions[questionTheme].findIndex((q) => q._id === id);
         questions = {
           ...questions,
-          [questionTheme]: {
-            ...questions[questionTheme],
-            [questionIndex]: data[1],
-          },
+          [questionTheme]: Object.assign([], questions[questionTheme], { [questionIndex]: data[1] }),
         };
         this.store.set(
           'questions',
@@ -221,9 +224,9 @@ export class BackofficeService {
     );
   }
 
-  massiveImport(file: Blob): Observable<DqQuestion[]> {
+  massiveImport(file: Blob): Observable<DQMassiveImportResponse> {
     return this.apiService.postCSV('import', file).pipe(
-      map((questions) => questions as DqQuestion[]),
+      map((questions) => questions as DQMassiveImportResponse),
       catchError((e) => throwError(e)),
     );
   }

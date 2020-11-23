@@ -27,4 +27,10 @@ export class Store {
       ...this.value, [name]: newState,
     });
   }
+
+  reset(): void {
+    this.set('themes', undefined);
+    this.set('questions', {});
+    this.set('selectedTheme', undefined);
+  }
 }

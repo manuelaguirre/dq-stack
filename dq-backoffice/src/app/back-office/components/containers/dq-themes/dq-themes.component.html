@@ -24,10 +24,19 @@
         <input #fileInput type="file" (change)="onFileInput($event); fileInput.value = null">
       </a>
     </div>
-    <div class="errors-container flex-div column" *ngIf="errors.length">
-      <span class="title">Errors:</span>
-      <span *ngFor="let error of errors">{{error}}</span>
-    </div>
+    <ng-container *ngIf="massiveImportResponse">
+      <div class="massive-import-message" *ngIf="massiveImportResponse.message?.length">
+        <span>{{ massiveImportResponse.message }}</span>
+      </div>
+      <div class="errors-container flex-div column" *ngIf="massiveImportResponse.errors?.length">
+        <span class="title">Errors:</span>
+        <span *ngFor="let error of massiveImportResponse.errors">{{error}}</span>
+      </div>
+      <div class="errors-container warnings flex-div column" *ngIf="massiveImportResponse.warnings?.length">
+        <span class="title">Warnings:</span>
+        <span *ngFor="let warning of massiveImportResponse.warnings">{{warning}}</span>
+      </div>
+    </ng-container>
     <div class="tabs-container flex-div column">
       <div class="nav nav-tabs justify-content-center full-width" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="nav-public-tab" data-toggle="tab" href="#nav-public" role="tab" aria-controls="nav-public" aria-selected="true">Public</a>

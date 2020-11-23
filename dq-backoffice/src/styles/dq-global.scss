@@ -105,6 +105,7 @@
   flex: 1;
   justify-content: center;
   margin-bottom: 10vh;
+  font-size: 1rem;
   .dq-menu-option {
     @include dq-button();
     padding: 20px 30px;
@@ -125,6 +126,7 @@
     flex-wrap: wrap;
     place-content: center;
     justify-content: space-between;
+    margin-bottom: 20px;
     @media (min-width: $dq-mobile) {
       // flex-direction: row;
     }
@@ -138,15 +140,20 @@
     padding: 20px;
     max-height: 200px;
     overflow: auto;
-    margin-top: 30px;
+    margin-top: 10px;
     border: 1px solid #00000088;
     span {
       font-size: 1rem;
-      color: #FF0000;
+      color: var(--danger);
       font-weight: bold;
       &.title {
         font-size: 1.5rem;
         margin-bottom: 10px;
+      }
+    }
+    &.warnings {
+      span {
+        color: var(--gray);
       }
     }
     // Scrollbar
