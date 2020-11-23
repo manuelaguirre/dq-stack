@@ -6,7 +6,8 @@ import { tap, catchError, switchMap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { BackofficeService } from '../../shared/services/backoffice.service';
+import { Store } from 'src/app/store';
+import { BackofficeService, DQMassiveImportResponse } from '../../shared/services/backoffice.service';
 import { DqTheme } from '../../../../shared/models/dq-theme';
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 
@@ -32,7 +33,7 @@ export class DqThemesComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
-  errors: string[] = [];
+  massiveImportResponse: DQMassiveImportResponse = null;
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -40,6 +41,7 @@ export class DqThemesComponent implements OnInit, OnDestroy {
     private backOfficeService: BackofficeService,
     public router: Router,
     private snackbarService: SnackBarService,
+    private store: Store,
   ) {}
 
   ngOnInit(): void {
@@ -75,18 +77,17 @@ export class DqThemesComponent implements OnInit, OnDestroy {
   onFileInput(event: any): void {
     this.loadingExcel = true;
     const file = event.target.files[0];
-    this.errors = [];
+    this.massiveImportResponse = null;
     if ((file as File).type.includes('csv') || (file as File).type.includes('sheet')) {
       this.subscriptions.push(
         this.backOfficeService.massiveImport(file).pipe(
-          tap((questions) => {
-            console.log(questions);
+          tap((massiveImportResponse) => {
+            this.massiveImportResponse = massiveImportResponse;
             this.loadingExcel = false;
-            // eslint-disable-next-line no-restricted-globals
-            location.reload();
+            this.store.reset();
+            this.ngOnInit();
           }),
           catchError((e) => {
-            (e.error as string[]).forEach((error) => this.errors.push(error));
             this.snackbarService.showError(
               `Error: ${e && e.message ? e.message : 'unknown'}`,
             );
