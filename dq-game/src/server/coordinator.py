@@ -36,7 +36,7 @@ class Coordinator:
         chosen_themes = self.controller.get_theme_choices(
             available_themes
         )
-        self.dq_game.set_round_themes(chosen_themes)
+        self.dq_game.set_rounds(chosen_themes)
         self.renderer.show_chosen_themes(chosen_themes)
 
     def first_round(self):

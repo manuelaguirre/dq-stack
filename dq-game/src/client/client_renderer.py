@@ -46,9 +46,9 @@ class ClientRenderer(Renderer):
             space_for_rows_margin = 1 / 3 * self.SCREEN_HEIGHT
             space_for_rows_total = (5 / 6 - 1 / 3) * self.SCREEN_HEIGHT
         else:
-            # Display rows from 1/2 of the screen until 5/6 #REF: renderer.py
+            # Display rows from 5/8 of the screen until 5/6 #REF: renderer.py
             columns = [3 * self.SCREEN_WIDTH / 11, 8 * self.SCREEN_WIDTH / 11]
-            space_for_rows_margin = 1 / 2 * self.SCREEN_HEIGHT
+            space_for_rows_margin = 5 / 8 * self.SCREEN_HEIGHT
             space_for_rows_total = (5 / 6 - 1 / 2) * self.SCREEN_HEIGHT
 
         space_for_row = space_for_rows_total / num_rows
@@ -206,12 +206,11 @@ class ClientRenderer(Renderer):
         self.show_background()
         self.show_title(current_theme.name, "medium")
         self.answer_question_callback = callback
-        showTextAt(
+        renderTextCenteredAt(
             self,
-            "medium",
-            self.SCREEN_WIDTH / 2,
-            self.SCREEN_HEIGHT / 3,
             current_question.text,
+            self.SCREEN_HEIGHT / 3,
+            "medium",
         )
         self.buttons_list = []
         self.create_buttons(current_question.answers, "Answers")
@@ -238,3 +237,4 @@ class ClientRenderer(Renderer):
             elif button.state == "selected":
                 button.set_state("wrong")
                 self.update_screen()
+        self.screen_handler.clear_data()
