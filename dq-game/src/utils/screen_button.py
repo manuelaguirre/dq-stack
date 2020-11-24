@@ -68,6 +68,9 @@ class ThemeScreenButton(ScreenButton):
 
 
 class AnswerScreenButton(ScreenButton):
+    def set_letter(self, letter):
+        self.letter = letter
+
     def set_state(self, state):
         self.state = state
         self.display()
@@ -80,6 +83,12 @@ class AnswerScreenButton(ScreenButton):
 
     def display_text(self, font_color):
         text = self.font.render(self.value, True, font_color)
+        pos_x = self.pos[0] + self.width / 15
         pos_y = self.pos[1] + self.height / 8
-        text_rect = text.get_rect(center=(self.pos[0], pos_y))
+        text_rect = text.get_rect(center=(pos_x, pos_y))
         self.screen.blit(text, text_rect)
+        letter = self.font.render(self.letter, True, (255, 255, 255))
+        pos_y = self.pos[1]
+        pos_x = self.pos[0] - self.width / 2 + self.width / 10
+        letter_rect = letter.get_rect(center=(pos_x, pos_y))
+        self.screen.blit(letter, letter_rect)
