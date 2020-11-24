@@ -44,7 +44,8 @@ class ServerRenderer(Renderer):
         self.show_title("Choisissez 3 thèmes")
 
         rows = []
-        num_rows = len(themes) // 2 + 1
+        num_rows = len(themes) // 2
+
         # Display rows from 1/3 of the screen until 5/6
         space_for_rows_init = self.SCREEN_HEIGHT / 3
         space_for_rows_total = (5 / 6 - 1 / 3) * self.SCREEN_HEIGHT
@@ -147,6 +148,7 @@ class ServerRenderer(Renderer):
             f"QUESTION {index + 1}",
         )
 
+        answer_letters = ["A", "B", "C", "D"]
         correct_answer_button = AnswerScreenButton(
             self.SCREEN_WIDTH / 2,
             self.SCREEN_HEIGHT / 2,
@@ -156,6 +158,9 @@ class ServerRenderer(Renderer):
             self.button_backgrounds,
             self.screen,
             self.fonts["large"],
+        )
+        correct_answer_button.set_letter(
+            answer_letters[question.correct_answer % len(answer_letters)]
         )
         correct_answer_button.set_state("correct")
         self.update_screen()

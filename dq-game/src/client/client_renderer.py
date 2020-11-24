@@ -57,6 +57,8 @@ class ClientRenderer(Renderer):
             rows.append(space_for_rows_margin + space_for_row * index)
 
         # Create one button per theme or answer
+        answer_letters = ["A", "B", "C", "D"]
+
         for index in range(len(value_list)):
             pos_x = columns[index % 2]
             pos_y = rows[math.floor(index / 2)]
@@ -82,6 +84,7 @@ class ClientRenderer(Renderer):
                     self.screen,
                     self.fonts["small"],
                 )
+                button.set_letter(answer_letters[index % len(answer_letters)])
             self.buttons_list.append(button)
             self.screen_handler.add_object(button)
 
