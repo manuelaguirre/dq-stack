@@ -11,17 +11,18 @@ class DQGame(EventHandler):
     def __init__(self, no_of_players):
         self.no_of_players = no_of_players
         self.instructions = mock_instructions  # TODO: Get instructions from API ?
-        self.available_themes = []
+        self.question_pools = []
         self.rounds = []
 
         print("Creating a new game")
 
-    def set_available_themes(self, themes):
-        self.available_themes = themes
-        print("Themes received")
+    def set_game_question_pools(self, question_pools):
+        self.question_pools = question_pools
 
     def get_available_theme_names(self):
-        return list(map(lambda theme: theme.name, self.available_themes))
+        return list(
+            map(lambda question_pool: question_pool.theme.name, self.question_pools)
+        )
 
     def set_round_themes(self, themes):
         for theme in themes:
@@ -29,12 +30,7 @@ class DQGame(EventHandler):
         print("Chosen themes received")
 
     def get_theme_by_name(self, name):
-        for theme in self.available_themes:
-            if theme.name == name:
-                return theme
+        for question_pool in self.question_pools:
+            if question_pool.theme.name == name:
+                return question_pool.theme
         raise RuntimeError("No theme corresponds to this name")
-
-    def set_game_questions(self, questions_lists):
-        for i in range(len(self.rounds)):
-            self.rounds[i].set_questions(questions_lists[i])
-        print("Questions received")

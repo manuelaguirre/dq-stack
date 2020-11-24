@@ -6,12 +6,7 @@ import info
 import requests
 from game_types.question import Question
 from game_types.theme import Theme
-
-mock_themes_id = [
-    "5f358bafef6f4700178c7b46",
-    "5f3197727391ee752d33b6a4",
-    "5f33024f6be11a00177f1c92",
-]
+from game_types.question_pool import QuestionPool
 
 PATH_TO_TMP_FILES = "src/server/tmp"
 
@@ -21,48 +16,25 @@ class APIHandler:
     # self.url = url
     # self.credentials = credentials
 
-    def get_available_themes(self):
+    def get_question_pools(self, players):
         headers = {"x-auth-token": info.X_AUTH_TOKEN}
-        theme_objects = []
-        themes = requests.get(
-            info.BACK_OFFICE_URL + "themes",
-            headers=headers,
+        req_params = {"npb": players}
+        response = requests.get(
+            info.BACK_OFFICE_URL + "questionpools", headers=headers, params=req_params
         ).json()
-        for theme in themes:
-            theme_objects.append(
-                Theme(theme["_id"], theme["name"], theme["description"])
-            )
-        return theme_objects
-
-    def get_questions(self, themes, players):
-        headers = {"x-auth-token": info.X_AUTH_TOKEN}
-        req_params = {"theme": mock_themes_id, "npb": players}
-        question_lists = requests.get(
-            info.BACK_OFFICE_URL + "gamequestions", headers=headers, params=req_params
-        ).json()
-        print(question_lists)
-        question_objects_lists = []
-        for question_list in question_lists:
-            question_objects_list = []
-            for question in question_list:
-                question_object = Question(
-                    question["_id"],
-                    question["text"],
-                    [
-                        question["answer1"],
-                        question["answer2"],
-                        question["answer3"],
-                        question["answer4"],
-                    ],
-                    question["correct"],
-                )
+        print(response)
+        question_pools = []
+        for question_pool in response:
+            print(question_pool)
+            for question in question_pool["questions"]:
                 if "image" in question:
-                    question_object.set_image_filename(
-                        self.get_question_image(question["_id"])
+                    question["image_filename"] = self.get_question_image(
+                        question["_id"]
                     )
-                question_objects_list.append(question_object)
-            question_objects_lists.append(question_objects_list)
-        return question_objects_lists
+            question_pools.append(
+                QuestionPool(question_pool["theme"], question_pool["questions"])
+            )
+        return question_pools
 
     def get_question_image(self, question_id):
         headers = {"x-auth-token": info.X_AUTH_TOKEN}

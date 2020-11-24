@@ -1,6 +1,7 @@
 import os
 import threading
 import time
+from math import ceil
 
 import pygame
 from events.event_handler import EventHandler
@@ -44,7 +45,7 @@ class ServerRenderer(Renderer):
         self.show_title("Choisissez 3 thèmes")
 
         rows = []
-        num_rows = len(themes) // 2
+        num_rows = ceil(len(themes) / 2)
 
         # Display rows from 1/3 of the screen until 5/6
         space_for_rows_init = self.SCREEN_HEIGHT / 3
