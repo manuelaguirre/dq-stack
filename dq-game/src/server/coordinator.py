@@ -33,25 +33,29 @@ class Coordinator:
         self.renderer.show_available_themes(available_themes)
         self.renderer.show_timer(10, self.controller.timeout)
 
-        chosen_themes = self.controller.get_theme_choices(
-            available_themes
-        )
+        chosen_themes = self.controller.get_theme_choices(available_themes)
         self.dq_game.set_rounds(chosen_themes)
         self.renderer.show_chosen_themes(chosen_themes)
 
     def first_round(self):
-        self.controller.start_first_round(self.dq_game.rounds[0].theme)
-        self.renderer.show_round(self.dq_game.rounds[0])
-        time.sleep(3)
+        # TODO: Show round instructions
+        #  self.controller.start_first_round()
         for index, question in enumerate(self.dq_game.rounds[0].questions):
-            self.ask_question(question, self.dq_game.rounds[0].theme, index)
+            # Send upcoming question
+            self.controller.send_upcoming_question(question)
+            #  Show theme
+            self.controller.show_upcoming_question_theme()
+            self.renderer.show_upcoming_question_theme(question.theme)
+            # Show question
+            time.sleep(5)
+            self.ask_question(question, index)
             time.sleep(5)
 
-    def ask_question(self, question, theme, index):
+    def ask_question(self, question, index):
         def resolve_question():
-            self.renderer.show_correct_answer(question, theme, index)
+            self.renderer.show_correct_answer(question, index)
             self.controller.resolve_question()
 
-        self.renderer.show_question(question, theme, index)
+        self.renderer.show_question(question, index)
         self.renderer.show_timer(15, resolve_question)
         self.controller.ask_question(question)

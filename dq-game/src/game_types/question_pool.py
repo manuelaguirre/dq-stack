@@ -24,10 +24,9 @@ class QuestionPool:
                     question["answer4"],
                 ],
                 question["correct"],
+                self.theme,
             )
             if "image" in question:
-                question_object.set_image_filename(
-                    question["image_filename"]
-                )
+                question_object.set_image_filename(question["image_filename"])
             result.append(question_object)
         return result
