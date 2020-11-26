@@ -1,6 +1,9 @@
+import random
+
 from events.event_handler import EventHandler
-from mock_data import mock_instructions
 from game_types.round import Round
+
+from mock_data import mock_instructions
 
 
 class DQGame(EventHandler):
@@ -11,7 +14,7 @@ class DQGame(EventHandler):
     def __init__(self, no_of_players):
         self.no_of_players = no_of_players
         self.instructions = mock_instructions  # TODO: Get instructions from API ?
-        self.question_pools = [] # TODO: Change to a map
+        self.question_pools = []  # TODO: Change to a map
         self.rounds = []
 
         print("Creating a new game")
@@ -25,9 +28,15 @@ class DQGame(EventHandler):
         )
 
     def set_rounds(self, themes):
+        all_questions = [[], [], []]  # 12 x 3 questions
         for theme in themes:
             for question_pool in self.question_pools:
                 if question_pool.theme.name == theme:
-                    round = Round(question_pool.theme)
-                    round.set_questions(question_pool.questions)
-                    self.rounds.append(round)
+                    all_questions[0] += question_pool.questions[0:4]
+                    all_questions[1] += question_pool.questions[4:8]
+                    all_questions[2] += question_pool.questions[8:12]
+        for i in range(3):
+            round = Round()
+            random.shuffle(all_questions[i])
+            round.set_questions(all_questions[i])
+            self.rounds.append(round)

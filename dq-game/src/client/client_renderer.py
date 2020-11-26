@@ -190,7 +190,7 @@ class ClientRenderer(Renderer):
         self.screen_handler.clear_data()
         self.validate_themes_callback(self.selected_themes)
 
-    def display_round_theme(self, round_theme):
+    def display_upcoming_question_theme(self, round_theme):
         self.show_background()
         self.show_title(round_theme.name)
         showTextAt(
@@ -202,9 +202,9 @@ class ClientRenderer(Renderer):
         )
         self.update_screen()
 
-    def answer_question(self, current_question, current_theme, callback):
+    def answer_question(self, current_question, callback):
         self.show_background()
-        self.show_title(current_theme.name, "medium")
+        self.show_title(current_question.theme.name, "medium")
         self.answer_question_callback = callback
         renderTextCenteredAt(
             self,

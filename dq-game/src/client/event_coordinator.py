@@ -6,7 +6,6 @@ class EventCoordinator:
     def __init__(self, controller, renderer):
         self.controller = controller
         self.renderer = renderer
-        self.current_theme = None
         self.current_question = None
 
     def on_timeout(self):
@@ -27,14 +26,17 @@ class EventCoordinator:
         themes = self.controller.get_theme_list()
         self.renderer.select_themes(themes, self.controller.send_client_theme_choices)
 
-    def on_start_first_round(self):
-        self.current_theme = self.controller.get_round_theme()
-        self.renderer.display_round_theme(self.current_theme)
+    # def on_start_first_round(self):
+    #     self.current_theme = self.controller.get_round_theme()
+    #     self.renderer.display_round_theme(self.current_theme)
+
+    def on_show_upcoming_question_theme(self):
+        self.current_question = self.controller.get_current_question()
+        self.renderer.display_upcoming_question_theme(self.current_question.theme)
 
     def on_answer_question(self):
-        self.current_question = self.controller.get_current_question()
         self.renderer.answer_question(
-            self.current_question, self.current_theme, self.controller.send_answer
+            self.current_question, self.controller.send_answer
         )
 
     def on_resolve_question(self):

@@ -4,8 +4,6 @@ import sys
 import re
 import info
 import requests
-from game_types.question import Question
-from game_types.theme import Theme
 from game_types.question_pool import QuestionPool
 
 PATH_TO_TMP_FILES = "src/server/tmp"

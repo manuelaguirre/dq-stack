@@ -78,21 +78,21 @@ class ServerRenderer(Renderer):
         self.update_screen()
         time.sleep(5)
 
-    def show_round(self, round):
+    def show_upcoming_question_theme(self, theme):
         self.show_background()
-        self.show_title(round.theme.name)
+        self.show_title(theme.name)
         showTextAt(
             self,
             "medium",
             self.SCREEN_WIDTH / 2,
             self.SCREEN_HEIGHT / 2,
-            round.theme.description,
+            theme.description,
         )
         self.update_screen()
 
-    def show_question(self, question, theme, index):
+    def show_question(self, question, index):
         self.show_background()
-        self.show_title(theme.name, "medium")
+        self.show_title(question.theme.name, "medium")
         showTextAt(
             self,
             "small",
@@ -138,9 +138,9 @@ class ServerRenderer(Renderer):
             )
         self.update_screen()
 
-    def show_correct_answer(self, question, theme, index):
+    def show_correct_answer(self, question, index):
         self.show_background()
-        self.show_title(theme.name, "medium")
+        self.show_title(question.theme.name, "medium")
         showTextAt(
             self,
             "small",
