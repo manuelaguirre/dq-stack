@@ -36,10 +36,12 @@ class Coordinator:
         chosen_themes = self.controller.get_theme_choices(available_themes)
         self.dq_game.set_rounds(chosen_themes)
         self.renderer.show_chosen_themes(chosen_themes)
+        time.sleep(5)
 
     def first_round(self):
-        # TODO: Show round instructions
-        #  self.controller.start_first_round()
+        self.renderer.show_round_instructions(self.dq_game.rounds[0].number)
+        self.controller.start_round(1)
+        time.sleep(5)
         for index, question in enumerate(self.dq_game.rounds[0].questions):
             # Send upcoming question
             self.controller.send_upcoming_question(question)

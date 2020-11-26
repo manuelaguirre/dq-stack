@@ -4,7 +4,7 @@ import sys
 import threading
 import time
 
-from utils.renderer import Renderer
+from utils.renderer import Renderer, flush
 from utils.renderer_utils import renderTextCenteredAt, showTextAt
 from utils.screen_button import ThemeScreenButton, AnswerScreenButton
 
@@ -94,9 +94,9 @@ class ClientRenderer(Renderer):
             button.display()
         self.update_screen()
 
+    @flush
     def show_instructions_and_confirmation_button(self, instructions, callback):
         self.ready_callback = callback
-        self.show_background()
         for i in range(len(instructions)):
             renderTextCenteredAt(
                 self, instructions[i], (i + 1) * self.SCREEN_HEIGHT / 5
@@ -113,12 +113,12 @@ class ClientRenderer(Renderer):
         )
         self.screen_handler.add_object(ready_button)
         ready_button.display()
-        self.update_screen()
         self.screen_handler.add_touch_callback(self.confirmation_button_callback)
 
     def confirmation_button_callback(self, value):
         if value:
             self.show_logo()
+            self.update_screen()
             self.screen_handler.clear_data()
             self.ready_callback()
 
@@ -190,20 +190,8 @@ class ClientRenderer(Renderer):
         self.screen_handler.clear_data()
         self.validate_themes_callback(self.selected_themes)
 
-    def display_upcoming_question_theme(self, round_theme):
-        self.show_background()
-        self.show_title(round_theme.name)
-        showTextAt(
-            self,
-            "medium",
-            self.SCREEN_WIDTH / 2,
-            self.SCREEN_HEIGHT / 2,
-            round_theme.description,
-        )
-        self.update_screen()
-
+    @flush
     def answer_question(self, current_question, callback):
-        self.show_background()
         self.show_title(current_question.theme.name, "medium")
         self.answer_question_callback = callback
         renderTextCenteredAt(
@@ -218,7 +206,6 @@ class ClientRenderer(Renderer):
         self.screen_handler.add_touch_callback(self.select_answer_event)
         # Display title and buttons
         self.display_buttons()
-        self.update_screen()
 
     def select_answer_event(self, value):
         print(value)

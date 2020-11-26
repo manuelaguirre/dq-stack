@@ -36,7 +36,7 @@ class DQGame(EventHandler):
                     all_questions[1] += question_pool.questions[4:8]
                     all_questions[2] += question_pool.questions[8:12]
         for i in range(3):
-            round = Round()
+            round = Round(i + 1)
             random.shuffle(all_questions[i])
             round.set_questions(all_questions[i])
             self.rounds.append(round)
