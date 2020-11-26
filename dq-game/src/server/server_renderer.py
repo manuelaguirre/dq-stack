@@ -5,7 +5,7 @@ from math import ceil
 
 import pygame
 from events.event_handler import EventHandler
-from utils.renderer import Renderer
+from utils.renderer import Renderer, flush
 from utils.renderer_utils import renderTextCenteredAt, showTextAt
 from utils.screen_button import AnswerScreenButton
 
@@ -19,13 +19,11 @@ class ServerRenderer(Renderer):
     def __init__(self):
         super().__init__(1500, 900, "server")
 
+    @flush
     def show_instructions(self, instrucions):
         """
         Render the instructions
         """
-        print("render instrucions")
-        time.sleep(1)
-        self.show_background()
         height_ins = 4 * self.SCREEN_HEIGHT / 6
         height_ins_i = 0.5 * self.SCREEN_HEIGHT / 6
         count = 1
@@ -35,13 +33,12 @@ class ServerRenderer(Renderer):
                 self, instruction, count * height_ins / n + height_ins_i
             )
             count += 1
-        self.update_screen()
 
+    @flush
     def show_available_themes(self, themes):
         """
         Render available themes
         """
-        self.show_background()
         self.show_title("Choisissez 3 thèmes")
 
         rows = []
@@ -61,11 +58,10 @@ class ServerRenderer(Renderer):
                 rows[index // 2],
                 themes[index],
             )
-        self.update_screen()
 
+    @flush
     def show_chosen_themes(self, chosen_themes):
         self.timer.stop()
-        self.show_background()
         self.show_title("Les themes seront:")
         for i in range(len(chosen_themes)):
             showTextAt(
@@ -75,23 +71,9 @@ class ServerRenderer(Renderer):
                 self.SCREEN_HEIGHT / 2,
                 chosen_themes[i],
             )
-        self.update_screen()
-        time.sleep(5)
 
-    def show_upcoming_question_theme(self, theme):
-        self.show_background()
-        self.show_title(theme.name)
-        showTextAt(
-            self,
-            "medium",
-            self.SCREEN_WIDTH / 2,
-            self.SCREEN_HEIGHT / 2,
-            theme.description,
-        )
-        self.update_screen()
-
+    @flush
     def show_question(self, question, index):
-        self.show_background()
         self.show_title(question.theme.name, "medium")
         showTextAt(
             self,
@@ -136,10 +118,9 @@ class ServerRenderer(Renderer):
             renderTextCenteredAt(
                 self, question.text, self.SCREEN_HEIGHT * 4 / 8, "medium"
             )
-        self.update_screen()
 
+    @flush
     def show_correct_answer(self, question, index):
-        self.show_background()
         self.show_title(question.theme.name, "medium")
         showTextAt(
             self,
@@ -164,4 +145,3 @@ class ServerRenderer(Renderer):
             answer_letters[question.correct_answer % len(answer_letters)]
         )
         correct_answer_button.set_state("correct")
-        self.update_screen()

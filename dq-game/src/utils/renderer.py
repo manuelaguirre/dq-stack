@@ -1,11 +1,14 @@
 import os
 import time
+from functools import wraps
 
 import pygame
 from events.event_handler import EventHandler
 
-from utils.renderer_utils import showTextAt
+from utils.renderer_utils import showTextAt, renderTextCenteredAt
 from utils.timer import Timer
+import text.text as text
+
 
 """
 0   1   2   3   4   5   6   7   8   9   10  11
@@ -24,6 +27,20 @@ from utils.timer import Timer
     |     ANSWER    |   |     ANSWER    | 
 
 """
+
+
+def flush(func):
+    """
+    Decorator for common renderer tasks
+    """
+
+    @wraps(func)
+    def inner(self, *args, **kwargs):
+        self.show_background()
+        func(self, *args, **kwargs)
+        self.update_screen()
+
+    return inner
 
 
 class Renderer(EventHandler):
@@ -154,6 +171,9 @@ class Renderer(EventHandler):
             )
         )
 
+    def update_screen(self):
+        pygame.display.update()
+
     def append_touch_method(self, callback):
         # Function that will be called after every touch event
         self.touch_function = callback
@@ -165,17 +185,15 @@ class Renderer(EventHandler):
         self.screen.blit(self.background, (0, 0))
         self.update_screen()
 
+    @flush
     def show_logo(self):
         """
         Clear the screen and display logo
         """
-        print("show_logo")
-        self.show_background()
         logo_rect = self.logo.get_rect(
             center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2)
         )
         self.screen.blit(self.logo, logo_rect)
-        self.update_screen()
 
     def show_timer(self, seconds, timeout_callback):
         # Show timer background
@@ -205,5 +223,24 @@ class Renderer(EventHandler):
         )
         self.screen.blit(text_, text_rect)
 
-    def update_screen(self):
-        pygame.display.update()
+    @flush
+    def show_round_instructions(self, game_round_number):
+        self.show_title(f"MANCHE {game_round_number}")
+        if game_round_number == 1:
+            renderTextCenteredAt(
+                self,
+                text.round_1_instructions,
+                self.SCREEN_HEIGHT / 3,
+                font_size="medium",
+            )
+
+    @flush
+    def show_upcoming_question_theme(self, theme):
+        self.show_title(theme.name)
+        showTextAt(
+            self,
+            "medium",
+            self.SCREEN_WIDTH / 2,
+            self.SCREEN_HEIGHT / 2,
+            theme.description,
+        )

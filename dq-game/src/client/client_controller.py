@@ -50,6 +50,9 @@ class ClientController(EventHandler):
     def send_client_theme_choices(self, selected_themes):
         self.socket.send(selected_themes, "data-theme-choice")
 
+    def get_round_number(self):
+        return self.get_data_from_inbuffer("data-round-number")
+
     def get_current_question(self):
         """
         Gets actual theme
