@@ -50,11 +50,11 @@ class DQGame(EventHandler):
 
     def receive_answers(self, player_answers, question):
         for player in self.players:
-            has_answer = false
+            has_answer = False
             for player_answer in player_answers:
                 if player.name == player_answer.player_name:
-                    has_answer = true
-                    if player_answer["answer"] == question["correct"]:
+                    has_answer = True
+                    if player_answer.answer == question.answers[question.correct_answer]:
                         player.add_points(3)
                     else:
                         player.add_points(-1)
@@ -64,8 +64,9 @@ class DQGame(EventHandler):
     def get_score_board(self):
         score_board = ScoreBoard()
         for player in self.players:
-            score_board.add_score(player.name, player.differential, player.points)
+            score_board.add_score(player.name, player.differential, player.points - player.differential)
         score_board.sort_board()
+        print(score_board.__repr__())
         return score_board
 
     def find_player_by_name(self, name):

@@ -6,7 +6,7 @@ from math import ceil
 import pygame
 from events.event_handler import EventHandler
 from utils.renderer import Renderer, flush
-from utils.renderer_utils import renderTextCenteredAt, showTextAt
+from utils.renderer_utils import render_multiline_text, show_text_at
 from utils.screen_button import AnswerScreenButton
 
 
@@ -29,7 +29,7 @@ class ServerRenderer(Renderer):
         count = 1
         n = len(instrucions) + 1
         for instruction in instrucions:
-            renderTextCenteredAt(
+            render_multiline_text(
                 self, instruction, count * height_ins / n + height_ins_i
             )
             count += 1
@@ -51,7 +51,7 @@ class ServerRenderer(Renderer):
         for index in range(num_rows):
             rows.append(space_for_rows_init + space_for_row * index)
         for index in range(len(themes)):
-            showTextAt(
+            show_text_at(
                 self,
                 "medium",
                 self.SCREEN_WIDTH * (index % 2 + 1) / 3,
@@ -64,7 +64,7 @@ class ServerRenderer(Renderer):
         self.timer.stop()
         self.show_title("Les themes seront:")
         for i in range(len(chosen_themes)):
-            showTextAt(
+            show_text_at(
                 self,
                 "medium",
                 (1 + i) * self.SCREEN_WIDTH / 4,
@@ -75,7 +75,7 @@ class ServerRenderer(Renderer):
     @flush
     def show_question(self, question, index):
         self.show_title(question.theme.name, "medium")
-        showTextAt(
+        show_text_at(
             self,
             "small",
             self.SCREEN_WIDTH / 2,
@@ -111,18 +111,18 @@ class ServerRenderer(Renderer):
                     self.SCREEN_HEIGHT // 2 - question_image_height // 2,
                 ),
             )
-            renderTextCenteredAt(
+            render_multiline_text(
                 self, question.text, self.SCREEN_HEIGHT * 6 / 8, "medium"
             )
         else:
-            renderTextCenteredAt(
+            render_multiline_text(
                 self, question.text, self.SCREEN_HEIGHT * 4 / 8, "medium"
             )
 
     @flush
     def show_correct_answer(self, question, index):
         self.show_title(question.theme.name, "medium")
-        showTextAt(
+        show_text_at(
             self,
             "small",
             self.SCREEN_WIDTH / 2,

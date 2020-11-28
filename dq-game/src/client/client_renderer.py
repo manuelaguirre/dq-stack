@@ -5,7 +5,7 @@ import threading
 import time
 
 from utils.renderer import Renderer, flush
-from utils.renderer_utils import renderTextCenteredAt, showTextAt
+from utils.renderer_utils import render_multiline_text
 from utils.screen_button import ThemeScreenButton, AnswerScreenButton
 
 from client_screen_handler import ClientScreenHandler
@@ -98,7 +98,7 @@ class ClientRenderer(Renderer):
     def show_instructions_and_confirmation_button(self, instructions, callback):
         self.ready_callback = callback
         for i in range(len(instructions)):
-            renderTextCenteredAt(
+            render_multiline_text(
                 self, instructions[i], (i + 1) * self.SCREEN_HEIGHT / 5
             )
         ready_button = ThemeScreenButton(
@@ -194,7 +194,7 @@ class ClientRenderer(Renderer):
     def answer_question(self, current_question, callback):
         self.show_title(current_question.theme.name, "medium")
         self.answer_question_callback = callback
-        renderTextCenteredAt(
+        render_multiline_text(
             self,
             current_question.text,
             self.SCREEN_HEIGHT / 3,

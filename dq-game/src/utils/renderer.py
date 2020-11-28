@@ -5,7 +5,7 @@ from functools import wraps
 import pygame
 from events.event_handler import EventHandler
 
-from utils.renderer_utils import showTextAt, renderTextCenteredAt
+from utils.renderer_utils import show_text_at, render_multiline_text, render_table
 from utils.timer import Timer
 import text.text as text
 
@@ -204,7 +204,7 @@ class Renderer(EventHandler):
                 self.timer_background,
                 timer_position,
             )
-            showTextAt(
+            show_text_at(
                 self,
                 "medium",
                 timer_position[0] + self.SCREEN_WIDTH // 16,
@@ -227,7 +227,7 @@ class Renderer(EventHandler):
     def show_round_instructions(self, game_round_number):
         self.show_title(f"MANCHE {game_round_number}")
         if game_round_number == 1:
-            renderTextCenteredAt(
+            render_multiline_text(
                 self,
                 text.round_1_instructions,
                 self.SCREEN_HEIGHT / 3,
@@ -237,10 +237,24 @@ class Renderer(EventHandler):
     @flush
     def show_upcoming_question_theme(self, theme):
         self.show_title(theme.name)
-        showTextAt(
+        show_text_at(
             self,
             "medium",
             self.SCREEN_WIDTH / 2,
             self.SCREEN_HEIGHT / 2,
             theme.description,
         )
+
+    @flush
+    def show_scores(self, score_board):
+        transition = score_board.get_score_board_transition()
+        first = True
+        for board_frame in transition:
+            self.show_background()
+            render_table(self, board_frame, (4,1,1))
+            self.update_screen()
+            if first:
+                time.sleep(3)
+                first = False
+            else:
+                time.sleep(0.02)

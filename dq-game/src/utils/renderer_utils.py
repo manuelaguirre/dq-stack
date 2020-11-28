@@ -1,4 +1,4 @@
-def renderTextCenteredAt(renderer, text, y, font_size="small"):
+def render_multiline_text(renderer, text, y, font_size="small"):
     """
     Renderer. Display big text in multiple lines at an 'y' axis level.
     """
@@ -37,7 +37,29 @@ def renderTextCenteredAt(renderer, text, y, font_size="small"):
         y_offset += fh
 
 
-def showTextAt(renderer, font, pos_x, pos_y, text, color=(0, 0, 0)):
+def show_text_at(renderer, font, pos_x, pos_y, text, color=(0, 0, 0), centered=True):
     text_ = renderer.fonts[font].render(text, True, color)
-    text_rect = text_.get_rect(center=(pos_x, pos_y))
-    renderer.screen.blit(text_, text_rect)
+    if centered:
+        text_rect = text_.get_rect(center=(pos_x, pos_y))
+        renderer.screen.blit(text_, text_rect)
+    else:
+        renderer.screen.blit(text_, (pos_x, pos_y))
+
+
+def render_table(renderer, rows, grid):
+    grid = list(grid)
+
+    margin_x = renderer.SCREEN_WIDTH // 10
+    margin_y = renderer.SCREEN_HEIGHT // 10
+    row_height = 8 / 10 * renderer.SCREEN_HEIGHT // len(rows)
+    cell_width = (renderer.SCREEN_WIDTH - 2 * margin_x) // sum(grid)
+    for row_index, row in enumerate(rows):
+        pos_y = margin_y + row_height * (row_index + 0.5)
+        for cell_index, cell in enumerate(row):
+            pos_x = margin_x + sum(grid[:cell_index]) * cell_width
+            color = (0, 0, 0)
+            if cell[0] == "+" and cell[1] != "0" :
+                color = (25, 220, 25)
+            if cell[0] == "-":
+                color = (220, 25, 25)
+            show_text_at(renderer, "medium", pos_x, pos_y, cell, color, centered=False)
