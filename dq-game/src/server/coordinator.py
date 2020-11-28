@@ -56,7 +56,7 @@ class Coordinator:
             # Show scores
             score_board = self.dq_game.get_score_board()
             self.renderer.show_scores(score_board)
-            #self.controller.send_scores(score_board)
+            # self.controller.send_scores(score_board)
             time.sleep(5)
 
     def ask_question(self, question, index):

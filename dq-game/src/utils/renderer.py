@@ -251,7 +251,7 @@ class Renderer(EventHandler):
         first = True
         for board_frame in transition:
             self.show_background()
-            render_table(self, board_frame, (4,1,1))
+            render_table(self, board_frame, (4, 1, 1))
             self.update_screen()
             if first:
                 time.sleep(3)
