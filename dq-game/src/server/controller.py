@@ -93,11 +93,11 @@ class Controller(EventHandler):
 
     def ask_question(self, question):
         # TODO: JOKERS
+        self.current_answers = []
+
         self.socket.send_to_all("ANSWER_QUESTION", "event")
 
         self.is_timeout = False
-
-        answers = []  # PlayerAnswer[]
 
         while not self.is_timeout:
             for message in self.socket.inbuffer:
@@ -106,13 +106,11 @@ class Controller(EventHandler):
                     self.socket.inbuffer.remove(message)
             time.sleep(0.2)
 
-        self.current_answers = answers
-
     def process_answer(self, message):
         name = self.socket.clients[message.origin]["name"]
         answer = message.data
         player_answer = PlayerAnswer(name, answer)
-        answers.append(player_answer)
+        self.current_answers.append(player_answer)
 
     def resolve_question(self):
         self.is_timeout = True

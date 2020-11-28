@@ -126,7 +126,7 @@ class ServerSocketConnection(SocketConnection):
         new_client["socket_object"] = socket_object
         new_client["address"] = address
         msg = self.receive(socket_object)
-        new_client["client_name"] = msg.data
+        new_client["name"] = msg.data
         self.clients[address] = new_client
         self.send(socket_object, str(len(self.clients)), "handshake")
 
@@ -145,8 +145,8 @@ class ServerSocketConnection(SocketConnection):
         Inbound task for the server, accepting established connections as parameters
         """
         sockets_list = []
-        for client in self.clients.keys():
-            sockets_list.append(client)
+        for client in clients.values():
+            sockets_list.append(client["socket_object"])
 
         while True:
             read_sockets, _, exception_sockets = select.select(
@@ -159,9 +159,7 @@ class ServerSocketConnection(SocketConnection):
                 if message is False:
 
                     print(
-                        "Closed connection from: {}".format(
-                            clients[notified_socket]["data"].decode("utf-8")
-                        )
+                        f"Closed connection from: {clients[notified_socket.getpeername()]['name']}"
                     )
 
                     sockets_list.remove(notified_socket)
@@ -171,8 +169,8 @@ class ServerSocketConnection(SocketConnection):
                     continue
 
                     # Get user by notified socket, so we will know who sent the message
-                notified_client = clients[notified_socket]
+                notified_client = clients[notified_socket.getpeername()]
 
                 print(
-                    f'Received message from {notified_client["client_name"]}: {message.data}'
+                    f'Received message from {notified_client["name"]}: {message.data}'
                 )
