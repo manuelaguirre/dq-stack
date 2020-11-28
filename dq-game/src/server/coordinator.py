@@ -27,6 +27,7 @@ class Coordinator:
         self.controller.send_instructions_and_await_confirmations(
             self.dq_game.instructions
         )
+        self.dq_game.initialize_players(self.controller.player_names)
 
     def theme_selection_round(self):
         available_themes = self.dq_game.get_available_theme_names()
@@ -45,18 +46,21 @@ class Coordinator:
         for index, question in enumerate(self.dq_game.rounds[0].questions):
             # Send upcoming question
             self.controller.send_upcoming_question(question)
-            #  Show theme
+            # Show theme
             self.controller.show_upcoming_question_theme()
             self.renderer.show_upcoming_question_theme(question.theme)
             # Show question
             time.sleep(5)
             self.ask_question(question, index)
             time.sleep(5)
+            # Show scores
+            score_board = self.dq_game.get_score_board()
 
     def ask_question(self, question, index):
         def resolve_question():
             self.renderer.show_correct_answer(question, index)
             self.controller.resolve_question()
+            self.dq_game.receive_answers(self.controller.current_answers, question)
 
         self.renderer.show_question(question, index)
         self.renderer.show_timer(15, resolve_question)

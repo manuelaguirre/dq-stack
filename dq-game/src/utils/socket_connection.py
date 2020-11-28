@@ -44,7 +44,9 @@ class SocketConnection(EventHandler):
         """
         try:
             inbound_msg_length = int(socket.recv(self.HEADER_LENGTH).decode("utf-8"))
-            return self.decode(socket.recv(inbound_msg_length))
+            message = self.decode(socket.recv(inbound_msg_length))
+            print(message.origin)
+            return message
         except ValueError:
             return False
 
@@ -98,6 +100,7 @@ class ServerSocketConnection(SocketConnection):
         self.tcpsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.tcpsock.bind((socket.gethostname(), self.port))
 
+        # Map (address) => client (address, name)
         self.clients = {}
 
     def listen(self, expected_connections):
@@ -116,16 +119,16 @@ class ServerSocketConnection(SocketConnection):
         self.trigger("GAME_READY_TO_START")
 
     def handle_requests(self):
-        clientsocket, address = self.tcpsock.accept()
-        clientsocket.send("Welcome to the game".encode("utf-8"))
+        socket_object, address = self.tcpsock.accept()
+        socket_object.send("Welcome to the game".encode("utf-8"))
 
         new_client = {}
-        new_client["clientsocket"] = clientsocket
+        new_client["socket_object"] = socket_object
         new_client["address"] = address
-        msg = self.receive(clientsocket)
+        msg = self.receive(socket_object)
         new_client["client_name"] = msg.data
-        self.clients[clientsocket] = new_client
-        self.send(clientsocket, str(len(self.clients)), "handshake")
+        self.clients[address] = new_client
+        self.send(socket_object, str(len(self.clients)), "handshake")
 
     def handle_message(self, message):
         """
@@ -135,7 +138,7 @@ class ServerSocketConnection(SocketConnection):
 
     def send_to_all(self, msg, content_type):
         for client in self.clients:
-            self.send(client, msg, content_type)
+            self.send(self.clients[client]["socket_object"], msg, content_type)
 
     def inbound_task(self, clients):
         """
@@ -150,6 +153,7 @@ class ServerSocketConnection(SocketConnection):
                 sockets_list, [], sockets_list
             )
             for notified_socket in read_sockets:
+                # message: { origin: (), data: any, content_type: string }
                 message = self.receive(notified_socket)
                 self.handle_message(message)
                 if message is False:

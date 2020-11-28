@@ -6,6 +6,7 @@ import time
 
 from events.event_handler import EventHandler
 from utils.socket_connection import ServerSocketConnection
+from game_types.player_answer import PlayerAnswer
 
 
 class Controller(EventHandler):
@@ -15,8 +16,9 @@ class Controller(EventHandler):
         """
         self.socket = socket
         self.no_of_players = no_of_players
-        self.players = []
+        self.player_names = []
         self.is_timeout = False
+        self.current_answers = []
 
     def timeout(self):
         self.is_timeout = True
@@ -24,7 +26,8 @@ class Controller(EventHandler):
 
     def await_connections(self):
         self.socket.listen(self.no_of_players)
-        self.players = self.socket.clients.keys()
+        for client in self.socket.clients:
+            self.player_names.append(self.socket.clients[client]["name"])
 
     def send_instructions_and_await_confirmations(self, instructions):
         self.socket.send_to_all(instructions, "data-instructions")
@@ -94,14 +97,22 @@ class Controller(EventHandler):
 
         self.is_timeout = False
 
-        answers = []
+        answers = []  # PlayerAnswer[]
 
         while not self.is_timeout:
             for message in self.socket.inbuffer:
                 if message.content_type == "data-answer":
-                    answers.append(message.data)
+                    self.process_answer(message)
                     self.socket.inbuffer.remove(message)
             time.sleep(0.2)
+
+        self.current_answers = answers
+
+    def process_answer(self, message):
+        name = self.socket.clients[message.origin]["name"]
+        answer = message.data
+        player_answer = PlayerAnswer(name, answer)
+        answers.append(player_answer)
 
     def resolve_question(self):
         self.is_timeout = True
