@@ -58,7 +58,7 @@ def render_table(renderer, rows, grid):
         for cell_index, cell in enumerate(row):
             pos_x = margin_x + sum(grid[:cell_index]) * cell_width
             color = (0, 0, 0)
-            if cell[0] == "+" and cell[1] != "0" :
+            if cell[0] == "+" and cell[1] != "0":
                 color = (25, 220, 25)
             if cell[0] == "-":
                 color = (220, 25, 25)
