@@ -13,6 +13,7 @@ class ClientScreenHandler(EventHandler):
     def __init__(self):
         self.objects = []  # type (init: (x,y), end: (x,y), value: string)
         self.touch_callback = None
+        self.buzzer_callback = None
 
     def handle_touch(self, click_x, click_y):
         # type: (int, int, function) -> function
@@ -23,6 +24,10 @@ class ClientScreenHandler(EventHandler):
                         self.touch_callback(obj["value"])
                         return
             self.touch_callback(None)
+
+    def handle_buzzer(self, buzzer_num):
+        if (self.buzzer_callback != None) & (len(self.objects) > buzzer_num):
+            self.buzzer_callback(self.objects[buzzer_num]["value"])
 
     def add_object(self, obj):
         if isinstance(obj, ScreenButton):
@@ -39,6 +44,10 @@ class ClientScreenHandler(EventHandler):
     def add_touch_callback(self, callback):
         self.touch_callback = callback
 
+    def add_buzzer_callback(self, callback):
+        self.buzzer_callback = callback
+
     def clear_data(self):
         self.objects = []
         self.touch_callback = None
+        self.buzzer_callback = None
