@@ -133,7 +133,7 @@ class Renderer(EventHandler):
                 elif GPIO.input(25) == 0:
                     if self.buzzer_function:
                         self.buzzer_function(3)
-
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -145,12 +145,6 @@ class Renderer(EventHandler):
             time.sleep(0.1)
 
     def _get_logo(self):
-        print(os.path.dirname(__file__))
-        print(
-            os.path.abspath(
-                os.path.join(os.path.dirname(__file__), "..", "images/icons/dqlogo.png")
-            )
-        )
         return pygame.image.load(
             os.path.abspath(
                 os.path.join(os.path.dirname(__file__), "..", "images/icons/dqlogo.png")

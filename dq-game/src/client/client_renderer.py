@@ -99,6 +99,8 @@ class ClientRenderer(Renderer):
     def show_instructions_and_confirmation_button(self, instructions, callback):
         self.ready_callback = callback
         time.sleep(0.5)
+        # TODO: Find why this method is called before initialize()
+        # so self.font["small"] is undefined
         for i in range(len(instructions)):
             render_multiline_text(
                 self, instructions[i], (i + 1) * self.SCREEN_HEIGHT / 5
@@ -118,7 +120,6 @@ class ClientRenderer(Renderer):
         self.screen_handler.add_touch_callback(self.confirmation_button_callback)
 
     def confirmation_button_callback(self, value):
-        print("----ready: ", value)
         if value:
             self.show_logo()
             self.update_screen()
@@ -212,7 +213,6 @@ class ClientRenderer(Renderer):
         self.display_buttons()
 
     def select_answer_event(self, value):
-        print("------", value)
         for button in self.buttons_list:
             if button.value == value:
                 button.set_state("selected")
