@@ -9,6 +9,21 @@ from utils.renderer_utils import show_text_at, render_multiline_text, render_tab
 from utils.timer import Timer
 import text.text as text
 
+from pygame import mixer
+import importlib.util
+
+try:
+    import RPi.GPIO as GPIO
+except ImportError:
+    import FakeRPi.GPIO as GPIO
+
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(25, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 """
 0   1   2   3   4   5   6   7   8   9   10  11
@@ -63,6 +78,7 @@ class Renderer(EventHandler):
         self.timer_background = self._get_timer_background()
         self.button_backgrounds = self._get_button_backgrounds()
         self.touch_function = None
+        self.buzzer_function = None
         self.RENDERER_TYPE = RENDERER_TYPE
         self.base_path = os.path.dirname(__file__)
 
@@ -100,6 +116,24 @@ class Renderer(EventHandler):
         running = True
         print("start running")
         while running:  # main game loop
+            if self.RENDERER_TYPE == "client":
+
+                if GPIO.input(17) == 0:
+                    if self.buzzer_function:
+                        self.buzzer_function(0)
+
+                elif GPIO.input(18) == 0:
+                    if self.buzzer_function:
+                        self.buzzer_function(1)
+
+                elif GPIO.input(24) == 0:
+                    if self.buzzer_function:
+                        self.buzzer_function(2)
+
+                elif GPIO.input(25) == 0:
+                    if self.buzzer_function:
+                        self.buzzer_function(3)
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -177,6 +211,10 @@ class Renderer(EventHandler):
     def append_touch_method(self, callback):
         # Function that will be called after every touch event
         self.touch_function = callback
+
+    def append_buzzer_method(self, callback):
+        # Function that will be called after every touch event
+        self.buzzer_function = callback
 
     def show_background(self):
         """

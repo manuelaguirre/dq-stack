@@ -28,6 +28,7 @@ class ClientRenderer(Renderer):
         self.answer_question_callback = None
         self.ready_callback = None
         self.append_touch_method(self.screen_handler.handle_touch)
+        self.append_buzzer_method(self.screen_handler.handle_buzzer)
 
     def create_buttons(self, value_list, button_type):
         # Create columns and rows
@@ -97,6 +98,9 @@ class ClientRenderer(Renderer):
     @flush
     def show_instructions_and_confirmation_button(self, instructions, callback):
         self.ready_callback = callback
+        time.sleep(0.5)
+        # TODO: Find why this method is called before initialize()
+        # so self.font["small"] is undefined
         for i in range(len(instructions)):
             render_multiline_text(
                 self, instructions[i], (i + 1) * self.SCREEN_HEIGHT / 5
@@ -204,11 +208,11 @@ class ClientRenderer(Renderer):
         self.create_buttons(current_question.answers, "Answers")
         # Attach callback method for touch event
         self.screen_handler.add_touch_callback(self.select_answer_event)
+        self.screen_handler.add_buzzer_callback(self.select_answer_event)
         # Display title and buttons
         self.display_buttons()
 
     def select_answer_event(self, value):
-        print(value)
         for button in self.buttons_list:
             if button.value == value:
                 button.set_state("selected")
