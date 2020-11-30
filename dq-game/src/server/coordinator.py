@@ -55,14 +55,14 @@ class Coordinator:
             time.sleep(5)
             # Show scores
             score_board = self.dq_game.get_score_board()
+            self.controller.show_scores(score_board)
             self.renderer.show_scores(score_board)
-            # self.controller.send_scores(score_board)
             time.sleep(5)
 
     def ask_question(self, question, index):
         def resolve_question():
-            self.renderer.show_correct_answer(question, index)
             self.controller.resolve_question()
+            self.renderer.show_correct_answer(question, index)
             self.dq_game.receive_answers(self.controller.current_answers, question)
 
         self.renderer.show_question(question, index)

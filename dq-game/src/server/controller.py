@@ -115,3 +115,7 @@ class Controller(EventHandler):
     def resolve_question(self):
         self.is_timeout = True
         self.socket.send_to_all("RESOLVE_QUESTION", "event")
+
+    def show_scores(self, score_board):
+        self.socket.send_to_all(score_board, "data-score-board")
+        self.socket.send_to_all("SHOW_SCORES", "event")
