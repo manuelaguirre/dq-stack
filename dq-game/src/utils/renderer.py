@@ -112,7 +112,7 @@ class Renderer(EventHandler):
         )
         pygame.display.set_icon(icon)
         self.show_logo()
-        self.trigger("RENDERER_START_GAME")
+        self.trigger("RENDERER_INIT_DONE")
         running = True
         print("start running")
         while running:  # main game loop

@@ -31,8 +31,11 @@ def start_game():
     client_socket.on("SHOW_SCORES", coordinator.on_show_scores)
 
     # Start
-    client_socket.connect()
-    client_socket.send(username, "username")
+    def connect():
+        client_socket.connect()
+        client_socket.send(username, "username")
+    
+    client_renderer.on("RENDERER_INIT_DONE", connect)
     client_renderer.initialize()
 
 
