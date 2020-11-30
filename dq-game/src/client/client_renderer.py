@@ -98,9 +98,6 @@ class ClientRenderer(Renderer):
     @flush
     def show_instructions_and_confirmation_button(self, instructions, callback):
         self.ready_callback = callback
-        time.sleep(0.5)
-        # TODO: Find why this method is called before initialize()
-        # so self.font["small"] is undefined
         for i in range(len(instructions)):
             render_multiline_text(
                 self, instructions[i], (i + 1) * self.SCREEN_HEIGHT / 5
