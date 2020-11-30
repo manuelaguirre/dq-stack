@@ -59,6 +59,12 @@ class ClientController(EventHandler):
         """
         return self.get_data_from_inbuffer("data-question")
 
+    def get_score_board(self):
+        """
+        Gets actual theme
+        """
+        return self.get_data_from_inbuffer("data-score-board")
+
     def send_answer(self, answer):
         """
         Sends Client answer

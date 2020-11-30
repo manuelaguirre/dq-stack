@@ -8,6 +8,7 @@ class EventCoordinator:
         self.renderer = renderer
         self.current_round_number = 0
         self.current_question = None
+        self.current_score_board = None
 
     def on_timeout(self):
         self.renderer.screen_handler.clear_data()
@@ -42,3 +43,7 @@ class EventCoordinator:
 
     def on_resolve_question(self):
         self.renderer.show_results(self.current_question)
+
+    def on_show_scores(self):
+        self.current_score_board = self.controller.get_score_board()
+        self.renderer.show_scores(self.current_score_board)
