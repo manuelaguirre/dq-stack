@@ -46,20 +46,42 @@ def show_text_at(renderer, font, pos_x, pos_y, text, color=(0, 0, 0), centered=T
         renderer.screen.blit(text_, (pos_x, pos_y))
 
 
-def render_table(renderer, rows, grid):
-    grid = list(grid)
+def render_table(renderer, rows, grid, who=""):
+    """
+    Render a points table. \n
+    Example \n
+    Rows: [[ 'Jean Baptiste' , '3', '+3', ... ]] \n
+    Grid: (4,1,1) # Size of the columns grid \n
+    Who: 'Jean Baptiste' # The name which will be highlighted
+    """
+    grid_list = list(grid)
 
-    margin_x = renderer.SCREEN_WIDTH // 10
+    margin_x = renderer.SCREEN_WIDTH // 5
     margin_y = renderer.SCREEN_HEIGHT // 10
     row_height = 8 / 10 * renderer.SCREEN_HEIGHT // len(rows)
+    row_height = min(row_height, 2 / 10 * renderer.SCREEN_HEIGHT)
     cell_width = (renderer.SCREEN_WIDTH - 2 * margin_x) // sum(grid)
+
     for row_index, row in enumerate(rows):
         pos_y = margin_y + row_height * (row_index + 0.5)
+
         for cell_index, cell in enumerate(row):
-            pos_x = margin_x + sum(grid[:cell_index]) * cell_width
+            # Calculate the size of the cell
+            pos_x = margin_x + sum(grid_list[:cell_index]) * cell_width
             color = (0, 0, 0)
+
+            font_size = "medium"
+            if cell_index == 2:
+                font_size = "small"
+            
+            if cell_index == 0 and who == cell:
+                color = (25, 220, 25)
+                cell = "· " + cell
             if cell[0] == "+" and cell[1] != "0":
                 color = (25, 220, 25)
-            if cell[0] == "-":
+            elif cell[0] == "+" and cell[1] == "0":
+                cell = ""
+            elif cell[0] == "-":
                 color = (220, 25, 25)
-            show_text_at(renderer, "medium", pos_x, pos_y, cell, color, centered=False)
+            
+            show_text_at(renderer, font_size, pos_x, pos_y, cell, color, centered=False)

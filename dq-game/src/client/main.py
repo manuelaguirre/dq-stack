@@ -14,6 +14,7 @@ def start_game():
 
     # Create main classes
     client_renderer = ClientRenderer()
+    client_renderer.username = username
     client_socket = ClientSocketConnection(8000)
     controller = ClientController(client_socket)
     coordinator = EventCoordinator(controller, client_renderer)

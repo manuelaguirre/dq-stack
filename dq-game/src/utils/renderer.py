@@ -64,6 +64,7 @@ class Renderer(EventHandler):
     """
 
     def __init__(self, SCREEN_WIDTH, SCREEN_HEIGHT, RENDERER_TYPE):
+        self.username = ""
         self.SCREEN_WIDTH = SCREEN_WIDTH
         self.SCREEN_HEIGHT = SCREEN_HEIGHT
         self.THEME_BUTTON_WIDTH = 3 * self.SCREEN_WIDTH // 11
@@ -221,7 +222,6 @@ class Renderer(EventHandler):
         Clear the screen. Only display the background
         """
         self.screen.blit(self.background, (0, 0))
-        self.update_screen()
 
     @flush
     def show_logo(self):
@@ -285,14 +285,26 @@ class Renderer(EventHandler):
 
     @flush
     def show_scores(self, score_board):
-        transition = score_board.get_score_board_transition()
-        first = True
-        for board_frame in transition:
-            self.show_background()
-            render_table(self, board_frame, (4, 1, 1))
-            self.update_screen()
-            if first:
+        points_transition = score_board.get_points_transition()
+        is_first = True
+        for board_frame in points_transition:
+            if is_first:
                 time.sleep(3)
-                first = False
+                is_first = False
             else:
-                time.sleep(0.02)
+                time.sleep(0.05)
+            self.show_background()
+            render_table(self, board_frame, (4, 1, 1), self.username)
+            self.update_screen()
+
+        sort_transition = score_board.get_sort_transition()
+        is_first = True
+        for board_frame in sort_transition:
+            if is_first:
+                time.sleep(1.5)
+                is_first = False
+            else:
+                time.sleep(0.4)
+            self.show_background()
+            render_table(self, board_frame, (4, 1, 1), self.username)
+            self.update_screen()
