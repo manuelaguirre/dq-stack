@@ -8,7 +8,7 @@ import requests
 from game_types.player import Player
 from game_types.question_pool import QuestionPool
 
-PATH_TO_TMP_FILES = "src/server/tmp"
+PATH_TO_TMP_FILES = "images/tmp"
 
 
 class APIHandler:
@@ -41,6 +41,10 @@ class APIHandler:
 
         return players, question_pools, game_id
 
+    def get_image_path(self, relative_path):
+        base_path = os.path.dirname(__file__)
+        return os.path.abspath(os.path.join(base_path, "..", relative_path))
+
     def get_question_image(self, question_id):
         headers = {"x-auth-token": info.X_AUTH_TOKEN}
         image = requests.get(
@@ -52,7 +56,8 @@ class APIHandler:
             "(?<=image/).*", image.headers["content-type"]
         ).group(0)
         file_name = f"{question_id}" + file_extension
-        full_path = PATH_TO_TMP_FILES + "/" + file_name
+        full_path = self.get_image_path(PATH_TO_TMP_FILES + "/" + file_name)
+        print(full_path)
         with open(full_path, "wb") as f:
             for chunk in image:
                 f.write(chunk)

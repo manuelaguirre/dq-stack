@@ -94,16 +94,8 @@ class ServerRenderer(Renderer):
             f"QUESTION {index + 1}",
         )
         if question.image_filename:
-            question_image = pygame.image.load(
-                os.path.abspath(
-                    os.path.join(
-                        os.path.dirname(__file__),
-                        "..",
-                        "server/tmp",
-                        question.image_filename,
-                    )
-                )
-            )
+            image_path = self.get_image_path(os.path.join("images/tmp/" + question.image_filename))
+            question_image = pygame.image.load(image_path)
 
             proportion = (self.SCREEN_HEIGHT / 3) / question_image.get_rect().height
             question_image = pygame.transform.scale(

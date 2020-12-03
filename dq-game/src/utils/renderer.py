@@ -153,31 +153,25 @@ class Renderer(EventHandler):
                         self.touch_function(event.pos[0], event.pos[1])
             time.sleep(0.1)
 
+    def get_image_path(self, relative_path):
+        base_path = os.path.dirname(__file__)
+        return os.path.abspath(os.path.join(base_path, "..", relative_path))
+
     def _get_logo(self):
-        return pygame.image.load(
-            os.path.abspath(
-                os.path.join(os.path.dirname(__file__), "..", "images/icons/dqlogo.png")
-            )
-        )
+        image_path = self.get_image_path(os.path.join("images/icons/dqlogo.png"))
+        print(image_path)
+        return pygame.image.load(image_path)
 
     def _get_background(self):
-        background = pygame.image.load(
-            os.path.abspath(
-                os.path.join(os.path.dirname(__file__), "..", "images/background.jpg")
-            )
-        )
+        image_path = self.get_image_path(os.path.join("images/background.jpg"))
+        background = pygame.image.load(image_path)
         return pygame.transform.scale(
             background, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
         )
 
     def _get_timer_background(self):
-        background = pygame.image.load(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__), "..", "images/timer_background.png"
-                )
-            )
-        )
+        image_path = self.get_image_path(os.path.join("images/timer_background.png"))
+        background = pygame.image.load(image_path)
         return pygame.transform.scale(
             background, (self.SCREEN_WIDTH // 8, self.SCREEN_HEIGHT // 6)
         )
@@ -204,15 +198,8 @@ class Renderer(EventHandler):
         )
 
     def _get_theme_button_background(self, state):
-        return pygame.image.load(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "..",
-                    "images/icons/theme_button_" + state + ".png",
-                )
-            )
-        )
+        image_path = self.get_image_path(os.path.join("images/icons/theme_button_" + state + ".png"))
+        return pygame.image.load(image_path)
 
     def _get_joker_image(self, joker_type):
         """
