@@ -11,10 +11,15 @@ def get(option):
         result = json.load(file)
         for arg in parse_option(option):
             result = result[arg]
-        try:
-            return int(result)
-        except ValueError:
-            return result
+        if result == "true":
+            return True
+        elif result =="false":
+            return False
+        else:          
+            try:
+                return int(result)
+            except ValueError:
+                return result
 
 
 def parse_option(option):
