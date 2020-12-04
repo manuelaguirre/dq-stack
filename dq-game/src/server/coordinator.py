@@ -1,6 +1,7 @@
 import sys
 import os
 import time
+from config import config
 
 
 class Coordinator:
@@ -73,5 +74,7 @@ class Coordinator:
             )
 
         self.renderer.show_question(question, index)
-        self.renderer.show_timer(15, resolve_question)
+        self.renderer.show_timer(
+            config.get("questionOptions.questionTime"), resolve_question
+        )
         self.controller.ask_question(question)
