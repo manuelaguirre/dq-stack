@@ -96,7 +96,7 @@ class ServerSocketConnection(SocketConnection):
     def __init__(self, port):
         super().__init__(port)
         self.tcpsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.tcpsock.bind((socket.gethostname(), self.port))
+        self.tcpsock.bind((socket.getfqdn(), self.port))
 
         # Map (address) => client (address, name)
         self.clients = {}
