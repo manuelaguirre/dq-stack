@@ -77,6 +77,7 @@ class ClientSocketConnection(SocketConnection):
         while True:
             inbound_msg = self.receive(self.tcpsock)
             self.handle_incoming_message(inbound_msg)
+            time.sleep(0.1)
 
     def connect(self):
         while True:

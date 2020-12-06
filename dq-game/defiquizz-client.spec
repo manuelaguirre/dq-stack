@@ -34,12 +34,12 @@ exe = EXE(pyz,
           [],
           exclude_binaries=True,
           name='defiquizz-cli',
-          debug=False,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
           console=True,
-          terminal=True)
+          terminal=True,
+          debug=True)
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
@@ -47,10 +47,12 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                upx_exclude=[],
-               name='defiquizz-cli')
+               name='defiquizz-cli',
+               debug=True)
 app = BUNDLE(coll,
              name='defiquizz-cli.app',
              icon=None,
              bundle_identifier=None,
              console=True,
-             terminal=True)
+             terminal=True,
+             debug=True)
