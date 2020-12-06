@@ -3,10 +3,13 @@ import os
 import sys
 import threading
 import time
+from collections import Counter
 
+import pygame
+from game_types.joker import JokerType
 from utils.renderer import Renderer, flush
-from utils.renderer_utils import render_multiline_text
-from utils.screen_button import ThemeScreenButton, AnswerScreenButton
+from utils.renderer_utils import render_multiline_text, show_text_at
+from utils.screen_button import AnswerScreenButton, ThemeScreenButton, JokerButton
 
 from client_screen_handler import ClientScreenHandler
 
@@ -29,6 +32,37 @@ class ClientRenderer(Renderer):
         self.ready_callback = None
         self.append_touch_method(self.screen_handler.handle_touch)
         self.append_buzzer_method(self.screen_handler.handle_buzzer)
+        self.joker_images = self.get_jokers_images()
+
+    def get_jokers_images(self):
+        joker_images = {}
+        for joker_type in JokerType:
+            joker_images[joker_type.name] = self._get_joker_image(joker_type)
+        return joker_images
+
+    def _get_joker_image(self, joker_type):
+        """
+        return { active: Image, inactive: Image }
+        """
+        active = pygame.image.load(
+            os.path.abspath(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "..",
+                    "images/icons/dqlogo.png",
+                )
+            )
+        )
+        inactive = pygame.image.load(
+            os.path.abspath(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "..",
+                    "images/icons/dqlogo.png",
+                )
+            )
+        )
+        return {"active": active, "inactive": inactive}
 
     def create_buttons(self, value_list, button_type):
         # Create columns and rows
@@ -208,6 +242,53 @@ class ClientRenderer(Renderer):
         self.screen_handler.add_buzzer_callback(self.select_answer_event)
         # Display title and buttons
         self.display_buttons()
+
+    @flush
+    def show_upcoming_question_theme_and_jokers(self, theme, jokers):
+        self.show_title(theme.name)
+        show_text_at(
+            self,
+            "medium",
+            self.SCREEN_WIDTH / 2,
+            self.SCREEN_HEIGHT / 3,
+            theme.description,
+        )
+        self.show_jokers(jokers)
+
+    def show_jokers(self, jokers):
+        # Create counter
+        self.buttons_list = []
+        jokers_count = Counter()  #  { JokerType.DOUBLE: 1, ... }
+        for joker in jokers:
+            jokers_count[joker.joker_type.name] += 1
+
+        # Show every type (active or inactive)
+        columns = [
+            self.SCREEN_WIDTH / 8,
+            3 * self.SCREEN_WIDTH / 8,
+            5 * self.SCREEN_WIDTH / 8,
+            7 * self.SCREEN_WIDTH / 8,
+        ]
+        for joker_type in JokerType:
+            button = JokerButton(
+                columns[joker_type.value],
+                2 * self.SCREEN_HEIGHT / 3,
+                self.SCREEN_WIDTH / 10,
+                self.SCREEN_HEIGHT / 10,
+                joker_type.name,
+                self.joker_images[joker_type.name],
+                self.screen,
+                self.fonts["small"],
+            )
+            if not jokers_count[joker_type.name]:
+                button.set_state("inactive")
+            else:
+                button.set_state("active")
+                # TODO batch number
+            self.buttons_list.append(button)
+
+        self.display_buttons()
+        print(self.buttons_list)
 
     def select_answer_event(self, value):
         for button in self.buttons_list:

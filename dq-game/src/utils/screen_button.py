@@ -24,9 +24,7 @@ class ScreenButton:
         print(self.button_backgrounds)
 
     def display(self):
-        self.draw_button()
-        font_color = self.get_font_color()
-        self.display_text(font_color)
+        raise NotImplementedError
 
     def draw_button(self):
         button_image = self.get_button_image()
@@ -49,6 +47,11 @@ class ScreenButton:
 
 
 class ThemeScreenButton(ScreenButton):
+    def display(self):
+        self.draw_button()
+        font_color = self.get_font_color()
+        self.display_text(font_color)
+
     def toggle(self):
         self.selected = not self.selected
         self.display()
@@ -68,6 +71,11 @@ class ThemeScreenButton(ScreenButton):
 
 
 class AnswerScreenButton(ScreenButton):
+    def display(self):
+        self.draw_button()
+        font_color = self.get_font_color()
+        self.display_text(font_color)
+
     def set_letter(self, letter):
         self.letter = letter
 
@@ -92,3 +100,15 @@ class AnswerScreenButton(ScreenButton):
         pos_x = self.pos[0] - self.width / 2 + self.width / 10
         letter_rect = letter.get_rect(center=(pos_x, pos_y))
         self.screen.blit(letter, letter_rect)
+
+
+class JokerButton(ScreenButton):
+    def display(self):
+        # self.draw_button()
+        pass
+
+    def get_button_image(self):
+        self.button_backgrounds[self.state]
+
+    def set_state(self, state):
+        self.state = state

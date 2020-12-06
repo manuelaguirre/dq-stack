@@ -73,6 +73,17 @@ class ServerRenderer(Renderer):
             )
 
     @flush
+    def show_upcoming_question_theme(self, theme):
+        self.show_title(theme.name)
+        show_text_at(
+            self,
+            "medium",
+            self.SCREEN_WIDTH / 2,
+            self.SCREEN_HEIGHT / 2,
+            theme.description,
+        )
+
+    @flush
     def show_question(self, question, index):
         self.show_title(question.theme.name, "medium")
         show_text_at(

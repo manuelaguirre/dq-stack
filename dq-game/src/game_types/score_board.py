@@ -44,19 +44,19 @@ class ScoreBoard:
                     row[2] += 1
                     row[1] -= 1
         yield self.stringify_board(self.board)
-        
-        # Bubble sort
-    def get_sort_transition(self):    
-        n = len(self.board) 
-        # Traverse through all array elements 
-        for i in range(n-1): 
-        # range(n) also work but outer loop will repeat one time more than needed. 
-            # Last i elements are already in place 
-            for j in range(0, n-i-1): 
-                # traverse the array from 0 to n-i-1 
-                # Swap if the element found is greater 
-                # than the next element 
-                if self.board[j][1] < self.board[j+1][1] : 
-                    self.board[j], self.board[j+1] = self.board[j+1], self.board[j]
-                    yield self.stringify_board(self.board)
 
+        # Bubble sort
+
+    def get_sort_transition(self):
+        n = len(self.board)
+        # Traverse through all array elements
+        for i in range(n - 1):
+            # range(n) also work but outer loop will repeat one time more than needed.
+            # Last i elements are already in place
+            for j in range(0, n - i - 1):
+                # traverse the array from 0 to n-i-1
+                # Swap if the element found is greater
+                # than the next element
+                if self.board[j][1] < self.board[j + 1][1]:
+                    self.board[j], self.board[j + 1] = self.board[j + 1], self.board[j]
+                    yield self.stringify_board(self.board)

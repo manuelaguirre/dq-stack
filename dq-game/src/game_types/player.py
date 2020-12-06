@@ -1,5 +1,6 @@
 import sys
 import os
+from game_types.joker import Joker, JokerType
 
 
 class Player:
@@ -11,7 +12,9 @@ class Player:
         self.name = name
         self.points = 0
         self.differential = 0
-        self.jokers = []
+        self.jokers = []  # self.jokers[0].name
+        for jt in JokerType:
+            self.jokers.append(Joker(jt))
 
     def add_points(self, points):
         self.differential = points
