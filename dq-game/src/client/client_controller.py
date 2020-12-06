@@ -65,6 +65,9 @@ class ClientController(EventHandler):
         """
         return self.get_data_from_inbuffer("data-jokers")
 
+    def send_joker(self, value, target=None):
+        self.socket.send({"value": value, "target": target}, "data-joker")
+
     def get_score_board(self):
         """
         Gets actual theme

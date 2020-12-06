@@ -29,6 +29,7 @@ class ClientRenderer(Renderer):
         self.theme_validation_button = None
         self.validate_themes_callback = None
         self.answer_question_callback = None
+        self.joker_callback = None
         self.ready_callback = None
         self.append_touch_method(self.screen_handler.handle_touch)
         self.append_buzzer_method(self.screen_handler.handle_buzzer)
@@ -49,7 +50,7 @@ class ClientRenderer(Renderer):
                 os.path.join(
                     os.path.dirname(__file__),
                     "..",
-                    "images/icons/dqlogo.png",
+                    "images/icons/jokers/" + joker_type.name + "_active.png",
                 )
             )
         )
@@ -58,7 +59,7 @@ class ClientRenderer(Renderer):
                 os.path.join(
                     os.path.dirname(__file__),
                     "..",
-                    "images/icons/dqlogo.png",
+                    "images/icons/jokers/" + joker_type.name + "_inactive.png",
                 )
             )
         )
@@ -244,7 +245,7 @@ class ClientRenderer(Renderer):
         self.display_buttons()
 
     @flush
-    def show_upcoming_question_theme_and_jokers(self, theme, jokers):
+    def show_upcoming_question_theme_and_jokers(self, theme, jokers, callback):
         self.show_title(theme.name)
         show_text_at(
             self,
@@ -253,9 +254,9 @@ class ClientRenderer(Renderer):
             self.SCREEN_HEIGHT / 3,
             theme.description,
         )
-        self.show_jokers(jokers)
+        self.show_jokers(jokers, callback)
 
-    def show_jokers(self, jokers):
+    def show_jokers(self, jokers, callback):
         # Create counter
         self.buttons_list = []
         jokers_count = Counter()  #  { JokerType.DOUBLE: 1, ... }
@@ -286,9 +287,38 @@ class ClientRenderer(Renderer):
                 button.set_state("active")
                 # TODO batch number
             self.buttons_list.append(button)
+            self.screen_handler.add_object(button)
 
+        self.joker_callback = callback
+        self.screen_handler.add_touch_callback(self.joker_selection_callback)
         self.display_buttons()
         print(self.buttons_list)
+
+    def joker_selection_callback(self, value):
+        self.screen_handler.clear_data()
+
+        if value == "FIFTYFIFTY":
+            self.fiftyfifty_callback(value)
+        if value == "DOUBLE":
+            self.double_callback(value)
+        if value == "BLOCK":
+            self.block_callback(value)
+        if value == "STEAL":
+            self.steal_callback(value)
+
+    def fiftyfifty_callback(self, value):
+        self.joker_callback(value)
+
+    def double_callback(self, value):
+        self.joker_callback(value)
+
+    def block_callback(self, value):
+        target = "TODO"
+        self.joker_callback(value, target=target)
+
+    def steal_callback(self, value):
+        target = "TODO"
+        self.joker_callback(value, target=target)
 
     def select_answer_event(self, value):
         for button in self.buttons_list:

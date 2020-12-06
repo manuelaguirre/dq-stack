@@ -37,7 +37,7 @@ class EventCoordinator:
         self.current_question = self.controller.get_current_question()
         self.jokers = self.controller.get_jokers()
         self.renderer.show_upcoming_question_theme_and_jokers(
-            self.current_question.theme, self.jokers
+            self.current_question.theme, self.jokers, self.controller.send_joker
         )
 
     def on_answer_question(self):

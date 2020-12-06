@@ -104,11 +104,10 @@ class AnswerScreenButton(ScreenButton):
 
 class JokerButton(ScreenButton):
     def display(self):
-        # self.draw_button()
-        pass
+        self.draw_button()
 
     def get_button_image(self):
-        self.button_backgrounds[self.state]
+        return self.button_backgrounds[self.state]
 
     def set_state(self, state):
         self.state = state
