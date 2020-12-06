@@ -45,7 +45,9 @@ class Coordinator:
         time.sleep(5)
         for index, question in enumerate(self.dq_game.rounds[0].questions):
             # Send upcoming question
-            self.controller.send_upcoming_question(question)
+            self.controller.send_upcoming_question_with_jokers(
+                question, self.dq_game.players
+            )
             # Show theme
             self.controller.show_upcoming_question_theme()
             self.renderer.show_upcoming_question_theme(question.theme)

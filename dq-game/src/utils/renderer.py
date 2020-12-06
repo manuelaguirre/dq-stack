@@ -1,16 +1,16 @@
+import importlib.util
 import os
+import sys
 import time
 from functools import wraps
 
 import pygame
-from events.event_handler import EventHandler
-
-from utils.renderer_utils import show_text_at, render_multiline_text, render_table
-from utils.timer import Timer
 import text.text as text
-
+from events.event_handler import EventHandler
 from pygame import mixer
-import importlib.util
+
+from utils.renderer_utils import render_multiline_text, render_table, show_text_at
+from utils.timer import Timer
 
 try:
     import RPi.GPIO as GPIO
@@ -271,17 +271,6 @@ class Renderer(EventHandler):
                 self.SCREEN_HEIGHT / 3,
                 font_size="medium",
             )
-
-    @flush
-    def show_upcoming_question_theme(self, theme):
-        self.show_title(theme.name)
-        show_text_at(
-            self,
-            "medium",
-            self.SCREEN_WIDTH / 2,
-            self.SCREEN_HEIGHT / 2,
-            theme.description,
-        )
 
     @flush
     def show_scores(self, score_board):

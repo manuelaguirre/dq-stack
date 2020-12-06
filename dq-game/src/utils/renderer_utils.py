@@ -73,7 +73,7 @@ def render_table(renderer, rows, grid, who=""):
             font_size = "medium"
             if cell_index == 2:
                 font_size = "small"
-            
+
             if cell_index == 0 and who == cell:
                 color = (25, 220, 25)
                 cell = "· " + cell
@@ -83,5 +83,5 @@ def render_table(renderer, rows, grid, who=""):
                 cell = ""
             elif cell[0] == "-":
                 color = (220, 25, 25)
-            
+
             show_text_at(renderer, font_size, pos_x, pos_y, cell, color, centered=False)

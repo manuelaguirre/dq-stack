@@ -85,8 +85,14 @@ class Controller(EventHandler):
         self.socket.send_to_all(round_number, "data-round-number")
         self.socket.send_to_all("START_ROUND", "event")
 
-    def send_upcoming_question(self, question):
+    def send_upcoming_question_with_jokers(self, question, players):
         self.socket.send_to_all(question, "data-question")
+        for client in self.socket.clients.values():
+            for player in players:
+                if client["name"] == player.name:
+                    self.socket.send(
+                        client["socket_object"], player.jokers, "data-jokers"
+                    )
 
     def show_upcoming_question_theme(self):
         self.socket.send_to_all("SHOW_UPCOMING_QUESTION_THEME", "event")

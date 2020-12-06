@@ -55,9 +55,15 @@ class ClientController(EventHandler):
 
     def get_current_question(self):
         """
-        Gets actual theme
+        Gets actual question
         """
         return self.get_data_from_inbuffer("data-question")
+
+    def get_jokers(self):
+        """
+        Gets jokers
+        """
+        return self.get_data_from_inbuffer("data-jokers")
 
     def get_score_board(self):
         """
