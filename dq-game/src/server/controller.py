@@ -19,6 +19,7 @@ class Controller(EventHandler):
         self.player_names = []
         self.is_timeout = False
         self.current_answers = []
+        self.current_active_jokers = {}
 
     def timeout(self):
         self.is_timeout = True
@@ -95,7 +96,21 @@ class Controller(EventHandler):
                     )
 
     def show_upcoming_question_theme(self):
+        # TODO: CHANGE NAME!! !! !!!! !!!
+        self.current_active_jokers = {}
+
         self.socket.send_to_all("SHOW_UPCOMING_QUESTION_THEME", "event")
+
+        self.is_timeout = False
+        while not self.is_timeout:
+            for message in self.socket.inbuffer:
+                if message.content_type == "data-joker":
+                    self.process_joker(message)
+                    self.socket.inbuffer.remove(message)
+
+    def process_joker(self, message):
+        client_name = self.socket.clients[message.origin]["name"]
+        self.current_active_jokers[client_name] = message.data
 
     def ask_question(self, question):
         # TODO: JOKERS

@@ -48,9 +48,10 @@ class Coordinator:
             self.controller.send_upcoming_question_with_jokers(
                 question, self.dq_game.players
             )
-            # Show theme
-            self.controller.show_upcoming_question_theme()
+            # Show theme with joker
             self.renderer.show_upcoming_question_theme(question.theme)
+            self.renderer.show_timer(5, self.controller.timeout)
+            self.controller.show_upcoming_question_theme()
             # Show question
             time.sleep(5)
             self.ask_question(question, index)
@@ -66,6 +67,7 @@ class Coordinator:
             self.controller.resolve_question()
             self.renderer.show_correct_answer(question, index)
             self.dq_game.receive_answers(self.controller.current_answers, question)
+            self.dq_game.update_jokers(self.controller.current_active_jokers)
 
         self.renderer.show_question(question, index)
         self.renderer.show_timer(15, resolve_question)

@@ -272,19 +272,18 @@ class Renderer(EventHandler):
                 font_size="medium",
             )
 
-    @flush
     def show_scores(self, score_board):
         points_transition = score_board.get_points_transition()
         is_first = True
         for board_frame in points_transition:
+            self.show_background()
+            render_table(self, board_frame, (4, 1, 1), self.username)
+            self.update_screen()
             if is_first:
                 time.sleep(3)
                 is_first = False
             else:
                 time.sleep(0.05)
-            self.show_background()
-            render_table(self, board_frame, (4, 1, 1), self.username)
-            self.update_screen()
 
         sort_transition = score_board.get_sort_transition()
         is_first = True

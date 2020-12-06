@@ -64,6 +64,19 @@ class DQGame(EventHandler):
             if not has_answer:
                 player.add_points(0)
 
+    def update_jokers(self, played_jokers):
+        for player in self.players:
+            played_joker_type = None
+            try:
+                played_joker_type = played_jokers[player.name]["value"]
+            except KeyError:
+                pass
+            for index, joker in enumerate(player.jokers):
+                if played_joker_type == joker.joker_type.name:
+                    # TODO: REFACTOR JOKERS
+                    player.jokers.pop(index)
+                    break
+
     def get_score_board(self):
         score_board = ScoreBoard()
         for player in self.players:
