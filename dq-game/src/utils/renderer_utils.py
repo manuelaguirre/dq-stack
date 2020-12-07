@@ -1,3 +1,6 @@
+from random import choice, shuffle
+
+
 def render_multiline_text(renderer, text, y, font_size="small"):
     """
     Renderer. Display big text in multiple lines at an 'y' axis level.
@@ -85,3 +88,13 @@ def render_table(renderer, rows, grid, who=""):
                 color = (220, 25, 25)
 
             show_text_at(renderer, font_size, pos_x, pos_y, cell, color, centered=False)
+
+
+def chop_answers(answers, correct_answer):
+    correct_answer_text = answers.pop(correct_answer)
+    answers = [
+        correct_answer_text,
+        choice(answers),
+    ]
+    shuffle(answers)
+    return answers, answers.index(correct_answer_text)

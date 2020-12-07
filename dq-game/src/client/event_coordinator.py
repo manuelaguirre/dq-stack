@@ -10,6 +10,7 @@ class EventCoordinator:
         self.current_question = None
         self.current_score_board = None
         self.jokers = []
+        self.active_joker = None
 
     def on_timeout(self):
         self.renderer.screen_handler.clear_data()
@@ -37,12 +38,16 @@ class EventCoordinator:
         self.current_question = self.controller.get_current_question()
         self.jokers = self.controller.get_jokers()
         self.renderer.show_upcoming_question_theme_and_jokers(
-            self.current_question.theme, self.jokers, self.controller.send_joker
+            self.current_question.theme, self.jokers, self.activate_joker_and_send
         )
+
+    def activate_joker_and_send(self, value, target=None):
+        self.controller.send_joker(value, target=target)
+        self.active_joker = value
 
     def on_answer_question(self):
         self.renderer.answer_question(
-            self.current_question, self.controller.send_answer
+            self.current_question, self.active_joker, self.controller.send_answer
         )
 
     def on_resolve_question(self):
