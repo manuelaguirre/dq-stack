@@ -134,7 +134,7 @@ class Renderer(EventHandler):
                 elif GPIO.input(25) == 0:
                     if self.buzzer_function:
                         self.buzzer_function(3)
-            
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()

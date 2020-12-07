@@ -8,8 +8,8 @@ from collections import Counter
 import pygame
 from game_types.joker import JokerType
 from utils.renderer import Renderer, flush
-from utils.renderer_utils import render_multiline_text, show_text_at
-from utils.screen_button import AnswerScreenButton, ThemeScreenButton, JokerButton
+from utils.renderer_utils import render_multiline_text, show_text_at, chop_answers
+from utils.screen_button import AnswerScreenButton, JokerButton, ThemeScreenButton
 
 from client_screen_handler import ClientScreenHandler
 
@@ -227,7 +227,7 @@ class ClientRenderer(Renderer):
         self.validate_themes_callback(self.selected_themes)
 
     @flush
-    def answer_question(self, current_question, callback):
+    def answer_question(self, current_question, active_joker, callback):
         self.show_title(current_question.theme.name, "medium")
         self.answer_question_callback = callback
         render_multiline_text(
@@ -237,6 +237,12 @@ class ClientRenderer(Renderer):
             "medium",
         )
         self.buttons_list = []
+
+        if active_joker == "FIFTYFIFTY":
+            current_question.answers, current_question.correct_answer = chop_answers(
+                current_question.answers, current_question.correct_answer
+            )
+
         self.create_buttons(current_question.answers, "Answers")
         # Attach callback method for touch event
         self.screen_handler.add_touch_callback(self.select_answer_event)
