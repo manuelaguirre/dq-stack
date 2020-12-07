@@ -60,22 +60,10 @@ class ClientRenderer(Renderer):
         return { active: Image, inactive: Image }
         """
         active = pygame.image.load(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "..",
-                    "images/icons/jokers/" + joker_type.name + "_active.png",
-                )
-            )
+            self.get_image_path(os.path.join("images/icons/jokers/" + joker_type.name + "_active.png"))
         )
         inactive = pygame.image.load(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "..",
-                    "images/icons/jokers/" + joker_type.name + "_inactive.png",
-                )
-            )
+            self.get_image_path(os.path.join("images/icons/jokers/" + joker_type.name + "_inactive.png"))
         )
         return {"active": active, "inactive": inactive}
 
