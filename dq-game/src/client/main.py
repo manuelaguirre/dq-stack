@@ -7,6 +7,9 @@ from client_controller import ClientController
 from client_renderer import ClientRenderer
 from event_coordinator import EventCoordinator
 
+import tkinter as tk
+from tkinter import simpledialog
+
 
 def start_game():
 

@@ -45,13 +45,7 @@ class ClientRenderer(Renderer):
         badge_images = {}
         for i in range(7):
             badge_images[i + 2] = pygame.image.load(
-                os.path.abspath(
-                    os.path.join(
-                        os.path.dirname(__file__),
-                        "..",
-                        "images/icons/jokers/BADGE_" + str(i + 2) + ".png",
-                    )
-                )
+                self.get_image_path(os.path.join("images/icons/jokers/BADGE_" + str(i + 2) + ".png"))
             )
         return badge_images
 
