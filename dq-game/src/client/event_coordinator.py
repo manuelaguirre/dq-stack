@@ -39,12 +39,12 @@ class EventCoordinator:
 
         self.active_joker = None
         self.jokers = self.controller.get_jokers()
-        
+
         self.renderer.show_upcoming_question_theme_and_jokers(
-            self.current_question.theme, self.jokers, self.activate_joker_and_send
+            self.current_question.theme, self.jokers, self._activate_joker_and_send
         )
 
-    def activate_joker_and_send(self, value, target=None):
+    def _activate_joker_and_send(self, value, target=None):
         self.controller.send_joker(value, target=target)
         self.active_joker = value
 

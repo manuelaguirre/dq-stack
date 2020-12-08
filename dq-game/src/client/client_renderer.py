@@ -35,7 +35,7 @@ class ClientRenderer(Renderer):
         self.append_buzzer_method(self.screen_handler.handle_buzzer)
         self.joker_images = self.get_jokers_images()
         self.badge_images = self.get_badge_images()
-    
+
     def get_badge_images(self):
         badge_images = {}
         for i in range(3):
@@ -310,7 +310,7 @@ class ClientRenderer(Renderer):
                 button.set_state("inactive")
             else:
                 button.set_state("active")
-                if (jokers_count[joker_type.name] > 1):
+                if jokers_count[joker_type.name] > 1:
                     button.add_badge(self.badge_images[jokers_count[joker_type.name]])
             self.buttons_list.append(button)
             self.screen_handler.add_object(button)
@@ -340,7 +340,9 @@ class ClientRenderer(Renderer):
         joker_image_scaled = pygame.transform.scale(
             joker_image, (int(image_width), int(image_height))
         )
-        joker_image_rect = joker_image_scaled.get_rect(center=(self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 2 ))
+        joker_image_rect = joker_image_scaled.get_rect(
+            center=(self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 2)
+        )
         self.screen.blit(joker_image_scaled, joker_image_rect)
 
     def fiftyfifty_callback(self, value):

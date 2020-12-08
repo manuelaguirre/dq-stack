@@ -127,5 +127,5 @@ class JokerButton(ScreenButton):
         button_image_scaled = pygame.transform.scale(
             badge_image, (self.width // 4, self.height // 4)
         )
-        badge_rect = button_image_scaled.get_rect(center=(badge_pos_x, badge_pos_y ))
+        badge_rect = button_image_scaled.get_rect(center=(badge_pos_x, badge_pos_y))
         self.screen.blit(button_image_scaled, badge_rect)

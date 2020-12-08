@@ -20,3 +20,14 @@ class Player:
     def add_points(self, points):
         self.differential = points
         self.points += points
+
+    def double_differential(self):
+        self.points += self.differential
+        self.differential *= 2
+
+    def consume_joker(self, joker_type):
+        for index, joker in enumerate(self.jokers):
+            if joker_type == joker.joker_type.name:
+                # TODO: REFACTOR JOKERS
+                self.jokers.pop(index)
+                break

@@ -48,21 +48,32 @@ class DQGame(EventHandler):
             round.set_questions(all_questions[i])
             self.rounds.append(round)
 
-    def receive_answers(self, player_answers, question):
+    def receive_answers(self, player_answers, question, jokers):
         for player in self.players:
             has_answer = False
+            is_double = False
+            try:
+                is_double = jokers[player.name]["value"] == "DOUBLE"
+            except KeyError:
+                pass
+
             for player_answer in player_answers:
                 if player.name == player_answer.player_name:
                     has_answer = True
-                    if (
+                    is_correct_answer = (
                         player_answer.answer
                         == question.answers[question.correct_answer]
-                    ):
+                    )
+
+                    if is_correct_answer:
                         player.add_points(3)
                     else:
                         player.add_points(-1)
             if not has_answer:
                 player.add_points(0)
+
+            if is_double:
+                player.double_differential()
 
     def update_jokers(self, played_jokers):
         for player in self.players:
@@ -71,11 +82,7 @@ class DQGame(EventHandler):
                 played_joker_type = played_jokers[player.name]["value"]
             except KeyError:
                 pass
-            for index, joker in enumerate(player.jokers):
-                if played_joker_type == joker.joker_type.name:
-                    # TODO: REFACTOR JOKERS
-                    player.jokers.pop(index)
-                    break
+            player.consume_joker(played_joker_type)
 
     def get_score_board(self):
         score_board = ScoreBoard()
