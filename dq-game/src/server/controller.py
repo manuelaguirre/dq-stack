@@ -19,7 +19,7 @@ class Controller(EventHandler):
         self.player_names = []
         self.is_timeout = False
         self.current_answers = []
-        self.current_active_jokers = {}
+        self.current_played_jokers = {}
 
     def timeout(self):
         self.is_timeout = True
@@ -97,7 +97,7 @@ class Controller(EventHandler):
 
     def show_upcoming_question_theme(self):
         # TODO: CHANGE NAME!! !! !!!! !!!
-        self.current_active_jokers = {}
+        self.current_played_jokers = {}
 
         self.socket.send_to_all("SHOW_UPCOMING_QUESTION_THEME", "event")
 
@@ -110,7 +110,7 @@ class Controller(EventHandler):
 
     def process_joker(self, message):
         client_name = self.socket.clients[message.origin]["name"]
-        self.current_active_jokers[client_name] = message.data
+        self.current_played_jokers[client_name] = message.data
 
     def ask_question(self, question):
         # TODO: JOKERS

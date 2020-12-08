@@ -65,11 +65,11 @@ class Coordinator:
         def resolve_question():
             self.controller.resolve_question()
             self.renderer.show_correct_answer(question, index)
-            self.dq_game.update_jokers(self.controller.current_active_jokers)
+            self.dq_game.update_jokers(self.controller.current_played_jokers)
             self.dq_game.receive_answers(
                 self.controller.current_answers,
                 question,
-                self.controller.current_active_jokers,
+                self.controller.current_played_jokers,
             )
 
         self.renderer.show_question(question, index)
