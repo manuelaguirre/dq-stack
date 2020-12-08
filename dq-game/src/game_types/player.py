@@ -15,6 +15,7 @@ class Player:
         self.jokers = []  # self.jokers[0].name
         for jt in JokerType:
             self.jokers.append(Joker(jt))
+            self.jokers.append(Joker(jt))
 
     def add_points(self, points):
         self.differential = points

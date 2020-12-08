@@ -21,6 +21,7 @@ class ScreenButton:
         self.font = font
         self.state = "normal"
         self.selected = False
+        self.badge = None
         print(self.button_backgrounds)
 
     def display(self):
@@ -43,6 +44,9 @@ class ScreenButton:
         raise NotImplementedError
 
     def display_text(self, font_color):
+        raise NotImplementedError
+
+    def display_badge(self, number):
         raise NotImplementedError
 
 
@@ -105,9 +109,23 @@ class AnswerScreenButton(ScreenButton):
 class JokerButton(ScreenButton):
     def display(self):
         self.draw_button()
+        if self.badge:
+            self.display_badge(self.badge)
 
     def get_button_image(self):
         return self.button_backgrounds[self.state]
 
     def set_state(self, state):
         self.state = state
+
+    def add_badge(self, badge):
+        self.badge = badge
+
+    def display_badge(self, badge_image):
+        badge_pos_x = self.pos[0] + self.width / 2
+        badge_pos_y = self.pos[1] - self.height / 2
+        button_image_scaled = pygame.transform.scale(
+            badge_image, (self.width // 4, self.height // 4)
+        )
+        badge_rect = button_image_scaled.get_rect(center=(badge_pos_x, badge_pos_y ))
+        self.screen.blit(button_image_scaled, badge_rect)

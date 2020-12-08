@@ -50,10 +50,9 @@ class Coordinator:
             )
             # Show theme with joker
             self.renderer.show_upcoming_question_theme(question.theme)
-            self.renderer.show_timer(5, self.controller.timeout)
+            self.renderer.show_timer(8, self.controller.timeout)
             self.controller.show_upcoming_question_theme()
             # Show question
-            time.sleep(5)
             self.ask_question(question, index)
             time.sleep(5)
             # Show scores

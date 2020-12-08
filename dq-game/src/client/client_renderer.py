@@ -34,12 +34,21 @@ class ClientRenderer(Renderer):
         self.append_touch_method(self.screen_handler.handle_touch)
         self.append_buzzer_method(self.screen_handler.handle_buzzer)
         self.joker_images = self.get_jokers_images()
-
-    def get_jokers_images(self):
-        joker_images = {}
-        for joker_type in JokerType:
-            joker_images[joker_type.name] = self._get_joker_image(joker_type)
-        return joker_images
+        self.badge_images = self.get_badge_images()
+    
+    def get_badge_images(self):
+        badge_images = {}
+        for i in range(3):
+            badge_images[i + 2] = pygame.image.load(
+                os.path.abspath(
+                    os.path.join(
+                        os.path.dirname(__file__),
+                        "..",
+                        "images/icons/jokers/BADGE_" + str(i + 2) + ".png",
+                    )
+                )
+            )
+        return badge_images
 
     def _get_joker_image(self, joker_type):
         """
@@ -64,6 +73,12 @@ class ClientRenderer(Renderer):
             )
         )
         return {"active": active, "inactive": inactive}
+
+    def get_jokers_images(self):
+        joker_images = {}
+        for joker_type in JokerType:
+            joker_images[joker_type.name] = self._get_joker_image(joker_type)
+        return joker_images
 
     def create_buttons(self, value_list, button_type):
         # Create columns and rows
@@ -197,28 +212,28 @@ class ClientRenderer(Renderer):
             # Validate button
             if self.theme_validation_button.selected:
                 self.themes_selected_done()
-        else:
-            # Themes buttons
-            for button in self.buttons_list:
-                if button.value == value:
-                    button.toggle()
-                    # Check state of validate button
-                    if button.selected:
-                        self.selected_themes_num += 1
-                        self.selected_themes.append(value)
-                    else:
-                        self.selected_themes_num -= 1
-                        self.selected_themes = list(
-                            filter(lambda x: x != value, self.selected_themes)
-                        )
-                    if self.selected_themes_num == 3:
-                        self.theme_validation_button.selected = True
-                        self.theme_validation_button.display()
-                    else:
-                        self.theme_validation_button.selected = False
-                        self.theme_validation_button.display()
-                    self.update_screen()
-                    break
+            return
+        # Themes buttons
+        for button in self.buttons_list:
+            if button.value == value:
+                button.toggle()
+                # Check state of validate button
+                if button.selected:
+                    self.selected_themes_num += 1
+                    self.selected_themes.append(value)
+                else:
+                    self.selected_themes_num -= 1
+                    self.selected_themes = list(
+                        filter(lambda x: x != value, self.selected_themes)
+                    )
+                if self.selected_themes_num == 3:
+                    self.theme_validation_button.selected = True
+                    self.theme_validation_button.display()
+                else:
+                    self.theme_validation_button.selected = False
+                    self.theme_validation_button.display()
+                self.update_screen()
+                break
 
     def themes_selected_done(self):
         print(self.selected_themes)
@@ -258,12 +273,13 @@ class ClientRenderer(Renderer):
             "medium",
             self.SCREEN_WIDTH / 2,
             self.SCREEN_HEIGHT / 3,
-            theme.description,
+            "Voulez-vous utiliser un joker ?",
         )
         self.show_jokers(jokers, callback)
 
     def show_jokers(self, jokers, callback):
         # Create counter
+        self.joker_callback = callback
         self.buttons_list = []
         jokers_count = Counter()  #  { JokerType.DOUBLE: 1, ... }
         for joker in jokers:
@@ -277,12 +293,15 @@ class ClientRenderer(Renderer):
             7 * self.SCREEN_WIDTH / 8,
         ]
         for joker_type in JokerType:
+            button_width = self.SCREEN_WIDTH / 8
+            proportion = (self.SCREEN_WIDTH / 8) / self.badge_images[2].get_rect().width
+            button_height = self.badge_images[2].get_rect().height * proportion
             button = JokerButton(
                 columns[joker_type.value],
                 2 * self.SCREEN_HEIGHT / 3,
-                self.SCREEN_WIDTH / 10,
-                self.SCREEN_HEIGHT / 10,
-                joker_type.name,
+                button_width,
+                button_height,
+                joker_type.name if jokers_count[joker_type.name] > 0 else None,
                 self.joker_images[joker_type.name],
                 self.screen,
                 self.fonts["small"],
@@ -291,18 +310,19 @@ class ClientRenderer(Renderer):
                 button.set_state("inactive")
             else:
                 button.set_state("active")
-                # TODO batch number
+                if (jokers_count[joker_type.name] > 1):
+                    button.add_badge(self.badge_images[jokers_count[joker_type.name]])
             self.buttons_list.append(button)
             self.screen_handler.add_object(button)
-
-        self.joker_callback = callback
         self.screen_handler.add_touch_callback(self.joker_selection_callback)
         self.display_buttons()
         print(self.buttons_list)
 
     def joker_selection_callback(self, value):
+        if not value:
+            return
         self.screen_handler.clear_data()
-
+        self.display_joker_big(self.joker_images[value]["active"])
         if value == "FIFTYFIFTY":
             self.fiftyfifty_callback(value)
         if value == "DOUBLE":
@@ -311,6 +331,17 @@ class ClientRenderer(Renderer):
             self.block_callback(value)
         if value == "STEAL":
             self.steal_callback(value)
+
+    @flush
+    def display_joker_big(self, joker_image):
+        image_width = self.SCREEN_WIDTH // 2
+        proportion = image_width / joker_image.get_rect().width
+        image_height = proportion * joker_image.get_rect().height
+        joker_image_scaled = pygame.transform.scale(
+            joker_image, (int(image_width), int(image_height))
+        )
+        joker_image_rect = joker_image_scaled.get_rect(center=(self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 2 ))
+        self.screen.blit(joker_image_scaled, joker_image_rect)
 
     def fiftyfifty_callback(self, value):
         self.joker_callback(value)
