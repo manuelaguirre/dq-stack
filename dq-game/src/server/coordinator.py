@@ -1,6 +1,7 @@
 import sys
 import os
 import time
+import config.config as config
 
 
 class Coordinator:
@@ -32,7 +33,9 @@ class Coordinator:
     def theme_selection_round(self):
         available_themes = self.dq_game.get_available_theme_names()
         self.renderer.show_available_themes(available_themes)
-        self.renderer.show_timer(10, self.controller.timeout)
+        self.renderer.show_timer(
+            config.get("themeSelectionTime"), self.controller.timeout
+        )
 
         chosen_themes = self.controller.get_theme_choices(available_themes)
         self.dq_game.set_rounds(chosen_themes)
@@ -50,7 +53,9 @@ class Coordinator:
             )
             # Show theme with joker
             self.renderer.show_upcoming_question_theme(question.theme)
-            self.renderer.show_timer(8, self.controller.timeout)
+            self.renderer.show_timer(
+                config.get("jokerSelectionTime"), self.controller.timeout
+            )
             self.controller.show_upcoming_question_theme()
             # Show question
             self.ask_question(question, index)
@@ -73,5 +78,7 @@ class Coordinator:
             )
 
         self.renderer.show_question(question, index)
-        self.renderer.show_timer(15, resolve_question)
+        self.renderer.show_timer(
+            config.get("questionOptions.questionTime"), resolve_question
+        )
         self.controller.ask_question(question)

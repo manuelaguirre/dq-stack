@@ -5,13 +5,15 @@ from threading import Thread
 
 from utils.api_handler import APIHandler
 from utils.socket_connection import ServerSocketConnection
+import config.config as config
 
 from controller import Controller
 from coordinator import Coordinator
 from game import DQGame
 from server_renderer import ServerRenderer
 
-NO_OF_PLAYERS = 2
+
+NO_OF_PLAYERS = config.get("numberOfPlayers")
 MOCK_PLAYERS = [
     "5fb5a9ea5cc7d70017574b32",
     "5fb5aa2f5cc7d70017574b33",
