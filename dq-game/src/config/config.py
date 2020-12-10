@@ -6,6 +6,9 @@ from pathlib import Path
 
 
 def get(option):
+    """
+    Gets a configuration value from a JSON file
+    """
     filename = Path("src/config/config.json")
     with open(filename, "rb") as file:
         result = json.load(file)
@@ -13,9 +16,9 @@ def get(option):
             result = result[arg]
         if result == "true":
             return True
-        elif result =="false":
+        elif result == "false":
             return False
-        else:          
+        else:
             try:
                 return int(result)
             except ValueError:

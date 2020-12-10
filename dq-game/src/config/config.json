@@ -1,4 +1,7 @@
 {
+    "numberOfPlayers": "2",
+    "themeSelectionTime" : "10",
+    "jokerSelectionTime": "8",
     "questionOptions" : {
         "questionTime" : "10"
     }
