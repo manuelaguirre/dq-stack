@@ -21,6 +21,8 @@ def start_game():
 
     # Bind events
     client_socket.on("TIMEOUT", coordinator.on_timeout)
+    client_socket.on("ANSWER_LIMIT_REACHED", coordinator.on_answer_limit_reached)
+
     client_socket.on("SHOW_INSTRUCTIONS_AND_READY_UP", coordinator.on_show_instructions)
     client_socket.on("CHOOSE_THEME", coordinator.on_choose_theme)
     client_socket.on("START_ROUND", coordinator.on_start_round)

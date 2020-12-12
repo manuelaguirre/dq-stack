@@ -254,6 +254,10 @@ class Renderer(EventHandler):
 
         self.timer.reset(seconds, render_timer, timeout_callback)
 
+    @flush
+    def stop_timer(self):
+        self.timer.stop()
+
     def show_title(self, text, font_size="large"):
         text_ = self.fonts[font_size].render(text, True, (0, 0, 0))
         text_rect = text_.get_rect(
@@ -264,13 +268,13 @@ class Renderer(EventHandler):
     @flush
     def show_round_instructions(self, game_round_number):
         self.show_title(f"MANCHE {game_round_number}")
-        if game_round_number == 1:
-            render_multiline_text(
-                self,
-                text.round_1_instructions,
-                self.SCREEN_HEIGHT / 3,
-                font_size="medium",
-            )
+
+        render_multiline_text(
+            self,
+            text.round_instructions[game_round_number - 1],
+            self.SCREEN_HEIGHT / 3,
+            font_size="medium",
+        )
 
     def show_scores(self, score_board):
         points_transition = score_board.get_points_transition()
