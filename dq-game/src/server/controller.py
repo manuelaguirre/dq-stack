@@ -4,6 +4,7 @@ import random
 import sys
 import time
 
+import config.config as config
 from events.event_handler import EventHandler
 from utils.socket_connection import ServerSocketConnection
 from game_types.player_answer import PlayerAnswer
@@ -112,20 +113,33 @@ class Controller(EventHandler):
         client_name = self.socket.clients[message.origin]["name"]
         self.current_played_jokers[client_name] = message.data
 
-    def ask_question(self, question):
-        # TODO: JOKERS
+    def ask_question(self, question, answer_limit, answer_limit_callback):
         self.current_answers = []
 
         self.socket.send_to_all("ANSWER_QUESTION", "event")
 
         self.is_timeout = False
 
-        while not self.is_timeout:
+        while not self.is_timeout and len(self.current_answers) < answer_limit:
             for message in self.socket.inbuffer:
                 if message.content_type == "data-answer":
                     self.process_answer(message)
                     self.socket.inbuffer.remove(message)
-            time.sleep(0.2)
+                    if len(self.current_answers) == answer_limit:
+                        self.flush_inbuffer()
+                        break
+            time.sleep(0.02)
+
+        if len(self.current_answers) == answer_limit:
+            answer_limit_callback()
+
+    def flush_inbuffer(self):
+        for message in self.socket.inbuffer:
+            if message.content_type == "data-answer":
+                self.socket.inbuffer.remove(message)
+
+    def answer_limit_reached(self):
+        self.socket.send_to_all("ANSWER_LIMIT_REACHED", "event")
 
     def process_answer(self, message):
         name = self.socket.clients[message.origin]["name"]

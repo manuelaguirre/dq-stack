@@ -1,2 +1,4 @@
 game_types
+info
+text
 utils

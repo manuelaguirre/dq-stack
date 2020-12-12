@@ -16,6 +16,9 @@ class EventCoordinator:
         self.renderer.screen_handler.clear_data()
         self.renderer.show_logo()
 
+    def on_answer_limit_reached(self):
+        self.renderer.screen_handler.clear_data()
+
     def on_show_instructions(self):
         """
         Gets instructions from server.
