@@ -28,7 +28,19 @@ export class BackofficeService {
   ) { }
 
   createNewTheme(name: string, description: string, isPublic: boolean): Observable<DqTheme> {
-    return this.apiService.post<DqTheme>('themes', { name, description, isPublic });
+    return this.apiService.post<DqTheme>('themes', { name, description, isPublic }).pipe(
+      tap((theme_) => {
+        if (theme_) {
+          const { themes } = this.store.value;
+          themes[theme_._id] = theme_;
+          this.store.set(
+            'themes',
+            themes,
+          );
+        }
+      }),
+      catchError((error) => throwError(error)),
+    );
   }
 
   createNewQuestion(question: Partial<DqQuestion>): Observable<DqQuestion> {

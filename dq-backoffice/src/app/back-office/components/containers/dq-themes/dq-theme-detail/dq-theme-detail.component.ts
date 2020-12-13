@@ -19,8 +19,6 @@ export class DqThemeDetailComponent implements OnInit {
 
   detailForm: FormGroup = null;
 
-  loading = false;
-
   loadingNew = false;
 
   createNew = false;
@@ -36,12 +34,10 @@ export class DqThemeDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loading = true;
     this.newThemeForm$ = this.route.params.pipe(
       switchMap((params) => {
         if (params.id && params.id !== 'new') {
           this.themeId = params.id;
-          this.loading = false;
           return this.backOfficeService.getTheme(this.themeId);
         }
         this.createNew = true;
