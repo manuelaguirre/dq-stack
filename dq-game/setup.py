@@ -15,7 +15,6 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        "pygame", "requests", "black"
+        "pygame"
     ],
-    entry_points={"console_scripts": ["realpython=src.server.main:main"]},
 )
