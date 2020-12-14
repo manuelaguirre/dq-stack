@@ -16,11 +16,11 @@ class QuestionPool:
         for question in questions:
 
             answers = [
-                    question["answer1"],
-                    question["answer2"],
-                    question["answer3"],
-                    question["answer4"],
-                ]
+                question["answer1"],
+                question["answer2"],
+                question["answer3"],
+                question["answer4"],
+            ]
 
             correct_answer = question["answer1"]
             shuffle(answers)
