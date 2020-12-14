@@ -74,7 +74,6 @@ async function createQuestion(question){
 			'answer2',
 			'answer3',
 			'answer4',
-			'correct',
 			'video',
 			'image',
 			'soundclip'

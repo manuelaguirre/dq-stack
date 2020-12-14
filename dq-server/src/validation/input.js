@@ -117,14 +117,8 @@ const createQuestionSchema = Joi.object({
 		.min(1)
 		.max(256)		
 		.required(),
-
-	correct: Joi.number()
-		.min(0)
-		.max(3),
 	
-	video: Joi.objectId(),
 	image: Joi.objectId(),
-	soundclip: Joi.objectId(),
 })
 	.unknown();
 
@@ -151,10 +145,6 @@ const updateQuestionSchema = Joi.object({
 	answer4: Joi.string()
 		.min(1)
 		.max(256),		
-		
-	correct: Joi.number()
-		.min(0)
-		.max(3),
 	
 	video: Joi.objectId(),
 	image: Joi.objectId(),

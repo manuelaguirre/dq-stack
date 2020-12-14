@@ -65,7 +65,7 @@
   </mat-form-field>
   
   <mat-form-field *ngIf="formGroup.contains('answer1')" appearance="outline">
-      <mat-label>Alternative 1</mat-label>
+      <mat-label>Alternative 1 (Correct)</mat-label>
       <textarea matInput placeholder="Alternative 1" formControlName="answer1"></textarea>
       <mat-icon mat-button *ngIf="formGroup.get('answer1').value"
       matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('answer1').patchValue('')">
