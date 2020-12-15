@@ -87,7 +87,6 @@ export class DqQuestionDetailComponent implements OnInit {
       answer2: newQuestionForm.value.answer2,
       answer3: newQuestionForm.value.answer3,
       answer4: newQuestionForm.value.answer4,
-      correct: newQuestionForm.value.correct - 1,
     }).pipe(
       map((question) => {
         if (question) {
@@ -116,7 +115,6 @@ export class DqQuestionDetailComponent implements OnInit {
       answer2: newQuestionForm.value.answer2,
       answer3: newQuestionForm.value.answer3,
       answer4: newQuestionForm.value.answer4,
-      correct: newQuestionForm.value.correct - 1,
     };
     if (newQuestionForm.value.image) {
       // Avoid sending image:null to the backend
@@ -139,7 +137,6 @@ export class DqQuestionDetailComponent implements OnInit {
       answer2: [question ? question.answer2 : '', Validators.required],
       answer3: [question ? question.answer3 : '', Validators.required],
       answer4: [question ? question.answer4 : '', Validators.required],
-      correct: [question ? question.correct + 1 : 0, [Validators.required, Validators.max(4), Validators.min(1)]],
       image: [question ? question.image : ''],
     });
     this.loading = false;

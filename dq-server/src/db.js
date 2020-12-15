@@ -54,19 +54,10 @@ const questionSchema = new mongoose.Schema({
 	answer2: String,
 	answer3: String,
 	answer4: String,
-	correct: Number,
-	video: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Video'
-	},
 	image: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Image'
 	},
-	soundclip: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Soundclip'
-	}
 });
 
 const CompanySchema = new mongoose.Schema({

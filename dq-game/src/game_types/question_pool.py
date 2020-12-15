@@ -2,6 +2,7 @@ import os
 import sys
 from game_types.theme import Theme
 from game_types.question import Question
+from random import shuffle
 
 
 class QuestionPool:
@@ -14,16 +15,21 @@ class QuestionPool:
         result = []
         for question in questions:
 
+            answers = [
+                question["answer1"],
+                question["answer2"],
+                question["answer3"],
+                question["answer4"],
+            ]
+
+            correct_answer = question["answer1"]
+            shuffle(answers)
+
             question_object = Question(
                 question["_id"],
                 question["text"],
-                [
-                    question["answer1"],
-                    question["answer2"],
-                    question["answer3"],
-                    question["answer4"],
-                ],
-                question["correct"],
+                answers,
+                correct_answer,
                 self.theme,
             )
             if "image" in question:
