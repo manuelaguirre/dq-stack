@@ -1,0 +1,10 @@
+certifi==2020.12.5
+chardet==3.0.4
+-e git+git@github.com:manuelaguirre/dq-stack.git@b3bcd18b09dc3494bfba8fccdaf194be753c61f2#egg=dq_game&subdirectory=dq-game
+fake-rpi==0.2
+idna==2.10
+importlib-metadata==2.0.0
+pygame==2.0.0
+requests==2.25.0
+urllib3==1.26.2
+zipp==3.4.0
