@@ -6,7 +6,7 @@ import { tap, catchError, switchMap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { Store } from 'src/app/store';
+import { Store } from '../../../../store';
 import { BackofficeService, DQMassiveImportResponse } from '../../shared/services/backoffice.service';
 import { DqTheme } from '../../../../shared/models/dq-theme';
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';

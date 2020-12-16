@@ -6,7 +6,7 @@ import { DqThemeDetailComponent } from '../components/containers/dq-themes/dq-th
 import { DqBackofficeSharedModule } from '../components/shared/dq-backoffice-shared.module';
 import { AuthGuardService } from '../../auth/auth-form/services/auth-guard.service';
 import { DqThemeResolver } from '../resolvers/dq-theme.resolver';
-import { CanDeactivateQuestion } from '../components/shared/services/can-deactivate-question.service';
+import { CanDeactivateForm } from '../components/shared/services/can-deactivate-form.service';
 
 const routes: Routes = [
   {
@@ -21,7 +21,7 @@ const routes: Routes = [
       {
         path: '',
         component: DqThemeDetailComponent,
-        canDeactivate: [CanDeactivateQuestion],
+        canDeactivate: [CanDeactivateForm],
       },
     ],
   },
@@ -45,7 +45,7 @@ const routes: Routes = [
   ],
   providers: [
     DqThemeResolver,
-    CanDeactivateQuestion,
+    CanDeactivateForm,
   ],
 })
 export class DqThemesModule { }
