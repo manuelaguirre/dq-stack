@@ -61,7 +61,7 @@ class ServerRenderer(Renderer):
 
     @flush
     def show_chosen_themes(self, chosen_themes):
-        self.timer.stop()
+        self.stop_timer()
         self.show_title("Les themes seront:")
         for i in range(len(chosen_themes)):
             show_text_at(
