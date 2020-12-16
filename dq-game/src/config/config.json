@@ -1,8 +1,12 @@
 {
     "numberOfPlayers": "4",
-    "themeSelectionTime" : "10",
+    "themeSelectionTime": "10",
     "jokerSelectionTime": "8",
-    "questionOptions" : {
-        "questionTime" : "5"
+    "questionOptions": {
+        "questionTime": "5"
+    },
+    "answerLimits": {
+        "secondRound": "3",
+        "thirdRound": "1"
     }
 }

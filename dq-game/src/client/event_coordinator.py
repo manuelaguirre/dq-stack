@@ -18,6 +18,7 @@ class EventCoordinator:
 
     def on_answer_limit_reached(self):
         self.renderer.screen_handler.clear_data()
+        self.renderer.show_answer_limit_message()
 
     def on_show_instructions(self):
         """

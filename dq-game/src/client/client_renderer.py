@@ -367,6 +367,9 @@ class ClientRenderer(Renderer):
                 self.screen_handler.clear_data()
                 self.answer_question_callback(value)
 
+    def show_answer_limit_message(self):
+        render_multiline_text(self, "Trop tard!", self.SCREEN_HEIGHT / 2)
+
     def show_results(self, question):
         for button in self.buttons_list:
             if button.value == question.answers[question.correct_answer]:
