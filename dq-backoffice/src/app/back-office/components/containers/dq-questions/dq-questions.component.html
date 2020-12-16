@@ -12,9 +12,6 @@
   <ng-container *ngIf="theme$ | async as theme">
     <h1 class="dq-title">Defiquiz Questions</h1>
     <div class="dq-menu flex-div column" *ngIf="questions$ | async as questions">
-      <!-- <li class="dq-menu-option btn btn-primary" [routerLink]="['/home/themes']">
-        <a>Go to themes</a>
-      </li> -->
       <a class="dq-button dq-action btn btn-light" [routerLink]="['/home/themes/' + theme._id + '/questions/new']"
       (keyup.enter)="router.navigate(['/home/themes/' + theme._id + '/questions/new'])"
       tabindex="0" role="button">

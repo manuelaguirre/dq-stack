@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { DqPlayersComponent } from '../components/containers/dq-players/dq-players.component';
 import { DqBackofficeSharedModule } from '../components/shared/dq-backoffice-shared.module';
 import { AuthGuardService } from '../../auth/auth-form/services/auth-guard.service';
@@ -14,6 +15,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    CommonModule,
     RouterModule.forChild(routes),
     DqBackofficeSharedModule,
   ],
