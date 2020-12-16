@@ -127,11 +127,9 @@ class Controller(EventHandler):
                     self.socket.inbuffer.remove(message)
                     if len(self.current_answers) == answer_limit:
                         self.flush_inbuffer()
+                        answer_limit_callback()
                         break
             time.sleep(0.02)
-
-        if len(self.current_answers) == answer_limit:
-            answer_limit_callback()
 
     def flush_inbuffer(self):
         for message in self.socket.inbuffer:

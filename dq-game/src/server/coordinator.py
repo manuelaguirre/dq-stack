@@ -13,8 +13,8 @@ class Coordinator:
         self.players_id = players_id
         self.answer_limits = {
             1: config.get("numberOfPlayers") + 1,  # No limit for first round
-            2: 3,
-            3: 1,
+            2: config.get("answerLimits.secondRound"),
+            3: config.get("answerLimits.thirdRound"),
         }
 
     def start(self):
@@ -49,7 +49,7 @@ class Coordinator:
         time.sleep(5)
 
     def start_first_round(self):
-        self.renderer.show_round_instructions(self.dq_game.rounds[0].instructions)
+        self.renderer.show_round_instructions(1)
         self.controller.start_round(1)
         time.sleep(5)
 
@@ -70,7 +70,7 @@ class Coordinator:
                 question,
                 index,
                 answer_limit_callback=self.answer_limit_callback,
-                answer_limit=100,  # TODO CHANGE THIS
+                answer_limit=self.answer_limits[1],
             )
             time.sleep(5)
             # Show scores
@@ -80,7 +80,7 @@ class Coordinator:
             time.sleep(5)
 
     def start_second_round(self):
-        self.renderer.show_round_instructions(self.dq_game.rounds[1].instructions)
+        self.renderer.show_round_instructions(2)
         self.controller.start_round(2)
         time.sleep(5)
 
@@ -101,7 +101,7 @@ class Coordinator:
                 question,
                 index,
                 answer_limit_callback=self.answer_limit_callback,
-                answer_limit=3,
+                answer_limit=self.answer_limits[2],
             )
             time.sleep(5)
             # Show scores
