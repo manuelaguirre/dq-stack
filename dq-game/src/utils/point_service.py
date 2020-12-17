@@ -10,7 +10,7 @@ class PointService:
         self.round_number = round_number
         self.points_config = config.get("points")
 
-    def calculate_points(self, has_answer, is_correct_answer, rank):
+    def calculate_points(self, has_answer, is_correct_answer, answer_order):
         if self.round_number == 1:
             if has_answer and is_correct_answer:
                 return self.points_config["firstRound"]["correct"]
@@ -24,7 +24,7 @@ class PointService:
         if self.round_number == 2:
             if has_answer and is_correct_answer:
                 return int(
-                    self.points_config["secondRound"]["correct"][rank]
+                    self.points_config["secondRound"]["correct"][answer_order]
                 )  # TODO: parser snake case
 
             elif has_answer and not is_correct_answer:
