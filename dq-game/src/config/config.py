@@ -33,6 +33,6 @@ def parse_option(option):
     return option.split(".")
 
 
-def convert_to_snake_case(json_iterable):
-    pass
+# def convert_to_snake_case(json_iterable):
+#     pass
     # TODO

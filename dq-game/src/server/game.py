@@ -58,11 +58,11 @@ class DQGame(EventHandler):
 
         for player in self.players:
 
-            has_answer, is_correct_answer, rank = self._check_answer(
+            has_answer, is_correct_answer, answer_order = self._check_answer(
                 player, player_answers, question
             )
 
-            points = point_service.calculate_points(has_answer, is_correct_answer, rank)
+            points = point_service.calculate_points(has_answer, is_correct_answer, answer_order)
 
             player.add_points(points)
 
@@ -80,7 +80,7 @@ class DQGame(EventHandler):
 
         has_answer = False
         is_correct_answer = False
-        rank = None
+        answer_order = None
         player_answer = None
 
         for index, player_answer in enumerate(player_answers):
@@ -89,9 +89,9 @@ class DQGame(EventHandler):
                 is_correct_answer = (
                     player_answer.answer == question.answers[question.correct_answer]
                 )
-                rank = index
+                answer_order = index
 
-        return has_answer, is_correct_answer, rank
+        return has_answer, is_correct_answer, answer_order
 
     def update_jokers(self, played_jokers):
         for player in self.players:
