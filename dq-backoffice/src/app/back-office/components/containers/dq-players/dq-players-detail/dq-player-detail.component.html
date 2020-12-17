@@ -1,0 +1,37 @@
+<div class="dq-background full-width full-height">
+  <div class="child full-width full-height"></div>
+  <div class="child2 full-width full-height"></div>
+  <div class="child3 full-width full-height"></div>
+</div>
+<div class="dq-container flex-div column">
+  <div class="dq-back btn btn-light" [routerLink]="['/home/players']"
+  (keyup.enter)="router.navigate(['/home/players'])" tabindex="0" role="button">
+    <a>Return</a>
+  </div>
+  <div class="dq-logo"></div>
+  <ng-container *ngIf="playerDetailForm$ | async as playerDetailForm; else loading">
+    <h1 class="dq-title">{{ !playerDetailForm.value.firstName ? 'Create new Player' : 'Edit Player' }}</h1>
+    <div class="dq-menu flex-div column form-container">
+      <dq-new-form [formGroup]="playerDetailForm" class="flex-div column">
+        <button class="dq-button dq-action btn btn-light" tabindex="0"
+        role="button" (keyup.enter)="createNew ? addNewPlayer(playerDetailForm) : editPlayer(playerDetailForm)"
+        (click)="createNew ? addNewPlayer(playerDetailForm) : editPlayer(playerDetailForm)"
+         [disabled]="playerDetailForm.invalid" *ngIf="!loadingNew">
+          <a>{{createNew ? 'Add new Player' : 'Save Player'}}</a>
+        </button>
+        <div class="loading-container flex-div column" *ngIf="loadingNew">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </dq-new-form>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="loading-container full-width flex-div column">
+      <div class="spinner-border big" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </ng-template>
+</div>

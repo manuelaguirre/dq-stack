@@ -17,7 +17,7 @@ export class CanDeactivateForm implements CanDeactivate<DqQuestionDetailComponen
   canDeactivate(
     component: DqQuestionDetailComponent | DqThemeDetailComponent,
   ): Observable<boolean> {
-    if (!component.detailForm.dirty) {
+    if (!component.detailForm || !component.detailForm.dirty) {
       return of(true);
     }
     return this.modalService.showMessage(

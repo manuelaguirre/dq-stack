@@ -17,13 +17,11 @@ const createUserSchema = Joi.object({
 
 const createPlayerSchema = Joi.object({
 	firstName : Joi.string()
-		.alphanum()
 		.min(2)
 		.max(30)
 		.required(),
        
 	lastName :Joi.string()
-		.alphanum()
 		.min(2)
 		.max(30)
 		.required(),
