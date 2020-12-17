@@ -14,6 +14,7 @@ def get(option):
         result = json.load(file)
         for arg in parse_option(option):
             result = result[arg]
+
         if result == "true":
             return True
         elif result == "false":
@@ -21,7 +22,7 @@ def get(option):
         else:
             try:
                 return int(result)
-            except ValueError:
+            except TypeError:
                 return result
 
 
@@ -30,3 +31,8 @@ def parse_option(option):
     if not regex.fullmatch(option):
         raise RuntimeError("Invalid argument. Must be a dot notation")
     return option.split(".")
+
+
+def convert_to_snake_case(json_iterable):
+    pass
+    # TODO

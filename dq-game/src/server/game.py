@@ -4,6 +4,7 @@ from events.event_handler import EventHandler
 from game_types.round import Round
 from game_types.player import Player
 from game_types.score_board import ScoreBoard
+from utils.point_service import PointService
 
 from mock_data import mock_instructions
 
@@ -19,6 +20,7 @@ class DQGame(EventHandler):
         self.question_pools = []  # TODO: Change to a map
         self.rounds = []
         self.players = []
+        self.round_number = 0
 
         print("Creating a new game")
 
@@ -33,6 +35,9 @@ class DQGame(EventHandler):
         return list(
             map(lambda question_pool: question_pool.theme.name, self.question_pools)
         )
+
+    def set_round_number(self, number):
+        self.round_number = number
 
     def set_rounds(self, themes):
         all_questions = [[], [], []]  # 12 x 3 questions
@@ -49,31 +54,44 @@ class DQGame(EventHandler):
             self.rounds.append(round)
 
     def receive_answers(self, player_answers, question, jokers):
+        point_service = PointService(self.round_number)
+
         for player in self.players:
-            has_answer = False
+
+            has_answer, is_correct_answer, rank = self._check_answer(
+                player, player_answers, question
+            )
+
+            points = point_service.calculate_points(has_answer, is_correct_answer, rank)
+
+            player.add_points(points)
+
             is_double = False
+
             try:
                 is_double = jokers[player.name]["value"] == "DOUBLE"
             except KeyError:
                 pass
 
-            for player_answer in player_answers:
-                if player.name == player_answer.player_name:
-                    has_answer = True
-                    is_correct_answer = (
-                        player_answer.answer
-                        == question.answers[question.correct_answer]
-                    )
-
-                    if is_correct_answer:
-                        player.add_points(3)
-                    else:
-                        player.add_points(-1)
-            if not has_answer:
-                player.add_points(0)
-
             if is_double:
                 player.double_differential()
+
+    def _check_answer(self, player, player_answers, question):
+
+        has_answer = False
+        is_correct_answer = False
+        rank = None
+        player_answer = None
+
+        for index, player_answer in enumerate(player_answers):
+            if player.name == player_answer.player_name:
+                has_answer = True
+                is_correct_answer = (
+                    player_answer.answer == question.answers[question.correct_answer]
+                )
+                rank = index
+
+        return has_answer, is_correct_answer, rank
 
     def update_jokers(self, played_jokers):
         for player in self.players:

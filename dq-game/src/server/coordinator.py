@@ -49,8 +49,7 @@ class Coordinator:
         time.sleep(5)
 
     def start_first_round(self):
-        self.renderer.show_round_instructions(1)
-        self.controller.start_round(1)
+        self.round_start_up(1)
         time.sleep(5)
 
         for index, question in enumerate(self.dq_game.rounds[0].questions):
@@ -80,8 +79,7 @@ class Coordinator:
             time.sleep(5)
 
     def start_second_round(self):
-        self.renderer.show_round_instructions(2)
-        self.controller.start_round(2)
+        self.round_start_up(2)
         time.sleep(5)
 
         for index, question in enumerate(self.dq_game.rounds[1].questions):
@@ -109,6 +107,11 @@ class Coordinator:
             self.controller.show_scores(score_board)
             self.renderer.show_scores(score_board)
             time.sleep(5)
+
+    def round_start_up(self, round_number):
+        self.renderer.show_round_instructions(round_number)
+        self.dq_game.set_round_number(round_number)
+        self.controller.start_round(round_number)
 
     def answer_limit_callback(self):
         self.renderer.stop_timer()

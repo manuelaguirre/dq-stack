@@ -1,5 +1,5 @@
 {
-    "numberOfPlayers": "4",
+    "numberOfPlayers": "2",
     "themeSelectionTime": "10",
     "jokerSelectionTime": "8",
     "questionOptions": {
@@ -8,5 +8,21 @@
     "answerLimits": {
         "secondRound": "3",
         "thirdRound": "1"
+    },
+    "points": {
+        "firstRound": {
+            "correct": "3",
+            "wrong": "-1",
+            "missing": "0"
+        },
+        "secondRound": {
+            "correct": [
+                "4",
+                "3",
+                "2"
+            ],
+            "wrong": "-2",
+            "missing": "-1"
+        }
     }
 }
