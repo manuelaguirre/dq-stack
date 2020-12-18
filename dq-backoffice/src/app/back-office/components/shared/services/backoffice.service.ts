@@ -219,9 +219,6 @@ export class BackofficeService {
   deleteTheme(id: string): Observable<any> {
     return this.apiService.delete<DqTheme>(`themes/${id}`).pipe(
       tap(() => {
-        const { questions } = this.store.value;
-        delete questions[id];
-        this.store.set('questions', questions);
         const { themes } = this.store.value;
         this.store.set('themes', themes.filter((t) => t._id !== id));
       }),

@@ -17,7 +17,7 @@ export class DqPlayersComponent {
 
   loading = false;
 
-  displayedColumns: string[] = ['name', 'lastName', 'mail'];
+  displayedColumns: string[] = ['name', 'lastName', 'mail', 'edit'];
 
   dataSource: MatTableDataSource<DqPlayer> = null;
 
@@ -30,7 +30,7 @@ export class DqPlayersComponent {
 
   ngOnInit(): void {
     this.loading = true;
-    this.players$ = this.playersService.getPLayers().pipe(
+    this.players$ = this.playersService.getPlayers().pipe(
       tap(() => {
         this.loading = false;
       }),

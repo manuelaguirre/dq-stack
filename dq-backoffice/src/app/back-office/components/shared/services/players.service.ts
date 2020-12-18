@@ -14,7 +14,7 @@ export class PlayersService {
     private store: Store,
   ) { }
 
-  getPLayers(): Observable<DqPlayer[]> {
+  getPlayers(): Observable<DqPlayer[]> {
     if (this.store.value.players && this.allPlayersSearched) {
       return this.store.select<DqPlayer[]>('players');
     }
@@ -26,7 +26,7 @@ export class PlayersService {
     );
   }
 
-  getPLayer(id: string): Observable<DqPlayer> {
+  getPlayer(id: string): Observable<DqPlayer> {
     if (this.store.value.players) {
       return this.store.select<DqPlayer[]>('players').pipe(
         switchMap((players) => {
@@ -36,6 +36,20 @@ export class PlayersService {
       );
     }
     return this.searchPlayer(id);
+  }
+
+  createNewPlayer(player: Partial<DqPlayer>): Observable<DqPlayer> {
+    // Set a custom password for future log in
+    const customPassword = 'defiquizz1234';
+    return this.apiService.post<DqPlayer>('players', { ...player, password: customPassword }).pipe(
+      tap((player_) => {
+        const { players } = this.store.value;
+        players.push(player_);
+        this.store.set(
+          'players', players,
+        );
+      }),
+    );
   }
 
   editPlayer(id: string, player: Partial<DqPlayer>): Observable<DqPlayer> {
@@ -57,9 +71,6 @@ export class PlayersService {
   deletePlayer(id: string): Observable<any> {
     return this.apiService.delete<DqPlayer>(`players/${id}`).pipe(
       tap(() => {
-        const { questions } = this.store.value;
-        delete questions[id];
-        this.store.set('questions', questions);
         const { players } = this.store.value;
         this.store.set('players', players.filter((t) => t._id !== id));
       }),
@@ -67,7 +78,7 @@ export class PlayersService {
   }
 
   private searchPlayer(id: string): Observable<DqPlayer> {
-    return this.apiService.get<DqPlayer>(`player/${id}`).pipe(
+    return this.apiService.get<DqPlayer>(`players/${id}`).pipe(
       tap((players) => this.store.set(
         'players', this.store.value.players ? [players].concat(this.store.value.players) : [players],
       )),

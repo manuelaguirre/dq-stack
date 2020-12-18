@@ -105,6 +105,34 @@
       <input matInput placeholder="Number (1 - 4)" formControlName="correct" type="number" [max]="4" [min]="1">
   </mat-form-field>
   <ng-content select="dq-image-handler"></ng-content>
+
+  <!-- Players -->
+  <mat-form-field *ngIf="formGroup.contains('firstName')" appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput placeholder="Name" formControlName="firstName">
+    <mat-icon mat-button *ngIf="formGroup.get('firstName').value"
+    matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('firstName').patchValue('')">
+      close
+    </mat-icon>
+  </mat-form-field>
+  
+  <mat-form-field *ngIf="formGroup.contains('lastName')" appearance="outline">
+    <mat-label>Last Name</mat-label>
+    <input matInput placeholder="Last Name" formControlName="lastName">
+    <mat-icon mat-button *ngIf="formGroup.get('lastName').value"
+    matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('lastName').patchValue('')">
+      close
+    </mat-icon>
+  </mat-form-field>
+  
+  <mat-form-field *ngIf="formGroup.contains('mail')" appearance="outline">
+    <mat-label>Mail</mat-label>
+    <input matInput placeholder="Name" formControlName="mail">
+    <mat-icon mat-button *ngIf="formGroup.get('mail').value"
+    matSuffix mat-icon-button aria-label="Clear" (click)="formGroup.get('mail').patchValue('')">
+      close
+    </mat-icon>
+  </mat-form-field>
 </form>
 
 <ng-content select="button.dq-button"></ng-content>
