@@ -149,11 +149,18 @@ const updateQuestionSchema = Joi.object({
 	soundclip: Joi.objectId(),
 });
 
+const createGameSchema = Joi.object({
+	players: Joi.array().items(Joi.objectId()),
+
+	themes: Joi.array().items(Joi.objectId())
+});
+
 module.exports = { 
 	createUserSchema,
 	createPlayerSchema,
 	createThemeSchema,
 	updateThemeSchema,
 	createQuestionSchema,
-	updateQuestionSchema, 
+	updateQuestionSchema,
+	createGameSchema, 
 };

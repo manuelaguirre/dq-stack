@@ -1,6 +1,5 @@
 const { Question } = require('../db');
 const playerController = require('./players');
-const { getThemes } = require('./themes');
 const _ = require('lodash');
 
 async function getQuestions() {
@@ -30,20 +29,6 @@ async function getQuestionsNotPlayedBy(playerIDs, theme, limit){
 	return result;
 }
 
-async function getQuestionPools(playerIDs){
-	const result = [];
-	const themes = await getThemes();
-
-	
-	for (const theme of themes) {
-		const questions = await getQuestionsNotPlayedBy(playerIDs, theme._id, 12);
-		result.push({
-			theme,
-			questions
-		});
-	}
-	return result;
-}
 async function getQuestionByText(text){	
 	const query = Question.where({text});
 	const question = await query.findOne()
@@ -107,7 +92,6 @@ module.exports = {
 	getQuestions,
 	getQuestion,
 	getQuestionsNotPlayedBy,
-	getQuestionPools,
 	getQuestionByText,
 	getQuestionsByTheme,
 	getQuestionAndUpdate,

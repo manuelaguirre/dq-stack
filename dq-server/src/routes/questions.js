@@ -1,7 +1,6 @@
 const auth = require('../middleware/auth');
 const express = require('express');
 const questionController = require('../controllers/questions');
-const themeController = require('../controllers/themes');
 const { createQuestionSchema, updateQuestionSchema } = require('../validation/input');
 const asyncCatch = require('../middleware/asyncCatch');
 const imageRouter = require('./image');
