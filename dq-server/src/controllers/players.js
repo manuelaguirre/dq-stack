@@ -1,6 +1,5 @@
 const { Player } = require('../db');
 const bcrypt = require('bcrypt');
-const _ = require('lodash');
 
 async function getPlayers() {
 	const playerList = await Player.find().exec();

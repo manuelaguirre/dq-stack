@@ -44,6 +44,20 @@ playerSchema.methods.filterForResponse = function () {
 	return response;
 };
 
+const gameSchema = new mongoose.Schema({
+	questionPools : [{
+		theme: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref : 'Theme'
+		},
+		questions: [{type: mongoose.Schema.Types.ObjectId,
+			ref : 'Question'}]}],
+	players: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref : 'Player'
+	}],
+});
+
 const questionSchema = new mongoose.Schema({
 	text: String,
 	theme: {
@@ -76,5 +90,6 @@ const User = mongoose.model('User', userSchema);
 const Player = mongoose.model('Player', playerSchema);
 const Question = mongoose.model('Question', questionSchema);
 const Theme = mongoose.model('Theme', themeSchema);
+const Game = mongoose.model('Game', gameSchema);
 
-module.exports = { User, Player, Question, Theme };
+module.exports = { User, Player, Question, Theme, Game };

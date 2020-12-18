@@ -13,7 +13,7 @@ const questions = require('./routes/questions');
 const themes = require('./routes/themes');
 const users = require('./routes/users');
 const fileImporter = require('./routes/fileImporter');
-const questionPools = require('./routes/questionPools');
+const games = require('./routes/games');
 
 app.use(cors(CORS_OPTIONS));
 app.use(morgan('dev'));
@@ -21,7 +21,7 @@ app.use(morgan('dev'));
 app.use('/api/login', login);
 app.use('/api/players', players);
 app.use('/api/questions', questions);
-app.use ('/api/questionpools', questionPools);
+app.use ('/api/games', games);
 app.use('/api/themes', themes);
 app.use('/api/users', users);
 app.use('/api/import', fileImporter);
