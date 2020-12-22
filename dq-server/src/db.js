@@ -56,6 +56,9 @@ const gameSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref : 'Player'
 	}],
+	name: String,
+	dateCreated: { type: Date, default: Date.now },
+	datePlayed: { type: Date, default: null },
 });
 
 const questionSchema = new mongoose.Schema({

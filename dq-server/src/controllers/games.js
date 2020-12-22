@@ -2,6 +2,11 @@ const { getQuestionsNotPlayedBy } = require('./questions');
 const { getPlayer } = require('./players');
 const { Game } = require('../db');
 
+async function getGames() {
+	const playerList = await Game.find().exec();
+	return playerList;
+}
+
 async function createGame(playerIDs, themesIDs){
 	const questionPools = [];
 	
@@ -22,9 +27,9 @@ async function createGame(playerIDs, themesIDs){
 	const gameToAdd = new Game({players, questionPools});
 	const result = gameToAdd.save();
 	return result;
-
 }
 
 module.exports = {
 	createGame,
+	getGames,
 };
