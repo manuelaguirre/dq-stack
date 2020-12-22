@@ -8,6 +8,7 @@ const state: State = {
   questions: {},
   selectedTheme: undefined,
   players: undefined,
+  games: undefined,
 };
 
 export class Store {

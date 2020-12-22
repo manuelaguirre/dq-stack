@@ -1,6 +1,7 @@
 import { DqTheme } from './shared/models/dq-theme';
 import { DqQuestion } from './shared/models/dq-questions';
 import { DqPlayer } from './shared/models/dq-player';
+import { DqGame } from './shared/models/dq-game';
 
 export interface State {
   token: string;
@@ -10,4 +11,5 @@ export interface State {
   };
   selectedTheme: string;
   players: DqPlayer[];
+  games: DqGame[];
 }

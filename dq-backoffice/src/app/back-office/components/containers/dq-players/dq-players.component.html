@@ -10,7 +10,7 @@
   </div>
   <div class="dq-logo"></div>
   <h1 class="dq-title">Defiquiz Players</h1>
-  <div class="dq-menu flex-div column" *ngIf="players$ | async as players">
+  <div class="dq-menu flex-div column" *ngIf="players$ | async as players; else loading">
     <a class="dq-button dq-action btn btn-light" [routerLink]="['/home/players/new']"
     (keyup.enter)="router.navigate(['/home/players/new'])"
     tabindex="0" role="button">
@@ -67,8 +67,10 @@
     </div>
   </div>
 </div>
-<div class="loading-container full-width flex-div column" *ngIf="loading">
-  <div class="spinner-border big" role="status">
-    <span class="sr-only">Loading...</span>
+<ng-template #loading>
+  <div class="loading-container full-width flex-div column">
+    <div class="spinner-border big" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
   </div>
-</div>
+</ng-template>
