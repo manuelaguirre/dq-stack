@@ -15,8 +15,6 @@ import { PlayersService } from '../../shared/services/players.service';
 export class DqPlayersComponent {
   players$: Observable<DqPlayer[]> = null;
 
-  loading = false;
-
   displayedColumns: string[] = ['name', 'lastName', 'mail', 'edit'];
 
   dataSource: MatTableDataSource<DqPlayer> = null;
@@ -29,11 +27,7 @@ export class DqPlayersComponent {
   ) { }
 
   ngOnInit(): void {
-    this.loading = true;
     this.players$ = this.playersService.getPlayers().pipe(
-      tap(() => {
-        this.loading = false;
-      }),
       tap((players) => {
         this.dataSource = new MatTableDataSource(players);
         setTimeout(() => {

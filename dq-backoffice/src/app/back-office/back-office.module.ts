@@ -29,6 +29,10 @@ export const routes: Routes = [
         path: 'media',
         loadChildren: () => import('./pages/dq-media.module').then((m) => m.DqMediaModule),
       },
+      {
+        path: 'games',
+        loadChildren: () => import('./pages/dq-games.module').then((m) => m.DqGamesModule),
+      },
       { path: '**', redirectTo: 'portal' },
     ],
   },
