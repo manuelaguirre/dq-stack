@@ -1,4 +1,5 @@
 const { getQuestionsNotPlayedBy } = require('./questions');
+const { getTheme } = require('./themes');
 const { getPlayer } = require('./players');
 const { Game } = require('../db');
 
@@ -11,10 +12,13 @@ async function createGame(playerIDs, themesIDs){
 	const questionPools = [];
 	
 	for (const themeID of themesIDs) {
+		const theme = await getTheme(themeID);
+		if (!theme) throw new Error(`Theme not found: "${themeID}"`);
+		
 		const questions = await getQuestionsNotPlayedBy(playerIDs, themeID, 12);
 		questionPools.push({
-			themeID,
-			questions
+			questions,
+			theme 
 		});
 	}
 
