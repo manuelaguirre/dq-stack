@@ -4,7 +4,14 @@ const { getPlayer } = require('./players');
 const { Game } = require('../db');
 
 async function getGames() {
-	const game = await Game.find().populate('theme').exec();
+	const game = await Game.find().populate([
+		{
+			path:'questionPools.theme'
+		},
+		{
+			path: 'questionPools.questions'
+		}
+	]).exec();
 	return game;
 }
 
