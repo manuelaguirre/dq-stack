@@ -8,39 +8,53 @@ const userSchema = new mongoose.Schema({
 	password: String,
 });
 
-userSchema.methods.generateAuthToken = function () {
-	const token = jwt.sign(_.pick(this, ['_id', 'username']), config.get('jwtPrivateKey'));
+userSchema.methods.generateAuthToken = function() {
+	const token = jwt.sign(
+		_.pick(this, ['_id', 'username']),
+		config.get('jwtPrivateKey')
+	);
 	return token;
 };
 
-userSchema.methods.filterForResponse = function () {
+userSchema.methods.filterForResponse = function() {
 	const response = _.pick(this, ['_id', 'username']);
 	return response;
 };
 
 const playerSchema = new mongoose.Schema({
-	email: { 
+	email: {
 		type: String,
 		required: true,
-		unique: true
+		unique: true,
 	},
 	firstName: String,
 	lastName: String,
 	password: String,
-	playedQuestions: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref : 'Question'
-	}],
+	playedQuestions: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Question',
+		},
+	],
 	stats: Number,
 });
 
-playerSchema.methods.generateAuthToken = function () {
-	const token = jwt.sign(_.pick(this, ['_id', 'email']), config.get('jwtPrivateKey'));
+playerSchema.methods.generateAuthToken = function() {
+	const token = jwt.sign(
+		_.pick(this, ['_id', 'email']),
+		config.get('jwtPrivateKey')
+	);
 	return token;
 };
 
-playerSchema.methods.filterForResponse = function () {
-	const response = _.pick(this, ['_id', 'email', 'firstName', 'lastName', 'playedQuestions']);
+playerSchema.methods.filterForResponse = function() {
+	const response = _.pick(this, [
+		'_id',
+		'email',
+		'firstName',
+		'lastName',
+		'playedQuestions',
+	]);
 	return response;
 };
 
@@ -65,7 +79,7 @@ const questionSchema = new mongoose.Schema({
 	text: String,
 	theme: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Theme'
+		ref: 'Theme',
 	},
 	answer1: String,
 	answer2: String,
@@ -73,13 +87,13 @@ const questionSchema = new mongoose.Schema({
 	answer4: String,
 	image: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Image'
+		ref: 'Image',
 	},
 });
 
 const CompanySchema = new mongoose.Schema({
 	name: String,
-	subname: String
+	subname: String,
 });
 
 const themeSchema = new mongoose.Schema({
