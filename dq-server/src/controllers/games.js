@@ -6,6 +6,7 @@ const { Game } = require('../db');
 async function getGames() {
 	const game = await Game.find()
 		.populate([
+			{ path: 'players'},
 			{ path: 'questionPools.theme'},
 			{ path: 'questionPools.questions'},
 		])
