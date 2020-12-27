@@ -4,8 +4,8 @@ const { getPlayer } = require('./players');
 const { Game } = require('../db');
 
 async function getGames() {
-	const playerList = await Game.find().exec();
-	return playerList;
+	const game = await Game.find().populate('theme').exec();
+	return game;
 }
 
 async function createGame(playerIDs, themesIDs){
