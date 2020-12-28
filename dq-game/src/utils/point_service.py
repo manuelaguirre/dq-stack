@@ -13,13 +13,13 @@ class PointService:
     def calculate_points(self, has_answer, is_correct_answer, answer_order):
         if self.round_number == 1:
             if has_answer and is_correct_answer:
-                return self.points_config["firstRound"]["correct"]
+                return int(self.points_config["firstRound"]["correct"])
 
             elif has_answer and not is_correct_answer:
-                return self.points_config["firstRound"]["wrong"]
+                return int(self.points_config["firstRound"]["wrong"])
 
             elif not has_answer:
-                return self.points_config["firstRound"]["missing"]
+                return int(self.points_config["firstRound"]["missing"])
 
         if self.round_number == 2:
             if has_answer and is_correct_answer:

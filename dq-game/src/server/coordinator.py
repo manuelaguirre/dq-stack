@@ -5,14 +5,14 @@ import config.config as config
 
 
 class Coordinator:
-    def __init__(self, controller, renderer, dq_game, api_handler, players_id):
+    def __init__(self, controller, renderer, dq_game, api_handler):
         self.controller = controller
         self.renderer = renderer
         self.dq_game = dq_game
         self.api_handler = api_handler
-        self.players_id = players_id
+        self.players = []
         self.answer_limits = {
-            1: config.get("numberOfPlayers") + 1,  # No limit for first round
+            1: None,
             2: config.get("answerLimits.secondRound"),
             3: config.get("answerLimits.thirdRound"),
         }
@@ -25,16 +25,19 @@ class Coordinator:
         self.start_second_round()
 
     def game_setup(self):
-        question_pools = self.api_handler.get_question_pools(self.players_id)
+        self.players, question_pools = self.api_handler.get_game()
         self.dq_game.set_game_question_pools(question_pools)
+        self.dq_game.initialize_players(self.players)
+
+        self.controller.set_number_of_players(len(self.players))
         self.controller.await_connections()
+        self.controller.distribute_usernames(self.players)
 
     def game_preparation(self):
         self.renderer.show_instructions(self.dq_game.instructions)
         self.controller.send_instructions_and_await_confirmations(
             self.dq_game.instructions
         )
-        self.dq_game.initialize_players(self.controller.player_names)
 
     def theme_selection_round(self):
         available_themes = self.dq_game.get_available_theme_names()
@@ -69,7 +72,7 @@ class Coordinator:
                 question,
                 index,
                 answer_limit_callback=self.answer_limit_callback,
-                answer_limit=self.answer_limits[1],
+                answer_limit=len(self.players) + 1,  # No limit for first question
             )
             time.sleep(5)
             # Show scores
@@ -122,7 +125,7 @@ class Coordinator:
         question,
         index,
         answer_limit_callback,
-        answer_limit=config.get("numberOfPlayers"),
+        answer_limit,
     ):
         def resolve_question():
             self.controller.resolve_question()

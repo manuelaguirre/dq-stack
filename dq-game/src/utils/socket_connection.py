@@ -83,8 +83,6 @@ class ClientSocketConnection(SocketConnection):
             try:
                 self.tcpsock.connect((socket.gethostname(), self.port))
                 print("Connection success")
-                msg = self.tcpsock.recv(1024)
-                print(msg.decode("utf-8"))
                 break
             except Exception as e:
                 print(e)
@@ -120,13 +118,11 @@ class ServerSocketConnection(SocketConnection):
 
     def handle_requests(self):
         socket_object, address = self.tcpsock.accept()
-        socket_object.send("Welcome to the game".encode("utf-8"))
 
         new_client = {}
         new_client["socket_object"] = socket_object
         new_client["address"] = address
-        msg = self.receive(socket_object)
-        new_client["name"] = msg.data
+        new_client["name"] = None
         self.clients[address] = new_client
         self.send(socket_object, str(len(self.clients)), "handshake")
 

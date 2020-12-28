@@ -14,8 +14,7 @@ class DQGame(EventHandler):
     Main class for a game instance
     """
 
-    def __init__(self, no_of_players):
-        self.no_of_players = no_of_players
+    def __init__(self):
         self.instructions = mock_instructions  # TODO: Get instructions from API ?
         self.question_pools = []  # TODO: Change to a map
         self.rounds = []
@@ -24,9 +23,9 @@ class DQGame(EventHandler):
 
         print("Creating a new game")
 
-    def initialize_players(self, player_names):
-        for player_name in player_names:
-            self.players.append(Player(player_name))
+    def initialize_players(self, players):
+        for player in players:
+            self.players.append(player)
 
     def set_game_question_pools(self, question_pools):
         self.question_pools = question_pools
@@ -62,7 +61,9 @@ class DQGame(EventHandler):
                 player, player_answers, question
             )
 
-            points = point_service.calculate_points(has_answer, is_correct_answer, answer_order)
+            points = point_service.calculate_points(
+                has_answer, is_correct_answer, answer_order
+            )
 
             player.add_points(points)
 

@@ -20,6 +20,9 @@ class EventCoordinator:
         self.renderer.screen_handler.clear_data()
         self.renderer.show_answer_limit_message()
 
+    def on_set_username(self):
+        self.renderer.username = self.controller.get_username()
+
     def on_show_instructions(self):
         """
         Gets instructions from server.
