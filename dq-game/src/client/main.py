@@ -10,11 +10,9 @@ from event_coordinator import EventCoordinator
 
 
 def start_game():
-    username = input("username > ")
 
     # Create main classes
     client_renderer = ClientRenderer()
-    client_renderer.username = username
     client_socket = ClientSocketConnection(8000)
     controller = ClientController(client_socket)
     coordinator = EventCoordinator(controller, client_renderer)
@@ -23,6 +21,7 @@ def start_game():
     client_socket.on("TIMEOUT", coordinator.on_timeout)
     client_socket.on("ANSWER_LIMIT_REACHED", coordinator.on_answer_limit_reached)
 
+    client_socket.on("SET_USERNAME", coordinator.on_set_username)
     client_socket.on("SHOW_INSTRUCTIONS_AND_READY_UP", coordinator.on_show_instructions)
     client_socket.on("CHOOSE_THEME", coordinator.on_choose_theme)
     client_socket.on("START_ROUND", coordinator.on_start_round)
@@ -36,7 +35,6 @@ def start_game():
     # Start
     def connect():
         client_socket.connect()
-        client_socket.send(username, "username")
 
     client_renderer.on("RENDERER_INIT_DONE", connect)
     client_renderer.initialize()

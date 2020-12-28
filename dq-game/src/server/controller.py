@@ -11,13 +11,12 @@ from game_types.player_answer import PlayerAnswer
 
 
 class Controller(EventHandler):
-    def __init__(self, socket, no_of_players):
+    def __init__(self, socket):
         """
         Creates a controller
         """
         self.socket = socket
-        self.no_of_players = no_of_players
-        self.player_names = []
+        self.no_of_players = None
         self.is_timeout = False
         self.current_answers = []
         self.current_played_jokers = {}
@@ -28,8 +27,15 @@ class Controller(EventHandler):
 
     def await_connections(self):
         self.socket.listen(self.no_of_players)
-        for client in self.socket.clients:
-            self.player_names.append(self.socket.clients[client]["name"])
+
+    def set_number_of_players(self, number):
+        self.no_of_players = number
+
+    def distribute_usernames(self, players):
+        for index, client in enumerate(self.socket.clients.values()):
+            client["name"] = players[index].name
+            self.socket.send(client["socket_object"], client["name"], "data-username")
+        self.socket.send_to_all("SET_USERNAME", "event")
 
     def send_instructions_and_await_confirmations(self, instructions):
         self.socket.send_to_all(instructions, "data-instructions")

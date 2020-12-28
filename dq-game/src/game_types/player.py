@@ -8,8 +8,9 @@ class Player:
     Class for the representation of players in the game's Model
     """
 
-    def __init__(self, name):
+    def __init__(self, name, _id):
         self.name = name
+        self._id = _id
         self.points = 0
         self.differential = 0
         self.jokers = []  # self.jokers[0].name
