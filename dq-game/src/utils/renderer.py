@@ -117,23 +117,23 @@ class Renderer(EventHandler):
         running = True
         print("start running")
         while running:  # main game loop
-            if self.RENDERER_TYPE == "client":
+            # if self.RENDERER_TYPE == "client":
 
-                if GPIO.input(17) == 0:
-                    if self.buzzer_function:
-                        self.buzzer_function(0)
+            #     if GPIO.input(17) == 0:
+            #         if self.buzzer_function:
+            #             self.buzzer_function(0)
 
-                elif GPIO.input(18) == 0:
-                    if self.buzzer_function:
-                        self.buzzer_function(1)
+            #     elif GPIO.input(18) == 0:
+            #         if self.buzzer_function:
+            #             self.buzzer_function(1)
 
-                elif GPIO.input(24) == 0:
-                    if self.buzzer_function:
-                        self.buzzer_function(2)
+            #     elif GPIO.input(24) == 0:
+            #         if self.buzzer_function:
+            #             self.buzzer_function(2)
 
-                elif GPIO.input(25) == 0:
-                    if self.buzzer_function:
-                        self.buzzer_function(3)
+            #     elif GPIO.input(25) == 0:
+            #         if self.buzzer_function:
+            #             self.buzzer_function(3)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

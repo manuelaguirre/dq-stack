@@ -2,35 +2,34 @@ const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
 const createUserSchema = Joi.object({
-  
-	username :Joi.string()
+	username: Joi.string()
 		.alphanum()
 		.min(2)
 		.max(30)
 		.required(),
 
-	password : Joi.string()
+	password: Joi.string()
 		.min(8)
 		.max(20)
 		.required() 
 });
 
 const createPlayerSchema = Joi.object({
-	firstName : Joi.string()
+	firstName: Joi.string()
 		.min(2)
 		.max(30)
 		.required(),
        
-	lastName :Joi.string()
+	lastName: Joi.string()
 		.min(2)
 		.max(30)
 		.required(),
 
-	email : Joi.string()
+	email: Joi.string()
 		.email()
 		.required(),
 
-	password : Joi.string()
+	password: Joi.string()
 		.min(8)
 		.max(20)
 		.required() 
@@ -60,6 +59,7 @@ const createThemeSchema = Joi.object({
 			.min(2)
 			.max(30)
 	}).required(), 
+
 	otherwise: Joi.valid(null)}),
 });
 
@@ -84,7 +84,7 @@ const updateThemeSchema = Joi.object({
 		subname: Joi.string()
 			.min(2)
 			.max(30)
-	}), otherwise: Joi.valid(null)}),
+	}),otherwise: Joi.valid(null)}),
 });
 
 const createQuestionSchema = Joi.object({
@@ -150,6 +150,8 @@ const updateQuestionSchema = Joi.object({
 });
 
 const createGameSchema = Joi.object({
+	name: Joi.string(),
+
 	players: Joi.array().items(Joi.objectId()),
 
 	themes: Joi.array().items(Joi.objectId())
