@@ -30,6 +30,7 @@ def start_game():
     )
     client_socket.on("ANSWER_QUESTION", coordinator.on_answer_question)
     client_socket.on("RESOLVE_QUESTION", coordinator.on_resolve_question)
+    client_socket.on("ANSWER_IS_WRONG", coordinator.on_answer_is_wrong)
     client_socket.on("SHOW_SCORES", coordinator.on_show_scores)
 
     # Start

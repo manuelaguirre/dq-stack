@@ -17,7 +17,6 @@ class EventCoordinator:
         self.renderer.show_logo()
 
     def on_answer_limit_reached(self):
-        self.renderer.screen_handler.clear_data()
         self.renderer.show_answer_limit_message()
 
     def on_set_username(self):
@@ -62,6 +61,9 @@ class EventCoordinator:
 
     def on_resolve_question(self):
         self.renderer.show_results(self.current_question)
+
+    def on_answer_is_wrong(self):
+        self.renderer.show_answer_is_wrong()
 
     def on_show_scores(self):
         self.current_score_board = self.controller.get_score_board()

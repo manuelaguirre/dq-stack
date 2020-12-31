@@ -22,8 +22,8 @@ class QuestionPool:
                 question["answer4"],
             ]
 
-            correct_answer = answers.index(question["answer1"])
             shuffle(answers)
+            correct_answer = answers.index(question["answer1"])
 
             question_object = Question(
                 question["_id"],

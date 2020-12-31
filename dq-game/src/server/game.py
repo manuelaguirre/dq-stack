@@ -56,8 +56,7 @@ class DQGame(EventHandler):
         point_service = PointService(self.round_number)
 
         for player in self.players:
-
-            has_answer, is_correct_answer, answer_order = self._check_answer(
+            has_answer, is_correct_answer, answer_order = self.check_answer(
                 player, player_answers, question
             )
 
@@ -77,7 +76,7 @@ class DQGame(EventHandler):
             if is_double:
                 player.double_differential()
 
-    def _check_answer(self, player, player_answers, question):
+    def check_answer(self, player, player_answers, question):
 
         has_answer = False
         is_correct_answer = False
@@ -94,7 +93,11 @@ class DQGame(EventHandler):
 
         return has_answer, is_correct_answer, answer_order
 
-    def update_jokers(self, played_jokers):
+    def undo_wrong_answer_blocks(self):
+        for player in self.players:
+            player.blocked_for_wrong_answer = False
+
+    def consume_jokers(self, played_jokers):
         for player in self.players:
             played_joker_type = None
             try:
@@ -112,6 +115,9 @@ class DQGame(EventHandler):
         score_board.sort_board()
         print(score_board.__repr__())
         return score_board
+
+    def get_player_names(self):
+        return [player.name for player in self.players]
 
     def find_player_by_name(self, name):
         for player in self.players:

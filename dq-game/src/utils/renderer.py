@@ -254,7 +254,6 @@ class Renderer(EventHandler):
 
         self.timer.reset(seconds, render_timer, timeout_callback)
 
-    @flush
     def stop_timer(self):
         self.timer.stop()
 

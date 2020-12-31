@@ -132,9 +132,15 @@ class ServerSocketConnection(SocketConnection):
         """
         self.inbuffer.append(message)
 
-    def send_to_all(self, msg, content_type):
+    def send_to_all(self, msg, content_type, excepted_client_names=[]):
         for client in self.clients:
-            self.send(self.clients[client]["socket_object"], msg, content_type)
+            if self.clients[client]["name"] not in excepted_client_names:
+                self.send(self.clients[client]["socket_object"], msg, content_type)
+
+    def send_to_socket_named(self, username, msg, content_type):
+        for client in self.clients:
+            if self.clients[client]["name"] == username:
+                self.send(self.clients[client]["socket_object"], msg, content_type)
 
     def inbound_task(self, clients):
         """
