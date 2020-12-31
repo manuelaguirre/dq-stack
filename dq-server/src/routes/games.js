@@ -12,6 +12,11 @@ router.get('/', auth, asyncCatch(async (req, res) => {
 	return res.send(games);
 }));
 
+router.get('/:id', auth, asyncCatch(async (req, res) => {
+	const game = await gamesController.getGame(req.params.id);
+	return res.send(game);
+}));
+
 router.post('/', auth, asyncCatch(async (req, res) => {
 
 	let result = createGameSchema.validate(req.body);
@@ -20,7 +25,7 @@ router.post('/', auth, asyncCatch(async (req, res) => {
 		return;
 	}
 
-	result = await createGame(req.body.players, req.body.themes);
+	result = await createGame(req.body.name, req.body.players, req.body.themes);
 	res.send(result);	
 }));
 

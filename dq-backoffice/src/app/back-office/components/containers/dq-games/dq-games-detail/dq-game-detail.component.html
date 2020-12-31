@@ -10,22 +10,115 @@
   </div>
   <div class="dq-logo"></div>
   <ng-container *ngIf="gameDetailForm$ | async as gameDetailForm; else loading">
-    <h1 class="dq-title">{{ !gameDetailForm.value.firstName ? 'Create new Game' : 'Edit Game' }}</h1>
-    <div class="dq-menu flex-div column form-container">
-      <dq-new-form [formGroup]="gameDetailForm" class="flex-div column">
-        <button class="dq-button dq-action btn btn-light" tabindex="0"
-        role="button" (keyup.enter)="createNew ? addNewGame(gameDetailForm) : editGame(gameDetailForm)"
-        (click)="createNew ? addNewGame(gameDetailForm) : editGame(gameDetailForm)"
-         [disabled]="gameDetailForm.invalid" *ngIf="!loadingNew">
-          <a>{{createNew ? 'Add new Game' : 'Save Game'}}</a>
-        </button>
-        <div class="loading-container flex-div column" *ngIf="loadingNew">
-          <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
+    <ng-container *ngIf="players$ | async as players; else loading">
+      <ng-container *ngIf="themes$ | async as themes; else loading">
+        <h1 class="dq-title">{{ !gameDetailForm.value.firstName ? 'Create new Game' : 'Edit Game' }}</h1>
+
+        <div class="dq-menu flex-div column form-container" [formGroup]="gameDetailForm">
+          <mat-horizontal-stepper linear #stepper>
+            <mat-step [stepControl]="gameDetailForm.get('name')" [optional]="false">
+              <!-- Name -->
+              <ng-template matStepLabel>Name of the game</ng-template>
+              <mat-form-field *ngIf="gameDetailForm.contains('name')" appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Name" formControlName="name">
+                <mat-icon mat-button *ngIf="gameDetailForm.get('name').value"
+                matSuffix mat-icon-button aria-label="Clear" (click)="gameDetailForm.get('name').patchValue('')">
+                  close
+                </mat-icon>
+              </mat-form-field>
+              <div class="button-container flex-div">
+                <button class="dq-button dq-action btn btn-light" tabindex="0"
+                role="button" mat-button matStepperPrevious>Back</button>
+                <button class="dq-button dq-action btn btn-light" tabindex="0"
+                role="button" mat-button matStepperNext [disabled]="gameDetailForm.get('name').invalid"
+                [class.disabled]="gameDetailForm.get('name').invalid">Next</button>
+              </div>
+            </mat-step>
+            <mat-step [stepControl]="gameDetailForm.get('themes')" [optional]="false">
+              <!-- Select themes -->
+              <ng-template matStepLabel>Select 10 themes</ng-template>
+              <div cdkDropListGroup class="flex-div">
+                <div class="select-container flex-div column">
+                  <h2>All themes</h2>
+              
+                  <div
+                    cdkDropList
+                    [cdkDropListData]="themes"
+                    class="select-container-list"
+                    (cdkDropListDropped)="drop($event, gameDetailForm, 'themes')">
+                    <mat-card class="select-container-box mat-elevation-3" *ngFor="let item of themes" cdkDrag>{{item.name}}</mat-card>
+                  </div>
+                </div>
+              
+                <div class="select-container flex-div column">
+                  <h2>Selected Themes</h2>
+              
+                  <div
+                    cdkDropList
+                    [cdkDropListData]="gameDetailForm.get('themes').value"
+                    class="select-container-list"
+                    (cdkDropListDropped)="drop($event, gameDetailForm, 'themes')">
+                    <mat-card class="select-container-box" *ngFor="let item of gameDetailForm.get('themes').value" cdkDrag>{{item.name}}</mat-card>
+                  </div>
+                </div>
+              </div>
+              <div class="button-container flex-div">
+                <button class="dq-button dq-action btn btn-light" tabindex="0"
+                role="button" mat-button matStepperPrevious>Back</button>
+                <button class="dq-button dq-action btn btn-light" tabindex="0"
+                role="button" mat-button matStepperNext [disabled]="gameDetailForm.get('themes').invalid"
+                [class.disabled]="gameDetailForm.get('themes').invalid">Next</button>
+              </div>
+            </mat-step>
+            <mat-step [stepControl]="gameDetailForm.get('players')" [optional]="false">
+
+              <!-- Select players -->
+              <ng-template matStepLabel>Select some players</ng-template>
+              <div cdkDropListGroup class="flex-div">
+                <div class="select-container flex-div column">
+                  <h2>All players</h2>
+              
+                  <div
+                    cdkDropList
+                    [cdkDropListData]="players"
+                    class="select-container-list"
+                    (cdkDropListDropped)="drop($event, gameDetailForm, 'players')">
+                    <mat-card class="select-container-box mat-elevation-3" *ngFor="let item of players" cdkDrag>
+                      {{item.firstName}} {{item.lastName}}
+                    </mat-card>
+                  </div>
+                </div>
+              
+                <div class="select-container flex-div column">
+                  <h2>Selected Players</h2>
+              
+                  <div
+                    cdkDropList
+                    [cdkDropListData]="gameDetailForm.get('players').value"
+                    class="select-container-list"
+                    (cdkDropListDropped)="drop($event, gameDetailForm, 'players')">
+                    <mat-card class="select-container-box" *ngFor="let item of gameDetailForm.get('players').value" cdkDrag>
+                      {{item.firstName}} {{item.lastName}}
+                    </mat-card>
+                  </div>
+                </div>
+              </div>
+              <div class="button-container flex-div">
+                <button class="dq-button dq-action btn btn-light" tabindex="0"
+                role="button" mat-button matStepperPrevious>Back</button>
+                <button class="dq-button dq-action btn btn-light" tabindex="0"
+                role="button" mat-button matStepperNext [disabled]="gameDetailForm.invalid"
+                [class.disabled]="gameDetailForm.invalid"
+                (click)="addNewGame(gameDetailForm)" (keydown.enter)="addNewGame(gameDetailForm)">
+                  {{createNew ? 'Add new Game' : 'Save Game'}}
+                </button>
+              </div>
+            </mat-step>
+          </mat-horizontal-stepper>
         </div>
-      </dq-new-form>
-    </div>
+      </ng-container>
+    </ng-container>
   </ng-container>
   <ng-template #loading>
     <div class="loading-container full-width flex-div column">

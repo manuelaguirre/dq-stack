@@ -20,3 +20,16 @@ mat-form-field.mat-form-field.mat-form-field-appearance-outline.mat-form-field-c
     padding-right: 5px;
   }
 }
+
+mat-horizontal-stepper {
+  .mat-horizontal-stepper-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .button-container {
+    button {
+      margin-right: 20px;
+    }
+  }
+}

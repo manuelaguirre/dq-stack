@@ -10,6 +10,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatRadioModule } from '@angular/material/radio';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatCardModule } from '@angular/material/card';
+import { MatStepperModule } from '@angular/material/stepper';
 import { SnackBarService } from './services/snack-bar.service';
 import { ApiService } from './services/api.service';
 import { ComponentUtilsService } from './services/component-utils';
@@ -25,6 +28,9 @@ const materialModules = [
   MatTableModule,
   MatSortModule,
   MatRadioModule,
+  DragDropModule,
+  MatCardModule,
+  MatStepperModule,
 ];
 
 @NgModule({

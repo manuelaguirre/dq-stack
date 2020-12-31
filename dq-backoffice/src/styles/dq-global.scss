@@ -14,6 +14,7 @@
   place-content: center;
   position: relative;
   max-width: 80vw;
+  z-index: 1;
   @media (min-width: $dq-mobile-small) {
     max-width: 320px;
   }

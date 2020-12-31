@@ -14,7 +14,12 @@ async function getGames() {
 	return game;
 }
 
-async function createGame(playerIDs, themesIDs) {
+async function getGame(id) {
+	const game = await Game.findById(id).exec();
+	return game;
+}
+
+async function createGame(name, playerIDs, themesIDs) {
 	const questionPools = [];
 
 	for (const themeID of themesIDs) {
@@ -34,12 +39,13 @@ async function createGame(playerIDs, themesIDs) {
 		players.push(player);
 	}
 
-	const gameToAdd = new Game({ players, questionPools });
+	const gameToAdd = new Game({ name, players, questionPools });
 	const result = gameToAdd.save();
 	return result;
 }
 
 module.exports = {
+	getGame,
 	createGame,
 	getGames,
 };

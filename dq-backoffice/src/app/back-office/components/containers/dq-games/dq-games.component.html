@@ -11,12 +11,8 @@
   <div class="dq-logo"></div>
   <h1 class="dq-title">Defiquiz Games</h1>
   <div class="dq-menu flex-div column" *ngIf="games$ | async as games; else loading">
-    <!-- <a class="dq-button dq-action btn btn-light" [routerLink]="['/home/games/new']"
+    <a class="dq-button dq-action btn btn-light" [routerLink]="['/home/games/new']"
     (keyup.enter)="router.navigate(['/home/games/new'])"
-    tabindex="0" role="button">
-      <span tabindex="-1" class="dq-action-cont">Add new game</span>
-    </a> -->
-    <a class="dq-button dq-action btn btn-light disabled"
     tabindex="0" role="button">
       <span tabindex="-1" class="dq-action-cont">Add new game</span>
     </a>
@@ -54,14 +50,14 @@
         </ng-container>
 
         <!-- Edit -->
-        <ng-container matColumnDef="edit">
+        <!-- <ng-container matColumnDef="edit">
           <th mat-header-cell *matHeaderCellDef justify="end"></th>
           <td mat-cell *matCellDef="let element"> 
             <mat-icon matSuffix [routerLink]="['/home/games/' + element._id]"
             tabindex="0" role="link"
             (keyup.enter)="router.navigate(['/home/games/' + element._id])">visibility</mat-icon>
           </td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- Delete -->
         <!-- <ng-container matColumnDef="delete">

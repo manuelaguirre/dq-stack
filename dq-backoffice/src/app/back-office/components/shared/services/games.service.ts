@@ -45,15 +45,24 @@ export class GamesService {
   }
 
   createNewGame(game: Partial<DqGame>): Observable<DqGame> {
-    // Set a custom password for future log in
-    const customPassword = 'defiquizz1234';
-    return this.apiService.post<DqGame>('games', { ...game, password: customPassword }).pipe(
+    const dataGame = {
+      ...game,
+      players: game.players.map((player) => player._id),
+      themes: game.themes.map((theme) => theme._id),
+    };
+    return this.apiService.post<DqGame>('games', dataGame).pipe(
       tap((game_) => {
         const { games } = this.store.value;
-        games.push(game_);
-        this.store.set(
-          'games', games,
-        );
+        if (games) {
+          games.push(game_);
+          this.store.set(
+            'games', games,
+          );
+        } else {
+          this.store.set(
+            'games', [game_],
+          );
+        }
       }),
     );
   }
