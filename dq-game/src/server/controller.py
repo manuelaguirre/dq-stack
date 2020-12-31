@@ -21,9 +21,12 @@ class Controller(EventHandler):
         self.current_answers = []
         self.current_played_jokers = {}
 
-    def timeout(self):
+    def emit_timeout(self):
         self.is_timeout = True
         self.socket.send_to_all("TIMEOUT", "event")
+
+    def timeout(self):
+        self.is_timeout = True
 
     def await_connections(self):
         self.socket.listen(self.no_of_players)
@@ -119,10 +122,20 @@ class Controller(EventHandler):
         client_name = self.socket.clients[message.origin]["name"]
         self.current_played_jokers[client_name] = message.data
 
-    def ask_question(self, question, answer_limit, answer_limit_callback):
+    def clear_current_answers(self):
         self.current_answers = []
 
-        self.socket.send_to_all("ANSWER_QUESTION", "event")
+    def ask_question(self, question, players, answer_limit):
+
+        blocked_players_for_wrong_answers = [
+            player.name for player in players if player.blocked_for_wrong_answer
+        ]
+
+        self.socket.send_to_all(
+            "ANSWER_QUESTION",
+            "event",
+            excepted_client_names=blocked_players_for_wrong_answers,
+        )
 
         self.is_timeout = False
 
@@ -132,9 +145,9 @@ class Controller(EventHandler):
                     self.process_answer(message)
                     self.socket.inbuffer.remove(message)
 
-                    if len(self.current_answers) == answer_limit:
+                    if len(self.current_answers) >= answer_limit:
+                        self.current_answers = self.current_answers[:answer_limit]
                         self.flush_inbuffer()
-                        answer_limit_callback()
                         break
 
             time.sleep(0.02)
@@ -144,8 +157,21 @@ class Controller(EventHandler):
             if message.content_type == "data-answer":
                 self.socket.inbuffer.remove(message)
 
-    def answer_limit_reached(self):
-        self.socket.send_to_all("ANSWER_LIMIT_REACHED", "event")
+    def answer_limit_reached(self, player_names):
+        try:
+            for player_name in player_names:
+                self.socket.send_to_socket_named(
+                    player_name, "ANSWER_LIMIT_REACHED", "event"
+                )
+        except TypeError:
+            pass
+
+    def get_answerless_players(self, player_names):
+        result = []
+        for answer in self.current_answers:
+            if answer.player_name not in player_names:
+                result.append(answer.player_name)
+        return result
 
     def process_answer(self, message):
         name = self.socket.clients[message.origin]["name"]
@@ -156,6 +182,9 @@ class Controller(EventHandler):
     def resolve_question(self):
         self.is_timeout = True
         self.socket.send_to_all("RESOLVE_QUESTION", "event")
+
+    def show_player_answer_is_wrong(self, player_name):
+        self.socket.send_to_socket_named(player_name, "ANSWER_IS_WRONG", "event")
 
     def show_scores(self, score_board):
         self.socket.send_to_all(score_board, "data-score-board")

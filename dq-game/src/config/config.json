@@ -22,6 +22,11 @@
             ],
             "wrong": "-2",
             "missing": "-1"
+        },
+        "thirdRound": {
+            "correct": "5",
+            "wrong": "-2",
+            "missing": "0"
         }
     }
 }

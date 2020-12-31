@@ -369,6 +369,7 @@ class ClientRenderer(Renderer):
 
     def show_answer_limit_message(self):
         render_multiline_text(self, "Trop tard!", self.SCREEN_HEIGHT / 2)
+        self.update_screen()
 
     def show_results(self, question):
         for button in self.buttons_list:
@@ -376,6 +377,13 @@ class ClientRenderer(Renderer):
                 button.set_state("correct")
                 self.update_screen()
             elif button.state == "selected":
+                button.set_state("wrong")
+                self.update_screen()
+        self.screen_handler.clear_data()
+
+    def show_answer_is_wrong(self):
+        for button in self.buttons_list:
+            if button.state == "selected":
                 button.set_state("wrong")
                 self.update_screen()
         self.screen_handler.clear_data()

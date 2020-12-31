@@ -32,3 +32,15 @@ class PointService:
 
             elif not has_answer:
                 return int(self.points_config["secondRound"]["missing"])
+
+        if self.round_number == 3:
+            if has_answer and is_correct_answer:
+                return int(
+                    self.points_config["thirdRound"]["correct"]
+                )  # TODO: parser snake case
+
+            elif has_answer and not is_correct_answer:
+                return int(self.points_config["thirdRound"]["wrong"])
+
+            elif not has_answer:
+                return int(self.points_config["thirdRound"]["missing"])
