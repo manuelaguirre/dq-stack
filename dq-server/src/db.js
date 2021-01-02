@@ -59,13 +59,10 @@ playerSchema.methods.filterForResponse = function() {
 };
 
 const gameSchema = new mongoose.Schema({
-	questionPools : [{
-		theme: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref : 'Theme'
-		},
-		questions: [{type: mongoose.Schema.Types.ObjectId,
-			ref : 'Question'}]}],
+	themes : [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref : 'Theme'}
+	],
 	players: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref : 'Player'

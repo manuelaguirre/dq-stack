@@ -12,6 +12,11 @@ router.get('/', auth, asyncCatch(async (req, res) => {
 	return res.send(games);
 }));
 
+router.get('/play', auth, asyncCatch(async (req, res) => {
+	const game = await gamesController.prepareGame(req.params.id);
+	return res.send(game);
+}));
+
 router.get('/:id', auth, asyncCatch(async (req, res) => {
 	const game = await gamesController.getGame(req.params.id);
 	return res.send(game);

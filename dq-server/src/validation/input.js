@@ -131,7 +131,6 @@ const updateQuestionSchema = Joi.object({
 		.min(1)
 		.max(256),		
 		
-
 	answer2: Joi.string()
 		.min(1)
 		.max(256),		
@@ -150,11 +149,11 @@ const updateQuestionSchema = Joi.object({
 });
 
 const createGameSchema = Joi.object({
-	name: Joi.string(),
+	name: Joi.string().required(),
 
-	players: Joi.array().items(Joi.objectId()),
+	players: Joi.array().items(Joi.objectId()).required(),
 
-	themes: Joi.array().items(Joi.objectId())
+	themes: Joi.array().items(Joi.objectId()).required()
 });
 
 module.exports = { 

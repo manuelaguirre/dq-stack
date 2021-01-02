@@ -7,26 +7,61 @@ async function getGames() {
 	const game = await Game.find()
 		.populate([
 			{ path: 'players'},
-			{ path: 'questionPools.theme'},
-			{ path: 'questionPools.questions'},
+			{ path: 'themes'},
 		])
 		.exec();
 	return game;
 }
 
 async function getGame(id) {
-	const game = await Game.findById(id).exec();
+	const game = await Game.findById(id)
+		.populate([
+			{ path: 'players'},
+			{ path: 'themes'},
+		])
+		.exec();
 	return game;
 }
 
-async function createGame(name, playerIDs, themesIDs) {
-	const questionPools = [];
+async function getLastGame() {
+	const lastGame = await Game.findOne({datePlayed: null}).sort({dateCreated: -1}).exec();
+	return lastGame;
+}
 
+async function createGame(name, playerIDs, themesIDs) {
+	const themes = [];
 	for (const themeID of themesIDs) {
 		const theme = await getTheme(themeID);
 		if (!theme) throw new Error(`Theme not found: "${themeID}"`);
+		themes.push(theme);
+	}
 
-		const questions = await getQuestionsNotPlayedBy(playerIDs, themeID, 12);
+	const players = [];
+	for (const playerID of playerIDs) {
+		const player = await getPlayer(playerID);
+		if (!player) throw new Error(`Player not found: "${playerID}"`); 
+		players.push(player);
+	}
+
+	const gameToAdd = new Game({ 
+		name,
+		players : playerIDs,
+		themes : themesIDs,
+	});
+	const result = gameToAdd.save();
+	return result;
+}
+
+async function prepareGame() {
+	const lastGame = await getLastGame();
+
+	const questionPools = [];
+
+	for (const themeID of lastGame.themes) {
+		const theme = await getTheme(themeID);
+		if (!theme) throw new Error(`Theme not found: "${themeID}"`);
+
+		const questions = await getQuestionsNotPlayedBy(lastGame.players, themeID, 12);
 		questionPools.push({
 			questions,
 			theme,
@@ -34,18 +69,17 @@ async function createGame(name, playerIDs, themesIDs) {
 	}
 
 	const players = [];
-	for (const playerID of playerIDs) {
+	for (const playerID of lastGame.players) {
 		const player = await getPlayer(playerID);
 		players.push(player);
 	}
 
-	const gameToAdd = new Game({ name, players, questionPools });
-	const result = gameToAdd.save();
-	return result;
+	return { _id: lastGame._id, players, questionPools};
 }
 
 module.exports = {
 	getGame,
 	createGame,
 	getGames,
+	prepareGame
 };
