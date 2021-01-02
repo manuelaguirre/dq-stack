@@ -41,6 +41,11 @@
   scrollbar-width: thin;
   .dq-title {
     font-family: YanoneKaffeesatz;
+    margin-top: 90px;
+    @media (min-width: $dq-mobile) {
+      margin-top: 0px;
+      margin: 30px;
+    }
   }
   .dq-button {
     @include dq-button();
@@ -66,8 +71,17 @@
   background: url('/assets/images/dq-logo.png');
   background-size: cover;
   background-repeat: no-repeat;
-  width: 236px;
-  min-height: 178px;
+  position: absolute;
+  right: 2%;
+  width: 134px;
+  min-height: 96px;
+  @media (min-width: $dq-mobile) {
+    width: 194px;
+    min-height: 116px;
+  }
+  &.centered {
+    right: auto;
+  }
 }
 
 .dq-back {
