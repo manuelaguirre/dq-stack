@@ -21,7 +21,7 @@ export interface DqGameTable {
 export class DqGamesComponent {
   games$: Observable<DqGame[]> = null;
 
-  displayedColumns: string[] = ['name', 'dateCreated', 'datePlayed', 'numberPlayers', 'edit'];
+  displayedColumns: string[] = ['name', 'dateCreated', 'datePlayed', 'numberPlayers'];
 
   dataSource: MatTableDataSource<DqGameTable> = null;
 

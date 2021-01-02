@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component, OnInit, QueryList, ViewChildren,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -9,7 +11,9 @@ import {
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
 import { DqGame } from '../../../../../shared/models/dq-game';
 import { GamesService } from '../../../shared/services/games.service';
@@ -31,11 +35,7 @@ export class DqGameDetailComponent implements OnInit {
 
   players$: Observable<DqPlayer[]> = null;
 
-  selectedPlayers: DqPlayer[] = [];
-
   themes$: Observable<DqTheme[]> = null;
-
-  selectedThemes: DqTheme[] = [];
 
   loading = false;
 
@@ -44,6 +44,10 @@ export class DqGameDetailComponent implements OnInit {
   createNew = false;
 
   gameId = '';
+
+  @ViewChildren(CdkDropList) containers_: QueryList<CdkDropList>;
+
+  dropContainers: CdkDropList[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -72,6 +76,9 @@ export class DqGameDetailComponent implements OnInit {
     );
     this.players$ = this.playersService.getPlayers();
     this.themes$ = this.backOfficeService.getThemes();
+    setTimeout(() => {
+      this.dropContainers = this.containers_.toArray();
+    }, 500);
   }
 
   editGame(gameForm: FormGroup): void {
@@ -115,7 +122,7 @@ export class DqGameDetailComponent implements OnInit {
       this.createNew = true;
     }
     this.detailForm = this.formBuilder.group({
-      name: [game ? game.name : '', Validators.required],
+      name: [game ? game.name : '', [Validators.required, Validators.min(5)]],
       players: this.createArrayForm(game.players),
       themes: this.createArrayForm(game.themes, 10),
     });
@@ -137,7 +144,6 @@ export class DqGameDetailComponent implements OnInit {
 
   createArrayForm(values?: DqPlayer[] | DqTheme[], minimum?: number): FormArray {
     const form = this.formBuilder.array([], Validators.required);
-    console.log(values);
     if (values) {
       (values as any[]).map((value) => form.push(this.formBuilder.control(value)));
     }
@@ -151,21 +157,52 @@ export class DqGameDetailComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
+      this.transferItem(
+        gameDetailForm,
+        groupName,
+        event.previousContainer,
+        event.container,
         event.previousIndex,
         event.currentIndex,
       );
-      const form: FormArray = gameDetailForm.get(groupName) as FormArray;
-      if (event.container.id === 'cdk-drop-list-1'
-      || event.container.id === 'cdk-drop-list-3') {
-        form.push(
-          this.formBuilder.control(event.container.data[event.currentIndex]),
-        );
-      } else {
-        form.removeAt(event.previousIndex);
-      }
     }
+  }
+
+  transferItem(
+    gameDetailForm: FormGroup,
+    groupName: string,
+    previousContainer: CdkDropList<string[]>,
+    container: CdkDropList<string[]>,
+    previousIndex: number,
+    currentIndex: number,
+  ): void {
+    transferArrayItem(
+      previousContainer.data,
+      container.data,
+      previousIndex,
+      currentIndex,
+    );
+    const form: FormArray = gameDetailForm.get(groupName) as FormArray;
+    if (container.id === 'cdk-drop-list-1'
+    || container.id === 'cdk-drop-list-3') {
+      form.push(
+        this.formBuilder.control(container.data[currentIndex]),
+      );
+    } else {
+      form.removeAt(previousIndex);
+    }
+  }
+
+  customDrop(
+    index: number, container: number, container2: number, gameDetailForm: FormGroup, groupName: string,
+  ): void {
+    this.transferItem(
+      gameDetailForm,
+      groupName,
+      this.dropContainers[container],
+      this.dropContainers[container2],
+      index,
+      this.dropContainers[container2].data.length,
+    );
   }
 }
