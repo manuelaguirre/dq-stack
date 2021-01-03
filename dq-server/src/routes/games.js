@@ -13,7 +13,7 @@ router.get('/', auth, asyncCatch(async (req, res) => {
 }));
 
 router.get('/play', auth, asyncCatch(async (req, res) => {
-	const game = await gamesController.prepareGame(req.params.id);
+	const game = await gamesController.prepareGame();
 	return res.send(game);
 }));
 
