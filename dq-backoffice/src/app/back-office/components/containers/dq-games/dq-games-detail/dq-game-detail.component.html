@@ -49,10 +49,10 @@
                   </mat-form-field>
                   <div
                     cdkDropList
-                    [cdkDropListData]="themes"
+                    [cdkDropListData]="filterSelectedThemes(themes, gameDetailForm.get('themes').value)"
                     class="select-container-list"
                     (cdkDropListDropped)="drop($event, gameDetailForm, 'themes')">
-                    <div *ngFor="let item of themes; let i = index" cdkDrag
+                    <div *ngFor="let item of filterSelectedThemes(themes, gameDetailForm.get('themes').value); let i = index" cdkDrag
                       (click)="customDrop(i, 0, 1, gameDetailForm, 'themes')">
                       <mat-card class="select-container-box mat-elevation-3"
                       [class.hidden]="!item.name.toLocaleLowerCase().includes(inputTheme.value.toLowerCase())"
@@ -63,7 +63,7 @@
               
                 <div class="select-container flex-div column">
                   <h2>Selected Themes</h2>
-              
+                  
                   <div
                     cdkDropList
                     [cdkDropListData]="gameDetailForm.get('themes').value"
@@ -100,10 +100,10 @@
               
                   <div
                     cdkDropList
-                    [cdkDropListData]="players"
+                    [cdkDropListData]="filterSelectedPlayers(players, gameDetailForm.get('players').value)"
                     class="select-container-list"
                     (cdkDropListDropped)="drop($event, gameDetailForm, 'players')">
-                    <div *ngFor="let item of players; let i = index" cdkDrag
+                    <div *ngFor="let item of filterSelectedPlayers(players, gameDetailForm.get('players').value); let i = index" cdkDrag
                     (click)="customDrop(i, 2, 3, gameDetailForm, 'players')">
                       <mat-card class="select-container-box mat-elevation-3"
                       [class.hidden]="!item.firstName.toLocaleLowerCase().includes(inputPlayer.value.toLowerCase())"
@@ -135,7 +135,8 @@
                 <button class="dq-button dq-action btn btn-light" tabindex="0"
                 role="button" mat-button matStepperNext [disabled]="gameDetailForm.invalid"
                 [class.disabled]="gameDetailForm.invalid"
-                (click)="addNewGame(gameDetailForm)" (keydown.enter)="addNewGame(gameDetailForm)">
+                (click)="createNew ? addNewGame(gameDetailForm) : editGame(gameDetailForm)"
+                (keydown.enter)="createNew ? addNewGame(gameDetailForm) : editGame(gameDetailForm)">
                   {{createNew ? 'Add new Game' : 'Save Game'}}
                 </button>
               </div>

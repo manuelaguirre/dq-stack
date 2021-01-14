@@ -30,7 +30,7 @@ export class ApiService {
     );
   }
 
-  public post<T>(path: string, body: any): Observable<T> {
+  public post<T>(path: string, body: T): Observable<T> {
     const headers: HttpHeaders = this.getHeaders();
     return this.http.post<T>(`${this.URL_API}/${path}`, body, { headers }).pipe(
       catchError((error) => {

@@ -156,6 +156,16 @@ const createGameSchema = Joi.object({
 	themes: Joi.array().items(Joi.objectId()).required()
 });
 
+const updateGameSchema = Joi.object({
+	name: Joi.string().required(),
+
+	players: Joi.array().items(Joi.objectId()).required(),
+
+	themes: Joi.array().items(Joi.objectId()).required(),
+	
+	otherwise: Joi.valid(null),
+});
+
 module.exports = { 
 	createUserSchema,
 	createPlayerSchema,
@@ -164,4 +174,5 @@ module.exports = {
 	createQuestionSchema,
 	updateQuestionSchema,
 	createGameSchema, 
+	updateGameSchema,
 };

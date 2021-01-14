@@ -5,10 +5,6 @@ const { Game } = require('../db');
 
 async function getGames() {
 	const game = await Game.find()
-		.populate([
-			{ path: 'players'},
-			{ path: 'themes'},
-		])
 		.exec();
 	return game;
 }
@@ -52,6 +48,21 @@ async function createGame(name, playerIDs, themesIDs) {
 	return result;
 }
 
+async function getGameAndUpdate(id, body) {
+	const game = await Game.findById(id).exec();
+	for (const playerID of body.players) {
+		const player = await getPlayer(playerID);
+		if (!player) throw new Error(`Player not found: "${playerID}"`);
+	}
+	for (const themeID of body.themes) {
+		const theme = await getTheme(themeID);
+		if (!theme) throw new Error(`Theme not found: "${themeID}"`);
+	}
+	Object.assign(game, { ...game, players: body.players, themes: body.themes });
+	game.save();	
+	return game;
+}
+
 async function prepareGame() {
 	const lastGame = await getLastGame();
 
@@ -80,6 +91,7 @@ async function prepareGame() {
 module.exports = {
 	getGame,
 	createGame,
+	getGameAndUpdate,
 	getGames,
 	prepareGame
 };
