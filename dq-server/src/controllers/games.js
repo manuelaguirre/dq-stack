@@ -58,7 +58,7 @@ async function getGameAndUpdate(id, body) {
 		const theme = await getTheme(themeID);
 		if (!theme) throw new Error(`Theme not found: "${themeID}"`);
 	}
-	Object.assign(game, { ...game, players: body.players, themes: body.themes });
+	Object.assign(game, { ...game, name: body.name, players: body.players, themes: body.themes });
 	game.save();	
 	return game;
 }
