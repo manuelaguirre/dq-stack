@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
-import { DqGame } from '../../../../shared/models/dq-game';
+import { DqGame, DqGameLight } from '../../../../shared/models/dq-game';
 import { ApiService } from '../../../../shared/services/api.service';
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 import { Store } from '../../../../store';
@@ -32,9 +32,9 @@ export class GamesService {
     );
   }
 
-  getGame(id: string): Observable<DqGame> {
-    if (this.store.value.games) {
-      return this.store.select<DqGame[]>('games').pipe(
+  getFullGame(id: string): Observable<DqGame> {
+    if (this.store.value.fullGames) {
+      return this.store.select<DqGame[]>('fullGames').pipe(
         switchMap((games) => {
           const game = games.filter((t) => t._id === id)[0];
           return game ? of(game) : this.searchGame(id);
@@ -44,13 +44,13 @@ export class GamesService {
     return this.searchGame(id);
   }
 
-  createNewGame(game: Partial<DqGame>): Observable<DqGame> {
-    const dataGame = {
+  createNewGame(game: Partial<DqGame>): Observable<DqGameLight> {
+    const dataGame: Partial<DqGameLight> = {
       ...game,
       players: game.players.map((player) => player._id),
       themes: game.themes.map((theme) => theme._id),
     };
-    return this.apiService.post<DqGame>('games', dataGame).pipe(
+    return this.apiService.post<DqGameLight>('games', dataGame as DqGameLight).pipe(
       tap((game_) => {
         const { games } = this.store.value;
         if (games) {
@@ -67,16 +67,34 @@ export class GamesService {
     );
   }
 
-  editGame(id: string, game: Partial<DqGame>): Observable<DqGame> {
-    return this.apiService.put<DqGame>(`games/${id}`, game).pipe(
+  editGame(id: string, game: Partial<DqGame>): Observable<DqGameLight> {
+    const dataGame = {
+      ...game,
+      players: game.players.map((player) => player._id),
+      themes: game.themes.map((theme) => theme._id),
+    };
+    return this.apiService.put<DqGameLight>(`games/${id}`, dataGame).pipe(
       tap((game_) => {
         if (game_) {
           const { games } = this.store.value;
-          games[games.findIndex((t) => t._id === id)] = game_;
-          this.store.set(
-            'games',
-            games,
-          );
+          if (!games) {
+            this.store.set(
+              'games',
+              [game_],
+            );
+          } else {
+            const index = games.findIndex((t) => t._id === id);
+            if (index) {
+              games[index] = game_;
+            } else {
+              games.push(game_);
+            }
+            this.store.set(
+              'games',
+              games,
+            );
+          }
+          this.store.resetGames();
         }
       }),
       catchError((error) => throwError(error)),
@@ -95,7 +113,7 @@ export class GamesService {
   private searchGame(id: string): Observable<DqGame> {
     return this.apiService.get<DqGame>(`games/${id}`).pipe(
       tap((games) => this.store.set(
-        'games', this.store.value.games ? [games].concat(this.store.value.games) : [games],
+        'fullGames', this.store.value.fullGames ? [games].concat(this.store.value.fullGames) : [games],
       )),
     );
   }

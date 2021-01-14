@@ -41,15 +41,16 @@ export class PlayersService {
   createNewPlayer(player: Partial<DqPlayer>): Observable<DqPlayer> {
     // Set a custom password for future log in
     const customPassword = 'defiquizz1234';
-    return this.apiService.post<DqPlayer>('players', { ...player, password: customPassword }).pipe(
-      tap((player_) => {
-        const { players } = this.store.value;
-        players.push(player_);
-        this.store.set(
-          'players', players,
-        );
-      }),
-    );
+    return this.apiService.post<DqPlayer>('players', { ...player, password: customPassword } as DqPlayer)
+      .pipe(
+        tap((player_) => {
+          const { players } = this.store.value;
+          players.push(player_);
+          this.store.set(
+            'players', players,
+          );
+        }),
+      );
   }
 
   editPlayer(id: string, player: Partial<DqPlayer>): Observable<DqPlayer> {

@@ -9,3 +9,12 @@ export interface DqGame {
   players: DqPlayer[];
   _id: string;
 }
+
+export interface DqGameLight {
+  dateCreated: string;
+  datePlayed: string;
+  name: string;
+  themes: string[];
+  players: string[];
+  _id: string;
+}

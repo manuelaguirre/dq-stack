@@ -28,7 +28,7 @@ export class BackofficeService {
   ) { }
 
   createNewTheme(name: string, description: string, isPublic: boolean): Observable<DqTheme> {
-    return this.apiService.post<DqTheme>('themes', { name, description, isPublic }).pipe(
+    return this.apiService.post<DqTheme>('themes', { name, description, isPublic } as DqTheme).pipe(
       tap((theme_) => {
         if (theme_) {
           const { themes } = this.store.value;
@@ -44,7 +44,7 @@ export class BackofficeService {
   }
 
   createNewQuestion(question: Partial<DqQuestion>): Observable<DqQuestion> {
-    return this.apiService.post<DqQuestion>('questions', { ...question }).pipe(
+    return this.apiService.post<DqQuestion>('questions', { ...question } as DqQuestion).pipe(
       tap((question_) => {
         const { questions } = this.store.value;
         if (questions[question_.theme]) {

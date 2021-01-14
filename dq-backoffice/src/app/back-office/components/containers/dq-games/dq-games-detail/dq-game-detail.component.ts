@@ -8,7 +8,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import {
+  catchError, map, switchMap, tap,
+} from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
 import {
@@ -36,6 +38,10 @@ export class DqGameDetailComponent implements OnInit {
   players$: Observable<DqPlayer[]> = null;
 
   themes$: Observable<DqTheme[]> = null;
+
+  availableThemes: DqTheme[] = null;
+
+  availablePlayers: DqPlayer[] = null;
 
   loading = false;
 
@@ -65,7 +71,7 @@ export class DqGameDetailComponent implements OnInit {
       switchMap((params) => {
         if (params.id && params.id !== 'new') {
           this.gameId = params.id;
-          return this.gamesService.getGame(this.gameId);
+          return this.gamesService.getFullGame(this.gameId);
         }
         this.createNew = true;
         return of({});
@@ -82,8 +88,26 @@ export class DqGameDetailComponent implements OnInit {
   }
 
   editGame(gameForm: FormGroup): void {
-    // TODO: Edit game
-    console.log(gameForm);
+    this.loadingNew = true;
+    this.gamesService.editGame(this.gameId, this.getGame(gameForm))
+      .pipe(
+        map((game) => {
+          if (game) {
+            this.detailForm.markAsPristine();
+            this.snackBarService.showMessage('Game edited successfully');
+            this.router.navigate(['home/games']);
+          } else {
+            this.snackBarService.showError('Error: Game not edited');
+          }
+        }),
+        catchError(() => {
+          this.snackBarService.showError('Error: Game not edited');
+          return of(null);
+        }),
+      )
+      .subscribe(() => {
+        this.loadingNew = false;
+      });
   }
 
   addNewGame(gameForm: FormGroup): void {
@@ -128,6 +152,22 @@ export class DqGameDetailComponent implements OnInit {
     });
     this.loading = false;
     return this.detailForm;
+  }
+
+  filterSelectedThemes(themes: DqTheme[], selected: DqTheme[]): DqTheme[] {
+    if (!this.availableThemes) {
+      const selectedIds = selected.map((theme) => theme._id);
+      this.availableThemes = themes.filter((t) => !selectedIds.includes(t._id));
+    }
+    return this.availableThemes;
+  }
+
+  filterSelectedPlayers(players: DqPlayer[], selected: DqPlayer[]): DqPlayer[] {
+    if (!this.availablePlayers) {
+      const selectedIds = selected.map((player) => player._id);
+      this.availablePlayers = players.filter((t) => !selectedIds.includes(t._id));
+    }
+    return this.availablePlayers;
   }
 
   // Minimum quantity of values to validate the form control
@@ -183,8 +223,8 @@ export class DqGameDetailComponent implements OnInit {
       currentIndex,
     );
     const form: FormArray = gameDetailForm.get(groupName) as FormArray;
-    if (container.id === 'cdk-drop-list-1'
-    || container.id === 'cdk-drop-list-3') {
+    const containerIDLast = parseInt(container.id[container.id.length - 1], 10);
+    if (containerIDLast % 2) {
       form.push(
         this.formBuilder.control(container.data[currentIndex]),
       );

@@ -50,9 +50,22 @@
         </ng-container>
 
         <!-- Edit -->
-        <!-- <ng-container matColumnDef="edit">
+        <ng-container matColumnDef="edit">
           <th mat-header-cell *matHeaderCellDef justify="end"></th>
           <td mat-cell *matCellDef="let element"> 
+            <ng-container *ngIf="!element.datePlayed">
+              <mat-icon matSuffix [routerLink]="['/home/games/' + element._id]"
+              tabindex="0" role="link"
+              (keyup.enter)="router.navigate(['/home/games/' + element._id])">edit</mat-icon>
+            </ng-container>
+            
+          </td>
+        </ng-container>
+        
+        <!-- Watch -->
+        <!-- <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef justify="end"></th>
+          <td mat-cell *matCellDef="let element" *ngIf="element.datePlayed"> 
             <mat-icon matSuffix [routerLink]="['/home/games/' + element._id]"
             tabindex="0" role="link"
             (keyup.enter)="router.navigate(['/home/games/' + element._id])">visibility</mat-icon>

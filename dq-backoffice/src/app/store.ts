@@ -9,6 +9,7 @@ const state: State = {
   selectedTheme: undefined,
   players: undefined,
   games: undefined,
+  fullGames: undefined,
 };
 
 export class Store {
@@ -34,5 +35,9 @@ export class Store {
     this.set('themes', undefined);
     this.set('questions', {});
     this.set('selectedTheme', undefined);
+  }
+
+  resetGames(): void {
+    this.set('fullGames', undefined);
   }
 }
