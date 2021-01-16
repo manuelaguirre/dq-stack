@@ -36,6 +36,9 @@ class ClientRenderer(Renderer):
         self.joker_images = self.get_jokers_images()
         self.badge_images = self.get_badge_images()
 
+        self.username = None
+        self.player_name_list = []
+
     def get_badge_images(self):
         badge_images = {}
         for i in range(3):
@@ -352,8 +355,8 @@ class ClientRenderer(Renderer):
         self.joker_callback(value)
 
     def block_callback(self, value):
-        target = "TODO"
-        self.joker_callback(value, target=target)
+
+        self.joker_callback(value, target=self.player_name_list[0])  # TODO: player list
 
     def steal_callback(self, value):
         target = "TODO"
@@ -363,9 +366,9 @@ class ClientRenderer(Renderer):
         for button in self.buttons_list:
             if button.value == value:
                 button.set_state("selected")
-                self.update_screen()
                 self.screen_handler.clear_data()
                 self.answer_question_callback(value)
+                self.update_screen()
 
     def show_answer_limit_message(self):
         render_multiline_text(self, "Trop tard!", self.SCREEN_HEIGHT / 2)
@@ -387,3 +390,7 @@ class ClientRenderer(Renderer):
                 button.set_state("wrong")
                 self.update_screen()
         self.screen_handler.clear_data()
+
+    @flush
+    def show_is_blocked(self, *args):
+        render_multiline_text(self, "Blocked!", self.SCREEN_HEIGHT // 2)

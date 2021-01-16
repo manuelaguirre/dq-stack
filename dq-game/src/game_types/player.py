@@ -19,6 +19,7 @@ class Player:
             self.jokers.append(Joker(jt))
 
         self.blocked_for_wrong_answer = False
+        self.blocked_by = None
 
     def add_points(self, points):
         self.differential = points
@@ -37,3 +38,6 @@ class Player:
 
     def block_for_wrong_answer(self):
         self.blocked_for_wrong_answer = True
+
+    def block_by(self, blocking_player):
+        self.blocked_by = blocking_player

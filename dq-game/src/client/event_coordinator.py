@@ -11,6 +11,7 @@ class EventCoordinator:
         self.current_score_board = None
         self.jokers = []
         self.active_joker = None
+        self.is_blocked = False
 
     def on_timeout(self):
         self.renderer.screen_handler.clear_data()
@@ -21,6 +22,10 @@ class EventCoordinator:
 
     def on_set_username(self):
         self.renderer.username = self.controller.get_username()
+
+    def on_set_player_name_list(self):
+        self.renderer.player_name_list = self.controller.get_player_name_list()
+        self.renderer.player_name_list.remove(self.renderer.username)
 
     def on_show_instructions(self):
         """
@@ -44,6 +49,8 @@ class EventCoordinator:
         self.current_question = self.controller.get_current_question()
 
         self.active_joker = None
+        self.is_blocked = False
+
         self.jokers = self.controller.get_jokers()
 
         self.renderer.show_upcoming_question_theme_and_jokers(
@@ -56,8 +63,15 @@ class EventCoordinator:
 
     def on_answer_question(self):
         self.renderer.answer_question(
-            self.current_question, self.active_joker, self.controller.send_answer
+            self.current_question,
+            self.active_joker,
+            self.controller.send_answer
+            if not self.is_blocked
+            else self.renderer.show_is_blocked,
         )
+
+    def on_blocked(self):
+        self.is_blocked = True
 
     def on_resolve_question(self):
         self.renderer.show_results(self.current_question)

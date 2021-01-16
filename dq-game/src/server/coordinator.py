@@ -33,6 +33,7 @@ class Coordinator:
         self.controller.set_number_of_players(len(self.players))
         self.controller.await_connections()
         self.controller.distribute_usernames(self.players)
+        self.controller.send_player_name_list(self.players)
 
     def game_preparation(self):
         self.renderer.show_instructions(self.dq_game.instructions)
@@ -67,6 +68,8 @@ class Coordinator:
                 config.get("jokerSelectionTime"), self.controller.emit_timeout
             )
             self.controller.show_upcoming_question_theme()
+            self.controller.handle_blocked_players(self.dq_game.players)
+
             # Show question
 
             self.ask_question(
@@ -96,6 +99,8 @@ class Coordinator:
                 config.get("jokerSelectionTime"), self.controller.emit_timeout
             )
             self.controller.show_upcoming_question_theme()
+            self.controller.handle_blocked_players(self.dq_game.players)
+
             # Show question
 
             self.ask_question(
@@ -125,8 +130,8 @@ class Coordinator:
                 config.get("jokerSelectionTime"), self.controller.emit_timeout
             )
             self.controller.show_upcoming_question_theme()
+            self.controller.handle_blocked_players(self.dq_game.players)
             # Show question and repeat in case of wrong answer
-
             self.ask_question(
                 question,
                 index,
@@ -167,8 +172,10 @@ class Coordinator:
                         has_answer, is_correct_answer, _ = self.dq_game.check_answer(
                             player, self.controller.current_answers, question
                         )
+
                         if has_answer and is_correct_answer:
                             repeat = False
+
                         elif has_answer and not is_correct_answer:
                             player.block_for_wrong_answer()
                             self.controller.show_player_answer_is_wrong(player.name)
@@ -195,3 +202,4 @@ class Coordinator:
                 break
 
         self.dq_game.undo_wrong_answer_blocks()
+        self.dq_game.unblock_players()

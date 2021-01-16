@@ -4,7 +4,6 @@ import sys
 from utils.socket_connection import ClientSocketConnection
 
 from client_controller import ClientController
-from client_game import DQClientGame
 from client_renderer import ClientRenderer
 from event_coordinator import EventCoordinator
 
@@ -20,8 +19,10 @@ def start_game():
     # Bind events
     client_socket.on("TIMEOUT", coordinator.on_timeout)
     client_socket.on("ANSWER_LIMIT_REACHED", coordinator.on_answer_limit_reached)
+    client_socket.on("BLOCKED", coordinator.on_blocked)
 
     client_socket.on("SET_USERNAME", coordinator.on_set_username)
+    client_socket.on("SET_PLAYER_NAME_LIST", coordinator.on_set_player_name_list)
     client_socket.on("SHOW_INSTRUCTIONS_AND_READY_UP", coordinator.on_show_instructions)
     client_socket.on("CHOOSE_THEME", coordinator.on_choose_theme)
     client_socket.on("START_ROUND", coordinator.on_start_round)
