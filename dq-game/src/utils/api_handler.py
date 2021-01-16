@@ -12,10 +12,6 @@ PATH_TO_TMP_FILES = "src/server/tmp"
 
 
 class APIHandler:
-    # def __init__(self):
-    # self.url = url
-    # self.credentials = credentials
-
     def get_game(self):
         """
         Returns players and question pools from a game given by the service

@@ -40,6 +40,12 @@ class Controller(EventHandler):
             self.socket.send(client["socket_object"], client["name"], "data-username")
         self.socket.send_to_all("SET_USERNAME", "event")
 
+    def send_player_name_list(self, players):
+        self.socket.send_to_all(
+            [player.name for player in players], "data-player-name-list"
+        )
+        self.socket.send_to_all("SET_PLAYER_NAME_LIST", "event")
+
     def send_instructions_and_await_confirmations(self, instructions):
         self.socket.send_to_all(instructions, "data-instructions")
         self.socket.send_to_all("SHOW_INSTRUCTIONS_AND_READY_UP", "event")
@@ -122,6 +128,12 @@ class Controller(EventHandler):
         client_name = self.socket.clients[message.origin]["name"]
         self.current_played_jokers[client_name] = message.data
 
+    def handle_blocked_players(self, players):
+        for player in players:
+            for joker_sender, joker in self.current_played_jokers.items():
+                if joker["value"] == "BLOCK" and joker["target"] == player.name:
+                    player.block_by(joker_sender)
+
     def clear_current_answers(self):
         self.current_answers = []
 
@@ -130,6 +142,13 @@ class Controller(EventHandler):
         blocked_players_for_wrong_answers = [
             player.name for player in players if player.blocked_for_wrong_answer
         ]
+
+        blocked_players_by_other_players = [
+            player.name for player in players if player.blocked_by
+        ]
+
+        for blocked_player in blocked_players_by_other_players:
+            self.socket.send_to_socket_named(blocked_player, "BLOCKED", "event")
 
         self.socket.send_to_all(
             "ANSWER_QUESTION",

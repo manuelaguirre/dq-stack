@@ -28,6 +28,9 @@ class ClientController(EventHandler):
     def get_username(self):
         return self.get_data_from_inbuffer("data-username")
 
+    def get_player_name_list(self):
+        return self.get_data_from_inbuffer("data-player-name-list")
+
     def get_instructions(self):
         """
         Gets instructions from the inbuffer and returns False if not found

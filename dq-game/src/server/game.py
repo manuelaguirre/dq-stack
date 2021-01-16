@@ -97,6 +97,10 @@ class DQGame(EventHandler):
         for player in self.players:
             player.blocked_for_wrong_answer = False
 
+    def unblock_players(self):
+        for player in self.players:
+            player.blocked_by = None
+
     def consume_jokers(self, played_jokers):
         for player in self.players:
             played_joker_type = None
