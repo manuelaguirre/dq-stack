@@ -17,7 +17,9 @@ class APIHandler:
         Returns players and question pools from a game given by the service
         """
         headers = {"x-auth-token": info.X_AUTH_TOKEN}
-        response = requests.get(info.BACK_OFFICE_URL + "games/play", headers=headers).json()
+        response = requests.get(
+            info.BACK_OFFICE_URL + "games/play", headers=headers
+        ).json()
         print(response)
         question_pools = []
         for question_pool in response["questionPools"]:

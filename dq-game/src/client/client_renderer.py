@@ -6,6 +6,7 @@ import time
 from collections import Counter
 
 import pygame
+from pages.select_player_page import SelectPlayerPage
 from game_types.joker import JokerType
 from utils.renderer import Renderer, flush
 from utils.renderer_utils import render_multiline_text, show_text_at, chop_answers
@@ -325,10 +326,11 @@ class ClientRenderer(Renderer):
         if not value:
             return
         self.screen_handler.clear_data()
-        self.display_joker_big(self.joker_images[value]["active"])
         if value == "FIFTYFIFTY":
+            self.display_joker_big(self.joker_images[value]["active"])
             self.fiftyfifty_callback(value)
         if value == "DOUBLE":
+            self.display_joker_big(self.joker_images[value]["active"])
             self.double_callback(value)
         if value == "BLOCK":
             self.block_callback(value)
@@ -355,8 +357,15 @@ class ClientRenderer(Renderer):
         self.joker_callback(value)
 
     def block_callback(self, value):
+        page = SelectPlayerPage(self, self.screen_handler)
+        page.set_data(self.player_name_list)
 
-        self.joker_callback(value, target=self.player_name_list[0])  # TODO: player list
+        def choose_player_callback(target):
+            self.display_joker_big(self.joker_images[value]["active"])
+            self.joker_callback(value, target)
+
+        page.set_callback(choose_player_callback)
+        page.render()
 
     def steal_callback(self, value):
         target = "TODO"
