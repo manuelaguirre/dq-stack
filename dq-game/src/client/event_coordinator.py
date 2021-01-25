@@ -74,7 +74,8 @@ class EventCoordinator:
         self.is_blocked = True
 
     def on_resolve_question(self):
-        self.renderer.show_results(self.current_question)
+        if not self.is_blocked:
+            self.renderer.show_results(self.current_question)
 
     def on_answer_is_wrong(self):
         self.renderer.show_answer_is_wrong()
