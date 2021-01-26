@@ -14,6 +14,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
 import {
+  CdkDrag,
   CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
@@ -39,7 +40,9 @@ export class DqGameDetailComponent implements OnInit {
 
   themes$: Observable<DqTheme[]> = null;
 
-  availableThemes: DqTheme[] = null;
+  availableThemesPublic: DqTheme[] = null;
+
+  availableThemesPrivate: DqTheme[] = null;
 
   availablePlayers: DqPlayer[] = null;
 
@@ -84,7 +87,7 @@ export class DqGameDetailComponent implements OnInit {
     this.themes$ = this.backOfficeService.getThemes();
     setTimeout(() => {
       this.dropContainers = this.containers_.toArray();
-    }, 500);
+    }, 1000);
   }
 
   editGame(gameForm: FormGroup): void {
@@ -149,17 +152,25 @@ export class DqGameDetailComponent implements OnInit {
       name: [game ? game.name : '', [Validators.required, Validators.min(5)]],
       players: this.createArrayForm(game.players),
       themes: this.createArrayForm(game.themes, 10),
+      showPublic: this.formBuilder.control(true, []),
     });
     this.loading = false;
     return this.detailForm;
   }
 
-  filterSelectedThemes(themes: DqTheme[], selected: DqTheme[]): DqTheme[] {
-    if (!this.availableThemes) {
-      const selectedIds = selected.map((theme) => theme._id);
-      this.availableThemes = themes.filter((t) => !selectedIds.includes(t._id));
+  filterSelectedThemes(themes: DqTheme[], selected: DqTheme[], isPublic: boolean): DqTheme[] {
+    if (isPublic) {
+      if (!this.availableThemesPublic) {
+        const selectedIds = selected.map((theme) => theme._id);
+        this.availableThemesPublic = themes.filter((t) => !selectedIds.includes(t._id) && t.isPublic);
+      }
+      return this.availableThemesPublic;
     }
-    return this.availableThemes;
+    if (!this.availableThemesPrivate) {
+      const selectedIds = selected.map((theme) => theme._id);
+      this.availableThemesPrivate = themes.filter((t) => !selectedIds.includes(t._id) && !t.isPublic);
+    }
+    return this.availableThemesPrivate;
   }
 
   filterSelectedPlayers(players: DqPlayer[], selected: DqPlayer[]): DqPlayer[] {
@@ -224,7 +235,7 @@ export class DqGameDetailComponent implements OnInit {
     );
     const form: FormArray = gameDetailForm.get(groupName) as FormArray;
     const containerIDLast = parseInt(container.id[container.id.length - 1], 10);
-    if (containerIDLast % 2) {
+    if (containerIDLast % 5 === 2 || containerIDLast % 5 === 4) {
       form.push(
         this.formBuilder.control(container.data[currentIndex]),
       );
@@ -244,5 +255,13 @@ export class DqGameDetailComponent implements OnInit {
       index,
       this.dropContainers[container2].data.length,
     );
+  }
+
+  privatePredicate(item: CdkDrag<DqTheme>): boolean {
+    return !item.data.isPublic;
+  }
+
+  publicPredicate(item: CdkDrag<DqTheme>): boolean {
+    return item.data.isPublic;
   }
 }
