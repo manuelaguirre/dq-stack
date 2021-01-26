@@ -16,6 +16,9 @@ dq-game-detail {
           display: none;
         }
       }
+      &.hidden {
+        display: none;
+      }
     }
     h2 {
       text-align: center;
@@ -25,6 +28,9 @@ dq-game-detail {
     mat-form-field {
       position: absolute;
       margin-top: 30px;
+    }
+    mat-radio-group {
+      justify-content: space-evenly;
     }
   }
 }

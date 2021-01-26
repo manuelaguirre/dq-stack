@@ -47,13 +47,37 @@
                     <mat-label>Filter</mat-label>
                     <input matInput placeholder="Theme name" #inputTheme>
                   </mat-form-field>
+
+                  <mat-radio-group aria-label="Select an option" formControlName="showPublic"
+                    class="full-width flex-div">
+                    <mat-radio-button [value]="true">Public</mat-radio-button>
+                    <mat-radio-button [value]="false">Private</mat-radio-button>
+                  </mat-radio-group>
+                  <!-- Public  -->
                   <div
                     cdkDropList
-                    [cdkDropListData]="filterSelectedThemes(themes, gameDetailForm.get('themes').value)"
-                    class="select-container-list"
+                    [cdkDropListEnterPredicate]="publicPredicate"
+                    [cdkDropListData]="filterSelectedThemes(themes, gameDetailForm.get('themes').value, true)"
+                    class="select-container-list" [class.hidden]="!gameDetailForm.get('showPublic').value"
                     (cdkDropListDropped)="drop($event, gameDetailForm, 'themes')">
-                    <div *ngFor="let item of filterSelectedThemes(themes, gameDetailForm.get('themes').value); let i = index" cdkDrag
-                      (click)="customDrop(i, 0, 1, gameDetailForm, 'themes')">
+                    <div *ngFor="let item of filterSelectedThemes(themes, gameDetailForm.get('themes').value, true); let i = index"
+                      cdkDrag [cdkDragData]="item"
+                      (click)="customDrop(i, 0, 2, gameDetailForm, 'themes')">
+                      <mat-card class="select-container-box mat-elevation-3"
+                      [class.hidden]="!item.name.toLocaleLowerCase().includes(inputTheme.value.toLowerCase())"
+                      >{{item.name}}</mat-card>
+                    </div>
+                  </div>
+                  <!-- Private  -->
+                  <div
+                    cdkDropList
+                    [cdkDropListEnterPredicate]="privatePredicate"
+                    [cdkDropListData]="filterSelectedThemes(themes, gameDetailForm.get('themes').value, false)"
+                    class="select-container-list" [class.hidden]="gameDetailForm.get('showPublic').value"
+                    (cdkDropListDropped)="drop($event, gameDetailForm, 'themes')">
+                    <div *ngFor="let item of filterSelectedThemes(themes, gameDetailForm.get('themes').value, false); let i = index"
+                      [cdkDragData]="item" cdkDrag 
+                      (click)="customDrop(i, 1, 2, gameDetailForm, 'themes')">
                       <mat-card class="select-container-box mat-elevation-3"
                       [class.hidden]="!item.name.toLocaleLowerCase().includes(inputTheme.value.toLowerCase())"
                       >{{item.name}}</mat-card>
@@ -70,8 +94,9 @@
                     class="select-container-list"
                     (cdkDropListDropped)="drop($event, gameDetailForm, 'themes')">
                     <mat-card class="select-container-box"
+                      [cdkDragData]="item"
                       *ngFor="let item of gameDetailForm.get('themes').value; let i = index"
-                      (click)="customDrop(i, 1, 0, gameDetailForm, 'themes')"
+                      (click)="customDrop(i, 2, item.isPublic ? 0 : 1, gameDetailForm, 'themes')"
                       cdkDrag>
                       {{item.name}}
                     </mat-card>
@@ -104,7 +129,7 @@
                     class="select-container-list"
                     (cdkDropListDropped)="drop($event, gameDetailForm, 'players')">
                     <div *ngFor="let item of filterSelectedPlayers(players, gameDetailForm.get('players').value); let i = index" cdkDrag
-                    (click)="customDrop(i, 2, 3, gameDetailForm, 'players')">
+                    (click)="customDrop(i, 3, 4, gameDetailForm, 'players')">
                       <mat-card class="select-container-box mat-elevation-3"
                       [class.hidden]="!item.firstName.toLocaleLowerCase().includes(inputPlayer.value.toLowerCase())"
                       >{{item.firstName}} {{item.lastName}}</mat-card>
@@ -122,7 +147,7 @@
                     (cdkDropListDropped)="drop($event, gameDetailForm, 'players')">
                     <mat-card class="select-container-box"
                     *ngFor="let item of gameDetailForm.get('players').value; let i = index"
-                    (click)="customDrop(i, 3, 2, gameDetailForm, 'players')"
+                    (click)="customDrop(i, 4, 3, gameDetailForm, 'players')"
                     cdkDrag>
                       {{item.firstName}} {{item.lastName}}
                     </mat-card>
