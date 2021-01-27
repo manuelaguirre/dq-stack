@@ -34,6 +34,7 @@ class EventCoordinator:
         Gets instructions from server.
         Sends them to the renderer with a ready callback function.
         """
+
         def show_instructions():
             instructions = self.controller.get_instructions()
             self.renderer.show_instructions_and_confirmation_button(
