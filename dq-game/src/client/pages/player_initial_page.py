@@ -11,35 +11,35 @@ class PlayerInitalPage(Page):
         self.callback = None
 
     def render(self):
-            self.renderer.show_background()
-            self.renderer.buttons_list = []
-            self.screen_handler.clear_data()
-            
-            self._show_title()
+        self.renderer.show_background()
+        self.renderer.buttons_list = []
+        self.screen_handler.clear_data()
 
-            show_text_at(
-                self.renderer,
-                "large",
-                self.renderer.SCREEN_WIDTH / 2,
-                2 * self.renderer.SCREEN_HEIGHT / 5,
-                self.actual_player,
-            )
+        self._show_title()
 
-            ready_button = ThemeScreenButton(
-                self.renderer.SCREEN_WIDTH / 2,
-                4 * self.renderer.SCREEN_HEIGHT / 5,
-                self.renderer.THEME_BUTTON_WIDTH,
-                self.renderer.THEME_BUTTON_HEIGHT,
-                "PRÊT",
-                self.renderer.button_backgrounds,
-                self.renderer.screen,
-                self.renderer.fonts["small"],
-            )
-            self.screen_handler.add_object(ready_button)
-            ready_button.display()
-            self.screen_handler.add_touch_callback(self.finish)
+        show_text_at(
+            self.renderer,
+            "large",
+            self.renderer.SCREEN_WIDTH / 2,
+            2 * self.renderer.SCREEN_HEIGHT / 5,
+            self.actual_player,
+        )
 
-            self.renderer.update_screen()
+        ready_button = ThemeScreenButton(
+            self.renderer.SCREEN_WIDTH / 2,
+            4 * self.renderer.SCREEN_HEIGHT / 5,
+            self.renderer.THEME_BUTTON_WIDTH,
+            self.renderer.THEME_BUTTON_HEIGHT,
+            "PRÊT",
+            self.renderer.button_backgrounds,
+            self.renderer.screen,
+            self.renderer.fonts["small"],
+        )
+        self.screen_handler.add_object(ready_button)
+        ready_button.display()
+        self.screen_handler.add_touch_callback(self.finish)
+
+        self.renderer.update_screen()
 
     def set_data(self, data):
         self.actual_player = data
