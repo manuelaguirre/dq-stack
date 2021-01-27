@@ -6,7 +6,7 @@ import time
 from collections import Counter
 
 import pygame
-from pages.select_player_page import SelectPlayerPage
+from client.pages.select_player_page import SelectPlayerPage
 from game_types.joker import JokerType
 from utils.renderer import Renderer, flush
 from utils.renderer_utils import render_multiline_text, show_text_at, chop_answers

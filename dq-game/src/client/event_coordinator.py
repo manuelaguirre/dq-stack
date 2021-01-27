@@ -1,6 +1,8 @@
 import os
 import sys
 
+from client.pages.player_initial_page import PlayerInitalPage
+
 
 class EventCoordinator:
     def __init__(self, controller, renderer):
@@ -27,15 +29,21 @@ class EventCoordinator:
         self.renderer.player_name_list = self.controller.get_player_name_list()
         self.renderer.player_name_list.remove(self.renderer.username)
 
-    def on_show_instructions(self):
+    def on_show_name_and_instructions(self):
         """
         Gets instructions from server.
         Sends them to the renderer with a ready callback function.
         """
-        instructions = self.controller.get_instructions()
-        self.renderer.show_instructions_and_confirmation_button(
-            instructions, self.controller.ready_up
-        )
+        def show_instructions():
+            instructions = self.controller.get_instructions()
+            self.renderer.show_instructions_and_confirmation_button(
+                instructions, self.controller.ready_up
+            )
+
+        page = PlayerInitalPage(self.renderer, self.renderer.screen_handler)
+        page.set_data(self.renderer.username)
+        page.set_callback(show_instructions)
+        page.render()
 
     def on_choose_theme(self):
         themes = self.controller.get_theme_list()

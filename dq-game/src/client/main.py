@@ -23,7 +23,7 @@ def start_game():
 
     client_socket.on("SET_USERNAME", coordinator.on_set_username)
     client_socket.on("SET_PLAYER_NAME_LIST", coordinator.on_set_player_name_list)
-    client_socket.on("SHOW_INSTRUCTIONS_AND_READY_UP", coordinator.on_show_instructions)
+    client_socket.on("SHOW_INSTRUCTIONS_AND_READY_UP", coordinator.on_show_name_and_instructions)
     client_socket.on("CHOOSE_THEME", coordinator.on_choose_theme)
     client_socket.on("START_ROUND", coordinator.on_start_round)
     client_socket.on(
