@@ -1,4 +1,4 @@
-from page_interface import Page
+from client.pages.page_interface import Page
 
 
 class SelectPlayerPage(Page):
