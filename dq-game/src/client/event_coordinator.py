@@ -81,6 +81,7 @@ class EventCoordinator:
 
     def on_blocked(self):
         self.is_blocked = True
+        self.renderer.blocking_player = self.controller.get_blocking_player()
 
     def on_resolve_question(self):
         if not self.is_blocked:

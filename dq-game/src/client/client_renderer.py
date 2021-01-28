@@ -39,6 +39,7 @@ class ClientRenderer(Renderer):
 
         self.username = None
         self.player_name_list = []
+        self.blocking_player = None
 
     def get_badge_images(self):
         badge_images = {}
@@ -402,4 +403,6 @@ class ClientRenderer(Renderer):
 
     @flush
     def show_is_blocked(self, *args):
-        render_multiline_text(self, "Blocked!", self.SCREEN_HEIGHT // 2)
+        render_multiline_text(
+            self, f"{self.blocking_player} vous a bloqué(e)", self.SCREEN_HEIGHT // 2
+        )
