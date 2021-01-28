@@ -140,15 +140,18 @@ class Controller(EventHandler):
     def ask_question(self, question, players, answer_limit):
 
         blocked_players_for_wrong_answers = [
-            player.name for player in players if player.blocked_for_wrong_answer
+            player for player in players if player.blocked_for_wrong_answer
         ]
 
         blocked_players_by_other_players = [
-            player.name for player in players if player.blocked_by
+            player for player in players if player.blocked_by
         ]
 
         for blocked_player in blocked_players_by_other_players:
-            self.socket.send_to_socket_named(blocked_player, "BLOCKED", "event")
+            self.socket.send_to_socket_named(
+                blocked_player.name, blocked_player.blocked_by, "data-blocking-player"
+            )
+            self.socket.send_to_socket_named(blocked_player.name, "BLOCKED", "event")
 
         self.socket.send_to_all(
             "ANSWER_QUESTION",

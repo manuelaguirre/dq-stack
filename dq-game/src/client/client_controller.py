@@ -71,6 +71,12 @@ class ClientController(EventHandler):
         """
         return self.get_data_from_inbuffer("data-jokers")
 
+    def get_blocking_player(self):
+        """
+        Gets jokers
+        """
+        return self.get_data_from_inbuffer("data-blocking-player")
+
     def send_joker(self, value, target=None):
         self.socket.send({"value": value, "target": target}, "data-joker")
 
