@@ -1,7 +1,7 @@
 import os
 import sys
 
-from client.pages.player_initial_page import PlayerInitalPage
+from client.pages.player_initial_page import PlayerInitialPage
 
 
 class EventCoordinator:
@@ -41,7 +41,7 @@ class EventCoordinator:
                 instructions, self.controller.ready_up
             )
 
-        page = PlayerInitalPage(self.renderer, self.renderer.screen_handler)
+        page = PlayerInitialPage(self.renderer, self.renderer.screen_handler)
         page.set_data(self.renderer.username)
         page.set_callback(show_instructions)
         page.render()

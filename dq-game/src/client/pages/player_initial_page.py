@@ -3,7 +3,7 @@ from utils.screen_button import ThemeScreenButton
 from utils.renderer_utils import show_text_at
 
 
-class PlayerInitalPage(Page):
+class PlayerInitialPage(Page):
     def __init__(self, renderer, screen_handler):
         self.renderer = renderer
         self.screen_handler = screen_handler
