@@ -96,6 +96,7 @@ const CompanySchema = new mongoose.Schema({
 const themeSchema = new mongoose.Schema({
 	name: String,
 	description: String,
+	isDefault: Boolean,
 	isPublic: Boolean,
 	company: CompanySchema,
 });
