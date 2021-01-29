@@ -45,6 +45,9 @@ const createThemeSchema = Joi.object({
 		.min(3)
 		.max(300)
 		.required(),
+
+	isDefault: Joi.boolean()
+		.default(false),	
 		
 	isPublic: Joi.boolean()
 		.default(true),
@@ -71,9 +74,10 @@ const updateThemeSchema = Joi.object({
 	description: Joi.string()
 		.min(3)
 		.max(300),
+
+	isDefault:Joi.boolean(),
 		
-	isPublic: Joi.boolean()
-		.default(true),
+	isPublic: Joi.boolean(),
 
 	company: Joi.when('isPublic', {is: false, then: Joi.object({
 		name: Joi.string()

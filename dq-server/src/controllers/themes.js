@@ -29,6 +29,7 @@ async function createTheme(theme){
 	const themeToAdd = new Theme({
 		name : theme.name,
 		description : theme.description,
+		isDefault: theme.isDefault,
 		isPublic: theme.isPublic,
 		company : theme.company
 	});
