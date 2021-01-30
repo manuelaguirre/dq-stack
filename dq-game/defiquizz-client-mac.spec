@@ -15,7 +15,7 @@ added_files = [
 ]
 
 a = Analysis(['src/client/main.py'],
-             pathex=['.', '/Users/sebastianfernandez/repos/Projects/defiquiz/dq-stack/dq-game/venv/lib/python3.6/site-packages'],
+             pathex=[ '.', '/Users/sfe1/AppData/Local/Programs/Python/Python36-32/Lib/site-packages'],
              binaries=[],
              datas=added_files,
              hiddenimports=['requests', 'pygame'],

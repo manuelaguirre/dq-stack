@@ -97,17 +97,18 @@ class ServerSocketConnection(SocketConnection):
     def __init__(self, port):
         super().__init__(port)
         self.tcpsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.tcpsock.bind((socket.getfqdn(), self.port))
+        self.tcpsock.bind((socket.gethostname(), self.port))
 
         # Map (address) => client (address, name)
         self.clients = {}
 
     def listen(self, expected_connections):
         self.tcpsock.listen(5)
-        print("Server listening for connections")
+        print("Server witing for " + str(expected_connections) + " connections")
 
         while len(self.clients) < expected_connections:
             self.handle_requests()
+            time.sleep(0.1)
 
         print("now we are ready to start the game")
         print(self.clients)

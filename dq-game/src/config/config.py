@@ -10,6 +10,8 @@ def get(option):
     Gets a configuration value from a JSON file
     """
     filename = Path("src/config/config.json")
+    base_path = os.path.dirname(__file__)
+    filename = os.path.abspath(os.path.join(base_path, "..", "config/config.json"))
     with open(filename, "rb") as file:
         result = json.load(file)
         for arg in parse_option(option):
