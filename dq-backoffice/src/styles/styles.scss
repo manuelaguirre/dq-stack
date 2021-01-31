@@ -106,6 +106,10 @@ select:-webkit-autofill:focus {
 
 .loading-container {
   position: absolute;
+  &.simple {
+    position: initial;
+    width: fit-content;
+  }
   top: 50%;
   .spinner-border {
     color: var(--dq-primary-color);
@@ -114,6 +118,12 @@ select:-webkit-autofill:focus {
       border-right-color: transparent;
       width: 4rem;
       height: 4rem;
+    }
+    &.small {
+      border: 0.35em solid currentColor;
+      border-right-color: transparent;
+      width: 1.5rem;
+      height: 1.5rem;
     }
   }
 }

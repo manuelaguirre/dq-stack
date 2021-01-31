@@ -65,10 +65,13 @@
                       (click)="customDrop(i, 0, 2, gameDetailForm, 'themes')">
                       <mat-card class="select-container-box mat-elevation-3"
                       [class.hidden]="!item.name.toLocaleLowerCase().includes(inputTheme.value.toLowerCase())"
-                      >{{item.name}}</mat-card>
+                      >{{item.name}}
+                      <span class="badge badge-primary" *ngIf="item.isDefault">Default</span>
+                      <span class="badge badge-secondary" *ngIf="!item.isPublic">Private</span>
+                      </mat-card>
                     </div>
                   </div>
-                  <!-- Private  -->
+                  <!-- Private -->
                   <div
                     cdkDropList
                     [cdkDropListEnterPredicate]="privatePredicate"
@@ -80,7 +83,8 @@
                       (click)="customDrop(i, 1, 2, gameDetailForm, 'themes')">
                       <mat-card class="select-container-box mat-elevation-3"
                       [class.hidden]="!item.name.toLocaleLowerCase().includes(inputTheme.value.toLowerCase())"
-                      >{{item.name}}</mat-card>
+                      >{{item.name}}
+                      <span class="badge badge-secondary">Private</span></mat-card>
                     </div>
                   </div>
                 </div>
@@ -99,6 +103,8 @@
                       (click)="customDrop(i, 2, item.isPublic ? 0 : 1, gameDetailForm, 'themes')"
                       cdkDrag>
                       {{item.name}}
+                      <span class="badge badge-primary" *ngIf="item.isDefault">Default</span>
+                      <span class="badge badge-secondary" *ngIf="!item.isPublic">Private</span>
                     </mat-card>
                   </div>
                 </div>

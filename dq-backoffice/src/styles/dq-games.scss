@@ -15,6 +15,11 @@ dq-game-detail {
         &.hidden {
           display: none;
         }
+        > .badge {
+          vertical-align: center;
+          font-size: 0.9rem;
+          line-height: 0.9rem;
+        }
       }
       &.hidden {
         display: none;
@@ -23,7 +28,7 @@ dq-game-detail {
     h2 {
       text-align: center;
       font-size: 1rem;
-      margin-bottom: 75px;
+      margin-bottom: 100px;
     }
     mat-form-field {
       position: absolute;
@@ -31,6 +36,8 @@ dq-game-detail {
     }
     mat-radio-group {
       justify-content: space-evenly;
+      position: absolute;
+      margin-top: 104px;
     }
   }
 }

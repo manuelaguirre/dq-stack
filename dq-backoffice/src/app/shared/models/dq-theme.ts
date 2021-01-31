@@ -9,5 +9,6 @@ export interface DqTheme {
   name: string;
   description: string;
   isPublic: boolean;
+  isDefault: boolean;
   company: DqCompany;
 }

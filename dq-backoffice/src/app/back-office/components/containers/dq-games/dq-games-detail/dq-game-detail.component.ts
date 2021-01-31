@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  catchError, map, switchMap, tap,
+  catchError, map, switchMap,
 } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
@@ -161,8 +161,15 @@ export class DqGameDetailComponent implements OnInit {
   filterSelectedThemes(themes: DqTheme[], selected: DqTheme[], isPublic: boolean): DqTheme[] {
     if (isPublic) {
       if (!this.availableThemesPublic) {
-        const selectedIds = selected.map((theme) => theme._id);
-        this.availableThemesPublic = themes.filter((t) => !selectedIds.includes(t._id) && t.isPublic);
+        if (this.createNew) {
+          const defaultThemes = themes.filter((theme) => theme.isDefault);
+          const selectedIds = defaultThemes.map((theme) => theme._id);
+          defaultThemes.forEach((t) => (this.detailForm.get('themes') as FormArray).push(this.formBuilder.control(t)));
+          this.availableThemesPublic = themes.filter((t) => !selectedIds.includes(t._id) && t.isPublic);
+        } else {
+          const selectedIds = selected.map((theme) => theme._id);
+          this.availableThemesPublic = themes.filter((t) => !selectedIds.includes(t._id) && t.isPublic);
+        }
       }
       return this.availableThemesPublic;
     }
