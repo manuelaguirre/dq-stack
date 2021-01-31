@@ -67,7 +67,6 @@
                       [class.hidden]="!item.name.toLocaleLowerCase().includes(inputTheme.value.toLowerCase())"
                       >{{item.name}}
                       <span class="badge badge-primary" *ngIf="item.isDefault">Default</span>
-                      <span class="badge badge-secondary" *ngIf="!item.isPublic">Private</span>
                       </mat-card>
                     </div>
                   </div>
