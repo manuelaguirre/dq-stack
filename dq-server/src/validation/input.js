@@ -75,7 +75,7 @@ const updateThemeSchema = Joi.object({
 		.min(3)
 		.max(300),
 
-	isDefault:Joi.boolean(),
+	isDefault: Joi.boolean(),
 		
 	isPublic: Joi.boolean(),
 

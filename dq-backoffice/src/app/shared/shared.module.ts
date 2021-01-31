@@ -13,6 +13,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCardModule } from '@angular/material/card';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SnackBarService } from './services/snack-bar.service';
 import { ApiService } from './services/api.service';
 import { ComponentUtilsService } from './services/component-utils';
@@ -31,6 +32,7 @@ const materialModules = [
   DragDropModule,
   MatCardModule,
   MatStepperModule,
+  MatCheckboxModule,
 ];
 
 @NgModule({

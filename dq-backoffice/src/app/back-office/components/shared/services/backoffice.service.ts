@@ -179,6 +179,7 @@ export class BackofficeService {
       tap(() => {
         this.allThemesSearched = true;
       }),
+      switchMap(() => this.store.select<DqTheme[]>('themes')),
     );
   }
 
@@ -201,7 +202,10 @@ export class BackofficeService {
   }
 
   editTheme(id: string, theme: Partial<DqTheme>): Observable<DqTheme> {
-    return this.apiService.put<DqTheme>(`themes/${id}`, theme).pipe(
+    return this.apiService.put<DqTheme>(
+      `themes/${id}`,
+      { ...theme, isDefault: theme.isPublic ? theme.isDefault : false },
+    ).pipe(
       tap((theme_) => {
         if (theme_) {
           const { themes } = this.store.value;

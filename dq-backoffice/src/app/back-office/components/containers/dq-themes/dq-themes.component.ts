@@ -2,7 +2,9 @@ import {
   Component, OnInit, ViewChild, OnDestroy,
 } from '@angular/core';
 import { Observable, Subscription, throwError } from 'rxjs';
-import { tap, catchError, switchMap } from 'rxjs/operators';
+import {
+  tap, catchError, switchMap,
+} from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
@@ -19,11 +21,11 @@ import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 export class DqThemesComponent implements OnInit, OnDestroy {
   themes$: Observable<DqTheme[]> = null;
 
-  loading = false;
+  displayedColumns: string[] = ['name', 'description', 'edit', 'delete', 'isDefault'];
 
-  displayedColumns: string[] = ['name', 'description', 'edit', 'delete'];
-
-  displayedColumnsPrivate: string[] = ['name', 'description', 'companyName', 'companySubName', 'edit', 'delete'];
+  displayedColumnsPrivate: string[] = [
+    'name', 'description', 'companyName', 'companySubName', 'edit', 'delete',
+  ];
 
   loadingExcel = false;
 
@@ -35,6 +37,10 @@ export class DqThemesComponent implements OnInit, OnDestroy {
 
   massiveImportResponse: DQMassiveImportResponse = null;
 
+  loadingEdit: Map<string, boolean> = new Map<string, boolean>();
+
+  numDefault = 0;
+
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
@@ -45,16 +51,17 @@ export class DqThemesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.loading = true;
     this.themes$ = this.backOfficeService.getThemes().pipe(
-      tap(() => {
-        this.loading = false;
-      }),
       tap((themes) => {
         const privateThemes = themes.filter((t) => !t.isPublic);
         const publicThemes = themes.filter((t) => t.isPublic);
         this.dataSource = new MatTableDataSource(publicThemes);
         this.dataSourcePrivate = new MatTableDataSource(privateThemes);
+        this.numDefault = 0;
+        themes.forEach((theme) => {
+          if (theme.isDefault) this.numDefault++;
+          this.loadingEdit.set(theme._id, false);
+        });
         setTimeout(() => {
           this.listenSort();
         }, 1000);
@@ -134,6 +141,22 @@ export class DqThemesComponent implements OnInit, OnDestroy {
     } else {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
+  }
+
+  setDefault(event: Event, theme: DqTheme): void {
+    event.stopPropagation();
+    if (!theme.isDefault && this.numDefault >= 10) {
+      this.snackbarService.showError('Maximum 10 default themes');
+      // eslint-disable-next-line no-param-reassign
+      theme.isDefault = false;
+      return;
+    }
+    this.loadingEdit.set(theme._id, true);
+    setTimeout(() => {
+      this.subscriptions.push(
+        this.backOfficeService.editTheme(theme._id, { isDefault: !theme.isDefault }).subscribe(),
+      );
+    }, 500);
   }
 
   ngOnDestroy(): void {
