@@ -44,6 +44,10 @@ class Player:
                 # TODO: REFACTOR JOKERS
                 self.jokers.pop(index)
                 break
+    
+    def add_jokers(self, jokers):
+        for joker_name in jokers:
+            self.jokers.append(Joker(JokerType[joker_name]))
 
     def block_for_wrong_answer(self):
         self.blocked_for_wrong_answer = True

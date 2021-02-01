@@ -31,6 +31,7 @@ def start_game():
     client_socket.on(
         "SHOW_UPCOMING_QUESTION_THEME", coordinator.on_show_upcoming_question_theme
     )
+    client_socket.on("START_LOTTERY", coordinator.on_start_joker_lottery)
     client_socket.on("ANSWER_QUESTION", coordinator.on_answer_question)
     client_socket.on("RESOLVE_QUESTION", coordinator.on_resolve_question)
     client_socket.on("ANSWER_IS_WRONG", coordinator.on_answer_is_wrong)

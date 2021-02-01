@@ -21,8 +21,10 @@ class Coordinator:
         self.game_setup()
         self.game_preparation()
         self.theme_selection_round()
+        self.start_joker_lottery()
         self.start_first_round()
         self.start_second_round()
+        self.start_joker_lottery()
         self.start_third_round()
 
     def game_setup(self):
@@ -203,3 +205,8 @@ class Coordinator:
 
         self.dq_game.undo_wrong_answer_blocks()
         self.dq_game.unblock_players()
+
+    def start_joker_lottery(self):
+        self.controller.start_joker_lottery()
+        new_jokers = self.controller.get_joker_lottery_results()
+        self.dq_game.add_jokers(new_jokers)

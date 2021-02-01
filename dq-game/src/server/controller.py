@@ -102,6 +102,21 @@ class Controller(EventHandler):
         self.socket.send_to_all(round_number, "data-round-number")
         self.socket.send_to_all("START_ROUND", "event")
 
+    def start_joker_lottery(self):
+        self.socket.send_to_all("START_LOTTERY", "event")
+
+    def get_joker_lottery_results(self):
+        new_jokers = {}
+
+        while len(new_jokers) < self.no_of_players:
+            for message in self.socket.inbuffer:
+                if message.content_type == "data-joker-lottery-result":
+                    client_name = self.socket.clients[message.origin]["name"]
+                    new_jokers[client_name] = message.data
+                    self.socket.inbuffer.remove(message)
+        
+        return new_jokers
+
     def send_upcoming_question_with_jokers(self, question, players):
         self.socket.send_to_all(question, "data-question")
         for client in self.socket.clients.values():
