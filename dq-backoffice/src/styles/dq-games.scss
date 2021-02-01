@@ -1,6 +1,11 @@
 dq-game-detail {
   .select-container {
     position: relative;
+    .random {
+      position: absolute;
+      width: 150px;
+      margin-top: 50px;
+    }
     .select-container-list {
       height: 380px;
       overflow: scroll;
