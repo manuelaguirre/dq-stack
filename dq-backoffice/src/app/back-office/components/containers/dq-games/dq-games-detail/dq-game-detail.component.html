@@ -90,7 +90,8 @@
               
                 <div class="select-container flex-div column">
                   <h2>Selected Themes</h2>
-                  
+                  <button class="dq-button dq-action btn btn-light random" tabindex="0"
+                    role="button" (click)="selectRandom()">Random</button>
                   <div
                     cdkDropList
                     [cdkDropListData]="gameDetailForm.get('themes').value"

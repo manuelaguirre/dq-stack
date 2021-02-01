@@ -271,4 +271,24 @@ export class DqGameDetailComponent implements OnInit {
   publicPredicate(item: CdkDrag<DqTheme>): boolean {
     return item.data.isPublic;
   }
+
+  selectRandom(): void {
+    let remaining = 10 - this.detailForm.get('themes').value.length;
+    let available = this.availableThemesPublic.length;
+    let i = 0;
+    while (remaining && available) {
+      // Add themes until haveing 10
+      setTimeout(() => {
+        const theme: DqTheme = this.availableThemesPublic.splice(
+          Math.floor(Math.random() * this.availableThemesPublic.length), 1,
+        )[0];
+        (this.detailForm.get('themes') as FormArray).insert(
+          0, this.formBuilder.control(theme),
+        );
+      }, i * 100);
+      remaining--;
+      available--;
+      i++;
+    }
+  }
 }
