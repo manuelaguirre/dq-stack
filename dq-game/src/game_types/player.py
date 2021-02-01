@@ -13,6 +13,7 @@ class Player:
         self._id = _id
         self.points = 0
         self.differential = 0
+        self.stolen_points = 0
         self.jokers = []  # self.jokers[0].name
         for jt in JokerType:
             self.jokers.append(Joker(jt))
@@ -25,9 +26,17 @@ class Player:
         self.differential = points
         self.points += points
 
+    def add_stolen_points(self, points):
+        self.stolen_points = points
+        self.points += points
+
     def double_differential(self):
         self.points += self.differential
         self.differential *= 2
+
+    def undo_points(self):
+        self.points -= self.differential
+        self.differential = 0
 
     def consume_joker(self, joker_type):
         for index, joker in enumerate(self.jokers):
