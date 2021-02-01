@@ -128,6 +128,11 @@ class DQGame(EventHandler):
                 pass
             player.consume_joker(played_joker_type)
 
+    def add_jokers(self, jokers_map):
+        for player_name, jokers in jokers_map.items():
+            player = self.find_player_by_name(player_name)
+            player.add_jokers(jokers)
+
     def get_score_board(self):
         score_board = ScoreBoard()
         for player in self.players:

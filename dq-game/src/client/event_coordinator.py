@@ -1,6 +1,8 @@
 import os
 import sys
 
+import time
+
 from client.pages.player_initial_page import PlayerInitialPage
 
 
@@ -93,3 +95,7 @@ class EventCoordinator:
     def on_show_scores(self):
         self.current_score_board = self.controller.get_score_board()
         self.renderer.show_scores(self.current_score_board)
+
+    def on_start_joker_lottery(self):
+        time.sleep(3)
+        self.controller.send_joker_lottery_result(["DOUBLE"])

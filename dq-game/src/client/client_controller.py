@@ -80,6 +80,9 @@ class ClientController(EventHandler):
     def send_joker(self, value, target=None):
         self.socket.send({"value": value, "target": target}, "data-joker")
 
+    def send_joker_lottery_result(self, value):
+        self.socket.send(value, "data-joker-lottery-result")
+
     def get_score_board(self):
         """
         Gets actual theme
