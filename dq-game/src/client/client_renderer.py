@@ -369,8 +369,15 @@ class ClientRenderer(Renderer):
         page.render()
 
     def steal_callback(self, value):
-        target = "TODO"
-        self.joker_callback(value, target=target)
+        page = SelectPlayerPage(self, self.screen_handler)
+        page.set_data(self.player_name_list)
+
+        def choose_player_callback(target):
+            self.display_joker_big(self.joker_images[value]["active"])
+            self.joker_callback(value, target)
+
+        page.set_callback(choose_player_callback)
+        page.render()
 
     def select_answer_event(self, value):
         for button in self.buttons_list:

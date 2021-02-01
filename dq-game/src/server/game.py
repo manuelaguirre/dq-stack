@@ -1,4 +1,5 @@
 import random
+from collections import defaultdict
 
 from events.event_handler import EventHandler
 from game_types.round import Round
@@ -53,7 +54,16 @@ class DQGame(EventHandler):
             self.rounds.append(round)
 
     def receive_answers(self, player_answers, question, jokers):
+
         point_service = PointService(self.round_number)
+
+        self._reset_player_stolen_points()
+        steals = defaultdict(list)
+        for player, joker in jokers.items():
+            if joker["value"] == "STEAL":
+                stolen_player_name = joker["target"]
+                stealing_player = self.find_player_by_name(player)
+                steals[stolen_player_name].append(stealing_player)
 
         for player in self.players:
             has_answer, is_correct_answer, answer_order = self.check_answer(
@@ -75,6 +85,14 @@ class DQGame(EventHandler):
 
             if is_double:
                 player.double_differential()
+
+            has_been_stolen = False
+            for thief in steals[player.name]:
+                thief.add_stolen_points(player.differential)
+                has_been_stolen = True
+
+            if has_been_stolen:
+                player.undo_points()
 
     def check_answer(self, player, player_answers, question):
 
@@ -114,7 +132,9 @@ class DQGame(EventHandler):
         score_board = ScoreBoard()
         for player in self.players:
             score_board.add_score(
-                player.name, player.differential, player.points - player.differential
+                player.name,
+                player.differential + player.stolen_points,
+                player.points - player.differential - player.stolen_points,
             )
         score_board.sort_board()
         print(score_board.__repr__())
@@ -128,3 +148,7 @@ class DQGame(EventHandler):
             if player.name == name:
                 return player
         raise RuntimeError("No player with this name")
+
+    def _reset_player_stolen_points(self):
+        for player in self.players:
+            player.stolen_points = 0

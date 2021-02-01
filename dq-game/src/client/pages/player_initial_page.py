@@ -30,7 +30,7 @@ class PlayerInitialPage(Page):
             4 * self.renderer.SCREEN_HEIGHT / 5,
             self.renderer.THEME_BUTTON_WIDTH,
             self.renderer.THEME_BUTTON_HEIGHT,
-            "PRÊT",
+            "SUIVANT",
             self.renderer.button_backgrounds,
             self.renderer.screen,
             self.renderer.fonts["small"],
