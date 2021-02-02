@@ -21,7 +21,6 @@ class Coordinator:
         self.game_setup()
         self.game_preparation()
         self.theme_selection_round()
-        self.start_joker_lottery()
         self.start_first_round()
         self.start_second_round()
         self.start_joker_lottery()
@@ -60,6 +59,10 @@ class Coordinator:
         time.sleep(5)
 
         for index, question in enumerate(self.dq_game.rounds[0].questions):
+            # Trigger lottery during the round
+            if index == 4:
+                self.start_joker_lottery()
+
             # Send upcoming question
             self.controller.send_upcoming_question_with_jokers(
                 question, self.dq_game.players
@@ -91,6 +94,10 @@ class Coordinator:
         time.sleep(5)
 
         for index, question in enumerate(self.dq_game.rounds[1].questions):
+            # Trigger lottery during the round
+            if index == 4:
+                self.start_joker_lottery()
+
             # Send upcoming question
             self.controller.send_upcoming_question_with_jokers(
                 question, self.dq_game.players
@@ -122,6 +129,10 @@ class Coordinator:
         time.sleep(5)
 
         for index, question in enumerate(self.dq_game.rounds[2].questions):
+            # Trigger lottery during the round
+            if index == 4:
+                self.start_joker_lottery()
+
             # Send upcoming question
             self.controller.send_upcoming_question_with_jokers(
                 question, self.dq_game.players

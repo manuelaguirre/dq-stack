@@ -114,7 +114,7 @@ class Controller(EventHandler):
                     client_name = self.socket.clients[message.origin]["name"]
                     new_jokers[client_name] = message.data
                     self.socket.inbuffer.remove(message)
-        
+
         return new_jokers
 
     def send_upcoming_question_with_jokers(self, question, players):
