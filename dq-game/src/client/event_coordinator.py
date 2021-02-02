@@ -4,6 +4,7 @@ import sys
 import time
 
 from client.pages.player_initial_page import PlayerInitialPage
+from client.pages.joker_lottery_page import JokerLotteryPage
 
 
 class EventCoordinator:
@@ -97,5 +98,9 @@ class EventCoordinator:
         self.renderer.show_scores(self.current_score_board)
 
     def on_start_joker_lottery(self):
-        time.sleep(3)
-        self.controller.send_joker_lottery_result(["DOUBLE"])
+        def send_joker(value):
+            self.controller.send_joker_lottery_result(value)
+
+        page = JokerLotteryPage(self.renderer, self.renderer.screen_handler)
+        page.set_callback(send_joker)
+        page.render()
