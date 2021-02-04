@@ -89,9 +89,10 @@
                 </div>
               
                 <div class="select-container flex-div column">
-                  <h2>Selected Themes</h2>
+                  <h2>Selected Themes ({{gameDetailForm.get('themes').value.length}}/10)</h2>
                   <button class="dq-button dq-action btn btn-light random" tabindex="0"
-                    role="button" (click)="selectRandom()">Random</button>
+                    role="button" (click)="selectRandom()"
+                    [disabled]="gameDetailForm.get('themes').value.length >= 10">Random</button>
                   <div
                     cdkDropList
                     [cdkDropListData]="gameDetailForm.get('themes').value"
