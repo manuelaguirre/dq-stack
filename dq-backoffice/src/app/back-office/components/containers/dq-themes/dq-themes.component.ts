@@ -152,9 +152,10 @@ export class DqThemesComponent implements OnInit, OnDestroy {
       return;
     }
     this.loadingEdit.set(theme._id, true);
+    const isDefault = !theme.isDefault;
     setTimeout(() => {
       this.subscriptions.push(
-        this.backOfficeService.editTheme(theme._id, { isDefault: !theme.isDefault }).subscribe(),
+        this.backOfficeService.editTheme(theme._id, { isPublic: theme.isPublic, isDefault }).subscribe(),
       );
     }, 500);
   }

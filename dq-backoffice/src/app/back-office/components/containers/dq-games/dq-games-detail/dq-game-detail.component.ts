@@ -193,7 +193,7 @@ export class DqGameDetailComponent implements OnInit {
     [key: string]: any;
   } {
     return (c: AbstractControl): {[key: string]: any;} => {
-      if (c.value.length >= min) {
+      if (c.value.length === min) {
         return null;
       }
       return { MinLengthArray: true };
