@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  catchError, map, switchMap,
+  catchError, map, switchMap, tap,
 } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
@@ -17,6 +17,7 @@ import {
   CdkDrag,
   CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { MatDialog } from '@angular/material/dialog';
 import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
 import { DqGame } from '../../../../../shared/models/dq-game';
 import { GamesService } from '../../../shared/services/games.service';
@@ -24,6 +25,7 @@ import { DqPlayer } from '../../../../../shared/models/dq-player';
 import { DqTheme } from '../../../../../shared/models/dq-theme';
 import { PlayersService } from '../../../shared/services/players.service';
 import { BackofficeService } from '../../../shared/services/backoffice.service';
+import { DqPlayerDetailComponent } from '../../dq-players/dq-players-detail/dq-player-detail.component';
 
 @Component({
   selector: 'dq-game-detail',
@@ -66,6 +68,7 @@ export class DqGameDetailComponent implements OnInit {
     private snackBarService: SnackBarService,
     public router: Router,
     private route: ActivatedRoute,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -242,7 +245,7 @@ export class DqGameDetailComponent implements OnInit {
     );
     const form: FormArray = gameDetailForm.get(groupName) as FormArray;
     const containerIDLast = parseInt(container.id[container.id.length - 1], 10);
-    if (containerIDLast % 5 === 2 || containerIDLast % 5 === 4) {
+    if (containerIDLast % 5 === 1 || containerIDLast % 5 === 4) {
       form.push(
         this.formBuilder.control(container.data[currentIndex]),
       );
@@ -290,5 +293,24 @@ export class DqGameDetailComponent implements OnInit {
       available--;
       i++;
     }
+  }
+
+  addNewPlayer(): void {
+    const dialogRef = this.dialog.open<DqPlayerDetailComponent, {
+      isPopup: boolean;
+    }, DqPlayer>(DqPlayerDetailComponent, { data: { isPopup: true } });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.availablePlayers.push(result);
+        this.customDrop(
+          this.dropContainers[0].data.length,
+          0,
+          1,
+          this.detailForm,
+          'players',
+        );
+      }
+    });
   }
 }

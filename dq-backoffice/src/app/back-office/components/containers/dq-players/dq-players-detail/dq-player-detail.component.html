@@ -1,14 +1,15 @@
-<div class="dq-background full-width full-height">
+<div class="dq-background full-width full-height" *ngIf="!isPopup">
   <div class="child full-width full-height"></div>
   <div class="child2 full-width full-height"></div>
   <div class="child3 full-width full-height"></div>
 </div>
 <div class="dq-container flex-div column">
   <div class="dq-back btn btn-light" [routerLink]="['/home/players']"
-  (keyup.enter)="router.navigate(['/home/players'])" tabindex="0" role="button">
+  (keyup.enter)="router.navigate(['/home/players'])" tabindex="0" role="button"
+  *ngIf="!isPopup">
     <a>Return</a>
   </div>
-  <div class="dq-logo"></div>
+  <div class="dq-logo" *ngIf="!isPopup"></div>
   <ng-container *ngIf="playerDetailForm$ | async as playerDetailForm; else loading">
     <h1 class="dq-title">{{ !playerDetailForm.value.firstName ? 'Create new Player' : 'Edit Player' }}</h1>
     <div class="dq-menu flex-div column form-container">
