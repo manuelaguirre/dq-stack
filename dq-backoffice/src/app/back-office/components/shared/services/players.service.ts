@@ -23,6 +23,7 @@ export class PlayersService {
       tap(() => {
         this.allPlayersSearched = true;
       }),
+      switchMap(() => this.store.select<DqPlayer[]>('players')),
     );
   }
 

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
 import { DqPlayer } from '../../../../../shared/models/dq-player';
 import { PlayersService } from '../../../shared/services/players.service';
@@ -27,12 +28,16 @@ export class DqPlayerDetailComponent implements OnInit {
 
   playerId = '';
 
+  isPopup = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private playersService: PlayersService,
     private snackBarService: SnackBarService,
     public router: Router,
     private route: ActivatedRoute,
+    public dialogRef: MatDialogRef<DqPlayerDetailComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { isPopup: boolean; },
   ) { }
 
   ngOnInit(): void {
@@ -50,6 +55,9 @@ export class DqPlayerDetailComponent implements OnInit {
     this.playerDetailForm$ = this.player$.pipe(
       switchMap((player: DqPlayer) => of(this.createForm(player))),
     );
+    if (this.data && this.data.isPopup) {
+      this.isPopup = true;
+    }
   }
 
   addNewPlayer(playerForm: FormGroup): void {
@@ -60,7 +68,11 @@ export class DqPlayerDetailComponent implements OnInit {
           if (player) {
             this.detailForm.markAsPristine();
             this.snackBarService.showMessage('Player created successfully');
-            this.router.navigate(['home/players']);
+            if (this.isPopup) {
+              this.dialogRef.close(player);
+            } else {
+              this.router.navigate(['home/players']);
+            }
           } else {
             this.snackBarService.showError('Error: Player not created');
           }

@@ -37,6 +37,59 @@
               </div>
             </mat-step>
 
+            <!-- Select players -->
+            <mat-step [stepControl]="gameDetailForm.get('players')" [optional]="false">
+              <ng-template matStepLabel>Select some players</ng-template>
+              <div cdkDropListGroup class="flex-div">
+                <div class="select-container flex-div column">
+                  <h2>All players</h2>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Filter</mat-label>
+                    <input matInput placeholder="Player name" #inputPlayer>
+                  </mat-form-field>
+              
+                  <div
+                    cdkDropList
+                    [cdkDropListData]="filterSelectedPlayers(players, gameDetailForm.get('players').value)"
+                    class="select-container-list"
+                    (cdkDropListDropped)="drop($event, gameDetailForm, 'players')">
+                    <div *ngFor="let item of filterSelectedPlayers(players, gameDetailForm.get('players').value); let i = index" cdkDrag
+                    (click)="customDrop(i, 0, 1, gameDetailForm, 'players')">
+                      <mat-card class="select-container-box mat-elevation-3"
+                      [class.hidden]="!item.firstName.toLocaleLowerCase().includes(inputPlayer.value.toLowerCase())"
+                      >{{item.firstName}} {{item.lastName}}</mat-card>
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="select-container flex-div column">
+                  <h2>Selected Players</h2>
+                  <button class="dq-button dq-action btn btn-light random" tabindex="0"
+                    role="button" (click)="addNewPlayer()">Add new player</button>
+              
+                  <div
+                    cdkDropList
+                    [cdkDropListData]="gameDetailForm.get('players').value"
+                    class="select-container-list"
+                    (cdkDropListDropped)="drop($event, gameDetailForm, 'players')">
+                    <mat-card class="select-container-box"
+                    *ngFor="let item of gameDetailForm.get('players').value; let i = index"
+                    (click)="customDrop(i, 1, 0, gameDetailForm, 'players')"
+                    cdkDrag>
+                      {{item.firstName}} {{item.lastName}}
+                    </mat-card>
+                  </div>
+                </div>
+              </div>
+              <div class="button-container flex-div">
+                <button class="dq-button dq-action btn btn-light" tabindex="0"
+                role="button" mat-button matStepperPrevious>Back</button>
+                <button class="dq-button dq-action btn btn-light" tabindex="0"
+                role="button" mat-button matStepperNext [disabled]="gameDetailForm.get('players').invalid"
+                [class.disabled]="gameDetailForm.get('players').invalid">Next</button>
+              </div>
+            </mat-step>
+
             <!-- Select themes -->
             <mat-step [stepControl]="gameDetailForm.get('themes')" [optional]="false">
               <ng-template matStepLabel>Select 10 themes</ng-template>
@@ -62,7 +115,7 @@
                     (cdkDropListDropped)="drop($event, gameDetailForm, 'themes')">
                     <div *ngFor="let item of filterSelectedThemes(themes, gameDetailForm.get('themes').value, true); let i = index"
                       cdkDrag [cdkDragData]="item"
-                      (click)="customDrop(i, 0, 2, gameDetailForm, 'themes')">
+                      (click)="customDrop(i, 2, 4, gameDetailForm, 'themes')">
                       <mat-card class="select-container-box mat-elevation-3"
                       [class.hidden]="!item.name.toLocaleLowerCase().includes(inputTheme.value.toLowerCase())"
                       >{{item.name}}
@@ -79,7 +132,7 @@
                     (cdkDropListDropped)="drop($event, gameDetailForm, 'themes')">
                     <div *ngFor="let item of filterSelectedThemes(themes, gameDetailForm.get('themes').value, false); let i = index"
                       [cdkDragData]="item" cdkDrag 
-                      (click)="customDrop(i, 1, 2, gameDetailForm, 'themes')">
+                      (click)="customDrop(i, 3, 4, gameDetailForm, 'themes')">
                       <mat-card class="select-container-box mat-elevation-3"
                       [class.hidden]="!item.name.toLocaleLowerCase().includes(inputTheme.value.toLowerCase())"
                       >{{item.name}}
@@ -101,62 +154,11 @@
                     <mat-card class="select-container-box"
                       [cdkDragData]="item"
                       *ngFor="let item of gameDetailForm.get('themes').value; let i = index"
-                      (click)="customDrop(i, 2, item.isPublic ? 0 : 1, gameDetailForm, 'themes')"
+                      (click)="customDrop(i, 4, item.isPublic ? 2 : 3, gameDetailForm, 'themes')"
                       cdkDrag>
                       {{item.name}}
                       <span class="badge badge-primary" *ngIf="item.isDefault">Default</span>
                       <span class="badge badge-secondary" *ngIf="!item.isPublic">Private</span>
-                    </mat-card>
-                  </div>
-                </div>
-              </div>
-              <div class="button-container flex-div">
-                <button class="dq-button dq-action btn btn-light" tabindex="0"
-                role="button" mat-button matStepperPrevious>Back</button>
-                <button class="dq-button dq-action btn btn-light" tabindex="0"
-                role="button" mat-button matStepperNext [disabled]="gameDetailForm.get('themes').invalid"
-                [class.disabled]="gameDetailForm.get('themes').invalid">Next</button>
-              </div>
-            </mat-step>
-
-            <!-- Select players -->
-            <mat-step [stepControl]="gameDetailForm.get('players')" [optional]="false">
-              <ng-template matStepLabel>Select some players</ng-template>
-              <div cdkDropListGroup class="flex-div">
-                <div class="select-container flex-div column">
-                  <h2>All players</h2>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Filter</mat-label>
-                    <input matInput placeholder="Player name" #inputPlayer>
-                  </mat-form-field>
-              
-                  <div
-                    cdkDropList
-                    [cdkDropListData]="filterSelectedPlayers(players, gameDetailForm.get('players').value)"
-                    class="select-container-list"
-                    (cdkDropListDropped)="drop($event, gameDetailForm, 'players')">
-                    <div *ngFor="let item of filterSelectedPlayers(players, gameDetailForm.get('players').value); let i = index" cdkDrag
-                    (click)="customDrop(i, 3, 4, gameDetailForm, 'players')">
-                      <mat-card class="select-container-box mat-elevation-3"
-                      [class.hidden]="!item.firstName.toLocaleLowerCase().includes(inputPlayer.value.toLowerCase())"
-                      >{{item.firstName}} {{item.lastName}}</mat-card>
-                    </div>
-                  </div>
-                </div>
-              
-                <div class="select-container flex-div column">
-                  <h2>Selected Players</h2>
-              
-                  <div
-                    cdkDropList
-                    [cdkDropListData]="gameDetailForm.get('players').value"
-                    class="select-container-list"
-                    (cdkDropListDropped)="drop($event, gameDetailForm, 'players')">
-                    <mat-card class="select-container-box"
-                    *ngFor="let item of gameDetailForm.get('players').value; let i = index"
-                    (click)="customDrop(i, 4, 3, gameDetailForm, 'players')"
-                    cdkDrag>
-                      {{item.firstName}} {{item.lastName}}
                     </mat-card>
                   </div>
                 </div>

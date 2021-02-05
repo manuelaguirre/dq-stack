@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DqPlayersComponent } from '../components/containers/dq-players/dq-players.component';
 import { DqBackofficeSharedModule } from '../components/shared/dq-backoffice-shared.module';
 import { AuthGuardService } from '../../auth/auth-form/services/auth-guard.service';
@@ -36,6 +37,8 @@ const routes: Routes = [
   ],
   providers: [
     CanDeactivateForm,
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} },
   ],
 })
 export class DqPlayersModule { }
