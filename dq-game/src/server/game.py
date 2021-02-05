@@ -111,10 +111,6 @@ class DQGame(EventHandler):
 
         return has_answer, is_correct_answer, answer_order
 
-    def undo_wrong_answer_blocks(self):
-        for player in self.players:
-            player.blocked_for_wrong_answer = False
-
     def unblock_players(self):
         for player in self.players:
             player.blocked_by = None

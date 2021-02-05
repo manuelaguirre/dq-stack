@@ -154,10 +154,6 @@ class Controller(EventHandler):
 
     def ask_question(self, question, players, answer_limit):
 
-        blocked_players_for_wrong_answers = [
-            player for player in players if player.blocked_for_wrong_answer
-        ]
-
         blocked_players_by_other_players = [
             player for player in players if player.blocked_by
         ]
@@ -171,20 +167,20 @@ class Controller(EventHandler):
         self.socket.send_to_all(
             "ANSWER_QUESTION",
             "event",
-            excepted_client_names=blocked_players_for_wrong_answers,
         )
 
+    def listen_for_answers(self, answer_limit):
         self.is_timeout = False
+        no_of_answers = 0
 
-        while not self.is_timeout and len(self.current_answers) < answer_limit:
+        while not self.is_timeout and no_of_answers < answer_limit:
             for message in self.socket.inbuffer:
                 if message.content_type == "data-answer":
                     self.process_answer(message)
                     self.socket.inbuffer.remove(message)
+                    no_of_answers += 1
 
-                    if len(self.current_answers) >= answer_limit:
-                        self.current_answers = self.current_answers[:answer_limit]
-                        self.flush_inbuffer()
+                    if no_of_answers >= answer_limit:
                         break
 
             time.sleep(0.02)

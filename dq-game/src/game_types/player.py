@@ -19,7 +19,6 @@ class Player:
             self.jokers.append(Joker(jt))
             self.jokers.append(Joker(jt))
 
-        self.blocked_for_wrong_answer = False
         self.blocked_by = None
 
     def add_points(self, points):
@@ -48,9 +47,6 @@ class Player:
     def add_jokers(self, jokers):
         for joker_name in jokers:
             self.jokers.append(Joker(JokerType[joker_name]))
-
-    def block_for_wrong_answer(self):
-        self.blocked_for_wrong_answer = True
 
     def block_by(self, blocking_player):
         self.blocked_by = blocking_player
