@@ -23,7 +23,6 @@ class Coordinator:
         self.theme_selection_round()
         self.start_first_round()
         self.start_second_round()
-        self.start_joker_lottery()
         self.start_third_round()
 
     def game_setup(self):
@@ -171,30 +170,29 @@ class Coordinator:
         )
         self.renderer.show_question(question, index)
 
-        while True:
+        self.controller.ask_question(
+            question,
+            self.dq_game.players,
+            answer_limit,
+        )
 
-            self.controller.ask_question(
-                question,
-                self.dq_game.players,
-                answer_limit,
-            )
+        while True:
+            self.controller.listen_for_answers(answer_limit)
 
             if repeat == True and not self.controller.is_timeout:
                 for player in self.dq_game.players:
-                    if not player.blocked_for_wrong_answer:
-                        has_answer, is_correct_answer, _ = self.dq_game.check_answer(
-                            player, self.controller.current_answers, question
-                        )
 
-                        if has_answer and is_correct_answer:
+                    has_answer, is_correct_answer, _ = self.dq_game.check_answer(
+                        player, self.controller.current_answers, question
+                    )
+
+                    if has_answer and is_correct_answer:
+                        repeat = False
+
+                    elif has_answer and not is_correct_answer:
+                        self.controller.show_player_answer_is_wrong(player.name)
+                        if self.controller.current_answers >= len(self.dq_game.players):
                             repeat = False
-
-                        elif has_answer and not is_correct_answer:
-                            player.block_for_wrong_answer()
-                            self.controller.show_player_answer_is_wrong(player.name)
-                            answer_limit += 1
-                            if answer_limit > len(self.dq_game.players):
-                                repeat = False
 
             if repeat == False or self.controller.is_timeout:
                 if len(self.controller.current_answers) == answer_limit:
@@ -214,7 +212,6 @@ class Coordinator:
                 )
                 break
 
-        self.dq_game.undo_wrong_answer_blocks()
         self.dq_game.unblock_players()
 
     def start_joker_lottery(self):
