@@ -170,6 +170,31 @@ const updateGameSchema = Joi.object({
 	otherwise: Joi.valid(null),
 });
 
+const roundValidation = Joi.array().items(Joi.object({
+	question: Joi.objectId(),
+	answers: Joi.array().items(Joi.object({
+		player: Joi.objectId(),
+		correct: Joi.boolean(),
+		points: Joi.number(),
+	})),
+	jokers: Joi.array().items(Joi.object({
+		player: Joi.objectId(),
+		value: Joi.string(),
+		target: Joi.objectId(),
+		stolenPoints: Joi.number(),
+	}))
+}));
+
+const updateGameResultsSchema = Joi.object({
+	results: Joi.object({
+		firstRound: roundValidation,
+		secondRound: roundValidation,
+		thirdRound: roundValidation,
+	}),
+
+	otherwise: Joi.valid(null),
+});
+
 module.exports = { 
 	createUserSchema,
 	createPlayerSchema,
@@ -179,4 +204,5 @@ module.exports = {
 	updateQuestionSchema,
 	createGameSchema, 
 	updateGameSchema,
+	updateGameResultsSchema,
 };

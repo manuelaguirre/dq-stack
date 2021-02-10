@@ -39,7 +39,7 @@
         <ng-container matColumnDef="datePlayed">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Date played </th>
           <td mat-cell *matCellDef="let element">
-            {{element.datePlayed ? element.datePlayed : '-'}}
+            {{element.datePlayed ? (element.datePlayed | date) : '-'}}
           </td>
         </ng-container>
 

@@ -6,11 +6,12 @@ const _ = require('lodash');
 const userSchema = new mongoose.Schema({
 	username: String,
 	password: String,
+	role: { type: String, default: 'user' },
 });
 
 userSchema.methods.generateAuthToken = function() {
 	const token = jwt.sign(
-		_.pick(this, ['_id', 'username']),
+		_.pick(this, ['_id', 'username', 'role']),
 		config.get('jwtPrivateKey')
 	);
 	return token;
@@ -58,20 +59,6 @@ playerSchema.methods.filterForResponse = function() {
 	return response;
 };
 
-const gameSchema = new mongoose.Schema({
-	themes : [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref : 'Theme'}
-	],
-	players: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref : 'Player'
-	}],
-	name: String,
-	dateCreated: { type: Date, default: Date.now },
-	datePlayed: { type: Date, default: null },
-});
-
 const questionSchema = new mongoose.Schema({
 	text: String,
 	theme: {
@@ -88,7 +75,7 @@ const questionSchema = new mongoose.Schema({
 	},
 });
 
-const CompanySchema = new mongoose.Schema({
+const companySchema = new mongoose.Schema({
 	name: String,
 	subname: String,
 });
@@ -98,7 +85,55 @@ const themeSchema = new mongoose.Schema({
 	description: String,
 	isDefault: Boolean,
 	isPublic: Boolean,
-	company: CompanySchema,
+	company: companySchema,
+});
+
+const questionResultSchema = new mongoose.Schema({
+	question: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref : 'Question',
+	},
+	answers: [{
+		player: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref : 'Player',
+		},
+		correct: Boolean,
+		points: Number,
+	}],
+	jokers: [{
+		player: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref : 'Player',
+		},
+		value: String,
+		target: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref : 'Player',
+		},
+		stolenPoints: Number,
+	}]
+});
+
+const gameResultSchema = new mongoose.Schema({
+	firstRound: [questionResultSchema],
+	secondRound: [questionResultSchema],
+	thirdRound: [questionResultSchema],
+});
+
+const gameSchema = new mongoose.Schema({
+	themes : [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref : 'Theme',
+	}],
+	players: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref : 'Player',
+	}],
+	name: String,
+	dateCreated: { type: Date, default: Date.now },
+	datePlayed: { type: Date, default: null },
+	results: gameResultSchema,
 });
 
 const User = mongoose.model('User', userSchema);

@@ -1,4 +1,4 @@
-const auth = require('../middleware/auth');
+const { auth, authAdmin } = require('../middleware/auth');
 const express = require('express');
 const userController = require('../controllers/users');
 const { createUserSchema } = require('../validation/input');
@@ -7,7 +7,7 @@ const router = express.Router();
 router.use(express.json());
 
 
-router.get('/', auth, asyncCatch(async (req, res) => {
+router.get('/', authAdmin, asyncCatch(async (req, res) => {
 	let users =  await userController.getUsers();
 	if (req.query.username) {
 		const userByName = await userController.getUserByName(req.query.username.toString());
@@ -19,7 +19,7 @@ router.get('/', auth, asyncCatch(async (req, res) => {
 	return res.send(users);
 }));
 
-router.get('/:id', auth, asyncCatch(async (req, res) => {
+router.get('/:id', authAdmin, asyncCatch(async (req, res) => {
 	const user = await userController.getUser(req.params.id);
 	return res.send(user.filterForResponse());
 }));
