@@ -1,8 +1,8 @@
-const auth = require('../middleware/auth');
+const { auth, authAdmin, authGame } = require('../middleware/auth');
 const express = require('express');
 const gamesController = require('../controllers/games');
 const asyncCatch = require('../middleware/asyncCatch');
-const { createGameSchema, updateGameSchema } = require('../validation/input');
+const { createGameSchema, updateGameSchema, updateGameResultsSchema } = require('../validation/input');
 const { createGame } = require('../controllers/games');
 const router = express.Router();
 router.use(express.json());
@@ -22,22 +22,33 @@ router.get('/:id', auth, asyncCatch(async (req, res) => {
 	return res.send(game);
 }));
 
-router.put('/:id', auth, asyncCatch(async (req, res) => {
+router.put('/:id', authAdmin, asyncCatch(async (req, res) => {
 	let result = updateGameSchema.validate(req.body);
 	if (result.error) {
-		res.status(400).send(result.error.details[0].message);
-		return;
+		return res.status(400).send(result.error.details[0].message);
 	}
 	try {
 		result = await gamesController.getGameAndUpdate(req.params.id, req.body);		
 	} catch (error) {
-		res.status(404).send(error.message);
+		return res.status(404).send(error.message);
 	}	
 	return res.status(200).send(result);
 }));
 
-router.post('/', auth, asyncCatch(async (req, res) => {
+router.put('/:id/results', authGame, asyncCatch(async (req, res) => {
+	let result = updateGameResultsSchema.validate(req.body);
+	if (result.error) {
+		return res.status(400).send(result.error.details[0].message);
+	}
+	try {
+		result = await gamesController.getGameAndUpdate(req.params.id, req.body);		
+	} catch (error) {
+		return res.status(404).send(error.message);
+	}	
+	return res.status(200).send(result);
+}));
 
+router.post('/', authAdmin, asyncCatch(async (req, res) => {
 	let result = createGameSchema.validate(req.body);
 	if (result.error) {
 		res.status(400).send(result.error.details[0].message);

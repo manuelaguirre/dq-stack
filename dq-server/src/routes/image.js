@@ -1,4 +1,4 @@
-const auth = require('../middleware/auth');
+const { auth, authAdmin } = require('../middleware/auth');
 const express = require('express');
 const multer = require('multer');
 const asyncCatch = require('../middleware/asyncCatch');
@@ -43,7 +43,7 @@ router.get('/', asyncCatch(async (req, res) => {
 	res.set('content-type', `image/${extension}`);
 }));
 
-router.put('/', upload.single('image'), auth, asyncCatch(async (req, res) => {
+router.put('/', upload.single('image'), authAdmin, asyncCatch(async (req, res) => {
 	const questionID = castToObjectID(req.params.questionID);
 	let result;
 	if (await questionHasImage(questionID)) {
@@ -56,7 +56,7 @@ router.put('/', upload.single('image'), auth, asyncCatch(async (req, res) => {
 	return res.send(result);   
 }));
 
-router.delete('/', upload.none('image'), auth, asyncCatch(async (req, res) => {
+router.delete('/', upload.none('image'), authAdmin, asyncCatch(async (req, res) => {
 	const questionID = castToObjectID(req.params.questionID);
 	let result;
 	if (await questionHasImage(questionID)) {

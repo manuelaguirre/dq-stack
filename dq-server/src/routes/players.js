@@ -1,4 +1,4 @@
-const auth = require('../middleware/auth');
+const { auth, authAdmin } = require('../middleware/auth');
 const express = require('express');
 const playerController = require('../controllers/players');
 const { createPlayerSchema } = require('../validation/input');
@@ -21,7 +21,7 @@ router.get('/:id', auth, asyncCatch(async (req, res) => {
 	return res.send(player);
 }));
 
-router.post('/', auth, asyncCatch(async (req, res) => {
+router.post('/', authAdmin, asyncCatch(async (req, res) => {
 	let result = createPlayerSchema.validate(req.body);
 	if (result.error) {
 		res.status(400).send(result.error.details[0].message);
@@ -34,7 +34,7 @@ router.post('/', auth, asyncCatch(async (req, res) => {
 	return res.header('x-auth-token', token).send(result.filterForResponse());
 }));
 
-router.put('/:id', auth, asyncCatch(async (req,res) => {
+router.put('/:id', authAdmin, asyncCatch(async (req,res) => {
 	let result = await playerController.getPlayerAndUpdate(req.params.id, req.body);
 	if (!result) {
 		return res.status(404).send();
@@ -42,7 +42,7 @@ router.put('/:id', auth, asyncCatch(async (req,res) => {
 	return res.status(200).send(result);
 }));
 
-router.patch('/:id', auth, asyncCatch(async (req,res) => {
+router.patch('/:id', authAdmin, asyncCatch(async (req,res) => {
 	try {
 		const player = await playerController.addQuestions(req.params.id, req.body.playedQuestions);
 		res.send(player.filterForResponse());		

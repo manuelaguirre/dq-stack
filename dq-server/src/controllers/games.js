@@ -51,13 +51,16 @@ async function createGame(name, playerIDs, themesIDs) {
 async function getGameAndUpdate(id, body) {
 	const game = await Game.findById(id).exec();
 	// TODO: if game is empty, throw error 404
-	for (const playerID of body.players) {
+	for (const playerID of (body.players || [])) {
 		const player = await getPlayer(playerID);
 		if (!player) throw new Error(`Player not found: "${playerID}"`);
 	}
-	for (const themeID of body.themes) {
+	for (const themeID of (body.themes || [])) {
 		const theme = await getTheme(themeID);
 		if (!theme) throw new Error(`Theme not found: "${themeID}"`);
+	}
+	if (body.results) {
+		body.datePlayed = Date.now();
 	}
 	Object.assign(game, body);
 	game.save();
