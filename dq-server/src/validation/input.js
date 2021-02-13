@@ -182,7 +182,7 @@ const roundValidation = Joi.array().items(Joi.object({
 	jokers: Joi.array().items(Joi.object({
 		player: Joi.objectId(),
 		value: Joi.string(),
-		target: Joi.objectId(),
+		target: Joi.objectId().allow(null),
 	}))
 }));
 
