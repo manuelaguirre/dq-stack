@@ -98,8 +98,10 @@ const questionResultSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref : 'Player',
 		},
+		hasAnswer: Boolean,
 		correct: Boolean,
 		points: Number,
+		stolenPoints: Number,
 	}],
 	jokers: [{
 		player: {
@@ -111,7 +113,6 @@ const questionResultSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref : 'Player',
 		},
-		stolenPoints: Number,
 	}]
 });
 
