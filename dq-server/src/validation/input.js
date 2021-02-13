@@ -174,14 +174,15 @@ const roundValidation = Joi.array().items(Joi.object({
 	question: Joi.objectId(),
 	answers: Joi.array().items(Joi.object({
 		player: Joi.objectId(),
+		hasAnswer: Joi.boolean(),
 		correct: Joi.boolean(),
 		points: Joi.number(),
+		stolenPoints: Joi.number(),
 	})),
 	jokers: Joi.array().items(Joi.object({
 		player: Joi.objectId(),
 		value: Joi.string(),
 		target: Joi.objectId(),
-		stolenPoints: Joi.number(),
 	}))
 }));
 
