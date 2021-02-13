@@ -98,7 +98,7 @@ const questionResultSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref : 'Player',
 		},
-		hasAnswer: Boolean,
+		hadAnswered: Boolean,
 		correct: Boolean,
 		points: Number,
 		stolenPoints: Number,
@@ -120,6 +120,13 @@ const gameResultSchema = new mongoose.Schema({
 	firstRound: [questionResultSchema],
 	secondRound: [questionResultSchema],
 	thirdRound: [questionResultSchema],
+	finalResults: [{
+		player: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref : 'Player',
+		},
+		points: Number,
+	}]
 });
 
 const gameSchema = new mongoose.Schema({

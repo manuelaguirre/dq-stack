@@ -174,7 +174,7 @@ const roundValidation = Joi.array().items(Joi.object({
 	question: Joi.objectId(),
 	answers: Joi.array().items(Joi.object({
 		player: Joi.objectId(),
-		hasAnswer: Joi.boolean(),
+		hadAnswered: Joi.boolean(),
 		correct: Joi.boolean(),
 		points: Joi.number(),
 		stolenPoints: Joi.number(),
@@ -191,6 +191,10 @@ const updateGameResultsSchema = Joi.object({
 		firstRound: roundValidation,
 		secondRound: roundValidation,
 		thirdRound: roundValidation,
+		finalResults: Joi.array().items(Joi.object({
+			player: Joi.objectId(),
+			points: Joi.number(),
+		})),
 	}),
 
 	otherwise: Joi.valid(null),
