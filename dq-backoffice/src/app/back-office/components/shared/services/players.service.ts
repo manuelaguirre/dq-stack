@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import {
+  filter, map, tap,
+} from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
 import { DqPlayer } from '../../../../shared/models/dq-player';
 import { ApiService } from '../../../../shared/services/api.service';
-import { Store } from '../../../../store';
+import { DqBackOfficeActions } from '../../../store/actions';
+import { getAllPlayersState, getPlayerState } from '../../../store/selectors/players.selector';
+import { DqEntity } from '../../../store/state';
 
 @Injectable()
 export class PlayersService {
@@ -14,76 +19,86 @@ export class PlayersService {
     private store: Store,
   ) { }
 
+  loadPlayers(): void {
+    this.store.dispatch(DqBackOfficeActions.GetPlayersAction());
+  }
+
+  loadPlayer(playerId: string): void {
+    this.store.dispatch(DqBackOfficeActions.GetPlayerAction({ playerId }));
+  }
+
   getPlayers(): Observable<DqPlayer[]> {
-    if (this.store.value.players && this.allPlayersSearched) {
-      return this.store.select<DqPlayer[]>('players');
-    }
-    return this.apiService.get<DqPlayer[]>('players').pipe(
-      tap((players) => this.store.set('players', players)),
-      tap(() => {
-        this.allPlayersSearched = true;
+    return this.store.pipe(
+      select(getAllPlayersState),
+      tap((state) => {
+        const alreadyLoaded = state.loading || state.success || state.error;
+        // Load all if never loaded
+        if (!alreadyLoaded) {
+          this.loadPlayers();
+        }
       }),
-      switchMap(() => this.store.select<DqPlayer[]>('players')),
+      map((state) => state.entities),
     );
   }
 
   getPlayer(id: string): Observable<DqPlayer> {
-    if (this.store.value.players) {
-      return this.store.select<DqPlayer[]>('players').pipe(
-        switchMap((players) => {
-          const player = players.filter((t) => t._id === id)[0];
-          return player ? of(player) : this.searchPlayer(id);
-        }),
-      );
-    }
-    return this.searchPlayer(id);
-  }
-
-  createNewPlayer(player: Partial<DqPlayer>): Observable<DqPlayer> {
-    // Set a custom password for future log in
-    const customPassword = 'defiquizz1234';
-    return this.apiService.post<DqPlayer>('players', { ...player, password: customPassword } as DqPlayer)
-      .pipe(
-        tap((player_) => {
-          const { players } = this.store.value;
-          players.push(player_);
-          this.store.set(
-            'players', players,
-          );
-        }),
-      );
-  }
-
-  editPlayer(id: string, player: Partial<DqPlayer>): Observable<DqPlayer> {
-    return this.apiService.put<DqPlayer>(`players/${id}`, player).pipe(
-      tap((player_) => {
-        if (player_) {
-          const { players } = this.store.value;
-          players[players.findIndex((t) => t._id === id)] = player_;
-          this.store.set(
-            'players',
-            players,
-          );
+    return this.store.pipe(
+      select(getPlayerState(id)),
+      tap((state) => {
+        const alreadyLoaded = state && (state.loading || state.success || state.error);
+        // Load all if never loaded
+        if (!alreadyLoaded) {
+          this.loadPlayer(id);
         }
       }),
-      catchError((error) => throwError(error)),
+      filter((state) => !!state),
+      map((state) => state.value),
     );
   }
 
-  deletePlayer(id: string): Observable<any> {
-    return this.apiService.delete<DqPlayer>(`players/${id}`).pipe(
-      tap(() => {
-        const { players } = this.store.value;
-        this.store.set('players', players.filter((t) => t._id !== id));
+  getPlayerEntityState(id: string): Observable<DqEntity<DqPlayer>> {
+    return this.store.pipe(
+      select(getPlayerState(id)),
+      tap((state) => {
+        const alreadyLoaded = state && (state.loading || state.success || state.error);
+        // Load all if never loaded
+        if (!alreadyLoaded) {
+          this.loadPlayer(id);
+        }
       }),
+      filter((state) => !!state),
     );
   }
 
-  private searchPlayer(id: string): Observable<DqPlayer> {
-    return this.apiService.get<DqPlayer>(`players/${id}`).pipe(
-      tap((players) => this.store.set(
-        'players', this.store.value.players ? [players].concat(this.store.value.players) : [players],
-      )),
+  createNewPlayer(player: Partial<DqPlayer>): Observable<DqEntity<DqPlayer>> {
+    // Set a custom password for future log in
+    const customPassword = 'defiquizz1234';
+    this.store.dispatch(DqBackOfficeActions.CreatePlayerAction({
+      playerId: 'new',
+      player: { ...player, password: customPassword },
+    }));
+    return this.store.pipe(
+      select(getPlayerState('new')),
+      map((state) => state),
+      filter((state) => !!state),
+    );
+  }
+
+  editPlayer(playerId: string, player: Partial<DqPlayer>): Observable<DqEntity<DqPlayer>> {
+    this.store.dispatch(DqBackOfficeActions.EditPlayerAction({ playerId, player }));
+    return this.store.pipe(
+      select(getPlayerState(playerId)),
+      map((state) => state),
+      filter((state) => !!state),
+    );
+  }
+
+  deletePlayer(playerId: string): Observable<any> {
+    this.store.dispatch(DqBackOfficeActions.DeletePlayerAction({ playerId }));
+    return this.store.pipe(
+      select(getPlayerState(playerId)),
+      map((state) => state),
+      filter((state) => !!state),
     );
   }
 }

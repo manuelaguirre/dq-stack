@@ -33,3 +33,11 @@ mat-horizontal-stepper {
     }
   }
 }
+
+.mat-icon, mat-icon {
+  // Avoid fouc
+  font-family: 'Material Icons' !important;
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+}
