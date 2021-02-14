@@ -1,12 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import {
+  catchError, filter, map, switchMap,
+} from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
 import { DqPlayer } from '../../../../../shared/models/dq-player';
 import { PlayersService } from '../../../shared/services/players.service';
+import { DqEntity } from '../../../../store/state';
 
 @Component({
   selector: 'dq-player-detail',
@@ -18,7 +21,9 @@ export class DqPlayerDetailComponent implements OnInit {
 
   detailForm: FormGroup = null;
 
-  player$: Observable<Partial<DqPlayer>> = null;
+  playerEntity$: Observable<DqEntity<DqPlayer>> = null;
+
+  playerLoaded$: Observable<boolean> = null;
 
   loading = false;
 
@@ -42,18 +47,22 @@ export class DqPlayerDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.player$ = this.route.params.pipe(
+    this.playerEntity$ = this.route.params.pipe(
       switchMap((params) => {
         if (params.id && params.id !== 'new') {
           this.playerId = params.id;
-          return this.playersService.getPlayer(this.playerId);
+          return this.playersService.getPlayerEntityState(this.playerId);
         }
         this.createNew = true;
-        return of({});
+        return of(null);
       }),
     );
-    this.playerDetailForm$ = this.player$.pipe(
-      switchMap((player: DqPlayer) => of(this.createForm(player))),
+    this.playerLoaded$ = this.playerEntity$.pipe(
+      map((playerState) => !playerState || !playerState.loading),
+    );
+    this.playerDetailForm$ = this.playerEntity$.pipe(
+      filter((playerState) => !playerState || playerState.success),
+      switchMap((playerState) => of(this.createForm(playerState ? playerState.value : null))),
     );
     if (this.data && this.data.isPopup) {
       this.isPopup = true;
@@ -64,12 +73,13 @@ export class DqPlayerDetailComponent implements OnInit {
     this.loadingNew = true;
     this.playersService.createNewPlayer(this.getPlayer(playerForm))
       .pipe(
+        filter((state) => !state.loading),
         map((player) => {
           if (player) {
             this.detailForm.markAsPristine();
             this.snackBarService.showMessage('Player created successfully');
             if (this.isPopup) {
-              this.dialogRef.close(player);
+              this.dialogRef.close(player.value);
             } else {
               this.router.navigate(['home/players']);
             }
@@ -77,8 +87,9 @@ export class DqPlayerDetailComponent implements OnInit {
             this.snackBarService.showError('Error: Player not created');
           }
         }),
-        catchError(() => {
+        catchError((e) => {
           this.snackBarService.showError('Error: Player not created');
+          console.log(e);
           return of(null);
         }),
       )
@@ -124,6 +135,8 @@ export class DqPlayerDetailComponent implements OnInit {
   createForm(player?: DqPlayer): FormGroup {
     if (!player || !player._id) {
       this.createNew = true;
+    } else {
+      this.createNew = false;
     }
     this.detailForm = this.formBuilder.group({
       firstName: [player ? player.firstName : '', Validators.required],

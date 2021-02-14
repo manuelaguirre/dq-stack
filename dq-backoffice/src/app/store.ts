@@ -7,7 +7,6 @@ const state: State = {
   themes: undefined,
   questions: {},
   selectedTheme: undefined,
-  players: undefined,
   games: undefined,
   fullGames: undefined,
 };
