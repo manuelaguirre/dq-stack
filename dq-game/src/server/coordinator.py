@@ -24,11 +24,14 @@ class Coordinator:
         self.start_first_round()
         self.start_second_round()
         self.start_third_round()
+        self.end_game()
 
     def game_setup(self):
-        self.players, question_pools = self.api_handler.get_game()
+        self.players, question_pools, game_id = self.api_handler.get_game()
         self.dq_game.set_game_question_pools(question_pools)
         self.dq_game.initialize_players(self.players)
+        self.dq_game.set_game_id(game_id)
+        self.dq_game.create_stat_tracker()
 
         self.controller.set_number_of_players(len(self.players))
         self.controller.await_connections()
@@ -218,3 +221,6 @@ class Coordinator:
         self.controller.start_joker_lottery()
         new_jokers = self.controller.get_joker_lottery_results()
         self.dq_game.add_jokers(new_jokers)
+
+    def end_game(self):
+        self.dq_game.end()

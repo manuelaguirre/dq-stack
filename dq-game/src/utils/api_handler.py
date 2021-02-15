@@ -20,7 +20,9 @@ class APIHandler:
         response = requests.get(
             info.BACK_OFFICE_URL + "games/play", headers=headers
         ).json()
-        print(response)
+
+        game_id = response["_id"]
+
         question_pools = []
         for question_pool in response["questionPools"]:
             print(question_pool)
@@ -37,7 +39,7 @@ class APIHandler:
         for player in response["players"]:
             players.append(Player(player["firstName"], player["_id"]))
 
-        return players, question_pools
+        return players, question_pools, game_id
 
     def get_question_image(self, question_id):
         headers = {"x-auth-token": info.X_AUTH_TOKEN}
