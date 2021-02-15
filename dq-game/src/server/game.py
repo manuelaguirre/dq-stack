@@ -6,6 +6,7 @@ from game_types.round import Round
 from game_types.player import Player
 from game_types.score_board import ScoreBoard
 from utils.point_service import PointService
+from utils.stat_tracker import StatTracker
 
 from mock_data import mock_instructions
 
@@ -17,6 +18,7 @@ class DQGame(EventHandler):
 
     def __init__(self):
         self.instructions = mock_instructions  # TODO: Get instructions from API ?
+        self.game_id = None
         self.question_pools = []  # TODO: Change to a map
         self.rounds = []
         self.players = []
@@ -28,8 +30,14 @@ class DQGame(EventHandler):
         for player in players:
             self.players.append(player)
 
+    def set_game_id(self, game_id):
+        self.game_id = game_id
+
     def set_game_question_pools(self, question_pools):
         self.question_pools = question_pools
+
+    def create_stat_tracker(self):
+        self.stat_tracker = StatTracker(self.game_id, self.players)
 
     def get_available_theme_names(self):
         return list(
@@ -54,8 +62,13 @@ class DQGame(EventHandler):
             self.rounds.append(round)
 
     def receive_answers(self, player_answers, question, jokers):
+        """
+        Updates Game Model with question results and logs it on the stat tracker
+        """
 
         point_service = PointService(self.round_number)
+
+        self.stat_tracker.add_question_log(question._id)
 
         self._reset_player_stolen_points()
         steals = defaultdict(list)
@@ -93,6 +106,17 @@ class DQGame(EventHandler):
 
             if has_been_stolen:
                 player.undo_points()
+
+            self.stat_tracker.log_answer(
+                player.name,
+                has_answer,
+                is_correct_answer,
+                player.differential,
+                player.stolen_points,
+            )
+
+        self.stat_tracker.log_jokers(jokers)
+        self.stat_tracker.write_to_file(self.round_number)
 
     def check_answer(self, player, player_answers, question):
 
@@ -153,3 +177,6 @@ class DQGame(EventHandler):
     def _reset_player_stolen_points(self):
         for player in self.players:
             player.stolen_points = 0
+
+    def end(self):
+        self.stat_tracker.write_final_results(self.players)
