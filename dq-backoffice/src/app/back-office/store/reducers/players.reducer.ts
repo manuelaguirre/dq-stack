@@ -7,43 +7,43 @@ const initialState: DqEntitiesState<DqPlayer> = initializeState().players;
 
 export function reducer(
   state = initialState,
-  action: ReturnType<DqPlayersActions>,
+  action: DqPlayersActions,
 ): DqEntitiesState<DqPlayer> {
   switch (action.type) {
-    case DqBackOfficeActions.GetPlayerAction.type: {
+    case DqBackOfficeActions.DQ_GET_PLAYER: {
       return {
         ...state,
         entitiesMap: {
           ...state.entitiesMap,
-          [action.playerId]: {
+          [action.id]: {
             error: null, loading: true, success: false, value: null,
           },
         },
       };
     }
-    case DqBackOfficeActions.SuccessGetPlayerAction.type: {
+    case DqBackOfficeActions.DQ_GET_PLAYER_SUCCESS: {
       return {
         ...state,
         entitiesMap: {
           ...state.entitiesMap,
-          [action.player._id]: {
-            error: null, loading: false, success: true, value: action.player,
+          [action.id]: {
+            error: null, loading: false, success: true, value: action.payload,
           },
         },
       };
     }
-    case DqBackOfficeActions.ErrorGetPlayerAction.type: {
+    case DqBackOfficeActions.DQ_GET_PLAYER_FAIL: {
       return {
         ...state,
         entitiesMap: {
           ...state.entitiesMap,
-          [action.playerId]: {
+          [action.id]: {
             error: action.error, loading: false, success: false, value: null,
           },
         },
       };
     }
-    case DqBackOfficeActions.GetPlayersAction.type: {
+    case DqBackOfficeActions.DQ_GET_PLAYERS: {
       return {
         ...state,
         allEntities: {
@@ -51,18 +51,18 @@ export function reducer(
         },
       };
     }
-    case DqBackOfficeActions.SuccessGetPlayersAction.type: {
+    case DqBackOfficeActions.DQ_GET_PLAYERS_SUCCESS: {
       return {
         ...state,
         allEntities: {
-          entities: action.players,
+          entities: action.payload,
           error: null,
           success: true,
           loading: false,
         },
       };
     }
-    case DqBackOfficeActions.ErrorGetPlayersAction.type: {
+    case DqBackOfficeActions.DQ_GET_PLAYERS_FAIL: {
       return {
         ...state,
         allEntities: {
@@ -73,77 +73,77 @@ export function reducer(
         },
       };
     }
-    case DqBackOfficeActions.EditPlayerAction.type
-      || DqBackOfficeActions.CreatePlayerAction.type
-      || DqBackOfficeActions.DeletePlayerAction: {
-      return {
-        ...state,
-        entitiesMap: {
-          ...state.entitiesMap,
-          [action.playerId]: {
-            error: null, loading: true, success: false, value: null,
-          },
-        },
-      };
-    }
-    case DqBackOfficeActions.SuccessEditPlayerAction.type: {
-      const newState = {
-        allEntities: {
-          ...state.allEntities,
-          entities: state.allEntities.entities.map((e) => (e._id === action.player._id ? action.player : e)),
-        },
-        entitiesMap: {
-          ...state.entitiesMap,
-          [action.player._id]: {
-            ...state.entitiesMap[action.player._id],
-            loading: false,
-            value: action.player,
-          },
-        },
-      };
-      console.log(newState);
-      return newState;
-    }
-    case DqBackOfficeActions.ErrorEditPlayerAction.type
-    || DqBackOfficeActions.ErrorCreatePlayerAction.type
-    || DqBackOfficeActions.ErrorDeletePlayerAction.type: {
-      return {
-        ...state,
-        entitiesMap: {
-          ...state.entitiesMap,
-          [action.playerId]: {
-            error: action.error, loading: false, success: false, value: null,
-          },
-        },
-      };
-    }
-    case DqBackOfficeActions.SuccessCreatePlayerAction.type: {
-      const newState = {
-        allEntities: {
-          ...state.allEntities,
-          entities: [action.player].concat(state.allEntities.entities),
-        },
-        entitiesMap: {
-          ...state.entitiesMap,
-          [action.player._id]: {
-            error: null, loading: false, success: true, value: action.player,
-          },
-          new: {
-            error: null, loading: false, success: true, value: action.player,
-          },
-        },
-      };
-      return newState;
-    }
-    case DqBackOfficeActions.SuccessDeletePlayerAction.type: {
-      const newState = {
-        ...state,
-      };
-      const index = newState.allEntities.entities.findIndex((p) => p._id === action.playerId);
-      newState.allEntities.entities.splice(index, 1);
-      delete newState.entitiesMap[action.playerId];
-      return newState;
-    }
+    // case DqBackOfficeActions.EditPlayerAction.type
+    //   || DqBackOfficeActions.CreatePlayerAction.type
+    //   || DqBackOfficeActions.DeletePlayerAction: {
+    //   return {
+    //     ...state,
+    //     entitiesMap: {
+    //       ...state.entitiesMap,
+    //       [action.playerId]: {
+    //         error: null, loading: true, success: false, value: null,
+    //       },
+    //     },
+    //   };
+    // }
+    // case DqBackOfficeActions.SuccessEditPlayerAction.type: {
+    //   const newState = {
+    //     allEntities: {
+    //       ...state.allEntities,
+    //       entities: state.allEntities.entities.map((e) => (e._id === action.player._id ? action.player : e)),
+    //     },
+    //     entitiesMap: {
+    //       ...state.entitiesMap,
+    //       [action.player._id]: {
+    //         ...state.entitiesMap[action.player._id],
+    //         loading: false,
+    //         value: action.player,
+    //       },
+    //     },
+    //   };
+    //   console.log(newState);
+    //   return newState;
+    // }
+    // case DqBackOfficeActions.ErrorEditPlayerAction.type
+    // || DqBackOfficeActions.ErrorCreatePlayerAction.type
+    // || DqBackOfficeActions.ErrorDeletePlayerAction.type: {
+    //   return {
+    //     ...state,
+    //     entitiesMap: {
+    //       ...state.entitiesMap,
+    //       [action.playerId]: {
+    //         error: action.error, loading: false, success: false, value: null,
+    //       },
+    //     },
+    //   };
+    // }
+    // case DqBackOfficeActions.SuccessCreatePlayerAction.type: {
+    //   const newState = {
+    //     allEntities: {
+    //       ...state.allEntities,
+    //       entities: [action.player].concat(state.allEntities.entities),
+    //     },
+    //     entitiesMap: {
+    //       ...state.entitiesMap,
+    //       [action.player._id]: {
+    //         error: null, loading: false, success: true, value: action.player,
+    //       },
+    //       new: {
+    //         error: null, loading: false, success: true, value: action.player,
+    //       },
+    //     },
+    //   };
+    //   return newState;
+    // }
+    // case DqBackOfficeActions.SuccessDeletePlayerAction.type: {
+    //   const newState = {
+    //     ...state,
+    //   };
+    //   const index = newState.allEntities.entities.findIndex((p) => p._id === action.playerId);
+    //   newState.allEntities.entities.splice(index, 1);
+    //   delete newState.entitiesMap[action.playerId];
+    //   return newState;
+    // }
     default: {
       return state;
     }

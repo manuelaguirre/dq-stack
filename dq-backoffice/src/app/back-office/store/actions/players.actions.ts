@@ -1,90 +1,124 @@
+/* eslint-disable max-classes-per-file */
 import { createAction, props } from '@ngrx/store';
 import { DqPlayer } from '../../../shared/models/dq-player';
+import {
+  DqLoadAllFailAction,
+  DqLoadAllLoadAction,
+  DqLoadAllSuccessAction,
+  DqLoadOneFailAction,
+  DqLoadOneLoadAction,
+  DqLoadOneSuccessAction,
+} from '../utils/loader.actions';
 
-// Get all players
-export const GetPlayersAction = createAction('[Player] - Get Players');
+export const DQ_GET_PLAYERS = '[Player] - Get Players';
 
-export const SuccessGetPlayersAction = createAction(
-  '[Player] - Sucess Get Players',
-  props<{ players: DqPlayer[]; }>(),
-);
+export const DQ_GET_PLAYERS_SUCCESS = '[Player] - Get Players Success';
 
-export const ErrorGetPlayersAction = createAction('[Player] - Get Players Error', props<{ error: Error; }>());
+export const DQ_GET_PLAYERS_FAIL = '[Player] - Get Players Error';
 
-// Get one player
-export const GetPlayerAction = createAction('[Player] - Get Player', props<{ playerId: string; }>());
+export class GetPlayersAction extends DqLoadAllLoadAction {
+  constructor() {
+    super(DQ_GET_PLAYERS);
+  }
+}
 
-export const SuccessGetPlayerAction = createAction(
-  '[Player] - Sucess Get Player',
-  props<{ player: DqPlayer; }>(),
-);
+export class GetPlayersSuccessAction extends DqLoadAllSuccessAction<DqPlayer> {
+  constructor(public payload: DqPlayer[]) {
+    super(DQ_GET_PLAYERS_SUCCESS, payload);
+  }
+}
 
-export const ErrorGetPlayerAction = createAction(
-  '[Player] - Get Player Error',
-  props<{ playerId: string; error: Error; }>(),
-);
+export class GetPlayersErrorAction extends DqLoadAllFailAction {
+  constructor(public payload: Error) {
+    super(DQ_GET_PLAYERS_SUCCESS, payload);
+  }
+}
 
-// Edit player
-export const EditPlayerAction = createAction(
-  '[Player] - Edit Player',
-  props<{ playerId: string; player: Partial<DqPlayer>; }>(),
-);
+export const DQ_GET_PLAYER = '[Player] - Get Player';
 
-export const SuccessEditPlayerAction = createAction(
-  '[Player] - Sucess Edit Player',
-  props<{ player: DqPlayer; }>(),
-);
+export const DQ_GET_PLAYER_SUCCESS = '[Player] - Get Player Success';
 
-export const ErrorEditPlayerAction = createAction(
-  '[Player] - Edit Player Error',
-  props<{ error: Error; playerId: string; }>(),
-);
+export const DQ_GET_PLAYER_FAIL = '[Player] - Get Player Error';
 
-// Create player
-export const CreatePlayerAction = createAction(
-  '[Player] - Create Player',
-  props<{ playerId: string; player: Partial<DqPlayer>; }>(),
-);
+export class GetPlayerAction extends DqLoadOneLoadAction {
+  constructor(public id: string) {
+    super(DQ_GET_PLAYER, id);
+  }
+}
 
-export const SuccessCreatePlayerAction = createAction(
-  '[Player] - Sucess Create Player',
-  props<{ player: DqPlayer; }>(),
-);
+export class GetPlayerSuccessAction extends DqLoadOneSuccessAction<DqPlayer> {
+  constructor(public id: string, public payload: DqPlayer) {
+    super(DQ_GET_PLAYER_SUCCESS, id, payload);
+  }
+}
 
-export const ErrorCreatePlayerAction = createAction(
-  '[Player] - Create Player Error',
-  props<{ error: Error; playerId: string; }>(),
-);
+export class GetPlayerErrorAction extends DqLoadOneFailAction {
+  constructor(public id: string, public payload: Error) {
+    super(DQ_GET_PLAYER_SUCCESS, id, payload);
+  }
+}
 
-// Delete player
-export const DeletePlayerAction = createAction(
-  '[Player] - Delete Player',
-  props<{ playerId: string; }>(),
-);
+// // Edit player
+// export const EditPlayerAction = createAction(
+//   '[Player] - Edit Player',
+//   props<{ playerId: string; player: Partial<DqPlayer>; }>(),
+// );
 
-export const SuccessDeletePlayerAction = createAction(
-  '[Player] - Sucess Delete Player',
-  props<{ playerId: string; }>(),
-);
+// export const SuccessEditPlayerAction = createAction(
+//   '[Player] - Sucess Edit Player',
+//   props<{ player: DqPlayer; }>(),
+// );
 
-export const ErrorDeletePlayerAction = createAction(
-  '[Player] - Delete Player Error',
-  props<{ playerId: string; error: Error; }>(),
-);
+// export const ErrorEditPlayerAction = createAction(
+//   '[Player] - Edit Player Error',
+//   props<{ error: Error; playerId: string; }>(),
+// );
+
+// // Create player
+// export const CreatePlayerAction = createAction(
+//   '[Player] - Create Player',
+//   props<{ playerId: string; player: Partial<DqPlayer>; }>(),
+// );
+
+// export const SuccessCreatePlayerAction = createAction(
+//   '[Player] - Sucess Create Player',
+//   props<{ player: DqPlayer; }>(),
+// );
+
+// export const ErrorCreatePlayerAction = createAction(
+//   '[Player] - Create Player Error',
+//   props<{ error: Error; playerId: string; }>(),
+// );
+
+// // Delete player
+// export const DeletePlayerAction = createAction(
+//   '[Player] - Delete Player',
+//   props<{ playerId: string; }>(),
+// );
+
+// export const SuccessDeletePlayerAction = createAction(
+//   '[Player] - Sucess Delete Player',
+//   props<{ playerId: string; }>(),
+// );
+
+// export const ErrorDeletePlayerAction = createAction(
+//   '[Player] - Delete Player Error',
+//   props<{ playerId: string; error: Error; }>(),
+// );
 
 export type DqPlayersActions =
-| typeof GetPlayersAction
-| typeof SuccessGetPlayersAction
-| typeof ErrorGetPlayersAction
-| typeof GetPlayerAction
-| typeof SuccessGetPlayerAction
-| typeof ErrorGetPlayerAction
-| typeof EditPlayerAction
-| typeof SuccessEditPlayerAction
-| typeof ErrorEditPlayerAction
-| typeof CreatePlayerAction
-| typeof SuccessCreatePlayerAction
-| typeof ErrorCreatePlayerAction
-| typeof DeletePlayerAction
-| typeof SuccessDeletePlayerAction
-| typeof ErrorDeletePlayerAction;
+| GetPlayersAction
+| GetPlayersSuccessAction
+| GetPlayersErrorAction
+| GetPlayerAction
+| GetPlayerSuccessAction
+| GetPlayerErrorAction;
+// | typeof EditPlayerAction
+// | typeof SuccessEditPlayerAction
+// | typeof ErrorEditPlayerAction
+// | typeof CreatePlayerAction
+// | typeof SuccessCreatePlayerAction
+// | typeof ErrorCreatePlayerAction
+// | typeof DeletePlayerAction
+// | typeof SuccessDeletePlayerAction
+// | typeof ErrorDeletePlayerAction;

@@ -20,11 +20,11 @@ export class PlayersService {
   ) { }
 
   loadPlayers(): void {
-    this.store.dispatch(DqBackOfficeActions.GetPlayersAction());
+    this.store.dispatch(new DqBackOfficeActions.GetPlayersAction());
   }
 
   loadPlayer(playerId: string): void {
-    this.store.dispatch(DqBackOfficeActions.GetPlayerAction({ playerId }));
+    this.store.dispatch(new DqBackOfficeActions.GetPlayerAction(playerId));
   }
 
   getPlayers(): Observable<DqPlayer[]> {
