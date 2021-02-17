@@ -236,6 +236,23 @@
   }
 }
 
+.tables-container {
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 80%;
+  align-items: baseline;
+
+  .dq-table-container {
+    width: 400px;
+    margin: 20px;
+    min-width: 250px;
+
+    table {
+      width: 100%;
+    }
+  }
+}
+
 @-webkit-keyframes load8 {
   0% {
     -webkit-transform: rotate(0deg);

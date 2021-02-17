@@ -1,0 +1,52 @@
+.show-results {
+  > .dq-button {
+    display: none;
+  }
+  .dq-title {
+    font-size: 5rem;
+    margin-top: 10%;
+    font-weight: bold;
+    height: 7rem;
+    line-height: 5rem;
+    width: 100%;
+    text-align: center;
+    background: #ffffff94;
+    padding: 1rem;
+  }
+  .dq-table-container {
+    position: absolute;
+    opacity: 0;
+    z-index: -3;
+    width: 60vw;
+    .dq-title {
+      font-size: 3rem;
+    }
+    .dq-table-subtitle {
+      font-size: 2rem;
+      line-height: 2rem;
+      margin: 2rem;
+    }
+
+    table {
+      box-shadow: none;
+      background: transparent;
+      .mat-row {
+        height: 70px;
+      }
+      .mat-cell {
+        font-size: 2rem;
+        border-bottom: 2px solid;
+        span {
+          margin-right: 20px;
+          font-weight: bold;
+        }
+      }
+    }
+
+    &.active {
+      z-index: 1;
+      transition: opacity 1s;
+      opacity: 1;
+    }
+  }
+}
