@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  catchError, map, switchMap, tap,
+  catchError, map, switchMap,
 } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
