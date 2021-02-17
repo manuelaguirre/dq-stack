@@ -30,8 +30,6 @@
               </mat-form-field>
               <div class="button-container flex-div">
                 <button class="dq-button dq-action btn btn-light" tabindex="0"
-                role="button" mat-button matStepperPrevious>Back</button>
-                <button class="dq-button dq-action btn btn-light" tabindex="0"
                 role="button" mat-button matStepperNext [disabled]="gameDetailForm.get('name').invalid"
                 [class.disabled]="gameDetailForm.get('name').invalid">Next</button>
               </div>
