@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   filter, map, tap,
 } from 'rxjs/operators';
@@ -37,7 +37,7 @@ export class PlayersService {
           this.loadPlayers();
         }
       }),
-      map((state) => state.entities),
+      map((state) => state.value),
     );
   }
 
@@ -72,33 +72,36 @@ export class PlayersService {
 
   createNewPlayer(player: Partial<DqPlayer>): Observable<DqEntity<DqPlayer>> {
     // Set a custom password for future log in
-    const customPassword = 'defiquizz1234';
-    this.store.dispatch(DqBackOfficeActions.CreatePlayerAction({
-      playerId: 'new',
-      player: { ...player, password: customPassword },
-    }));
-    return this.store.pipe(
-      select(getPlayerState('new')),
-      map((state) => state),
-      filter((state) => !!state),
-    );
+    return of(null);
+    // const customPassword = 'defiquizz1234';
+    // this.store.dispatch(DqBackOfficeActions.CreatePlayerAction({
+    //   playerId: 'new',
+    //   player: { ...player, password: customPassword },
+    // }));
+    // return this.store.pipe(
+    //   select(getPlayerState('new')),
+    //   map((state) => state),
+    //   filter((state) => !!state),
+    // );
   }
 
   editPlayer(playerId: string, player: Partial<DqPlayer>): Observable<DqEntity<DqPlayer>> {
-    this.store.dispatch(DqBackOfficeActions.EditPlayerAction({ playerId, player }));
-    return this.store.pipe(
-      select(getPlayerState(playerId)),
-      map((state) => state),
-      filter((state) => !!state),
-    );
+    // this.store.dispatch(DqBackOfficeActions.EditPlayerAction({ playerId, player }));
+    // return this.store.pipe(
+    //   select(getPlayerState(playerId)),
+    //   map((state) => state),
+    //   filter((state) => !!state),
+    // );
+    return of(null);
   }
 
   deletePlayer(playerId: string): Observable<any> {
-    this.store.dispatch(DqBackOfficeActions.DeletePlayerAction({ playerId }));
-    return this.store.pipe(
-      select(getPlayerState(playerId)),
-      map((state) => state),
-      filter((state) => !!state),
-    );
+    // this.store.dispatch(DqBackOfficeActions.DeletePlayerAction({ playerId }));
+    // return this.store.pipe(
+    //   select(getPlayerState(playerId)),
+    //   map((state) => state),
+    //   filter((state) => !!state),
+    // );
+    return of(null);
   }
 }

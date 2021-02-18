@@ -1,14 +1,42 @@
+import { InjectionToken, Provider } from '@angular/core';
 import {
   ActionReducerMap,
   ActionReducer,
   MetaReducer,
+  combineReducers,
 } from '@ngrx/store';
 import { environment } from '../../../../environments/environment';
-import DqStoreState from '../state';
-import * as PlayerReducer from './players.reducer';
+import { DqPlayer } from '../../../shared/models/dq-player';
+import DqStoreState, { PLAYERS_FEATURE, PLAYERS_ENTITIES_FEATURE, PLAYERS_ALL_FEATURE } from '../state';
+import { loaderEntitiesReducer } from '../utils/loader-entity.reducer';
+import { loaderReducer } from '../utils/loader.reducer';
+import * as PlayersReducer from './all-players.reducer';
+import * as PlayerReducer from './player.reducer';
 
-export const reducers: ActionReducerMap<DqStoreState> = {
-  players: PlayerReducer.reducer,
+export function getReducers(): ActionReducerMap<DqStoreState> {
+  return {
+    [PLAYERS_FEATURE]: combineReducers({
+      allEntities: loaderReducer<DqPlayer[]>(
+        PLAYERS_ALL_FEATURE,
+        PlayersReducer.reducer,
+      ),
+      entitiesMap: loaderEntitiesReducer<DqPlayer>(
+        PLAYERS_ENTITIES_FEATURE,
+        PlayerReducer.reducer,
+      ),
+    }),
+  };
+}
+
+export const reducerToken: InjectionToken<ActionReducerMap<
+DqStoreState
+>> = new InjectionToken<ActionReducerMap<DqStoreState>>(
+  'DqStateReducer',
+);
+
+export const reducerProvider: Provider = {
+  provide: reducerToken,
+  useFactory: getReducers,
 };
 
 export function logger(reducer: ActionReducer<DqStoreState>): ActionReducer<DqStoreState> {

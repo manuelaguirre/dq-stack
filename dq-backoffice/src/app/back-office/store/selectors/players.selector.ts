@@ -1,37 +1,52 @@
 import {
-  createFeatureSelector, MemoizedSelector, createSelector,
+  MemoizedSelector, createSelector,
 } from '@ngrx/store';
 import { DqPlayer } from '../../../shared/models/dq-player';
-import DqStoreState, { DqEntitiesState, DqAllEntities, DqEntity } from '../state';
+import { getDqFeatureState } from './feature.selector';
+import DqStoreState, {
+  DqEntity, DqFeatureState, DqFeatureWithState, PLAYERS_FEATURE,
+} from '../state';
 
-export const getPlayersState = createFeatureSelector<DqEntitiesState<DqPlayer>>('players');
+export const getPlayersState: MemoizedSelector<
+DqFeatureWithState,
+DqFeatureState<DqPlayer>
+> = createSelector(
+  getDqFeatureState,
+  (state: DqStoreState) => {
+    console.log(state);
+    return state[PLAYERS_FEATURE];
+  },
+);
 
 export const getAllPlayersState: MemoizedSelector<
-DqStoreState,
-DqAllEntities<DqPlayer>
-> = createSelector(getPlayersState, (state: DqEntitiesState<DqPlayer>) => state.allEntities);
+DqFeatureWithState,
+DqEntity<DqPlayer[]>
+> = createSelector(getPlayersState, (state: DqFeatureState<DqPlayer>) => {
+  console.log(state);
+  return state.allEntities;
+});
 
 export const getAllPlayersLoading: MemoizedSelector<
-DqStoreState,
+DqFeatureWithState,
 boolean
-> = createSelector(getAllPlayersState, (state: DqAllEntities<DqPlayer>) => state.loading);
+> = createSelector(getAllPlayersState, (state: DqEntity<DqPlayer[]>) => state.loading);
 
 export const getAllPlayersValue: MemoizedSelector<
-DqStoreState,
+DqFeatureWithState,
 DqPlayer[]
-> = createSelector(getAllPlayersState, (state: DqAllEntities<DqPlayer>) => state.entities);
+> = createSelector(getAllPlayersState, (state: DqEntity<DqPlayer[]>) => state.value);
 
 export const getPlayerState = (playerId: string): MemoizedSelector<
-DqStoreState,
+DqFeatureWithState,
 DqEntity<DqPlayer>
-> => createSelector(getPlayersState, (state: DqEntitiesState<DqPlayer>) => state.entitiesMap[playerId]);
+> => createSelector(getPlayersState, (state: DqFeatureState<DqPlayer>) => state.entitiesMap.entities[playerId]);
 
 export const getPlayerLoading = (playerId: string): MemoizedSelector<
-DqStoreState,
+DqFeatureWithState,
 boolean
 > => createSelector(getPlayerState(playerId), (state: DqEntity<DqPlayer>) => state.loading);
 
 export const getPlayerValue = (playerId: string): MemoizedSelector<
-DqStoreState,
+DqFeatureWithState,
 DqPlayer
 > => createSelector(getPlayerState(playerId), (state: DqEntity<DqPlayer>) => state.value);

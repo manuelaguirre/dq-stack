@@ -1,14 +1,11 @@
+/* eslint-disable max-classes-per-file */
 import { DqPlayer } from '../../shared/models/dq-player';
 
-export interface DqAllEntities<T> {
-  entities: T[];
+export const DQ_STATE = 'dqstate';
 
-  loading: boolean;
-
-  success: boolean;
-
-  error: Error;
-}
+export const PLAYERS_FEATURE = 'players';
+export const PLAYERS_ALL_FEATURE = 'players_all';
+export const PLAYERS_ENTITIES_FEATURE = 'players_entities';
 
 export interface DqEntity<T> {
   value: T;
@@ -20,23 +17,33 @@ export interface DqEntity<T> {
   error: Error;
 }
 
-export interface DqEntitiesState<T> {
-  allEntities: DqAllEntities<T>;
-
-  entitiesMap: {
+export interface DqEntityState<T> {
+  entities: {
     [id: string]: DqEntity<T>;
   };
 }
 
+export interface DqFeatureState<T> {
+  allEntities: DqEntity<T[]>;
+
+  entitiesMap: DqEntityState<T>;
+}
+
 export default class DqStoreState {
-  players: DqEntitiesState<DqPlayer>;
+  [PLAYERS_FEATURE]: DqFeatureState<DqPlayer>;
+}
+
+export interface DqFeatureWithState {
+  [DQ_STATE]: DqStoreState;
 }
 
 export const initializeState = (): DqStoreState => ({
   players: {
     allEntities: {
-      entities: [], loading: false, success: false, error: null,
+      value: [], loading: false, success: false, error: null,
     },
-    entitiesMap: {},
+    entitiesMap: {
+      entities: {},
+    },
   },
 });

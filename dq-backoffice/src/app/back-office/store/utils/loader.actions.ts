@@ -1,12 +1,26 @@
 /* eslint-disable max-classes-per-file */
 import { Action } from '@ngrx/store';
 
-export type DqLoaderAllMeta = 'DqLoadAll' | 'DqoadAllSuccess' | 'DqLoadAllError';
+export const DQ_ENTITY_LOAD_ACTION = '[DQENTITY] LOAD';
+export const DQ_ENTITY_FAIL_ACTION = '[DQENTITY] LOAD FAIL';
+export const DQ_ENTITY_SUCCESS_ACTION = '[DQENTITY] LOAD SUCCESS';
 
-export type DqLoaderOneMeta = 'DqLoadOne' | 'DqLoadOneSuccess' | 'DqLoadOneError';
+export type DqLoaderOneMeta =
+  typeof DQ_ENTITY_LOAD_ACTION | typeof DQ_ENTITY_FAIL_ACTION | typeof DQ_ENTITY_SUCCESS_ACTION;
+
+export const DQ_ALL_LOAD_ACTION = '[DQALL] LOAD';
+export const DQ_ALL_FAIL_ACTION = '[DQALL] LOAD FAIL';
+export const DQ_ALL_SUCCESS_ACTION = '[DQALL] LOAD SUCCESS';
+
+export type DqLoaderAllMeta = typeof DQ_ALL_LOAD_ACTION | typeof DQ_ALL_FAIL_ACTION | typeof DQ_ALL_SUCCESS_ACTION;
 
 export type DqLoaderMeta = DqLoaderAllMeta | DqLoaderOneMeta;
 
+/**
+ * @property payload: Optional data
+ * @property meta: All/entity & Load/success/fail
+ * @property type: Id of the action
+ */
 export interface DqLoaderAction extends Action {
   readonly payload?: any;
   readonly meta?: DqLoaderMeta;
@@ -14,7 +28,7 @@ export interface DqLoaderAction extends Action {
 }
 
 export class DqLoadAllLoadAction implements DqLoaderAction {
-  meta: DqLoaderAllMeta = 'DqLoadAll';
+  meta = DQ_ALL_LOAD_ACTION as DqLoaderAllMeta;
 
   type = '';
 
@@ -24,17 +38,17 @@ export class DqLoadAllLoadAction implements DqLoaderAction {
 }
 
 export class DqLoadAllSuccessAction<T> implements DqLoaderAction {
-  meta: DqLoaderAllMeta = 'DqoadAllSuccess';
+  meta = DQ_ALL_SUCCESS_ACTION as DqLoaderAllMeta;
 
   type = '';
 
-  constructor(type: string, public payload: T[]) {
+  constructor(type: string, public payload: T) {
     this.type = type;
   }
 }
 
 export class DqLoadAllFailAction implements DqLoaderAction {
-  meta: DqLoaderAllMeta = 'DqLoadAllError';
+  meta = DQ_ALL_FAIL_ACTION as DqLoaderAllMeta;
 
   type = '';
 
@@ -44,7 +58,7 @@ export class DqLoadAllFailAction implements DqLoaderAction {
 }
 
 export class DqLoadOneLoadAction implements DqLoaderAction {
-  meta: DqLoaderOneMeta = 'DqLoadOne';
+  meta = DQ_ENTITY_LOAD_ACTION as DqLoaderOneMeta;
 
   type = '';
 
@@ -54,7 +68,7 @@ export class DqLoadOneLoadAction implements DqLoaderAction {
 }
 
 export class DqLoadOneSuccessAction<T> implements DqLoaderAction {
-  meta: DqLoaderOneMeta = 'DqLoadOneSuccess';
+  meta = DQ_ENTITY_SUCCESS_ACTION as DqLoaderOneMeta;
 
   type = '';
 
@@ -64,7 +78,7 @@ export class DqLoadOneSuccessAction<T> implements DqLoaderAction {
 }
 
 export class DqLoadOneFailAction implements DqLoaderAction {
-  meta: DqLoaderAllMeta = 'DqLoadAllError';
+  meta = DQ_ENTITY_FAIL_ACTION as DqLoaderOneMeta;
 
   type = '';
 

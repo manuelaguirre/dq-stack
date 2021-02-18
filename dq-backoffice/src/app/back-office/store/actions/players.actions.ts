@@ -1,5 +1,4 @@
 /* eslint-disable max-classes-per-file */
-import { createAction, props } from '@ngrx/store';
 import { DqPlayer } from '../../../shared/models/dq-player';
 import {
   DqLoadAllFailAction,
@@ -22,7 +21,7 @@ export class GetPlayersAction extends DqLoadAllLoadAction {
   }
 }
 
-export class GetPlayersSuccessAction extends DqLoadAllSuccessAction<DqPlayer> {
+export class GetPlayersSuccessAction extends DqLoadAllSuccessAction<DqPlayer[]> {
   constructor(public payload: DqPlayer[]) {
     super(DQ_GET_PLAYERS_SUCCESS, payload);
   }

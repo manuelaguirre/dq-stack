@@ -1,56 +1,73 @@
 import { Action } from '@ngrx/store';
-import { DqEntitiesState, initializeState } from '../state';
-import { DqLoaderAction } from './loader.actions';
+import {
+  DqEntity,
+  initializeState,
+} from '../state';
+import {
+  DqLoadAllLoadAction,
+  DqLoadAllFailAction,
+  DqLoadAllSuccessAction,
+  DQ_ALL_LOAD_ACTION,
+  DQ_ALL_FAIL_ACTION,
+  DQ_ALL_SUCCESS_ACTION,
+  DqLoaderAction,
+} from './loader.actions';
+
+const initialLoaderState = (): DqEntity<any> => ({
+  loading: false,
+  error: null,
+  success: false,
+  value: null,
+});
 
 export function loaderReducer<T>(
-  entityType: string,
+  type: string,
   reducer?: (state: T, action: Action) => T,
-): (state: DqEntitiesState<T>, action: DqLoaderAction) => DqEntitiesState<T> {
+): (state: DqEntity<T>, action: DqLoaderAction) => DqEntity<T> {
   return (
-    state: DqEntitiesState<T> = initializeState()[entityType],
-    action: DqLoaderAction,
-  ): DqEntitiesState<T> => {
+    state: DqEntity<T> = initialLoaderState(),
+    action: DqLoadAllLoadAction,
+  ): DqEntity<T> => {
     if (
       action.meta
-      && action.meta.loader
-      && action.meta.entityType === entityType
+      && action.type === type
     ) {
-      const entity = action.meta.loader;
+      const metatype = action.meta;
 
-      if (entity.load) {
+      if (metatype === DQ_ALL_LOAD_ACTION) {
         return {
           ...state,
           loading: true,
           value: reducer ? reducer(state.value, action) : state.value,
         };
-      } if (entity.error) {
+      } if (metatype === DQ_ALL_FAIL_ACTION) {
         return {
           ...state,
           loading: false,
-          error: true,
+          error: (action as DqLoadAllFailAction).payload,
           success: false,
           value: reducer ? reducer(state.value, action) : undefined,
         };
-      } if (entity.success) {
+      } if (metatype === DQ_ALL_SUCCESS_ACTION) {
         return {
           ...state,
-          value: reducer ? reducer(state.value, action) : action.payload,
+          value: reducer ? reducer(state.value, action) : (action as DqLoadAllSuccessAction<T>).payload,
           loading: false,
-          error: false,
+          error: null,
           success: true,
         };
       }
       // reset state action
       return {
-        ...initialLoaderState,
+        ...initializeState()[type],
         value: reducer
-          ? reducer(initialLoaderState.value, action)
-          : initialLoaderState.value,
+          ? reducer(initializeState()[type], action)
+          : initializeState()[type].value,
       };
     }
 
     if (reducer) {
-      const newValue = reducer(state.allEntities, action);
+      const newValue = reducer(state.value, action);
       if (newValue !== state.value) {
         return { ...state, value: newValue };
       }
