@@ -224,3 +224,5 @@ class Coordinator:
 
     def end_game(self):
         self.dq_game.end()
+        results = self.dq_game.get_stats()
+        self.api_handler.put_results(self.dq_game.game_id, results)

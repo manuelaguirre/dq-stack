@@ -58,3 +58,12 @@ class APIHandler:
                 f.write(chunk)
             f.close()
         return file_name
+
+    def put_results(self, game_id, results):
+        headers = {"x-auth-token": info.X_AUTH_TOKEN}
+        requests.put(info.BACK_OFFICE_URL + "games" + game_id + "/results",
+        headers=headers,
+        data= {
+            "results" : results
+        }
+        )
