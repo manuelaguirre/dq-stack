@@ -81,7 +81,6 @@ class StatTracker:
         with open(file_path, "w+") as file:
             json.dump(
                 {
-                    "game": self.game_id,
                     "firstRound": [],
                     "secondRound": [],
                     "thirdRound": [],
@@ -90,3 +89,11 @@ class StatTracker:
                 file,
             )
         return file_path
+
+    def get_stats(self):
+        try:
+            with open(self.file_path) as file:
+                return json.load(file)
+            
+        except IOError:
+            print("Error reading stats file")

@@ -180,3 +180,6 @@ class DQGame(EventHandler):
 
     def end(self):
         self.stat_tracker.write_final_results(self.players)
+
+    def get_stats(self):
+        return self.stat_tracker.get_stats()
