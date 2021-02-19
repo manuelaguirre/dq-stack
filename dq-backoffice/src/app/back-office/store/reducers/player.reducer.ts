@@ -9,10 +9,10 @@ export function reducer(
   action: DqPlayersActions,
 ): DqPlayer {
   switch (action.type) {
-    case DqBackOfficeActions.DQ_GET_PLAYERS_SUCCESS: {
+    case DqBackOfficeActions.DQ_GET_PLAYER_SUCCESS: {
       return (action as GetPlayerSuccessAction).payload;
     }
-    case DqBackOfficeActions.DQ_GET_PLAYERS_FAIL: {
+    case DqBackOfficeActions.DQ_GET_PLAYER_FAIL: {
       return initialState;
     }
     default: {

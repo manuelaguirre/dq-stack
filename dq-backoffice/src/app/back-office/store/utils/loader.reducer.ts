@@ -10,6 +10,9 @@ import {
   DQ_ALL_LOAD_ACTION,
   DQ_ALL_FAIL_ACTION,
   DQ_ALL_SUCCESS_ACTION,
+  DQ_ENTITY_LOAD_ACTION,
+  DQ_ENTITY_FAIL_ACTION,
+  DQ_ENTITY_SUCCESS_ACTION,
   DqLoaderAction,
 } from './loader.actions';
 
@@ -26,21 +29,23 @@ export function loaderReducer<T>(
 ): (state: DqEntity<T>, action: DqLoaderAction) => DqEntity<T> {
   return (
     state: DqEntity<T> = initialLoaderState(),
-    action: DqLoadAllLoadAction,
+    action: DqLoaderAction,
   ): DqEntity<T> => {
     if (
       action.meta
-      && action.type === type
+      && action.feature === type
     ) {
       const metatype = action.meta;
 
-      if (metatype === DQ_ALL_LOAD_ACTION) {
+      if (metatype === DQ_ALL_LOAD_ACTION
+        || metatype === DQ_ENTITY_LOAD_ACTION) {
         return {
           ...state,
           loading: true,
           value: reducer ? reducer(state.value, action) : state.value,
         };
-      } if (metatype === DQ_ALL_FAIL_ACTION) {
+      } if (metatype === DQ_ALL_FAIL_ACTION
+        || metatype === DQ_ENTITY_FAIL_ACTION) {
         return {
           ...state,
           loading: false,
@@ -48,7 +53,8 @@ export function loaderReducer<T>(
           success: false,
           value: reducer ? reducer(state.value, action) : undefined,
         };
-      } if (metatype === DQ_ALL_SUCCESS_ACTION) {
+      } if (metatype === DQ_ALL_SUCCESS_ACTION
+        || metatype === DQ_ENTITY_SUCCESS_ACTION) {
         return {
           ...state,
           value: reducer ? reducer(state.value, action) : (action as DqLoadAllSuccessAction<T>).payload,

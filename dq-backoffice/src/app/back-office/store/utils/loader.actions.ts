@@ -24,6 +24,7 @@ export type DqLoaderMeta = DqLoaderAllMeta | DqLoaderOneMeta;
 export interface DqLoaderAction extends Action {
   readonly payload?: any;
   readonly meta?: DqLoaderMeta;
+  readonly feature: string;
   type: string;
 }
 
@@ -32,8 +33,11 @@ export class DqLoadAllLoadAction implements DqLoaderAction {
 
   type = '';
 
-  constructor(type: string) {
+  feature = ''
+
+  constructor(type: string, feature: string) {
     this.type = type;
+    this.feature = feature;
   }
 }
 
@@ -42,8 +46,11 @@ export class DqLoadAllSuccessAction<T> implements DqLoaderAction {
 
   type = '';
 
-  constructor(type: string, public payload: T) {
+  feature = ''
+
+  constructor(type: string, feature: string, public payload: T) {
     this.type = type;
+    this.feature = feature;
   }
 }
 
@@ -52,8 +59,11 @@ export class DqLoadAllFailAction implements DqLoaderAction {
 
   type = '';
 
-  constructor(type: string, public payload: Error) {
+  feature = ''
+
+  constructor(type: string, feature: string, public payload: Error) {
     this.type = type;
+    this.feature = feature;
   }
 }
 
@@ -62,8 +72,11 @@ export class DqLoadOneLoadAction implements DqLoaderAction {
 
   type = '';
 
-  constructor(type: string, public id: string) {
+  feature = ''
+
+  constructor(type: string, feature: string, public id: string) {
     this.type = type;
+    this.feature = feature;
   }
 }
 
@@ -72,8 +85,11 @@ export class DqLoadOneSuccessAction<T> implements DqLoaderAction {
 
   type = '';
 
-  constructor(type: string, public id: string, public payload: T) {
+  feature = ''
+
+  constructor(type: string, feature: string, public id: string, public payload: T) {
     this.type = type;
+    this.feature = feature;
   }
 }
 
@@ -82,7 +98,10 @@ export class DqLoadOneFailAction implements DqLoaderAction {
 
   type = '';
 
-  constructor(type: string, public id: string, public error: Error) {
+  feature = ''
+
+  constructor(type: string, feature: string, public id: string, public error: Error) {
     this.type = type;
+    this.feature = feature;
   }
 }

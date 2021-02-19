@@ -1,5 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import { DqPlayer } from '../../../shared/models/dq-player';
+import { PLAYERS_ALL_FEATURE, PLAYERS_ENTITIES_FEATURE } from '../state';
 import {
   DqLoadAllFailAction,
   DqLoadAllLoadAction,
@@ -17,19 +18,19 @@ export const DQ_GET_PLAYERS_FAIL = '[Player] - Get Players Error';
 
 export class GetPlayersAction extends DqLoadAllLoadAction {
   constructor() {
-    super(DQ_GET_PLAYERS);
+    super(DQ_GET_PLAYERS, PLAYERS_ALL_FEATURE);
   }
 }
 
 export class GetPlayersSuccessAction extends DqLoadAllSuccessAction<DqPlayer[]> {
   constructor(public payload: DqPlayer[]) {
-    super(DQ_GET_PLAYERS_SUCCESS, payload);
+    super(DQ_GET_PLAYERS_SUCCESS, PLAYERS_ALL_FEATURE, payload);
   }
 }
 
 export class GetPlayersErrorAction extends DqLoadAllFailAction {
   constructor(public payload: Error) {
-    super(DQ_GET_PLAYERS_SUCCESS, payload);
+    super(DQ_GET_PLAYERS_SUCCESS, PLAYERS_ALL_FEATURE, payload);
   }
 }
 
@@ -41,19 +42,19 @@ export const DQ_GET_PLAYER_FAIL = '[Player] - Get Player Error';
 
 export class GetPlayerAction extends DqLoadOneLoadAction {
   constructor(public id: string) {
-    super(DQ_GET_PLAYER, id);
+    super(DQ_GET_PLAYER, PLAYERS_ENTITIES_FEATURE, id);
   }
 }
 
 export class GetPlayerSuccessAction extends DqLoadOneSuccessAction<DqPlayer> {
   constructor(public id: string, public payload: DqPlayer) {
-    super(DQ_GET_PLAYER_SUCCESS, id, payload);
+    super(DQ_GET_PLAYER_SUCCESS, PLAYERS_ENTITIES_FEATURE, id, payload);
   }
 }
 
 export class GetPlayerErrorAction extends DqLoadOneFailAction {
   constructor(public id: string, public payload: Error) {
-    super(DQ_GET_PLAYER_SUCCESS, id, payload);
+    super(DQ_GET_PLAYER_SUCCESS, PLAYERS_ENTITIES_FEATURE, id, payload);
   }
 }
 

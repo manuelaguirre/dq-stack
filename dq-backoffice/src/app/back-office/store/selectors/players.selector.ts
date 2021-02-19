@@ -12,10 +12,7 @@ DqFeatureWithState,
 DqFeatureState<DqPlayer>
 > = createSelector(
   getDqFeatureState,
-  (state: DqStoreState) => {
-    console.log(state);
-    return state[PLAYERS_FEATURE];
-  },
+  (state: DqStoreState) => state[PLAYERS_FEATURE],
 );
 
 export const getAllPlayersState: MemoizedSelector<
@@ -39,7 +36,10 @@ DqPlayer[]
 export const getPlayerState = (playerId: string): MemoizedSelector<
 DqFeatureWithState,
 DqEntity<DqPlayer>
-> => createSelector(getPlayersState, (state: DqFeatureState<DqPlayer>) => state.entitiesMap.entities[playerId]);
+> => createSelector(getPlayersState, (state: DqFeatureState<DqPlayer>) => {
+  console.log(state);
+  return state.entitiesMap.entities[playerId];
+});
 
 export const getPlayerLoading = (playerId: string): MemoizedSelector<
 DqFeatureWithState,
