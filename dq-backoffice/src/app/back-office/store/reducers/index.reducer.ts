@@ -8,19 +8,19 @@ import {
 import { environment } from '../../../../environments/environment';
 import { DqPlayer } from '../../../shared/models/dq-player';
 import DqStoreState, { PLAYERS_FEATURE, PLAYERS_ENTITIES_FEATURE, PLAYERS_ALL_FEATURE } from '../state';
-import { loaderEntitiesReducer } from '../utils/loader-entity.reducer';
-import { loaderReducer } from '../utils/loader.reducer';
+import { dqLoaderEntitiesReducer } from '../utils/reducers/loader-entity.reducer';
+import { dqLoaderReducer } from '../utils/reducers/loader.reducer';
 import * as PlayersReducer from './all-players.reducer';
 import * as PlayerReducer from './player.reducer';
 
 export function getReducers(): ActionReducerMap<DqStoreState> {
   return {
     [PLAYERS_FEATURE]: combineReducers({
-      allEntities: loaderReducer<DqPlayer[]>(
+      allEntities: dqLoaderReducer<DqPlayer[]>(
         PLAYERS_ALL_FEATURE,
         PlayersReducer.reducer,
       ),
-      entitiesMap: loaderEntitiesReducer<DqPlayer>(
+      entitiesMap: dqLoaderEntitiesReducer<DqPlayer>(
         PLAYERS_ENTITIES_FEATURE,
         PlayerReducer.reducer,
       ),

@@ -2,9 +2,8 @@ import { Action } from '@ngrx/store';
 import {
   DqEntity,
   initializeState,
-} from '../state';
+} from '../../state';
 import {
-  DqLoadAllLoadAction,
   DqLoadAllFailAction,
   DqLoadAllSuccessAction,
   DQ_ALL_LOAD_ACTION,
@@ -14,7 +13,7 @@ import {
   DQ_ENTITY_FAIL_ACTION,
   DQ_ENTITY_SUCCESS_ACTION,
   DqLoaderAction,
-} from './loader.actions';
+} from '../actions/loader.actions';
 
 const initialLoaderState = (): DqEntity<any> => ({
   loading: false,
@@ -23,7 +22,7 @@ const initialLoaderState = (): DqEntity<any> => ({
   value: null,
 });
 
-export function loaderReducer<T>(
+export function dqLoaderReducer<T>(
   type: string,
   reducer?: (state: T, action: Action) => T,
 ): (state: DqEntity<T>, action: DqLoaderAction) => DqEntity<T> {

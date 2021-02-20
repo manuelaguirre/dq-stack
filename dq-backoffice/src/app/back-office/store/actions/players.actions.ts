@@ -8,7 +8,7 @@ import {
   DqLoadOneFailAction,
   DqLoadOneLoadAction,
   DqLoadOneSuccessAction,
-} from '../utils/loader.actions';
+} from '../utils/actions/loader.actions';
 
 export const DQ_GET_PLAYERS = '[Player] - Get Players';
 

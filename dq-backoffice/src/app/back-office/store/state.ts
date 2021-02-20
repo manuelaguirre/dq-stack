@@ -17,7 +17,7 @@ export interface DqEntity<T> {
   error: Error;
 }
 
-export interface DqEntityState<T> {
+export interface DqEntityMap<T> {
   entities: {
     [id: string]: DqEntity<T>;
   };
@@ -26,7 +26,7 @@ export interface DqEntityState<T> {
 export interface DqFeatureState<T> {
   allEntities: DqEntity<T[]>;
 
-  entitiesMap: DqEntityState<T>;
+  entitiesMap: DqEntityMap<T>;
 }
 
 export default class DqStoreState {

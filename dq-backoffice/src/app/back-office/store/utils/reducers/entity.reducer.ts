@@ -1,22 +1,22 @@
 import { Action } from '@ngrx/store';
 import {
   DqEntity,
-  DqEntityState,
-} from '../state';
+  DqEntityMap,
+} from '../../state';
 import {
   DqLoadOneLoadAction,
-} from './loader.actions';
+} from '../actions/loader.actions';
 
-export const initialEntityState: DqEntityState<any> = { entities: {} };
+export const initialEntityState: DqEntityMap<any> = { entities: {} };
 
-export function entitiesReducer<T>(
+export function dqEntitiesReducer<T>(
   type: string,
   reducer?: (state: DqEntity<T>, action: Action) => DqEntity<T>,
-): (state: DqEntityState<T>, action: DqLoadOneLoadAction) => DqEntityState<T> {
+): (state: DqEntityMap<T>, action: DqLoadOneLoadAction) => DqEntityMap<T> {
   return (
-    state: DqEntityState<T> = initialEntityState,
+    state: DqEntityMap<T> = initialEntityState,
     action: DqLoadOneLoadAction,
-  ): DqEntityState<T> => {
+  ): DqEntityMap<T> => {
     if (
       action.meta
       && action.feature === type
