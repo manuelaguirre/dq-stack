@@ -74,12 +74,12 @@ export class DqPlayerDetailComponent implements OnInit {
     this.playersService.createNewPlayer(this.getPlayer(playerForm))
       .pipe(
         filter((state) => !state.loading),
-        map((player) => {
-          if (player) {
+        map((state) => {
+          if (state && !!state.error) {
             this.detailForm.markAsPristine();
             this.snackBarService.showMessage('Player created successfully');
             if (this.isPopup) {
-              this.dialogRef.close(player.value);
+              this.dialogRef.close(state.value);
             } else {
               this.router.navigate(['home/players']);
             }

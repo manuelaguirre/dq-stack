@@ -3,19 +3,17 @@ import {
   DqEntity,
   DqEntityMap,
 } from '../../state';
-import {
-  DqLoadOneLoadAction,
-} from '../actions/loader.actions';
+import { DqActions } from '../actions';
 
 export const initialEntityState: DqEntityMap<any> = { entities: {} };
 
 export function dqEntitiesReducer<T>(
   type: string,
   reducer?: (state: DqEntity<T>, action: Action) => DqEntity<T>,
-): (state: DqEntityMap<T>, action: DqLoadOneLoadAction) => DqEntityMap<T> {
+): (state: DqEntityMap<T>, action: DqActions.DqLoadOneLoadAction) => DqEntityMap<T> {
   return (
     state: DqEntityMap<T> = initialEntityState,
-    action: DqLoadOneLoadAction,
+    action: DqActions.DqLoadOneLoadAction,
   ): DqEntityMap<T> => {
     if (
       action.meta

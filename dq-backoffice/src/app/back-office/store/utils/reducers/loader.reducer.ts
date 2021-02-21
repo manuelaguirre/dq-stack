@@ -3,17 +3,7 @@ import {
   DqEntity,
   initializeState,
 } from '../../state';
-import {
-  DqLoadAllFailAction,
-  DqLoadAllSuccessAction,
-  DQ_ALL_LOAD_ACTION,
-  DQ_ALL_FAIL_ACTION,
-  DQ_ALL_SUCCESS_ACTION,
-  DQ_ENTITY_LOAD_ACTION,
-  DQ_ENTITY_FAIL_ACTION,
-  DQ_ENTITY_SUCCESS_ACTION,
-  DqLoaderAction,
-} from '../actions/loader.actions';
+import { DqActions } from '../actions';
 
 const initialLoaderState = (): DqEntity<any> => ({
   loading: false,
@@ -25,10 +15,10 @@ const initialLoaderState = (): DqEntity<any> => ({
 export function dqLoaderReducer<T>(
   type: string,
   reducer?: (state: T, action: Action) => T,
-): (state: DqEntity<T>, action: DqLoaderAction) => DqEntity<T> {
+): (state: DqEntity<T>, action: DqActions.DqLoaderAction) => DqEntity<T> {
   return (
     state: DqEntity<T> = initialLoaderState(),
-    action: DqLoaderAction,
+    action: DqActions.DqLoaderAction,
   ): DqEntity<T> => {
     if (
       action.meta
@@ -36,27 +26,34 @@ export function dqLoaderReducer<T>(
     ) {
       const metatype = action.meta;
 
-      if (metatype === DQ_ALL_LOAD_ACTION
-        || metatype === DQ_ENTITY_LOAD_ACTION) {
+      if (metatype === DqActions.DQ_ALL_LOAD_ACTION
+        || metatype === DqActions.DQ_ENTITY_LOAD_ACTION
+        || metatype === DqActions.DQ_EDIT_LOAD_ACTION
+        || metatype === DqActions.DQ_CREATE_LOAD_ACTION) {
         return {
           ...state,
           loading: true,
+          success: false,
           value: reducer ? reducer(state.value, action) : state.value,
         };
-      } if (metatype === DQ_ALL_FAIL_ACTION
-        || metatype === DQ_ENTITY_FAIL_ACTION) {
+      } if (metatype === DqActions.DQ_ALL_FAIL_ACTION
+        || metatype === DqActions.DQ_ENTITY_FAIL_ACTION
+        || metatype === DqActions.DQ_EDIT_FAIL_ACTION
+        || metatype === DqActions.DQ_CREATE_FAIL_ACTION) {
         return {
           ...state,
           loading: false,
-          error: (action as DqLoadAllFailAction).payload,
+          error: (action as DqActions.DqLoadAllFailAction).payload,
           success: false,
           value: reducer ? reducer(state.value, action) : undefined,
         };
-      } if (metatype === DQ_ALL_SUCCESS_ACTION
-        || metatype === DQ_ENTITY_SUCCESS_ACTION) {
+      } if (metatype === DqActions.DQ_ALL_SUCCESS_ACTION
+        || metatype === DqActions.DQ_ENTITY_SUCCESS_ACTION
+        || metatype === DqActions.DQ_EDIT_SUCCESS_ACTION
+        || metatype === DqActions.DQ_CREATE_SUCCESS_ACTION) {
         return {
           ...state,
-          value: reducer ? reducer(state.value, action) : (action as DqLoadAllSuccessAction<T>).payload,
+          value: reducer ? reducer(state.value, action) : (action as DqActions.DqLoadAllSuccessAction<T>).payload,
           loading: false,
           error: null,
           success: true,

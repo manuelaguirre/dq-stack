@@ -66,33 +66,36 @@ export class PlayersService {
           this.loadPlayer(id);
         }
       }),
-      filter((state) => !!state),
+      filter((state) => !!state && (state.success || !!state.error)),
     );
   }
 
   createNewPlayer(player: Partial<DqPlayer>): Observable<DqEntity<DqPlayer>> {
     // Set a custom password for future log in
-    return of(null);
-    // const customPassword = 'defiquizz1234';
-    // this.store.dispatch(DqBackOfficeActions.CreatePlayerAction({
-    //   playerId: 'new',
-    //   player: { ...player, password: customPassword },
-    // }));
-    // return this.store.pipe(
-    //   select(getPlayerState('new')),
-    //   map((state) => state),
-    //   filter((state) => !!state),
-    // );
+    const customPassword = 'defiquizz1234';
+    this.store.dispatch(new DqBackOfficeActions.CreatePlayerAction(
+      'new',
+      { ...player, password: customPassword },
+    ));
+    return this.store.pipe(
+      select(getPlayerState('new')),
+      map((state) => state),
+      filter((state) => !!state && (state.success || !!state.error)),
+    );
   }
 
   editPlayer(playerId: string, player: Partial<DqPlayer>): Observable<DqEntity<DqPlayer>> {
-    // this.store.dispatch(DqBackOfficeActions.EditPlayerAction({ playerId, player }));
-    // return this.store.pipe(
-    //   select(getPlayerState(playerId)),
-    //   map((state) => state),
-    //   filter((state) => !!state),
-    // );
-    return of(null);
+    this.store.dispatch(new DqBackOfficeActions.EditPlayerAction(
+      playerId, player,
+    ));
+    return this.store.pipe(
+      select(getPlayerState(playerId)),
+      map((state) => {
+        console.log(state);
+        return state;
+      }),
+      filter((state) => !!state && (state.success || !!state.error)),
+    );
   }
 
   deletePlayer(playerId: string): Observable<any> {

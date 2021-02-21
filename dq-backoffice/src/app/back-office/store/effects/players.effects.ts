@@ -32,21 +32,23 @@ export class PlayerEffects {
     )),
   ));
 
-  // EditPlayer$: Observable<Action> = createEffect(() => this.action$.pipe(
-  //   ofType(DqBackOfficeActions.EditPlayerAction),
-  //   mergeMap((action) => this.adapter.editPlayer(action.playerId, action.player).pipe(
-  //     map((player: DqPlayer) => DqBackOfficeActions.SuccessEditPlayerAction({ player })),
-  //     catchError((error: Error) => of(DqBackOfficeActions.ErrorEditPlayerAction({ error, playerId: action.playerId }))),
-  //   )),
-  // ));
+  EditPlayer$: Observable<Action> = createEffect(() => this.action$.pipe(
+    ofType(DqBackOfficeActions.DQ_EDIT_PLAYER),
+    mergeMap((action: DqBackOfficeActions.EditPlayerAction) => this.adapter.editPlayer(
+      action.id, action.player,
+    ).pipe(
+      map((player: DqPlayer) => new DqBackOfficeActions.EditPlayerSuccessAction(action.id, player)),
+      catchError((error: Error) => of(new DqBackOfficeActions.EditPlayerErrorAction(action.id, error))),
+    )),
+  ));
 
-  // CreatePlayer$: Observable<Action> = createEffect(() => this.action$.pipe(
-  //   ofType(DqBackOfficeActions.CreatePlayerAction),
-  //   mergeMap((action) => this.adapter.createPlayer(action.player).pipe(
-  //     map((player: DqPlayer) => DqBackOfficeActions.SuccessCreatePlayerAction({ player })),
-  //     catchError((error: Error) => of(DqBackOfficeActions.ErrorCreatePlayerAction({ error, playerId: 'new' }))),
-  //   )),
-  // ));
+  CreatePlayer$: Observable<Action> = createEffect(() => this.action$.pipe(
+    ofType(DqBackOfficeActions.DQ_CREATE_PLAYER),
+    mergeMap((action: DqBackOfficeActions.CreatePlayerAction) => this.adapter.createPlayer(action.player).pipe(
+      map((player: DqPlayer) => new DqBackOfficeActions.CreatePlayerSuccessAction(player._id, player)),
+      catchError((error: Error) => of(new DqBackOfficeActions.CreatePlayerErrorAction('new', error))),
+    )),
+  ));
 
   // DeletePlayer$: Observable<Action> = createEffect(() => this.action$.pipe(
   //   ofType(DqBackOfficeActions.DeletePlayerAction),
