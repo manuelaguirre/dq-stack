@@ -194,7 +194,9 @@ class Coordinator:
 
                     elif has_answer and not is_correct_answer:
                         self.controller.show_player_answer_is_wrong(player.name)
-                        if self.controller.current_answers >= len(self.dq_game.players):
+                        if len(self.controller.current_answers) >= len(
+                            self.dq_game.players
+                        ):
                             repeat = False
 
             if repeat == False or self.controller.is_timeout:

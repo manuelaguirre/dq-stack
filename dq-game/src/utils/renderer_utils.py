@@ -1,4 +1,5 @@
 from random import choice, shuffle
+import pygame
 
 
 def render_multiline_text(renderer, text, y, font_size="small"):
@@ -49,13 +50,14 @@ def show_text_at(renderer, font, pos_x, pos_y, text, color=(0, 0, 0), centered=T
         renderer.screen.blit(text_, (pos_x, pos_y))
 
 
-def render_table(renderer, rows, grid, who=""):
+def render_table(renderer, rows, grid, who="", icons={}):
     """
     Render a points table. \n
     Example \n
     Rows: [[ 'Jean Baptiste' , '3', '+3', ... ]] \n
     Grid: (4,1,1) # Size of the columns grid \n
-    Who: 'Jean Baptiste' # The name which will be highlighted
+    Who: 'Jean Baptiste' # The name which will be highlighted \n
+    Icons: { "CORRECT": _image_ } # dict with icons \n
     """
     grid_list = list(grid)
 
@@ -77,17 +79,36 @@ def render_table(renderer, rows, grid, who=""):
             if cell_index == 2:
                 font_size = "small"
 
-            if cell_index == 0 and who == cell:
-                color = (25, 220, 25)
-                cell = "· " + cell
-            if cell[0] == "+" and cell[1] != "0":
-                color = (25, 220, 25)
-            elif cell[0] == "+" and cell[1] == "0":
-                cell = ""
-            elif cell[0] == "-":
-                color = (220, 25, 25)
-
-            show_text_at(renderer, font_size, pos_x, pos_y, cell, color, centered=False)
+            # Display result or joker icon
+            if "__image" in cell:
+                icon_image = icons[cell["__image"]]
+                if icon_image:
+                    image_width = renderer.SCREEN_WIDTH // 15
+                    proportion = image_width / icon_image.get_rect().width
+                    image_height = proportion * icon_image.get_rect().height
+                    icon_image_scaled = pygame.transform.scale(
+                        icon_image, (int(image_width), int(image_height))
+                    )
+                    icon_image_rect = icon_image_scaled.get_rect(
+                        center=(pos_x, pos_y + image_height / 4)
+                    )
+                    renderer.screen.blit(icon_image_scaled, icon_image_rect)
+            else:
+                # Highlight player name
+                if cell_index == 1 and who == cell:
+                    color = (25, 220, 25)
+                    cell = "· " + cell
+                # Check if the diff exists
+                if cell_index == 3 and len(cell) > 1:
+                    if cell[0] == "+" and cell[1] != "0":
+                        color = (25, 220, 25)
+                    elif cell[0] == "+" and cell[1] == "0":
+                        cell = ""
+                    elif cell[0] == "-":
+                        color = (220, 25, 25)
+                show_text_at(
+                    renderer, font_size, pos_x, pos_y, cell, color, centered=False
+                )
 
 
 def chop_answers(answers, correct_answer):

@@ -94,6 +94,6 @@ class StatTracker:
         try:
             with open(self.file_path) as file:
                 return json.load(file)
-            
+
         except IOError:
             print("Error reading stats file")
