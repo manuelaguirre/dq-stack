@@ -6,7 +6,9 @@ from functools import wraps
 
 import pygame
 import text.text as text
+from client.pages.score_board_page import ScoreBoardPage
 from events.event_handler import EventHandler
+from game_types.joker import JokerType
 from pygame import mixer
 
 from utils.renderer_utils import render_multiline_text, render_table, show_text_at
@@ -82,6 +84,12 @@ class Renderer(EventHandler):
         self.buzzer_function = None
         self.RENDERER_TYPE = RENDERER_TYPE
         self.base_path = os.path.dirname(__file__)
+        self.joker_images = self.get_jokers_images()
+        self.jokers_results_images = self.get_jokers_results_images()
+        (
+            self.correct_answer_image,
+            self.wrong_answer_image,
+        ) = self.get_answer_result_images()
 
     def initialize(self):
         """
@@ -206,6 +214,71 @@ class Renderer(EventHandler):
             )
         )
 
+    def _get_joker_image(self, joker_type):
+        """
+        return { active: Image, inactive: Image }
+        """
+        active = pygame.image.load(
+            os.path.abspath(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "..",
+                    "images/icons/jokers/" + joker_type.name + "_active.png",
+                )
+            )
+        )
+        inactive = pygame.image.load(
+            os.path.abspath(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "..",
+                    "images/icons/jokers/" + joker_type.name + "_inactive.png",
+                )
+            )
+        )
+        return {"active": active, "inactive": inactive}
+
+    def get_jokers_images(self):
+        joker_images = {}
+        for joker_type in JokerType:
+            joker_images[joker_type.name] = self._get_joker_image(joker_type)
+        return joker_images
+
+    def get_jokers_results_images(self):
+        joker_images = {}
+        for joker_type in JokerType:
+            joker_images[joker_type.name] = pygame.image.load(
+                os.path.abspath(
+                    os.path.join(
+                        os.path.dirname(__file__),
+                        "..",
+                        "images/icons/answer_results/" + joker_type.name + ".png",
+                    )
+                )
+            )
+        return joker_images
+
+    def get_answer_result_images(self):
+        correct_image = pygame.image.load(
+            os.path.abspath(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "..",
+                    "images/icons/answer_results/correct.png",
+                )
+            )
+        )
+        wrong_image = pygame.image.load(
+            os.path.abspath(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "..",
+                    "images/icons/answer_results/wrong.png",
+                )
+            )
+        )
+        return correct_image, wrong_image
+
     def update_screen(self):
         pygame.display.update()
 
@@ -276,26 +349,12 @@ class Renderer(EventHandler):
         )
 
     def show_scores(self, score_board):
-        points_transition = score_board.get_points_transition()
-        is_first = True
-        for board_frame in points_transition:
-            self.show_background()
-            render_table(self, board_frame, (4, 1, 1), self.username)
-            self.update_screen()
-            if is_first:
-                time.sleep(3)
-                is_first = False
-            else:
-                time.sleep(0.05)
-
-        sort_transition = score_board.get_sort_transition()
-        is_first = True
-        for board_frame in sort_transition:
-            if is_first:
-                time.sleep(1.5)
-                is_first = False
-            else:
-                time.sleep(0.4)
-            self.show_background()
-            render_table(self, board_frame, (4, 1, 1), self.username)
-            self.update_screen()
+        score_board_page = ScoreBoardPage(self)
+        score_board_page.set_data(
+            score_board,
+            self.correct_answer_image,
+            self.wrong_answer_image,
+            self.jokers_results_images,
+        )
+        score_board_page.render()
+        score_board_page.finish()

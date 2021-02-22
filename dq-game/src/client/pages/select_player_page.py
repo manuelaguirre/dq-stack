@@ -24,8 +24,9 @@ class SelectPlayerPage(Page):
 
     def set_callback(self, callback):
         def callback_and_finish(target):
-            callback(target)
-            self.finish()
+            if target:
+                callback(target)
+                self.finish()
 
         self.callback = callback_and_finish
 

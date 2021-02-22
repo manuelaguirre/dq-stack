@@ -23,6 +23,8 @@ class DQGame(EventHandler):
         self.rounds = []
         self.players = []
         self.round_number = 0
+        self.current_answer_results = None
+        self.current_played_jokers = None
 
         print("Creating a new game")
 
@@ -65,6 +67,8 @@ class DQGame(EventHandler):
         """
         Updates Game Model with question results and logs it on the stat tracker
         """
+        self.current_answer_results = {}
+        self.current_played_jokers = jokers
 
         point_service = PointService(self.round_number)
 
@@ -115,6 +119,11 @@ class DQGame(EventHandler):
                 player.stolen_points,
             )
 
+            self.current_answer_results[player.name] = {
+                "has_answer": has_answer,
+                "is_correct_answer": is_correct_answer,
+            }
+
         self.stat_tracker.log_jokers(jokers)
         self.stat_tracker.write_to_file(self.round_number)
 
@@ -155,6 +164,8 @@ class DQGame(EventHandler):
 
     def get_score_board(self):
         score_board = ScoreBoard()
+        score_board.add_played_jokers(self.current_played_jokers)
+        score_board.add_player_answer_results(self.current_answer_results)
         for player in self.players:
             score_board.add_score(
                 player.name,
@@ -162,6 +173,7 @@ class DQGame(EventHandler):
                 player.points - player.differential - player.stolen_points,
             )
         score_board.sort_board()
+
         print(score_board.__repr__())
         return score_board
 
