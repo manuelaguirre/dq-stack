@@ -75,7 +75,7 @@ export class DqPlayerDetailComponent implements OnInit {
       .pipe(
         filter((state) => !state.loading),
         map((state) => {
-          if (state && !!state.error) {
+          if (state && state.error === null) {
             this.detailForm.markAsPristine();
             this.snackBarService.showMessage('Player created successfully');
             if (this.isPopup) {
@@ -84,7 +84,11 @@ export class DqPlayerDetailComponent implements OnInit {
               this.router.navigate(['home/players']);
             }
           } else {
-            this.snackBarService.showError('Error: Player not created');
+            let message = 'Error. Player not created';
+            if (state.error && (state.error as any).error) {
+              message += `: ${(state.error as any).error}`;
+            }
+            this.snackBarService.showError(message);
           }
         }),
         catchError((e) => {

@@ -40,10 +40,11 @@ export const reducerProvider: Provider = {
 };
 
 export function logger(reducer: ActionReducer<DqStoreState>): ActionReducer<DqStoreState> {
-  return (state: DqStoreState, action: any): DqStoreState =>
-    // console.log('[@DQ state]', state);
-    // console.log('[@DQ action]', action);
-    reducer(state, action);
+  return (state: DqStoreState, action: any): DqStoreState => {
+    console.log('[@DQ state]', state);
+    console.log('[@DQ action]', action);
+    return reducer(state, action);
+  };
 }
 
 /**

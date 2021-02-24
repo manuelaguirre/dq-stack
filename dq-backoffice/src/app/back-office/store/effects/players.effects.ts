@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {
   catchError, map, mergeMap,
@@ -14,6 +14,7 @@ export class PlayerEffects {
   constructor(
     private action$: Actions,
     private adapter: DqPlayerAdapter,
+    private store: Store,
   ) {}
 
   GetPlayers$: Observable<Action> = createEffect(() => this.action$.pipe(
@@ -37,7 +38,10 @@ export class PlayerEffects {
     mergeMap((action: DqBackOfficeActions.EditPlayerAction) => this.adapter.editPlayer(
       action.id, action.player,
     ).pipe(
-      map((player: DqPlayer) => new DqBackOfficeActions.EditPlayerSuccessAction(action.id, player)),
+      map((player: DqPlayer) => {
+        this.store.dispatch(new DqBackOfficeActions.GetPlayersAction());
+        return new DqBackOfficeActions.EditPlayerSuccessAction(action.id, player);
+      }),
       catchError((error: Error) => of(new DqBackOfficeActions.EditPlayerErrorAction(action.id, error))),
     )),
   ));
@@ -45,7 +49,10 @@ export class PlayerEffects {
   CreatePlayer$: Observable<Action> = createEffect(() => this.action$.pipe(
     ofType(DqBackOfficeActions.DQ_CREATE_PLAYER),
     mergeMap((action: DqBackOfficeActions.CreatePlayerAction) => this.adapter.createPlayer(action.player).pipe(
-      map((player: DqPlayer) => new DqBackOfficeActions.CreatePlayerSuccessAction(player._id, player)),
+      map((player: DqPlayer) => {
+        this.store.dispatch(new DqBackOfficeActions.GetPlayersAction());
+        return new DqBackOfficeActions.CreatePlayerSuccessAction('new', player);
+      }),
       catchError((error: Error) => of(new DqBackOfficeActions.CreatePlayerErrorAction('new', error))),
     )),
   ));

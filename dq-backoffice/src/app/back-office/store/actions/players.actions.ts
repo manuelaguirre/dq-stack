@@ -127,10 +127,10 @@ export type DqPlayersActions =
 | GetPlayerErrorAction
 | EditPlayerAction
 | EditPlayerSuccessAction
-| EditPlayerErrorAction;
-// | typeof CreatePlayerAction
-// | typeof SuccessCreatePlayerAction
-// | typeof ErrorCreatePlayerAction
+| EditPlayerErrorAction
+| CreatePlayerAction
+| CreatePlayerSuccessAction
+| CreatePlayerErrorAction;
 // | typeof DeletePlayerAction
 // | typeof SuccessDeletePlayerAction
 // | typeof ErrorDeletePlayerAction;

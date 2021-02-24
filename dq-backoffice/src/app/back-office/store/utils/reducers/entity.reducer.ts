@@ -19,6 +19,19 @@ export function dqEntitiesReducer<T>(
       action.meta
       && action.feature === type
     ) {
+      if (action.id === 'new' && action.payload._id !== undefined) {
+        return {
+          entities: {
+            ...state.entities,
+            [action.id]: reducer
+              ? reducer(state.entities[action.id], action)
+              : state[action.id],
+            [action.payload._id]: reducer
+              ? reducer(state.entities[action.id], action)
+              : state[action.id],
+          },
+        };
+      }
       return {
         entities: {
           ...state.entities,
