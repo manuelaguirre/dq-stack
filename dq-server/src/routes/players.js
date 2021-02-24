@@ -8,17 +8,18 @@ router.use(express.json());
 
 
 router.get('/', auth, asyncCatch(async (req, res) => {
-	const users =  await playerController.getPlayers();
+	const players =  await playerController.getPlayers();
+	const filteredPlayers = players.map(player => player.filterForResponse());
 	if (req.query.email) {
 		const userByEmail = await playerController.getPlayerByEmail(req.query.email.toString());
 		return res.send(userByEmail);
 	}   
-	return res.send(users);
+	return res.send(filteredPlayers);
 }));
 
 router.get('/:id', auth, asyncCatch(async (req, res) => {
 	const player = await playerController.getPlayer(req.params.id);
-	return res.send(player);
+	return res.send(player.filterForResponse());
 }));
 
 router.post('/', authAdmin, asyncCatch(async (req, res) => {
