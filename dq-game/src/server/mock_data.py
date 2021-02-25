@@ -1,4 +1,5 @@
 mock_instructions = [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi diam ipsum, placerat eget tristique in, sagittis sed quam. Nunc dignissim urna id lacus hendrerit, vitae aliquet augue lobortis. Nullam ut posuere sem, id dapibus neque.",
-    "Nullam interdum, velit eu venenatis luctus, eros augue ultricies quam, nec mattis ipsum est eget augue. Curabitur turpis erat, condimentum a enim nec, ullamcorper dignissim neque",
+    "Le jeu est composé de 3 manches. Chaque manche a ses propres règles, alors soyez bien attentifs tout au long de la partie.",
+    "Les 4 buzzers présents devant vous vous permettront de répondre aux questions. Ils vous permettront également de choisir vos thèmes préférés avant le début de la première manche et d'utiliser vos jokers tout au long de la partie.",
+    "Bon jeu ! ",
 ]

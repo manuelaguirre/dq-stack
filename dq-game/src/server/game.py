@@ -39,7 +39,8 @@ class DQGame(EventHandler):
         self.question_pools = question_pools
 
     def create_stat_tracker(self):
-        self.stat_tracker = StatTracker(self.game_id, self.players)
+        self.stat_tracker = StatTracker(self.game_id)
+        self.stat_tracker.set_players(self.players)
 
     def get_available_theme_names(self):
         return list(

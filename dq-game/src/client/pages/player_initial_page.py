@@ -53,4 +53,4 @@ class PlayerInitialPage(Page):
             self.callback()
 
     def _show_title(self):
-        self.renderer.show_title("Bienvenue")
+        self.renderer.show_title("Bienvenue dans Défiquizz")
