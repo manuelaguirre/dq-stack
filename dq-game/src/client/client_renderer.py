@@ -43,7 +43,7 @@ class ClientRenderer(Renderer):
 
     def get_badge_images(self):
         badge_images = {}
-        for i in range(3):
+        for i in range(7):
             badge_images[i + 2] = pygame.image.load(
                 os.path.abspath(
                     os.path.join(
@@ -84,7 +84,6 @@ class ClientRenderer(Renderer):
         for joker_type in JokerType:
             joker_images[joker_type.name] = self._get_joker_image(joker_type)
         return joker_images
-        return badge_images
 
     def _get_joker_image(self, joker_type):
         """
