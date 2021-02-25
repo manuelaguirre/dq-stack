@@ -56,7 +56,7 @@ class StatTracker:
                 data["firstRound"].append(self.question_log)
             elif round_number == 2:
                 data["secondRound"].append(self.question_log)
-            elif round_number == 1:
+            elif round_number == 3:
                 data["thirdRound"].append(self.question_log)
         except AttributeError:
             print("error writing stats file")
