@@ -214,6 +214,7 @@ class ClientRenderer(Renderer):
     @flush
     def show_instructions_and_confirmation_button(self, instructions, callback):
         self.ready_callback = callback
+        self.show_title("Règles du jeu")
         for i in range(len(instructions)):
             render_multiline_text(
                 self, instructions[i], (i + 1) * self.SCREEN_HEIGHT / 5
@@ -334,22 +335,26 @@ class ClientRenderer(Renderer):
     @flush
     def show_upcoming_question_theme_and_jokers(self, theme, jokers, callback):
         self.show_title(theme.name)
+        jokers_count = Counter()  #  { JokerType.DOUBLE: 1, ... }
+        has_jokers = False
+        for joker in jokers:
+            jokers_count[joker.joker_type.name] += 1
+            has_jokers = True
         show_text_at(
             self,
             "medium",
             self.SCREEN_WIDTH / 2,
             self.SCREEN_HEIGHT / 3,
-            "Voulez-vous utiliser un joker ?",
+            "Voulez-vous utiliser un joker ?"
+            if has_jokers
+            else "Vous n'avez plus de joker",
         )
-        self.show_jokers(jokers, callback)
+        self.show_jokers(jokers, callback, jokers_count)
 
-    def show_jokers(self, jokers, callback):
+    def show_jokers(self, jokers, callback, jokers_count):
         # Create counter
         self.joker_callback = callback
         self.buttons_list = []
-        jokers_count = Counter()  #  { JokerType.DOUBLE: 1, ... }
-        for joker in jokers:
-            jokers_count[joker.joker_type.name] += 1
 
         # Show every type (active or inactive)
         columns = [

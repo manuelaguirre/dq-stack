@@ -60,10 +60,11 @@ class APIHandler:
         return file_name
 
     def put_results(self, game_id, results):
+        results = {"results" : results}
         headers = {"x-auth-token": info.X_AUTH_TOKEN}
         response = requests.put(
-            info.BACK_OFFICE_URL + "games" + game_id + "/results",
+            info.BACK_OFFICE_URL + "games/" + game_id + "/results",
             headers=headers,
-            data={"results": results},
+            json= results,           
         )
         print(response.json())

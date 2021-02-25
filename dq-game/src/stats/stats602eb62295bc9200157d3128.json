@@ -1,0 +1,1357 @@
+{
+    "firstRound": [
+        {
+            "question": "5fe4dafb2506c40015574e95",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4dafb2506c40015574e93",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "value": "FIFTYFIFTY",
+                    "target": null
+                },
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "value": "FIFTYFIFTY",
+                    "target": null
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "value": "FIFTYFIFTY",
+                    "target": null
+                }
+            ]
+        },
+        {
+            "question": "5fe4dafb2506c40015574e94",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4dafb2506c40015574e92",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4daff2506c40015574f66",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "value": "DOUBLE",
+                    "target": null
+                }
+            ]
+        },
+        {
+            "question": "5fe4daff2506c40015574f64",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "value": "DOUBLE",
+                    "target": null
+                }
+            ]
+        },
+        {
+            "question": "5fe4daff2506c40015574f65",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 6,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "value": "DOUBLE",
+                    "target": null
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "value": "FIFTYFIFTY",
+                    "target": null
+                }
+            ]
+        },
+        {
+            "question": "5fe4daf82506c40015574dfb",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4daf82506c40015574dfc",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4daf82506c40015574dfd",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": 0,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        }
+    ],
+    "secondRound": [
+        {
+            "question": "5fe4daff2506c40015574f6a",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 4,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4daf82506c40015574e00",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 4,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "value": "DOUBLE",
+                    "target": null
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "value": "BLOCK",
+                    "target": "5fb5a9ea5cc7d70017574b32"
+                }
+            ]
+        },
+        {
+            "question": "5fe4dafb2506c40015574e96",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -4,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "value": "DOUBLE",
+                    "target": null
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "value": "FIFTYFIFTY",
+                    "target": null
+                }
+            ]
+        },
+        {
+            "question": "5fe4dafb2506c40015574e99",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "value": "BLOCK",
+                    "target": "5fb5a9ea5cc7d70017574b32"
+                }
+            ]
+        },
+        {
+            "question": "5fe4daf82506c40015574dfe",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4daf82506c40015574e01",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4daff2506c40015574f6b",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 4,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 4,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "value": "DOUBLE",
+                    "target": null
+                }
+            ]
+        },
+        {
+            "question": "5fe4daf82506c40015574dff",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 4,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 2,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "value": "FIFTYFIFTY",
+                    "target": null
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "value": "FIFTYFIFTY",
+                    "target": null
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "value": "FIFTYFIFTY",
+                    "target": null
+                }
+            ]
+        },
+        {
+            "question": "5fe4daff2506c40015574f69",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -4,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "value": "DOUBLE",
+                    "target": null
+                }
+            ]
+        },
+        {
+            "question": "5fe4daff2506c40015574f68",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4dafb2506c40015574e98",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "value": "BLOCK",
+                    "target": "5fb5a9ea5cc7d70017574b32"
+                }
+            ]
+        },
+        {
+            "question": "5fe4dafb2506c40015574e97",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 4,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "value": "BLOCK",
+                    "target": "5fb5a9ea5cc7d70017574b32"
+                }
+            ]
+        }
+    ],
+    "thirdRound": [
+        {
+            "question": "5fe4daff2506c40015574f6a",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 4,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4daf82506c40015574e00",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 4,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "value": "DOUBLE",
+                    "target": null
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "value": "BLOCK",
+                    "target": "5fb5a9ea5cc7d70017574b32"
+                }
+            ]
+        },
+        {
+            "question": "5fe4dafb2506c40015574e96",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -4,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "value": "DOUBLE",
+                    "target": null
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "value": "FIFTYFIFTY",
+                    "target": null
+                }
+            ]
+        },
+        {
+            "question": "5fe4dafb2506c40015574e99",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "value": "BLOCK",
+                    "target": "5fb5a9ea5cc7d70017574b32"
+                }
+            ]
+        },
+        {
+            "question": "5fe4daf82506c40015574dfe",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4daf82506c40015574e01",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4daff2506c40015574f6b",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 4,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 4,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "value": "DOUBLE",
+                    "target": null
+                }
+            ]
+        },
+        {
+            "question": "5fe4daf82506c40015574dff",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 4,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 3,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 2,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "value": "FIFTYFIFTY",
+                    "target": null
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "value": "FIFTYFIFTY",
+                    "target": null
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "value": "FIFTYFIFTY",
+                    "target": null
+                }
+            ]
+        },
+        {
+            "question": "5fe4daff2506c40015574f69",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -4,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "value": "DOUBLE",
+                    "target": null
+                }
+            ]
+        },
+        {
+            "question": "5fe4daff2506c40015574f68",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": []
+        },
+        {
+            "question": "5fe4dafb2506c40015574e98",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "value": "BLOCK",
+                    "target": "5fb5a9ea5cc7d70017574b32"
+                }
+            ]
+        },
+        {
+            "question": "5fe4dafb2506c40015574e97",
+            "answers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "correct": false,
+                    "hadAnswered": true,
+                    "points": -2,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5a9ea5cc7d70017574b32",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fb5aa435cc7d70017574b34",
+                    "correct": false,
+                    "hadAnswered": false,
+                    "points": -1,
+                    "stolenPoints": 0
+                },
+                {
+                    "player": "5fdbf3ade852dc00155133ba",
+                    "correct": true,
+                    "hadAnswered": true,
+                    "points": 4,
+                    "stolenPoints": 0
+                }
+            ],
+            "jokers": [
+                {
+                    "player": "5f204eb9a4ef9300172712b6",
+                    "value": "BLOCK",
+                    "target": "5fb5a9ea5cc7d70017574b32"
+                }
+            ]
+        }
+    ],
+    "finalResults": [
+        {
+            "player": "5f204eb9a4ef9300172712b6",
+            "points": 11
+        },
+        {
+            "player": "5fb5a9ea5cc7d70017574b32",
+            "points": -1
+        },
+        {
+            "player": "5fb5aa435cc7d70017574b34",
+            "points": 4
+        },
+        {
+            "player": "5fdbf3ade852dc00155133ba",
+            "points": -14
+        }
+    ]
+}

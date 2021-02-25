@@ -4,11 +4,13 @@ import json
 
 
 class StatTracker:
-    def __init__(self, game_id, players):
+    def __init__(self, game_id):
         self.game_id = game_id
         self.question_log = {}
-        self.player_ids = self.set_player_ids(players)
         self.file_path = self.set_file_path()
+
+    def set_players(self, players):
+        self.player_ids = self.set_player_ids(players)
 
     def add_question_log(self, _id):
         self.question_log["question"] = _id
