@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 import json
 
 
@@ -79,7 +78,9 @@ class StatTracker:
             json.dump(data, file)
 
     def set_file_path(self):
-        file_path = Path(f"src/stats/stats{self.game_id}.json")
+        base_path = os.path.dirname(__file__)
+        file_path = os.path.join("stats/" + "stats" + self.game_id + ".json")
+        file_path = os.path.abspath(os.path.join(base_path, "..", file_path))
         with open(file_path, "w+") as file:
             json.dump(
                 {

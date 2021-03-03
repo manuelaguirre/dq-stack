@@ -3,16 +3,19 @@
 block_cipher = None
 
 added_files = [
-         ( './src/utils', 'utils' ),
-         ( './src/utils/fonts', 'utils/fonts' ),
-         ( './src/images', 'images' ),
-         ( './src/images/icons', 'images/icons' ),
-         ( './src/images/tmp', 'images/tmp' ),
-         ( './src/info', 'info' ),
-         ( './src/game_types', 'game_types' ),
-         ( './src/events', 'events' ),
-         ( './src/text', 'text' ),
-         ( './src/config', 'config' ),
+    ( './src/utils', 'utils' ),
+    ( './src/utils/fonts', 'utils/fonts' ),
+    ( './src/images', 'images' ),
+    ( './src/images/icons', 'images/icons' ),
+    ( './src/images/tmp', 'images/tmp' ),
+    ( './src/images/icons/answer_results', 'images/icons/answer_results' ),
+    ( './src/images/icons/jokers', 'images/icons/jokers' ),
+    ( './src/info', 'info' ),
+    ( './src/stats', 'stats' ),
+    ( './src/game_types', 'game_types' ),
+    ( './src/events', 'events' ),
+    ( './src/text', 'text' ),
+    ( './src/config', 'config' ),
 ]
 
 a = Analysis(['src\\server\\main.py'],

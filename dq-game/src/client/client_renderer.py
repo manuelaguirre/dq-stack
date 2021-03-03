@@ -67,67 +67,6 @@ class ClientRenderer(Renderer):
             joker_images[joker_type.name] = self._get_joker_image(joker_type)
         return joker_images
 
-    def _get_joker_image(self, joker_type):
-        """
-        return { active: Image, inactive: Image }
-        """
-        active = pygame.image.load(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "..",
-                    "images/icons/jokers/" + joker_type.name + "_active.png",
-                )
-            )
-        )
-        inactive = pygame.image.load(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "..",
-                    "images/icons/jokers/" + joker_type.name + "_inactive.png",
-                )
-            )
-        )
-        return {"active": active, "inactive": inactive}
-
-    def get_jokers_images(self):
-        joker_images = {}
-        for joker_type in JokerType:
-            joker_images[joker_type.name] = self._get_joker_image(joker_type)
-        return joker_images
-        return badge_images
-
-    def _get_joker_image(self, joker_type):
-        """
-        return { active: Image, inactive: Image }
-        """
-        active = pygame.image.load(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "..",
-                    "images/icons/jokers/" + joker_type.name + "_active.png",
-                )
-            )
-        )
-        inactive = pygame.image.load(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "..",
-                    "images/icons/jokers/" + joker_type.name + "_inactive.png",
-                )
-            )
-        )
-        return {"active": active, "inactive": inactive}
-
-    def get_jokers_images(self):
-        joker_images = {}
-        for joker_type in JokerType:
-            joker_images[joker_type.name] = self._get_joker_image(joker_type)
-        return joker_images
-
     def create_buttons(self, value_list, button_type):
         # Create columns and rows
 
