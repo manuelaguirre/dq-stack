@@ -1,4 +1,4 @@
-const { auth, authAdmin } = require('../middleware/auth');
+const { auth, authorize } = require('../middleware/auth');
 const express = require('express');
 const themeController = require('../controllers/themes');
 const { createThemeSchema, updateThemeSchema } = require('../validation/input');
@@ -21,7 +21,7 @@ router.get('/:id', auth, asyncCatch(async (req, res) => {
 	return res.send(theme);		
 }));
 
-router.post('/', authAdmin, asyncCatch(async (req, res) => {
+router.post('/', authorize('admin'), asyncCatch(async (req, res) => {
 	let result = createThemeSchema.validate(req.body);
 	if (result.error) {
 		res.status(400).send(result.error.details[0].message);
@@ -33,7 +33,7 @@ router.post('/', authAdmin, asyncCatch(async (req, res) => {
 	return res.send(result);	
 }));
 
-router.put('/:id', authAdmin, asyncCatch(async (req,res) => {
+router.put('/:id', authorize('admin'), asyncCatch(async (req,res) => {
 	let result = updateThemeSchema.validate(req.body);
 	if (result.error) {
 		res.status(400).send(result.error.details[0].message);
@@ -47,7 +47,7 @@ router.put('/:id', authAdmin, asyncCatch(async (req,res) => {
 	return res.status(200).send(result);
 }));
 
-router.delete('/:id', authAdmin, asyncCatch(async (req,res) => {
+router.delete('/:id', authorize('admin'), asyncCatch(async (req,res) => {
 	const result = await themeController.deleteTheme(req.params.id);
 	return res.send(result);
 }));

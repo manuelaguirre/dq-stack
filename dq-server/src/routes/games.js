@@ -1,4 +1,4 @@
-const { auth, authAdmin, authGame } = require('../middleware/auth');
+const { auth, authorize } = require('../middleware/auth');
 const express = require('express');
 const gamesController = require('../controllers/games');
 const asyncCatch = require('../middleware/asyncCatch');
@@ -12,7 +12,7 @@ router.get('/', auth, asyncCatch(async (req, res) => {
 	return res.send(games);
 }));
 
-router.get('/play', auth, asyncCatch(async (req, res) => {
+router.get('/play', authorize('game'), asyncCatch(async (req, res) => {
 	const game = await gamesController.prepareGame();
 	return res.send(game);
 }));
@@ -22,7 +22,7 @@ router.get('/:id', auth, asyncCatch(async (req, res) => {
 	return res.send(game);
 }));
 
-router.put('/:id', authAdmin, asyncCatch(async (req, res) => {
+router.put('/:id', authorize('admin'), asyncCatch(async (req, res) => {
 	let result = updateGameSchema.validate(req.body);
 	if (result.error) {
 		return res.status(400).send(result.error.details[0].message);
@@ -35,7 +35,7 @@ router.put('/:id', authAdmin, asyncCatch(async (req, res) => {
 	return res.status(200).send(result);
 }));
 
-router.put('/:id/results', authGame, asyncCatch(async (req, res) => {
+router.put('/:id/results', authorize('game'), asyncCatch(async (req, res) => {
 	let result = updateGameResultsSchema.validate(req.body);
 	if (result.error) {
 		return res.status(400).send(result.error.details[0].message);
@@ -48,7 +48,7 @@ router.put('/:id/results', authGame, asyncCatch(async (req, res) => {
 	return res.status(200).send(result);
 }));
 
-router.post('/', authAdmin, asyncCatch(async (req, res) => {
+router.post('/', authorize('admin'), asyncCatch(async (req, res) => {
 	let result = createGameSchema.validate(req.body);
 	if (result.error) {
 		res.status(400).send(result.error.details[0].message);
