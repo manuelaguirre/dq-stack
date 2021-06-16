@@ -52,10 +52,11 @@ class SocketConnection(EventHandler):
 
 
 class ClientSocketConnection(SocketConnection):
-    def __init__(self, port):
+    def __init__(self, host_ip, port):
         super().__init__(port)
         self.tcpsock.setblocking(1)
         self.client_id = 0
+        self.host_ip = host_ip
 
     def send(self, msg, content_type):
         super().send(self.tcpsock, msg, content_type)
@@ -81,7 +82,7 @@ class ClientSocketConnection(SocketConnection):
     def connect(self):
         while True:
             try:
-                self.tcpsock.connect((socket.gethostname(), self.port))
+                self.tcpsock.connect((self.host_ip or socket.gethostname(), self.port or 8000))
                 print("Connection success")
                 break
             except Exception as e:
