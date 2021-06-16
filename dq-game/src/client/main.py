@@ -1,5 +1,6 @@
 import os
 import sys
+import argparse
 
 from utils.socket_connection import ClientSocketConnection
 
@@ -8,11 +9,11 @@ from client_renderer import ClientRenderer
 from event_coordinator import EventCoordinator
 
 
-def start_game():
+def start_game(host_ip, port):
 
     # Create main classes
     client_renderer = ClientRenderer()
-    client_socket = ClientSocketConnection(8000)
+    client_socket = ClientSocketConnection(host_ip, port)
     controller = ClientController(client_socket)
     coordinator = EventCoordinator(controller, client_renderer)
 
@@ -45,4 +46,9 @@ def start_game():
     client_renderer.initialize()
 
 
-start_game()
+parser = argparse.ArgumentParser()
+parser.add_argument("-p", "--port", type=int)
+parser.add_argument("-H", "--host", type=str)
+args = parser.parse_args()
+
+start_game(args.host, args.port)
