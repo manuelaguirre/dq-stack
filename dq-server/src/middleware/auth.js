@@ -21,7 +21,7 @@ function authorize(...roles) {
 		try {
 			const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
 			const user = await getUser(decoded._id);
-			if (!user) return res.status(404).send('Error. User not found');
+			if (!user) return res.status(404).send('Error. User making the request not found');
 			if (!roles.includes(user.role)) {
 				return res.status(401).send('Error. Not enough permissions');
 			}

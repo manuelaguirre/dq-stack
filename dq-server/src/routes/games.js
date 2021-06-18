@@ -2,8 +2,8 @@ const { auth, authorize } = require('../middleware/auth');
 const express = require('express');
 const gamesController = require('../controllers/games');
 const asyncCatch = require('../middleware/asyncCatch');
-const { createGameSchema, updateGameSchema, updateGameResultsSchema } = require('../validation/input');
-const { createGame } = require('../controllers/games');
+const { createGameSchema, updateGameSchema, updateGameResultsSchema} = require('../validation/input');
+const { createGame, deleteGame } = require('../controllers/games');
 const router = express.Router();
 router.use(express.json());
 
@@ -19,6 +19,9 @@ router.get('/play', authorize('game'), asyncCatch(async (req, res) => {
 
 router.get('/:id', auth, asyncCatch(async (req, res) => {
 	const game = await gamesController.getGame(req.params.id);
+	if (!game) {
+		return res.status(404).send(`Game with id ${req.params.id} not found`);
+	}
 	return res.send(game);
 }));
 
@@ -57,6 +60,16 @@ router.post('/', authorize('admin'), asyncCatch(async (req, res) => {
 
 	result = await createGame(req.body.name, req.body.players, req.body.themes);
 	res.send(result);	
+}));
+
+router.delete('/:id', authorize('admin'), asyncCatch(async (req, res) => {
+	let deletedCount;
+	try {
+		deletedCount = await deleteGame(req.params.id);		
+	} catch (error) {
+		return res.status(404).send(error.message);
+	}	
+	return res.send(`${deletedCount} game was deleted`);
 }));
 
 module.exports = router;
