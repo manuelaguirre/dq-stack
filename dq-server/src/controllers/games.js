@@ -92,10 +92,20 @@ async function prepareGame() {
 	return { _id: lastGame._id, players, questionPools};
 }
 
+async function deleteGame(id) {
+	const result = await Game.deleteOne({_id: id});
+	if (result.deletedCount > 0) {
+		return result.deletedCount;
+	} else {
+		throw new Error('No game was deleted');
+	}
+}
+
 module.exports = {
 	getGame,
 	createGame,
 	getGameAndUpdate,
 	getGames,
-	prepareGame
+	prepareGame,
+	deleteGame
 };
