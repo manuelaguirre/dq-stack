@@ -26,5 +26,6 @@ def start_game():
 
 
 game_thread = Thread(target=start_game)
+game_thread.daemon = True
 game_thread.start()
 renderer.initialize()

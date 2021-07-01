@@ -125,33 +125,38 @@ class Renderer(EventHandler):
         running = True
         print("start running")
         while running:  # main game loop
-            # if self.RENDERER_TYPE == "client":
+            try:
+                # if self.RENDERER_TYPE == "client":
 
-            #     if GPIO.input(17) == 0:
-            #         if self.buzzer_function:
-            #             self.buzzer_function(0)
+                #     if GPIO.input(17) == 0:
+                #         if self.buzzer_function:
+                #             self.buzzer_function(0)
 
-            #     elif GPIO.input(18) == 0:
-            #         if self.buzzer_function:
-            #             self.buzzer_function(1)
+                #     elif GPIO.input(18) == 0:
+                #         if self.buzzer_function:
+                #             self.buzzer_function(1)
 
-            #     elif GPIO.input(24) == 0:
-            #         if self.buzzer_function:
-            #             self.buzzer_function(2)
+                #     elif GPIO.input(24) == 0:
+                #         if self.buzzer_function:
+                #             self.buzzer_function(2)
 
-            #     elif GPIO.input(25) == 0:
-            #         if self.buzzer_function:
-            #             self.buzzer_function(3)
+                #     elif GPIO.input(25) == 0:
+                #         if self.buzzer_function:
+                #             self.buzzer_function(3)
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    print("stop running")
-                    running = False
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.touch_function:
-                        self.touch_function(event.pos[0], event.pos[1])
-            time.sleep(0.1)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        print("stop running")
+                        running = False
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        if self.touch_function:
+                            self.touch_function(event.pos[0], event.pos[1])
+                time.sleep(0.1)
+            except KeyboardInterrupt:
+                pygame.quit()
+                print("stop running")
+                running = False
 
     def _get_logo(self):
         return pygame.image.load(

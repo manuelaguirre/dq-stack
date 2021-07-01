@@ -29,4 +29,5 @@ class Timer:
         self.seconds = seconds
         self.timeout_callback = timeout_callback
         timer_thread = Thread(target=self.start, args=(tick_callback,))
+        timer_thread.daemon = True
         timer_thread.start()
