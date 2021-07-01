@@ -22,8 +22,9 @@ export class GamesService {
     }
     return this.apiService.get<DqGame[]>('games').pipe(
       tap((games) => this.store.set('games', games)),
-      tap(() => {
+      switchMap(() => {
         this.allGamesSearched = true;
+        return this.store.select<DqGame[]>('games');
       }),
       catchError((error: any) => {
         this.snackBarService.showError(error.message ? error.message : 'An error has ocurred');
@@ -105,7 +106,7 @@ export class GamesService {
     return this.apiService.delete<DqGame>(`games/${id}`).pipe(
       tap(() => {
         const { games } = this.store.value;
-        this.store.set('games', games.filter((t) => t._id !== id));
+        this.store.set('games', [...games.filter((t) => t._id !== id)]);
       }),
     );
   }

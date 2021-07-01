@@ -69,7 +69,9 @@ router.delete('/:id', authorize('admin'), asyncCatch(async (req, res) => {
 	} catch (error) {
 		return res.status(404).send(error.message);
 	}	
-	return res.send(`${deletedCount} game was deleted`);
+	return res.send({
+		message: `${deletedCount} game was deleted`,
+	});
 }));
 
 module.exports = router;
