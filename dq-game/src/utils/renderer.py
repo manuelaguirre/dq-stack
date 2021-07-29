@@ -13,6 +13,7 @@ from pygame import mixer
 
 from utils.renderer_utils import render_multiline_text, render_table, show_text_at
 from utils.timer import Timer
+from utils.screen import Screen
 
 try:
     import RPi.GPIO as GPIO
@@ -73,10 +74,10 @@ class Renderer(EventHandler):
         self.THEME_BUTTON_HEIGHT = self.SCREEN_HEIGHT // 10
         self.ANSWER_BUTTON_WIDTH = 4 * self.SCREEN_WIDTH // 11
         self.ANSWER_BUTTON_HEIGHT = self.SCREEN_HEIGHT // 8
-        self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+        
+        self.main_screen = Screen(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+
         self.fonts = {}
-        self.logo = self._get_logo()
-        self.background = self._get_background()
         self.timer = Timer(0)
         self.timer_background = self._get_timer_background()
         self.button_backgrounds = self._get_button_backgrounds()
@@ -152,23 +153,6 @@ class Renderer(EventHandler):
                     if self.touch_function:
                         self.touch_function(event.pos[0], event.pos[1])
             time.sleep(0.1)
-
-    def _get_logo(self):
-        return pygame.image.load(
-            os.path.abspath(
-                os.path.join(os.path.dirname(__file__), "..", "images/icons/dqlogo.png")
-            )
-        )
-
-    def _get_background(self):
-        background = pygame.image.load(
-            os.path.abspath(
-                os.path.join(os.path.dirname(__file__), "..", "images/background.jpg")
-            )
-        )
-        return pygame.transform.scale(
-            background, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
-        )
 
     def _get_timer_background(self):
         background = pygame.image.load(
@@ -294,24 +278,20 @@ class Renderer(EventHandler):
         """
         Clear the screen. Only display the background
         """
-        self.screen.blit(self.background, (0, 0))
+        self.main_screen.show_background()
 
-    @flush
     def show_logo(self):
         """
         Clear the screen and display logo
         """
-        logo_rect = self.logo.get_rect(
-            center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2)
-        )
-        self.screen.blit(self.logo, logo_rect)
+        self.main_screen.show_logo()
 
     def show_timer(self, seconds, timeout_callback):
         # Show timer background
         timer_position = (self.SCREEN_WIDTH * 8 / 10, self.SCREEN_HEIGHT * 1 / 10)
 
         def render_timer(seconds):
-            self.screen.blit(
+            self.main_screen.screen_instance.blit(
                 self.timer_background,
                 timer_position,
             )
@@ -335,7 +315,7 @@ class Renderer(EventHandler):
         text_rect = text_.get_rect(
             center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 8)
         )
-        self.screen.blit(text_, text_rect)
+        self.main_screen.screen_instance.blit(text_, text_rect)
 
     @flush
     def show_round_instructions(self, game_round_number):

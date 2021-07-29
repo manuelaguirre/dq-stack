@@ -11,6 +11,7 @@ from game_types.joker import JokerType
 from utils.renderer import Renderer, flush
 from utils.renderer_utils import render_multiline_text, show_text_at, chop_answers
 from utils.screen_button import AnswerScreenButton, JokerButton, ThemeScreenButton
+from utils.screen import Screen
 
 from client_screen_handler import ClientScreenHandler
 
@@ -22,6 +23,7 @@ class ClientRenderer(Renderer):
 
     def __init__(self):
         super().__init__(1000, 600, "client")
+        self.front_screen = Screen(self.SCREEN_WIDTH // 4, self.SCREEN_HEIGHT // 4)
         self.screen_handler = ClientScreenHandler()
         self.buttons_list = []
         # Select themes
@@ -40,6 +42,20 @@ class ClientRenderer(Renderer):
         self.username = None
         self.player_name_list = []
         self.blocking_player = None
+
+    def show_logo(self):
+        """
+        Clear the screen and display logo
+        """
+        super().show_logo()
+        self.front_screen.show_logo()
+
+    def show_background(self):
+        """
+        Clear the screen. Only display the background
+        """
+        super().show_background()
+        self.front_screen.show_background()
 
     def get_badge_images(self):
         badge_images = {}
@@ -187,7 +203,7 @@ class ClientRenderer(Renderer):
                     self.THEME_BUTTON_HEIGHT,
                     value_list[index],
                     self.button_backgrounds,
-                    self.screen,
+                    self.main_screen.screen_instance,
                     self.fonts["small"],
                 )
             else:
@@ -198,7 +214,7 @@ class ClientRenderer(Renderer):
                     self.ANSWER_BUTTON_HEIGHT,
                     value_list[index],
                     self.button_backgrounds,
-                    self.screen,
+                    self.main_screen.screen_instance,
                     self.fonts["small"],
                 )
                 button.set_letter(answer_letters[index % len(answer_letters)])
@@ -226,7 +242,7 @@ class ClientRenderer(Renderer):
             self.THEME_BUTTON_HEIGHT,
             "PRÊT",
             self.button_backgrounds,
-            self.screen,
+            self.main_screen.screen_instance,
             self.fonts["small"],
         )
         self.screen_handler.add_object(ready_button)
@@ -259,7 +275,7 @@ class ClientRenderer(Renderer):
             self.THEME_BUTTON_HEIGHT,
             "Select",
             self.button_backgrounds,
-            self.screen,
+            self.main_screen.screen_instance,
             self.fonts["small"],
         )
         self.buttons_list.append(self.theme_validation_button)
@@ -374,7 +390,7 @@ class ClientRenderer(Renderer):
                 button_height,
                 joker_type.name if jokers_count[joker_type.name] > 0 else None,
                 self.joker_images[joker_type.name],
-                self.screen,
+                self.main_screen.screen_instance,
                 self.fonts["small"],
             )
             if not jokers_count[joker_type.name]:
@@ -415,7 +431,7 @@ class ClientRenderer(Renderer):
         joker_image_rect = joker_image_scaled.get_rect(
             center=(self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 2)
         )
-        self.screen.blit(joker_image_scaled, joker_image_rect)
+        self.main_screen.screen_instance.blit(joker_image_scaled, joker_image_rect)
 
     def fiftyfifty_callback(self, value):
         self.joker_callback(value)

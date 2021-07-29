@@ -115,7 +115,7 @@ class ServerRenderer(Renderer):
             )
             question_image_width = question_image.get_rect().width
             question_image_height = question_image.get_rect().height
-            self.screen.blit(
+            self.main_screen.screen_instance.blit(
                 question_image,
                 (
                     self.SCREEN_WIDTH // 2 - question_image_width // 2,
