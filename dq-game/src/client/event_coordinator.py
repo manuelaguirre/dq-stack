@@ -18,6 +18,9 @@ class EventCoordinator:
         self.active_joker = None
         self.is_blocked = False
 
+    def send_to_front_renderer(self, instruction):
+        pass
+
     def on_timeout(self):
         self.renderer.screen_handler.clear_data()
         self.renderer.show_logo()
@@ -26,7 +29,9 @@ class EventCoordinator:
         self.renderer.show_answer_limit_message()
 
     def on_set_username(self):
-        self.renderer.username = self.controller.get_username()
+        username = self.controller.get_username()
+        self.renderer.username = username
+        self.send_to_front_renderer("set_username", username)
 
     def on_set_player_name_list(self):
         self.renderer.player_name_list = self.controller.get_player_name_list()
