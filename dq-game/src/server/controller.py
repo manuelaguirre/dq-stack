@@ -127,7 +127,6 @@ class Controller(EventHandler):
                     )
 
     def show_upcoming_question_theme(self):
-        # TODO: CHANGE NAME!! !! !!!! !!!
         self.current_played_jokers = {}
 
         self.socket.send_to_all("SHOW_UPCOMING_QUESTION_THEME", "event")
