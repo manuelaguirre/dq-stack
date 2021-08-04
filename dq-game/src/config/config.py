@@ -31,8 +31,3 @@ def parse_option(option):
     if not regex.fullmatch(option):
         raise RuntimeError("Invalid argument. Must be a dot notation")
     return option.split(".")
-
-
-# def convert_to_snake_case(json_iterable):
-#     pass
-    # TODO

@@ -81,6 +81,7 @@ class EventCoordinator:
             if not self.is_blocked
             else self.renderer.show_is_blocked,
         )
+        # TODO when the player is blocked, notify the front screen. Send "SHOW_BLOCKED"
 
     def on_blocked(self):
         self.is_blocked = True

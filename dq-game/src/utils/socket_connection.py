@@ -82,7 +82,9 @@ class ClientSocketConnection(SocketConnection):
     def connect(self):
         while True:
             try:
-                self.tcpsock.connect((self.host_ip or socket.gethostname(), self.port or 8000))
+                self.tcpsock.connect(
+                    (self.host_ip or socket.gethostname(), self.port or 8000)
+                )
                 print("Connection success")
                 break
             except Exception as e:
