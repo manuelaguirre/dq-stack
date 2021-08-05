@@ -1,6 +1,7 @@
 import os
 import sys
 import argparse
+from client.front_screen_handler import FrontScreenHandler
 
 from utils.socket_connection import ClientSocketConnection
 
@@ -16,6 +17,9 @@ def start_game(host_ip, port):
     client_socket = ClientSocketConnection(host_ip, port)
     controller = ClientController(client_socket)
     coordinator = EventCoordinator(controller, client_renderer)
+
+    front_screen = FrontScreenHandler()
+    front_screen.wait_for_front_screen()
 
     # Bind events
     client_socket.on("TIMEOUT", coordinator.on_timeout)
@@ -51,4 +55,4 @@ parser.add_argument("-p", "--port", type=int)
 parser.add_argument("-H", "--host", type=str)
 args = parser.parse_args()
 
-start_game(args.host, args.port)
+start_game(args.host, args.port or 8000)

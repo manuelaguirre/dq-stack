@@ -15,9 +15,9 @@ from utils.message import Message
 
 # TODO: Separate client and server socket connections in dif files
 class SocketConnection(EventHandler):
-    def __init__(self, port, socket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)):
+    def __init__(self, port):
         self.port = port
-        self.tcpsock = socket
+        self.tcpsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.HEADER_LENGTH = 10
         self.inbuffer = []
 
@@ -82,9 +82,7 @@ class ClientSocketConnection(SocketConnection):
     def connect(self):
         while True:
             try:
-                self.tcpsock.connect(
-                    (self.host_ip or socket.gethostname(), self.port or 8000)
-                )
+                self.tcpsock.connect((self.host_ip or socket.gethostname(), self.port))
                 print("Connection success")
                 break
             except Exception as e:
@@ -179,3 +177,29 @@ class ServerSocketConnection(SocketConnection):
                 print(
                     f'Received message from {notified_client["name"]}: {message.data}'
                 )
+
+
+class FrontSocketConnection(SocketConnection):
+    def __init__(self, port):
+        super().__init__(port)
+        self.tcpsock.bind(("127.0.0.1", self.port))
+
+        # Map (address) => client (address, name)
+        self.clients = {}
+
+    def listen(self, expected_connections):
+        self.tcpsock.listen(1)
+        print("Awaiting for connection from FrontScreen")
+
+        while len(self.clients) < expected_connections:
+            self.handle_requests()
+
+    def handle_requests(self):
+        socket_object, address = self.tcpsock.accept()
+
+        new_client = {}
+        new_client["socket_object"] = socket_object
+        new_client["address"] = address
+        new_client["name"] = "Front Screen"
+        self.clients[address] = new_client
+        self.send(socket_object, str(len(self.clients)), "handshake")
