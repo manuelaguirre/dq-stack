@@ -10,11 +10,11 @@ from front_controller import FrontController
 from front_event_coordinator import FrontEventCoordinator
 
 
-def start_game(host_ip, port):
+def start(host_ip, port):
 
     # Create main classes
     front_renderer = FrontRenderer()
-    client_socket = FrontSocketConnection(host_ip, port)  # TODO
+    client_socket = ClientSocketConnection("127.0.0.1", port)  # TODO
     controller = FrontController(client_socket)
     coordinator = FrontEventCoordinator(controller, front_renderer)
 
@@ -47,4 +47,4 @@ parser.add_argument("-p", "--port", type=int)
 parser.add_argument("-H", "--host", type=str)
 args = parser.parse_args()
 
-start_game(args.host, args.port)
+start(args.host, args.port or 8887)
