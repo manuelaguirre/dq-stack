@@ -108,6 +108,10 @@ class Renderer(EventHandler):
             os.path.join(self.base_path, "fonts/YanoneKaffeesatz-Regular.ttf"),
             int(96 * self.SCREEN_HEIGHT / 600),
         )
+        self.fonts["ultralarge"] = pygame.font.Font(
+            os.path.join(self.base_path, "fonts/YanoneKaffeesatz-Regular.ttf"),
+            int(128 * self.SCREEN_HEIGHT / 600),
+        )
         if self.RENDERER_TYPE == "client":
             pygame.display.set_caption("DefiQuizz - Client")
         else:
@@ -358,3 +362,29 @@ class Renderer(EventHandler):
         )
         score_board_page.render()
         score_board_page.finish()
+
+    """
+    Display the image of a joker in big using the whole screen.
+    If a name is given it is displayed underneath the image
+    """
+    @flush
+    def display_joker_big(self, joker_image, origin=None):
+        image_width = 7 * self.SCREEN_WIDTH / 20 if origin else self.SCREEN_HEIGHT // 2
+        proportion = image_width / joker_image.get_rect().width
+        image_height = proportion * joker_image.get_rect().height
+        joker_image_scaled = pygame.transform.scale(
+            joker_image, (int(image_width), int(image_height))
+        )
+        y_pos = 6 * self.SCREEN_WIDTH // 20 if origin else self.SCREEN_HEIGHT // 2
+        joker_image_rect = joker_image_scaled.get_rect(
+            center=(self.SCREEN_WIDTH // 2, y_pos)
+        )
+        self.screen.blit(joker_image_scaled, joker_image_rect)
+        if origin:
+            show_text_at(
+                self,
+                "large",
+                self.SCREEN_WIDTH / 2,
+                17 * self.SCREEN_HEIGHT / 20,
+                origin,
+            )

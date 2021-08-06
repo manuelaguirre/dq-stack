@@ -404,19 +404,6 @@ class ClientRenderer(Renderer):
         if value == "STEAL":
             self.steal_callback(value)
 
-    @flush
-    def display_joker_big(self, joker_image):
-        image_width = self.SCREEN_WIDTH // 2
-        proportion = image_width / joker_image.get_rect().width
-        image_height = proportion * joker_image.get_rect().height
-        joker_image_scaled = pygame.transform.scale(
-            joker_image, (int(image_width), int(image_height))
-        )
-        joker_image_rect = joker_image_scaled.get_rect(
-            center=(self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 2)
-        )
-        self.screen.blit(joker_image_scaled, joker_image_rect)
-
     def fiftyfifty_callback(self, value):
         self.joker_callback(value)
 
