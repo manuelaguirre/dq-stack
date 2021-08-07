@@ -12,9 +12,13 @@ class FrontRenderer(Renderer):
         super().__init__(600, 400, "client")
         self.total_points = 0
 
+    @flush
     def on_timeout(self):
         # Show timeout image
-        pass
+        timeoutlogo_rect = self.timeoutlogo.get_rect(
+            center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2)
+        )
+        self.screen.blit(self.timeoutlogo, timeoutlogo_rect)
 
     def show_block(self, blocking_player):
         # Show blocked image with player name

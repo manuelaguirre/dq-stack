@@ -76,6 +76,7 @@ class Renderer(EventHandler):
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         self.fonts = {}
         self.logo = self._get_logo()
+        self.timeoutlogo = self._get_timeout_logo()
         self.background = self._get_background()
         self.timer = Timer(0)
         self.timer_background = self._get_timer_background()
@@ -162,6 +163,19 @@ class Renderer(EventHandler):
             os.path.abspath(
                 os.path.join(os.path.dirname(__file__), "..", "images/icons/dqlogo.png")
             )
+        )
+
+    def _get_timeout_logo(self):
+        timeoutlogo = pygame.image.load(
+            os.path.abspath(
+                os.path.join(os.path.dirname(__file__), "..", "images/icons/dqtimeout.png")
+            )
+        )
+        image_width = self.SCREEN_WIDTH // 2
+        proportion = image_width / timeoutlogo.get_rect().width
+        image_height = int(proportion * timeoutlogo.get_rect().height)
+        return pygame.transform.scale(
+            timeoutlogo, (image_width, image_height)
         )
 
     def _get_background(self):
