@@ -168,15 +168,15 @@ class Renderer(EventHandler):
     def _get_timeout_logo(self):
         timeoutlogo = pygame.image.load(
             os.path.abspath(
-                os.path.join(os.path.dirname(__file__), "..", "images/icons/dqtimeout.png")
+                os.path.join(
+                    os.path.dirname(__file__), "..", "images/icons/dqtimeout.png"
+                )
             )
         )
         image_width = self.SCREEN_WIDTH // 2
         proportion = image_width / timeoutlogo.get_rect().width
         image_height = int(proportion * timeoutlogo.get_rect().height)
-        return pygame.transform.scale(
-            timeoutlogo, (image_width, image_height)
-        )
+        return pygame.transform.scale(timeoutlogo, (image_width, image_height))
 
     def _get_background(self):
         background = pygame.image.load(
@@ -381,6 +381,7 @@ class Renderer(EventHandler):
     Display the image of a joker in big using the whole screen.
     If a name is given it is displayed underneath the image
     """
+
     @flush
     def display_joker_big(self, joker_image, origin=None):
         image_width = 7 * self.SCREEN_WIDTH / 20 if origin else self.SCREEN_HEIGHT // 2
