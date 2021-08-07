@@ -96,7 +96,7 @@ class FrontRenderer(Renderer):
             self.SCREEN_WIDTH / 2,
             self.SCREEN_HEIGHT / 2,
             "+" + str(differential) if differential > 0 else str(differential),
-            (25, 220, 25) if differential > 0 else (220, 25, 25)
+            (25, 220, 25) if differential > 0 else (220, 25, 25),
         )
         self.update_screen()
         time.sleep(2)
