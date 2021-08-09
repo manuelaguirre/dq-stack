@@ -47,4 +47,4 @@ parser.add_argument("-p", "--port", type=int)
 parser.add_argument("-H", "--host", type=str)
 args = parser.parse_args()
 
-start(args.host, args.port or 8887)
+start(args.host, args.port or 8880)
