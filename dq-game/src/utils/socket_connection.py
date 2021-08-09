@@ -203,3 +203,8 @@ class FrontSocketConnection(SocketConnection):
         new_client["name"] = "Front Screen"
         self.clients[address] = new_client
         self.send(socket_object, str(len(self.clients)), "handshake")
+
+    def send_to_all(self, msg, content_type, excepted_client_names=[]):
+        for client in self.clients:
+            if self.clients[client]["name"] not in excepted_client_names:
+                self.send(self.clients[client]["socket_object"], msg, content_type)

@@ -16,10 +16,11 @@ def start_game(host_ip, port):
     client_renderer = ClientRenderer()
     client_socket = ClientSocketConnection(host_ip, port)
     controller = ClientController(client_socket)
-    coordinator = EventCoordinator(controller, client_renderer)
 
     front_screen = FrontScreenHandler()
     front_screen.wait_for_front_screen()
+
+    coordinator = EventCoordinator(controller, client_renderer, front_screen)
 
     # Bind events
     client_socket.on("TIMEOUT", coordinator.on_timeout)
