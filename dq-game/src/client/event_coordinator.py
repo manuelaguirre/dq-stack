@@ -71,6 +71,11 @@ class EventCoordinator:
     def on_show_upcoming_question_theme(self):
         self.current_question = self.controller.get_current_question()
 
+        if self.front_screen:
+            self.front_screen.show_upcoming_question_theme(
+                self.current_question.theme.name
+            )
+
         self.active_joker = None
         self.is_blocked = False
 
@@ -79,8 +84,6 @@ class EventCoordinator:
         self.renderer.show_upcoming_question_theme_and_jokers(
             self.current_question.theme, self.jokers, self._activate_joker_and_send
         )
-        if self.front_screen:
-            self.front_screen.show_upcoming_question_theme()
 
     def _activate_joker_and_send(self, value, target=None):
         self.controller.send_joker(value, target=target)
@@ -103,13 +106,13 @@ class EventCoordinator:
         self.is_blocked = True
         self.renderer.blocking_player = self.controller.get_blocking_player()
         if self.front_screen:
-            self.front_screen.show_blocked()
+            self.front_screen.show_blocked(self.renderer.blocking_player)
 
     def on_resolve_question(self):
         if not self.is_blocked:
-            self.renderer.show_results(self.current_question)
+            selected, status = self.renderer.show_results(self.current_question)
             if self.front_screen:
-                self.front_screen.resolve_question()
+                self.front_screen.resolve_question(selected, status)
 
     def on_answer_is_wrong(self):
         self.renderer.show_answer_is_wrong()

@@ -449,10 +449,19 @@ class ClientRenderer(Renderer):
             if button.value == question.answers[question.correct_answer]:
                 button.set_state("correct")
                 self.update_screen()
+
+                selected = button.value
+                status = "correct"
+
             elif button.state == "selected":
                 button.set_state("wrong")
                 self.update_screen()
+
+                selected = button.value
+                status = "wrong"
+
         self.screen_handler.clear_data()
+        return selected, status
 
     def show_answer_is_wrong(self):
         for button in self.buttons_list:

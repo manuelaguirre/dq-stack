@@ -24,16 +24,19 @@ class FrontScreenHandler:
     def start_round(self):
         self.socket.send_to_all("START_ROUND", "event")
 
-    def show_upcoming_question_theme(self):
+    def show_upcoming_question_theme(self, theme):
+        self.socket.send_to_all(theme, "data-upcoming-question-theme")
         self.socket.send_to_all("SHOW_UPCOMING_QUESTION_THEME", "event")
 
     def answer_question(self):
         self.socket.send_to_all("ANSWER_QUESTION", "event")
 
-    def show_blocked(self):
+    def show_blocked(self, blocking_player):
+        self.socket.send_to_all(blocking_player, "data-blocking-player")
         self.socket.send_to_all("SHOW_BLOCKED", "event")
 
-    def resolve_question(self):
+    def resolve_question(self, selected, status):
+        self.socket.send_to_all((selected, status), "data-answer-and-status")
         self.socket.send_to_all("RESOLVE_QUESTION", "event")
 
     def show_scores(self):
