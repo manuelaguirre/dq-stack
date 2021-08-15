@@ -22,21 +22,16 @@ class FrontEventCoordinator:
         self.renderer.username = self.controller.get_username()
 
     def on_show_upcoming_question_theme(self):
-        # TODO
-        # self.renderer.on_show_upcoming_question_theme(theme)
-        pass
+        theme = self.controller.get_theme()
+        self.renderer.on_show_upcoming_question_theme(theme)
 
     def on_blocked(self):
-        # TODO
-        # blocking_player = self.controller.get_blocking_player()
-        # self.renderer.show_block(blocking_player)
-        pass
+        blocking_player = self.controller.get_blocking_player()
+        self.renderer.show_block(blocking_player)
 
     def on_resolve_question(self):
-        # TODO
-        # player_answer, status = self.controller.get_player_answer_and_status()
-        # self.renderer.show_answer(player_answer, status)
-        pass
+        player_answer, status = self.controller.get_player_answer_and_status()
+        self.renderer.show_answer(player_answer, status)
 
     def on_show_scores(self):
         # TODO

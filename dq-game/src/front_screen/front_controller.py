@@ -55,6 +55,18 @@ class FrontController(EventHandler):
 
     def get_score_board(self):
         """
-        Gets actual theme
+        Gets scoreboard
         """
         return self.get_data_from_inbuffer("data-score-board")
+
+    def get_theme(self):
+        """
+        Gets theme
+        """
+        return self.get_data_from_inbuffer("data-upcoming-question-theme")
+
+    def get_player_answer_and_status(self):
+        """
+        Gets answer and whether it's wrong or right
+        """
+        return self.get_data_from_inbuffer("data-answer-and-status")
