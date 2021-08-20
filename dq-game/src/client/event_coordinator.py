@@ -111,17 +111,21 @@ class EventCoordinator:
     def on_resolve_question(self):
         if not self.is_blocked:
             selected, status = self.renderer.show_results(self.current_question)
+            choice_letter = self.current_question.get_answer_letter(selected)
             if self.front_screen:
-                self.front_screen.resolve_question(selected, status)
+                self.front_screen.resolve_question(selected, choice_letter, status)
 
     def on_answer_is_wrong(self):
         self.renderer.show_answer_is_wrong()
 
     def on_show_scores(self):
         self.current_score_board = self.controller.get_score_board()
+        diff, total_points = self.current_score_board.get_points(self.renderer.username)
+
         self.renderer.show_scores(self.current_score_board)
+
         if self.front_screen:
-            self.front_screen.show_scores()
+            self.front_screen.show_scores(diff, total_points)
 
     def on_start_joker_lottery(self):
         def send_joker(value):
