@@ -17,3 +17,10 @@ class Question:
 
     def set_image_filename(self, image_filename):
         self.image_filename = image_filename
+
+    def get_answer_letter(self, answer):
+        try:
+            index = self.answers.index(answer)
+        except:
+            return None
+        return chr(index + 65)

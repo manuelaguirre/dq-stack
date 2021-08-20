@@ -47,6 +47,12 @@ class ScoreBoard:
             result.append([row[0], row[1], joker, action])
         return result
 
+    def get_points(self, name):
+        for row in self.board:
+            if row[1] == name:
+                return row[3], row[2]
+        return None, None
+        
     def stringify_board(self, board):
         """
         Stringifies all items in board lists

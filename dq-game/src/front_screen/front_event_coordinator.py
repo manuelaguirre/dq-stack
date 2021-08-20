@@ -30,11 +30,9 @@ class FrontEventCoordinator:
         self.renderer.show_block(blocking_player)
 
     def on_resolve_question(self):
-        player_answer, status = self.controller.get_player_answer_and_status()
-        self.renderer.show_answer(player_answer, status)
+        player_answer, choice_letter, status = self.controller.get_player_answer_and_status()
+        self.renderer.show_answer(player_answer, choice_letter, status)
 
     def on_show_scores(self):
-        # TODO
-        # differential, total_points = self.controller.get_points()
-        # self.renderer.show_scores(differential, total_points)
-        pass
+        differential, total_points = self.controller.get_points()
+        self.renderer.show_scores(differential, total_points)

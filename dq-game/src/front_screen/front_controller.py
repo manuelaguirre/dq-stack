@@ -70,3 +70,9 @@ class FrontController(EventHandler):
         Gets answer and whether it's wrong or right
         """
         return self.get_data_from_inbuffer("data-answer-and-status")
+
+    def get_points(self):
+        """
+        Gets answer and whether it's wrong or right
+        """
+        return self.get_data_from_inbuffer("data-scores")
