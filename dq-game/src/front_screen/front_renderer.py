@@ -100,4 +100,5 @@ class FrontRenderer(Renderer):
         )
         self.update_screen()
         time.sleep(2)
+        self.total_points = total_points + differential
         self.show_username()

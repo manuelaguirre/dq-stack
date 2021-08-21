@@ -98,15 +98,18 @@ class EventCoordinator:
             self.active_joker,
             self.controller.send_answer
             if not self.is_blocked
-            else self.renderer.show_is_blocked,
+            else self.show_is_blocked,
         )
         # TODO when the player is blocked, notify the front screen. Send "SHOW_BLOCKED"
+
+    def show_is_blocked(self, *args):
+        self.renderer.show_is_blocked()
+        if self.front_screen:
+            self.front_screen.show_blocked(self.renderer.blocking_player)
 
     def on_blocked(self):
         self.is_blocked = True
         self.renderer.blocking_player = self.controller.get_blocking_player()
-        if self.front_screen:
-            self.front_screen.show_blocked(self.renderer.blocking_player)
 
     def on_resolve_question(self):
         if not self.is_blocked:
