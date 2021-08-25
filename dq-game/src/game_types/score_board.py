@@ -48,11 +48,12 @@ class ScoreBoard:
         return result
 
     def get_points(self, name):
+        """Returns a tuple containing the points and differential for a player with the given name"""
         for row in self.board:
             if row[1] == name:
                 return row[3], row[2]
         return None, None
-        
+
     def stringify_board(self, board):
         """
         Stringifies all items in board lists
