@@ -36,11 +36,13 @@ class FrontScreenHandler:
         self.socket.send_to_all("SHOW_BLOCKED", "event")
 
     def resolve_question(self, selected, choice_letter, status):
-        self.socket.send_to_all((selected, choice_letter, status), "data-answer-and-status")
+        self.socket.send_to_all(
+            (selected, choice_letter, status), "data-answer-and-status"
+        )
         self.socket.send_to_all("RESOLVE_QUESTION", "event")
 
     def show_scores(self, diff, total):
-        self.socket.send_to_all((diff,total), "data-scores")
+        self.socket.send_to_all((diff, total), "data-scores")
         self.socket.send_to_all("SHOW_SCORES", "event")
 
     def start_lottery(self):

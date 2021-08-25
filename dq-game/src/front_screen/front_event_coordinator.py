@@ -30,7 +30,11 @@ class FrontEventCoordinator:
         self.renderer.show_block(blocking_player)
 
     def on_resolve_question(self):
-        player_answer, choice_letter, status = self.controller.get_player_answer_and_status()
+        (
+            player_answer,
+            choice_letter,
+            status,
+        ) = self.controller.get_player_answer_and_status()
         self.renderer.show_answer(player_answer, choice_letter, status)
 
     def on_show_scores(self):
