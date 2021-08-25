@@ -24,6 +24,7 @@ class EventCoordinator:
         self.renderer.show_logo()
         if self.front_screen:
             self.front_screen.timeout()
+        time.sleep(0.5)
 
     def on_answer_limit_reached(self):
         self.renderer.show_answer_limit_message()
@@ -120,15 +121,17 @@ class EventCoordinator:
 
     def on_answer_is_wrong(self):
         self.renderer.show_answer_is_wrong()
+        if self.front_screen:
+            self.front_screen.show_answer_is_wrong()
 
     def on_show_scores(self):
         self.current_score_board = self.controller.get_score_board()
         diff, total_points = self.current_score_board.get_points(self.renderer.username)
 
-        self.renderer.show_scores(self.current_score_board)
-
         if self.front_screen:
             self.front_screen.show_scores(diff, total_points)
+
+        self.renderer.show_scores(self.current_score_board)
 
     def on_start_joker_lottery(self):
         def send_joker(value):

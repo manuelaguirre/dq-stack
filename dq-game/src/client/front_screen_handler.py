@@ -45,3 +45,6 @@ class FrontScreenHandler:
 
     def start_lottery(self):
         self.socket.send_to_all("START_LOTTERY", "event")
+
+    def show_answer_is_wrong(self):
+        self.socket.send_to_all("ANSWER_IS_WRONG", "event")

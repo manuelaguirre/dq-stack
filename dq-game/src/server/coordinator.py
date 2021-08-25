@@ -182,7 +182,7 @@ class Coordinator:
         while True:
             self.controller.listen_for_answers(answer_limit)
 
-            if repeat == True and not self.controller.is_timeout:
+            if repeat and not self.controller.is_timeout:
                 for player in self.dq_game.players:
 
                     has_answer, is_correct_answer, _ = self.dq_game.check_answer(
