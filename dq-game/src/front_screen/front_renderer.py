@@ -90,15 +90,28 @@ class FrontRenderer(Renderer):
     @flush
     def show_scores(self, differential, total_points):
         # Show differential and then show total points
+        color = (25, 220, 25)
+        if differential < 0:
+            color = (220, 25, 25)
+        if differential == 0:
+            color = (25, 25, 25)
         show_text_at(
             self,
             "ultralarge",
             self.SCREEN_WIDTH / 2,
             self.SCREEN_HEIGHT / 2,
             "+" + str(differential) if differential > 0 else str(differential),
-            (25, 220, 25) if differential > 0 else (220, 25, 25),
+            color,
         )
         self.update_screen()
         time.sleep(2)
         self.total_points = total_points + differential
         self.show_username()
+
+    @flush
+    def show_answer_is_wrong(self):
+        # Show wrong image
+        wrong_logo_rect = self.wrong_answer_image.get_rect(
+            center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2)
+        )
+        self.screen.blit(self.wrong_answer_image, wrong_logo_rect)

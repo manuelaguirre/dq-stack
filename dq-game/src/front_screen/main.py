@@ -33,6 +33,7 @@ def start(host_ip, port):
     client_socket.on("ANSWER_QUESTION", front_renderer.show_username)
     client_socket.on("RESOLVE_QUESTION", coordinator.on_resolve_question)
     client_socket.on("SHOW_SCORES", coordinator.on_show_scores)
+    client_socket.on("ANSWER_IS_WRONG", front_renderer.show_answer_is_wrong)
 
     # Start
     def connect():
