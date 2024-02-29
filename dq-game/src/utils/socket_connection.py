@@ -90,6 +90,7 @@ class ClientSocketConnection(SocketConnection):
                 time.sleep(1)
 
         inbound_thread = threading.Thread(target=self.inbound_task)
+        inbound_thread.daemon = True
         inbound_thread.start()
 
 
@@ -114,6 +115,7 @@ class ServerSocketConnection(SocketConnection):
         inbound_thread = threading.Thread(
             target=self.inbound_task, args=(self.clients,)
         )
+        inbound_thread.daemon = True
         inbound_thread.start()
         self.trigger("GAME_READY_TO_START")
 
